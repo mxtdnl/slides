@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture slides</title>
+<style>
+:root {
+  --bg: #F2DFBE;
+  --bg-card: #FFFAF2;
+  --bg-deep: #E8D2A8;
+  --text: #2A1F18;
+  --text-muted: #6A5A48;
+  --border: #D8C8A8;
+  --accent-1: #5C3A96;
+  --accent-2: #B52838;
+  --accent-3: #C85218;
+  --accent-4: #D4A020;
+  --accent-5: #7A5828;
+  --accent-6: #B83068;
+  --accent-7: #CC6830;
+  --accent-8: #7E58A8;
+  --accent-4-ink: #7A5410;
+  --accent-7-ink: #9E4718;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5; overflow-x: hidden;
+}
+.page { position: relative; overflow: hidden; min-height: 100vh; }
+.wrap { position: relative; z-index: 2; max-width: 72rem; margin: 0 auto; padding: 4rem 1.5rem 5rem; }
+.shape { position: absolute; z-index: 1; pointer-events: none; }
+.eyebrow { display: block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-1); margin-bottom: 0.6rem; }
+h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); font-weight: 800; line-height: 1; margin-bottom: 1rem; }
+.lede { font-size: 1.05rem; color: var(--text-muted); max-width: 40rem; }
+.masthead { border-left: 12px solid var(--accent-1); padding-left: 1.5rem; margin-bottom: 3.5rem; }
+.section-head {
+  display: flex; align-items: center; gap: 1rem; margin: 0 0 1.4rem;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.section-head::before { content: ''; width: 2.4rem; height: 0.9rem; background: var(--head-color, var(--accent-1)); }
+.deck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.4rem; margin-bottom: 3rem; }
+.deck-card {
+  display: flex; flex-direction: column; gap: 0.6rem; text-decoration: none; color: var(--text);
+  background: var(--bg-card); border: 2px solid var(--border); border-top: 8px solid var(--card-color);
+  padding: 1.3rem 1.4rem 1.4rem; min-height: 44px;
+  transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.15s ease;
+}
+.deck-card:hover, .deck-card:focus-visible { transform: translateY(-2px); border-color: var(--card-color); box-shadow: 0 4px 12px rgba(42,31,24,0.1); }
+.deck-card:focus-visible { outline: 3px solid var(--accent-1); outline-offset: 3px; }
+.deck-card .meta { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--card-ink, var(--card-color)); }
+.deck-card .title { font-size: 1.3rem; font-weight: 800; line-height: 1.2; }
+.deck-card .desc { font-size: 0.95rem; color: var(--text-muted); }
+.deck-card .go { margin-top: auto; align-self: flex-start; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--accent-1); color: #fff; padding: 0.4rem 0.8rem; }
+.foot { font-size: 0.85rem; color: var(--text-muted); border-top: 3px solid var(--border); padding-top: 1rem; }
+.foot a { color: var(--accent-1); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="shape" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.1; top: -8rem; right: -6rem; transform: rotate(18deg)"></div>
+  <div class="shape" style="width: 20rem; height: 20rem; border-radius: 50%; background: var(--accent-6); opacity: 0.08; bottom: -6rem; left: -6rem"></div>
+  <div class="shape" style="width: 60rem; height: 0.8rem; background: var(--accent-1); opacity: 0.1; top: 18rem; left: 10%; transform: rotate(-3deg)"></div>
+
+  <main class="wrap">
+    <header class="masthead">
+      <span class="eyebrow">Projection decks</span>
+      <h1>Lecture slides</h1>
+      <p class="lede">Decks for lectures, seminars and workshops. Each deck is one self-contained file: open it, press F for full screen, and use the arrow keys to move.</p>
+    </header>
+
+    <h2 class="section-head" style="--head-color: var(--accent-2)">Standalone</h2>
+    <div class="deck-grid">
+      <a class="deck-card" href="standalone/2026-09-lagging-and-leading-indicators.html" style="--card-color: var(--accent-1)">
+        <span class="meta">Coaching 1 &middot; Workshop 2 &middot; September 2026</span>
+        <span class="title">Lagging and leading indicators</span>
+        <span class="desc">Telling the two apart, placing them on a goal hierarchy, and drafting indicators for your own goals.</span>
+        <span class="go">Open deck</span>
+      </a>
+    </div>
+
+    <p class="foot">Keys: arrows to move, F full screen, B blackout, R reveal, T timer. Add <code>?instructor</code> to a deck's address before printing for the instructor copy.</p>
+  </main>
+</div>
+</body>
+</html>

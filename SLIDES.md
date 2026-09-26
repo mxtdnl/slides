@@ -172,12 +172,12 @@ Twenty-four patterns in four families. Choose the archetype from the idea the sl
 | # | Archetype | Family | Use when | Status | Reference |
 |---|---|---|---|---|---|
 | 1 | Title poster | Framing | Opening the deck | proven | `reference/theory-of-change.html` |
-| 2 | Outcomes | Framing | Stating what the room will be able to do | specified | |
-| 3 | Session map | Framing | Showing the running order, reprised at each section | specified | |
-| 4 | Section divider | Framing | Marking a new section | specified | |
-| 5 | Close and bridge | Framing | Consolidating and pointing to the next session | specified | |
+| 2 | Outcomes | Framing | Stating what the room will be able to do | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 3 |
+| 3 | Session map | Framing | Showing the running order, reprised at each section | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slides 4, 12, 18 |
+| 4 | Section divider | Framing | Marking a new section | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 6 |
+| 5 | Close and bridge | Framing | Consolidating and pointing to the next session | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 22 (standalone variant) |
 | 6 | Statement | Exposition | One claim that deserves the whole frame | specified | |
-| 7 | Definition | Exposition | Fixing a term and its boundary | specified | |
+| 7 | Definition | Exposition | Fixing a term and its boundary | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slides 7, 8 |
 | 8 | Quote plus commentary | Exposition | A source's words, then interpretation | proven | `reference/theory-of-change.html` |
 | 9 | Split with panel | Exposition | One principle with one worked illustration | proven | `reference/theory-of-change.html` |
 | 10 | Numbered cards | Exposition | Three parallel ideas of equal weight | proven | `reference/theory-of-change.html` |
@@ -187,13 +187,13 @@ Twenty-four patterns in four families. Choose the archetype from the idea the sl
 | 14 | Chain diagram | Relations | A causal or logical pathway with direction | proven | `reference/theory-of-change.html` |
 | 15 | Cycle | Relations | A loop with no start or end | specified | |
 | 16 | Quadrant | Relations | Two dimensions crossing to make four types | specified | |
-| 17 | Comparison matrix | Relations | Options compared against criteria | specified | |
+| 17 | Comparison matrix | Relations | Options compared against criteria | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 9 (row reveal) |
 | 18 | Timeline | Relations | Dated events or periods | specified | |
-| 19 | Annotated model | Relations | A diagram whose parts need naming in turn | specified | |
+| 19 | Annotated model | Relations | A diagram whose parts need naming in turn | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 13 |
 | 20 | Data exhibit | Evidence | One chart supporting one claim | specified | |
 | 21 | Photograph | Evidence | An image that carries information text cannot | specified | |
 | 22 | Case vignette | Evidence | A concrete case to reason about | specified | |
-| 23 | Worked example | Evidence | A solution shown step by step | specified | |
+| 23 | Worked example | Evidence | A solution shown step by step | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 19 |
 | 24 | Claim and correction | Evidence | A common misconception set against the evidence | specified | |
 
 ### Framing

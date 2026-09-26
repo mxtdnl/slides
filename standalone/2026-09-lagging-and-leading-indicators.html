@@ -1,0 +1,2502 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lagging and leading indicators</title>
+<style>
+/* ============================================================
+   LAGGING AND LEADING INDICATORS: PROJECTION DECK
+   Coaching 1, Workshop 2, September 2026. Light theme.
+   A fixed 16:9 stage. The root font-size IS the slide unit:
+   1rem = 1% of stage width, so every dimension is in rem.
+   Deck colour mapping: lagging = --accent-2 (red),
+   leading = --accent-4 (gold, text in --accent-4-ink).
+   ============================================================ */
+
+html { font-size: min(1vw, 1.7778vh); }
+
+:root {
+  --bg: #F2DFBE;
+  --bg-card: #FFFAF2;
+  --bg-deep: #E8D2A8;
+  --text: #2A1F18;
+  --text-muted: #6A5A48;
+  --border: #D8C8A8;
+  --accent-1: #5C3A96;
+  --accent-2: #B52838;
+  --accent-3: #C85218;
+  --accent-4: #D4A020;
+  --accent-5: #7A5828;
+  --accent-6: #B83068;
+  --accent-7: #CC6830;
+  --accent-8: #7E58A8;
+  --accent-4-ink: #7A5410;
+  --accent-7-ink: #9E4718;
+  --correct: #2A7A42;
+  --correct-ink: #1F6A36;
+  --correct-bg: #E6F4EA;
+  --incorrect: #B82828;
+  --incorrect-ink: #B82828;
+  --incorrect-bg: #FDEEEE;
+  --ambiguous: #B98A10;
+  --ambiguous-ink: #7A5410;
+  --ambiguous-bg: #FFF3D6;
+  --lagging: var(--accent-2);
+  --leading: var(--accent-4);
+  --leading-ink: var(--accent-4-ink);
+  --slide-accent: var(--accent-1);
+  --slide-ink: var(--accent-1);
+  --on-accent: #fff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--text);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.85rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+button, input, select { font-family: inherit; color: inherit; }
+button { cursor: pointer; }
+
+.deck { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+.stage { position: relative; width: 100rem; height: 56.25rem; background: var(--bg); overflow: hidden; }
+
+*:focus-visible { outline: 0.3rem solid var(--accent-1); outline-offset: 0.2rem; }
+
+/* ---------- Chrome ---------- */
+
+.progress-track { position: absolute; top: 0; left: 0; right: 0; height: 0.7rem; background: var(--bg-deep); z-index: 60; }
+.progress-fill { height: 100%; width: 0; background: var(--slide-accent); transition: width 0.4s ease, background-color 0.2s ease; }
+
+.deck-chrome {
+  position: absolute; bottom: 1.5rem; right: 2.4rem;
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card); border: 0.2rem solid var(--border);
+  z-index: 60; opacity: 1; transition: opacity 0.3s ease;
+}
+.deck-chrome.idle { opacity: 0; pointer-events: none; }
+.deck-chrome.idle.keep { opacity: 1; pointer-events: auto; }
+.deck-chrome.idle.keep > :not(.chrome-timer) { visibility: hidden; }
+.nav-btn, .btn {
+  background: var(--accent-1); color: #fff; border: 0.2rem solid transparent;
+  min-width: 4.4rem; height: 2.8rem; padding: 0 1.4rem;
+  font-weight: 700; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+.nav-btn:hover:not(:disabled), .btn:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-0.2rem); }
+.nav-btn:disabled, .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.ghost, .nav-btn.ghost { background: transparent; color: var(--text); border-color: var(--text); }
+.btn.ghost:hover:not(:disabled), .nav-btn.ghost:hover:not(:disabled) { background: var(--text); color: var(--bg-card); }
+.btn.big { height: 3.6rem; font-size: 1.3rem; padding: 0 2rem; }
+.nav-info { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); padding: 0 0.4rem; font-variant-numeric: tabular-nums; }
+.chrome-timer {
+  display: none; font-size: 1.3rem; font-weight: 800; font-variant-numeric: tabular-nums;
+  padding: 0.2rem 0.9rem; border: 0.2rem solid var(--text); background: var(--bg-card); color: var(--text);
+}
+.chrome-timer.visible { display: inline-block; }
+.chrome-timer.expired { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
+
+.resp-menu {
+  position: absolute; right: 0; bottom: calc(100% + 0.6rem);
+  background: var(--bg-card); border: 0.2rem solid var(--text);
+  padding: 1rem; display: none; flex-direction: column; gap: 0.7rem; min-width: 22rem;
+}
+.resp-menu.open { display: flex; }
+.resp-menu .btn { width: 100%; }
+.resp-note { font-size: 1.1rem; color: var(--text-muted); line-height: 1.35; }
+.resp-note.warn { color: var(--incorrect-ink); font-weight: 700; }
+
+.blackout { position: absolute; inset: 0; background: var(--text); z-index: 100; display: none; }
+.blackout.on { display: block; }
+
+/* ---------- Slide frame ---------- */
+
+.slide { position: absolute; inset: 0; display: none; }
+.slide.active { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(0.4rem); } to { opacity: 1; transform: none; } }
+
+.rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1.9rem; background: var(--slide-accent); z-index: 4; }
+.slide-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 3.8rem 5.5rem 4.6rem 7rem;
+  display: flex; flex-direction: column;
+}
+.slide-no {
+  position: absolute; top: 2.4rem; right: 5.5rem; z-index: 5;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2em; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.notes { display: none; }
+
+.s-head { flex-shrink: 0; margin-bottom: 2rem; }
+.s-head::before { content: ''; display: block; width: 13rem; height: 0.9rem; background: var(--slide-accent); margin-bottom: 1.2rem; }
+.s-head.is-activity { display: grid; grid-template-columns: 1fr auto; column-gap: 3rem; align-items: end; }
+.s-head.is-activity::before { grid-column: 1 / -1; }
+
+.eyebrow {
+  display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 0.7rem; color: var(--slide-ink);
+}
+.act-tag {
+  display: inline-block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--slide-accent); color: var(--on-accent); padding: 0.35rem 1rem; margin-bottom: 0.9rem;
+}
+h1 { font-size: 7rem; font-weight: 800; line-height: 0.94; letter-spacing: -0.01em; }
+h2 { font-size: 3.8rem; font-weight: 800; line-height: 1.02; letter-spacing: -0.005em; }
+h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
+.s-body { flex: 1; min-height: 0; position: relative; }
+p { font-size: 1.85rem; }
+.small { font-size: 1.55rem; }
+.micro { font-size: 1.25rem; color: var(--text-muted); line-height: 1.4; }
+.lede { font-size: 2.1rem; line-height: 1.4; color: var(--text-muted); }
+.quiet { color: var(--text-muted); }
+.label {
+  font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+}
+
+.grid { display: grid; gap: 2.6rem; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.g-4 { grid-template-columns: repeat(4, 1fr); }
+.g-7-5 { grid-template-columns: 7fr 5fr; }
+.g-5-7 { grid-template-columns: 5fr 7fr; }
+.stack > * + * { margin-top: 1.2rem; }
+.center-y { align-content: center; }
+.fill { height: 100%; }
+
+.card { background: var(--bg-card); border: 0.2rem solid var(--border); padding: 1.8rem 2rem; position: relative; }
+.card.rail-left { border-left: 0.9rem solid var(--card-color, var(--slide-accent)); }
+.card.rail-top { border-top: 0.6rem solid var(--card-color, var(--slide-accent)); }
+.card-name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--card-ink, var(--card-color, var(--slide-ink))); margin-bottom: 0.6rem; }
+
+.pip { display: inline-block; width: 1.2rem; height: 1.2rem; background: var(--pip, var(--slide-accent)); flex-shrink: 0; }
+.tag-lag, .tag-lead {
+  display: inline-block; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.2rem 0.7rem;
+}
+.tag-lag { background: var(--lagging); color: #fff; }
+.tag-lead { background: var(--leading); color: var(--text); }
+
+.reveal-anim { opacity: 0; transform: translateY(0.4rem); transition: opacity 0.3s ease, transform 0.3s ease; visibility: hidden; }
+.reveal-anim.visible { opacity: 1; transform: none; visibility: visible; }
+
+/* ---------- Decorative geometry ---------- */
+
+.deco { position: absolute; z-index: 1; pointer-events: none; }
+.deco.circle { border-radius: 50%; }
+.deco.ring { border-radius: 50%; background: transparent !important; border-style: solid; }
+.deco.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+/* ---------- 1. Title poster ---------- */
+
+.hero { align-items: center; height: 100%; }
+.hero h1 { margin: 0.6rem 0 2.6rem; }
+.hero .lede { max-width: 50rem; }
+.hero-mark { position: relative; height: 44rem; }
+.hero-mark > div { position: absolute; }
+.hm-circle { width: 22rem; height: 22rem; border-radius: 50%; background: var(--leading); top: 1rem; left: 12rem; }
+.hm-tri { width: 11rem; height: 11rem; background: var(--accent-6); clip-path: polygon(0 0, 100% 50%, 0 100%); top: 7rem; left: 0; }
+.hm-square { width: 13rem; height: 13rem; background: var(--lagging); top: 29.5rem; left: 2rem; transform: rotate(14deg); }
+.hm-ring { width: 12rem; height: 12rem; border-radius: 50%; border: 1.4rem solid var(--accent-1); top: 29rem; left: 21rem; }
+.hm-bar { width: 33rem; height: 1.4rem; background: var(--accent-8); top: 43rem; left: 1rem; transform: rotate(-4deg); }
+.hm-label { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.hm-label.lead { top: 24.4rem; left: 18.5rem; color: var(--leading-ink); }
+.hm-label.lag { top: 26.2rem; left: 1rem; color: var(--lagging); }
+
+/* ---------- Outcomes ---------- */
+
+.outcome-list { display: flex; flex-direction: column; justify-content: space-between; height: 100%; gap: 1.4rem; }
+.outcome-row { display: flex; align-items: center; gap: 2rem; }
+.outcome-num {
+  width: 5.4rem; height: 5.4rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: #fff; font-size: 2.8rem; font-weight: 800;
+}
+.outcome-row p { font-size: 1.85rem; line-height: 1.35; }
+.outcome-row strong { font-weight: 800; }
+.outcomes-left h2 { margin-bottom: 2rem; }
+
+/* ---------- Session map ---------- */
+
+.map-band { display: grid; gap: 0.8rem; align-items: end; }
+.map-seg {
+  position: relative; min-height: 15rem; padding: 1.4rem 1.4rem 1.2rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-card); border-top: 0.6rem solid var(--slide-accent);
+  transition: background-color 0.2s ease, min-height 0.2s ease;
+}
+.map-seg.upcoming { background: color-mix(in srgb, var(--slide-accent) 12%, var(--bg-card)); border-top-color: transparent; }
+.map-seg.done { background: var(--bg-deep); }
+.map-seg.current { background: var(--slide-accent); color: var(--on-accent); min-height: 17rem; border-top-color: var(--slide-accent); }
+.map-seg .seg-name { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
+.map-seg .seg-min { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.map-seg .seg-act {
+  position: absolute; bottom: 1.3rem; right: 1.2rem; width: 1.8rem; height: 1.6rem;
+  background: currentColor; clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.map-next { margin-top: 3.4rem; display: grid; grid-template-columns: auto 1fr; gap: 2.4rem; align-items: start; }
+.map-next .label { padding: 0.5rem 1.1rem; background: var(--text); color: var(--bg-card); margin-top: 0.8rem; }
+.map-next p { font-size: 2.6rem; font-weight: 800; line-height: 1.2; max-width: 64rem; }
+
+/* ---------- Section divider ---------- */
+
+.slide.divider { background: var(--slide-accent); }
+.slide.divider .slide-inner { justify-content: center; color: #fff; }
+.slide.divider .eyebrow { color: #fff; }
+.slide.divider h1 { color: #fff; margin: 1rem 0 2.2rem; max-width: 70rem; }
+.slide.divider h3 { color: #fff; max-width: 64rem; }
+.slide.divider .slide-no { color: #fff; }
+.divider-num {
+  position: absolute; right: -3rem; bottom: -12rem; font-size: 40rem; font-weight: 800; line-height: 1;
+  color: var(--bg); opacity: 0.15; z-index: 1; pointer-events: none;
+}
+
+/* ---------- Definition ---------- */
+
+.def-term { margin-bottom: 1.8rem; }
+.def-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 1rem solid var(--slide-accent); padding: 2rem 2.4rem; }
+.def-card p { font-size: 2.1rem; line-height: 1.4; }
+.def-pair { margin-top: 2rem; }
+.def-pair .card { padding: 1.7rem 2.1rem; }
+.def-pair .card p { font-size: 1.7rem; line-height: 1.4; }
+.def-pair .why-line { margin-top: 0.9rem; font-size: 1.5rem; color: var(--text-muted); }
+.def-src { margin-top: 1.4rem; }
+
+/* ---------- Comparison matrix ---------- */
+
+.cmp-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.cmp-table th, .cmp-table td { border: 0.2rem solid var(--border); padding: 0.95rem 1.5rem; text-align: left; vertical-align: middle; }
+.cmp-table thead th { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; border-color: transparent; }
+.cmp-table thead th.cmp-lag { background: var(--lagging); color: #fff; }
+.cmp-table thead th.cmp-lead { background: var(--leading); color: var(--text); }
+.cmp-table thead th.cmp-crit { background: var(--text); color: var(--bg-card); }
+.cmp-table tbody th { font-size: 1.5rem; font-weight: 700; background: var(--bg-card); width: 24%; }
+.cmp-table tbody td { font-size: 1.55rem; background: var(--bg-card); line-height: 1.35; }
+.cmp-table tbody td.cmp-lag { border-left: 0.6rem solid var(--lagging); }
+.cmp-table tbody td.cmp-lead { border-left: 0.6rem solid var(--leading); }
+.cmp-table tbody tr td span { transition: opacity 0.3s ease; }
+.cmp-table tbody tr:not(.revealed) td span { opacity: 0; }
+.cmp-table tbody tr:not(.revealed) td { background: var(--bg-deep); }
+.cmp-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 1.6rem; gap: 2rem; }
+
+/* ---------- Chain diagram ---------- */
+
+.dir-band {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.7rem 1.4rem; background: var(--text); color: var(--bg-card);
+}
+.dir-band .arrow { flex: 1; height: 0.3rem; background: var(--bg-card); margin: 0 2rem; position: relative; }
+.dir-band .arrow::after { content: ''; position: absolute; right: -0.2rem; top: -0.7rem; border-left: 1.2rem solid var(--bg-card); border-top: 0.85rem solid transparent; border-bottom: 0.85rem solid transparent; }
+.chain { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; margin-top: 1.8rem; }
+.chain-node { background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.9rem solid var(--node-color); padding: 1.5rem 1.7rem; min-height: 16.5rem; }
+.chain-node .card-name { color: var(--node-ink, var(--node-color)); }
+.chain-node p { font-size: 1.6rem; line-height: 1.4; }
+.chain-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; margin: 0 calc(12.5% + 0.2rem); padding-top: 1.4rem; }
+.chain-link { text-align: center; font-size: 1.4rem; font-weight: 700; position: relative; padding-top: 1rem; }
+.chain-link::before { content: ''; position: absolute; top: -0.6rem; left: 50%; transform: translateX(-50%); border-bottom: 1rem solid var(--text); border-left: 0.9rem solid transparent; border-right: 0.9rem solid transparent; }
+.chain-note { margin-top: 2.2rem; display: flex; gap: 1.4rem; align-items: center; }
+.chain-note p { font-size: 1.55rem; }
+
+/* ---------- Timer ---------- */
+
+.timer {
+  background: var(--bg-card); border: 0.3rem solid var(--text); padding: 0.5rem 1.6rem 0.6rem;
+  display: flex; flex-direction: column; align-items: center; min-width: 14rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.timer-digits { font-size: 3.2rem; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.timer-state { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.timer.running { border-color: var(--slide-accent); }
+.timer.expired { background: var(--slide-accent); border-color: var(--slide-accent); color: var(--on-accent); }
+.timer.expired .timer-state { color: var(--on-accent); }
+
+/* ---------- Tally ---------- */
+
+.tally { display: flex; flex-direction: column; gap: 0.8rem; }
+.tally-row { display: grid; grid-template-columns: 3.4rem auto 1fr; gap: 1rem; align-items: center; }
+.tally-row.with-text { grid-template-columns: 3.4rem 1fr auto; row-gap: 0.3rem; }
+.tally-row.with-text .tally-track { height: 1.6rem; }
+.tally-row.with-text .tally-bar-wrap { grid-column: 2 / -1; }
+.tally-letter {
+  width: 3.4rem; height: 3.4rem; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: var(--row-on, #fff); font-size: 1.6rem; font-weight: 800;
+}
+.tally-text { font-size: 1.4rem; line-height: 1.3; }
+.tally-controls { display: flex; align-items: center; gap: 0.4rem; }
+.tally-step {
+  width: 3rem; height: 3rem; background: var(--bg-card); border: 0.2rem solid var(--text);
+  font-size: 1.6rem; font-weight: 800; line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.tally-step:hover:not(:disabled) { background: var(--row-color); border-color: var(--row-color); color: var(--row-on, #fff); }
+.tally-step:disabled { opacity: 0.4; cursor: not-allowed; }
+.tally-count {
+  width: 5.6rem; height: 3rem; text-align: center; font-size: 1.6rem; font-weight: 800;
+  border: 0.2rem solid var(--border); background: var(--bg-card); font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield; appearance: textfield;
+}
+.tally-count::-webkit-inner-spin-button, .tally-count::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.tally-bar-wrap { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.tally-track { position: relative; flex: 1; height: 2.2rem; background: var(--bg-deep); min-width: 6rem; }
+.tally-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--row-color); transition: width 0.6s ease; }
+.tally-pct { font-size: 1.4rem; font-weight: 700; min-width: 5rem; text-align: right; font-variant-numeric: tabular-nums; }
+.tally-total { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.tally.locked .tally-step { visibility: hidden; }
+.tally.locked .tally-count { border-color: transparent; }
+
+/* ---------- Claim tally ---------- */
+
+.claim-card { background: var(--slide-accent); color: #fff; padding: 3rem 3.2rem; display: flex; flex-direction: column; justify-content: space-between; }
+.claim-card .label { color: #fff; }
+.claim-card .claim-text { font-size: 3rem; font-weight: 800; line-height: 1.2; margin: 1.6rem 0; }
+.claim-card .micro { color: #fff; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.claim-follow { margin-top: 2rem; min-height: 8.8rem; background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--text); padding: 1.4rem 1.8rem; }
+.claim-follow p { font-size: 1.55rem; }
+
+/* ---------- Warm-up ---------- */
+
+.warm-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1.4rem 2.2rem; height: 100%; }
+.warm-card {
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.7rem solid var(--card-color);
+  padding: 1.3rem 1.8rem 1.4rem; text-align: left; display: flex; flex-direction: column; gap: 0.7rem;
+  transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.warm-card:hover { transform: translateY(-0.2rem); box-shadow: 0 0.4rem 1.2rem rgba(42,31,24,0.1); }
+.warm-top { display: flex; justify-content: space-between; align-items: center; }
+.warm-tag { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.16em; background: var(--card-color); color: #fff; padding: 0.2rem 0.7rem; }
+.warm-hint { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.warm-card.open .warm-hint { visibility: hidden; }
+.warm-prompt { font-size: 1.6rem; font-weight: 700; line-height: 1.3; }
+.warm-answer { font-size: 1.35rem; line-height: 1.4; color: var(--text); border-left: 0.4rem solid var(--card-color); padding-left: 1rem; }
+.warm-answer .src { color: var(--text-muted); }
+
+/* ---------- Check (single-select + confidence) ---------- */
+
+.q-goal { font-size: 1.55rem; margin-bottom: 1rem; }
+.q-goal strong { font-weight: 800; }
+.q-options { display: flex; flex-direction: column; gap: 0.8rem; }
+.q-opt {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 0 1.2rem; align-items: start; text-align: left;
+  background: var(--bg-card); border: 0.25rem solid var(--border); padding: 0.6rem 1.2rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+.q-opt:hover:not(:disabled) { border-color: var(--row-color); transform: translateY(-0.2rem); box-shadow: 0 0.4rem 1.2rem rgba(42,31,24,0.1); }
+.q-opt:disabled { cursor: default; }
+.q-letter { grid-row: span 2; width: 3.4rem; height: 3.4rem; display: flex; align-items: center; justify-content: center; background: var(--row-color); color: #fff; font-weight: 800; font-size: 1.6rem; }
+.q-text { font-size: 1.5rem; line-height: 1.3; font-weight: 700; }
+.q-why { grid-column: 2; font-size: 1.25rem; line-height: 1.35; min-height: 3.4rem; visibility: hidden; margin-top: 0.2rem; }
+.q-opt.show-why .q-why { visibility: visible; }
+.q-opt.correct { border-color: var(--correct); background: var(--correct-bg); }
+.q-opt.correct .q-why { color: var(--correct-ink); }
+.q-opt.incorrect { border-color: var(--incorrect); background: var(--incorrect-bg); }
+.q-opt.incorrect .q-why { color: var(--incorrect-ink); }
+.q-opt.dimmed .q-why { color: var(--text); }
+.q-verdict { font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 1.15rem; margin-right: 0.6rem; }
+.check-side h3 { font-size: 1.4rem; letter-spacing: 0.14em; margin-bottom: 0.9rem; }
+.conf-block { margin-top: 0; }
+.check-grid { grid-template-columns: 2fr 1fr; }
+.check-side .pick-note { font-size: 1.25rem; line-height: 1.3; color: var(--text-muted); }
+.check-side .tally { gap: 0.6rem; }
+.conf-banner {
+  margin-top: 1.2rem; min-height: 6.2rem; padding: 1rem 1.4rem; border-left: 0.8rem solid var(--ambiguous);
+  background: var(--ambiguous-bg); color: var(--ambiguous-ink); font-size: 1.35rem; font-weight: 700; line-height: 1.35;
+  visibility: hidden;
+}
+.conf-banner.visible { visibility: visible; }
+.check-actions { display: flex; gap: 1rem; margin-top: 1.4rem; align-items: center; }
+
+/* ---------- Annotated model: goal hierarchy ---------- */
+
+.hier { display: flex; flex-direction: column; gap: 1.6rem; height: 100%; justify-content: center; }
+.hier-level { display: grid; grid-template-columns: 4rem 1fr; gap: 1.4rem; align-items: center; position: relative; }
+.hier-spot {
+  width: 4rem; height: 4rem; background: var(--spot-color); color: var(--spot-on, #fff); border: none; font-size: 1.8rem; font-weight: 800;
+  transition: transform 0.15s ease;
+}
+.hier-spot:hover { transform: translateY(-0.2rem); }
+.hier-row { display: grid; gap: 0.9rem; }
+.hier-row.one { grid-template-columns: 1fr; justify-items: center; }
+.hier-row.four { grid-template-columns: repeat(4, 1fr); }
+.hier-row.two { grid-template-columns: 1fr 1fr; padding: 0 12%; }
+.hier-node {
+  background: var(--bg-card); border: 0.25rem solid var(--border); padding: 0.9rem 1.1rem; font-size: 1.35rem; line-height: 1.3; font-weight: 700;
+  display: flex; flex-direction: column; gap: 0.6rem; justify-content: space-between; min-height: 6.4rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.hier-row.one .hier-node { min-width: 26rem; min-height: 0; text-align: center; align-items: center; }
+.hier-level.selected .hier-node { border-color: var(--spot-color); background: color-mix(in srgb, var(--spot-color) 10%, var(--bg-card)); }
+.hier-cap { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); grid-column: 2; margin-bottom: -1.4rem; }
+.hier-node .tag-lag, .hier-node .tag-lead { align-self: flex-start; }
+.part-list { display: flex; flex-direction: column; gap: 0.9rem; }
+.part-btn {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.2rem; align-items: center; text-align: left;
+  background: var(--bg-card); border: 0.25rem solid var(--border); padding: 0.4rem 0.8rem; font-size: 1.5rem; font-weight: 700;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+.part-btn .num { width: 3.4rem; height: 3.4rem; background: var(--spot-color); color: var(--spot-on, #fff); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.part-btn:hover { transform: translateY(-0.2rem); border-color: var(--spot-color); }
+.part-btn.selected { border-color: var(--spot-color); background: color-mix(in srgb, var(--spot-color) 10%, var(--bg-card)); }
+.detail-panel {
+  margin-top: 1.4rem; min-height: 15rem; background: var(--bg-card); border: 0.2rem solid var(--border);
+  border-left: 0.9rem solid var(--detail-color, var(--border)); padding: 1.6rem 1.8rem;
+}
+.detail-panel .card-name { color: var(--detail-ink, var(--detail-color, var(--text-muted))); }
+.detail-panel p { font-size: 1.55rem; line-height: 1.45; }
+.detail-panel .placeholder-line { color: var(--text-muted); }
+.model-note { margin-top: 1.2rem; }
+
+/* ---------- Numbered cards ---------- */
+
+.num-cards { height: 100%; }
+.num-card { display: flex; flex-direction: column; background: var(--bg-card); border: 0.2rem solid var(--border); }
+.num-head { background: var(--card-color); color: #fff; padding: 1.4rem 1.8rem 1.6rem; position: relative; overflow: hidden; min-height: 10rem; display: flex; align-items: flex-end; }
+.num-head .num-big { position: absolute; right: 1rem; top: -2.4rem; font-size: 11rem; font-weight: 800; line-height: 1; opacity: 0.25; }
+.num-head h3 { position: relative; font-size: 2.1rem; letter-spacing: 0.06em; }
+.num-body { padding: 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 1.4rem; }
+.num-body p { font-size: 1.6rem; line-height: 1.45; }
+.num-body .ask { font-size: 1.4rem; font-weight: 700; border-top: 0.3rem solid var(--card-color); padding-top: 1rem; }
+
+/* ---------- Split with panel ---------- */
+
+.split p + p { margin-top: 1.4rem; }
+.panel-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--slide-accent); padding: 2rem 2.2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.ind-line { display: grid; grid-template-columns: 11rem 1fr; gap: 1.2rem; align-items: start; }
+.ind-line p { font-size: 1.5rem; line-height: 1.4; }
+.ind-line .verdict { font-size: 1.15rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.6rem; text-align: center; }
+.verdict.weak { background: var(--bg-deep); color: var(--text); }
+.verdict.strong { background: var(--leading); color: var(--text); }
+.banner { background: var(--text); color: var(--bg-card); padding: 1.2rem 1.6rem; font-size: 1.45rem; font-weight: 700; line-height: 1.4; }
+
+/* ---------- Predict and reveal ---------- */
+
+.pred-left { position: relative; height: 100%; }
+.pred-situation p { font-size: 1.55rem; line-height: 1.45; }
+.pred-question { font-size: 2rem; font-weight: 800; line-height: 1.25; margin-top: 1.4rem; }
+.pred-waiting { margin-top: 1.4rem; }
+.pred-outcome {
+  position: absolute; inset: 0; background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--correct);
+  padding: 1.6rem 1.8rem; visibility: hidden; opacity: 0; transition: opacity 0.3s ease;
+}
+.pred-outcome.visible { visibility: visible; opacity: 1; }
+.pred-outcome p { font-size: 1.55rem; line-height: 1.45; }
+.pred-outcome .card-name { color: var(--correct-ink); }
+.pred-outcome p + p { margin-top: 1rem; }
+.pred-outcome .follow { font-weight: 800; }
+.pred-waiting { color: var(--text-muted); font-size: 1.4rem; }
+.pred-actions { display: flex; gap: 1rem; margin-top: 1.4rem; align-items: center; }
+.pred-status { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.tally-row.is-answer .tally-letter { outline: 0.4rem solid var(--correct); outline-offset: 0.2rem; }
+
+/* ---------- Spot the flaw ---------- */
+
+.flaw-case { background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.9rem solid var(--slide-accent); padding: 2rem 2.4rem; }
+.flaw-passage { font-size: 1.65rem; line-height: 1.7; }
+.flaw-grid { grid-template-columns: 8fr 4fr; }
+.flaw-seg {
+  cursor: pointer; padding: 0 0.1rem; border-bottom: 0.2rem dotted var(--text-muted);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.flaw-seg:hover { background: color-mix(in srgb, var(--slide-accent) 10%, var(--bg-card)); }
+.flaw-seg.selected { background: color-mix(in srgb, var(--slide-accent) 16%, var(--bg-card)); border-bottom: 0.25rem solid var(--slide-accent); }
+.flaw-seg.correct { background: var(--correct-bg); border-bottom: 0.3rem solid var(--correct); }
+.flaw-seg.incorrect { background: var(--incorrect-bg); border-bottom: 0.3rem solid var(--incorrect); }
+.flaw-seg.ambiguous { background: var(--ambiguous-bg); border-bottom: 0.3rem solid var(--ambiguous); }
+.flaw-seg .seg-no { display: none; font-size: 1.1rem; font-weight: 800; background: var(--text); color: var(--bg-card); padding: 0 0.4rem; margin-right: 0.3rem; vertical-align: 0.2em; }
+.flaw-case.checked .seg-no { display: inline; }
+.flaw-actions { display: flex; gap: 1rem; align-items: center; margin-top: 1.6rem; }
+.flaw-score { font-size: 1.6rem; font-weight: 800; }
+.flaw-legend { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.4rem; }
+.flaw-legend div { display: flex; gap: 0.8rem; align-items: center; font-size: 1.3rem; }
+.flaw-legend .sw { width: 2.4rem; height: 1.4rem; border-bottom: 0.3rem solid; }
+.sw.found { background: var(--correct-bg); border-color: var(--correct); }
+.sw.missed { background: var(--ambiguous-bg); border-color: var(--ambiguous); }
+.sw.wrong { background: var(--incorrect-bg); border-color: var(--incorrect); }
+.flaw-detail { min-height: 15rem; margin-top: 0; }
+.flaw-why-list { display: none; }
+
+/* ---------- Worked example ---------- */
+
+.steps { display: flex; flex-direction: column; gap: 0.8rem; }
+.step {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.2rem; align-items: center;
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.7rem solid var(--step-color); padding: 0.7rem 1.2rem;
+  opacity: 0.001; transform: translateY(0.4rem); transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s ease;
+}
+.step.visible { opacity: 1; transform: none; }
+.step.current { border-color: var(--step-color); border-left-color: var(--step-color); background: color-mix(in srgb, var(--step-color) 8%, var(--bg-card)); }
+.step .num { width: 3.4rem; height: 3.4rem; background: var(--step-color); color: var(--step-on, #fff); font-weight: 800; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; }
+.step p { font-size: 1.45rem; line-height: 1.3; }
+.step p strong { font-weight: 800; }
+.step-why { display: none; }
+.why-panel { background: var(--text); color: var(--bg-card); padding: 2rem 2.2rem; min-height: 20rem; }
+.why-panel .label { color: var(--bg-card); margin-bottom: 1rem; display: block; }
+.why-panel p { font-size: 1.7rem; line-height: 1.45; }
+.worked-actions { display: flex; gap: 1rem; align-items: center; margin-top: 1.4rem; }
+
+/* ---------- Think, pair, share ---------- */
+
+.tps-prompt { font-size: 2.4rem; font-weight: 800; line-height: 1.25; max-width: 84rem; }
+.tps-band { display: grid; grid-template-columns: 6fr 5fr 4fr; gap: 0.8rem; align-items: end; margin-top: 2rem; }
+.tps-phase {
+  text-align: left; border: none; padding: 1.2rem 1.4rem; min-height: 10rem; display: flex; flex-direction: column; justify-content: space-between;
+  background: color-mix(in srgb, var(--phase-color) 14%, var(--bg-card)); border-top: 0.6rem solid var(--phase-color);
+  transition: min-height 0.2s ease, background-color 0.2s ease;
+}
+.tps-phase.current { background: var(--phase-color); color: var(--phase-on, #fff); min-height: 12rem; }
+.tps-phase .ph-name { font-size: 1.8rem; font-weight: 800; letter-spacing: 0.1em; }
+.tps-phase .ph-text { font-size: 1.4rem; line-height: 1.35; }
+.tps-template { margin-top: 2.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem 2.4rem; }
+.tpl-line { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: end; font-size: 1.55rem; font-weight: 700; }
+.tpl-line span:last-child { border-bottom: 0.25rem solid var(--text); height: 2.6rem; }
+.tpl-line .tag-lag, .tpl-line .tag-lead { font-size: 1.3rem; }
+.tpl-line .lvl { color: var(--text); }
+
+/* ---------- Live board ---------- */
+
+.board-wrap { display: flex; flex-direction: column; height: 100%; }
+.board { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: min-content; gap: 1.2rem; align-content: start; }
+.board-empty { grid-column: 1 / -1; color: var(--text-muted); font-size: 1.55rem; padding: 2rem; border: 0.25rem dashed var(--border); text-align: center; }
+.board-card {
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.6rem solid var(--card-color); padding: 1rem 1.2rem;
+  text-align: left; font-size: 1.5rem; line-height: 1.35; display: flex; flex-direction: column; gap: 0.5rem;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+.board-card:hover { transform: translateY(-0.2rem); }
+.board-card.selected { border-color: var(--card-color); outline: 0.3rem solid var(--card-color); }
+.board-card .b-tag { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--card-ink, var(--card-color)); }
+.board.dense { gap: 0.9rem; }
+.board.dense .board-card { font-size: 1.3rem; padding: 0.6rem 1rem; gap: 0.2rem; }
+.board-input { display: grid; grid-template-columns: 1fr 16rem auto auto; gap: 0.8rem; margin-top: 1rem; align-items: stretch; }
+.board-input input, .board-input select {
+  height: 3.6rem; border: 0.25rem solid var(--text); background: var(--bg-card); padding: 0 1rem; font-size: 1.4rem;
+}
+.board-input input:focus, .board-input select:focus { border-color: var(--slide-accent); }
+.board-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem; gap: 1rem; min-height: 2.8rem; }
+.board-bar .micro { flex: 1; }
+.board-pager { display: flex; gap: 0.6rem; align-items: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Close and bridge ---------- */
+
+.close-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+.close-list li { list-style: none; display: grid; grid-template-columns: 1.6rem 1fr; gap: 1.4rem; align-items: start; font-size: 1.75rem; line-height: 1.35; }
+.close-list .pip { width: 1.6rem; height: 1.6rem; margin-top: 0.5rem; }
+.close-hook { margin-top: 2.4rem; }
+.close-grid { align-items: center; height: 100%; }
+.bridge-card { background: var(--bg-card); border: 0.3rem solid var(--text); padding: 1.8rem 2rem; }
+.bridge-card h3 { font-size: 1.5rem; letter-spacing: 0.16em; margin-bottom: 1rem; }
+.bridge-card p { font-size: 1.5rem; line-height: 1.45; }
+.bridge-card p + p { margin-top: 0.8rem; }
+.src-block { background: var(--slide-accent); color: #fff; padding: 1.6rem 2rem; margin-top: 1.8rem; }
+.src-block h3 { font-size: 1.4rem; letter-spacing: 0.16em; margin-bottom: 0.8rem; }
+.src-block p { font-size: 1.3rem; line-height: 1.45; }
+.src-block p + p { margin-top: 0.6rem; }
+
+/* ---------- Exit ticket ---------- */
+
+.exit-body { display: flex; flex-direction: column; }
+.exit-grid { flex: 1; min-height: 0; }
+.exit-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--card-color); padding: 2rem 2.2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.exit-card .card-name { font-size: 1.3rem; }
+.exit-card p { font-size: 1.85rem; line-height: 1.35; font-weight: 700; }
+.exit-card .lines { flex: 1; background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 3.1rem, var(--border) 3.1rem, var(--border) 3.3rem); min-height: 8rem; }
+.exit-foot { margin-top: 1.6rem; display: flex; justify-content: space-between; align-items: center; }
+.exit-sheets { display: none; }
+
+/* ---------- Motion preference ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Narrow and portrait: a scrolling document ---------- */
+
+@media screen and (max-width: 860px), screen and (max-aspect-ratio: 1/1) {
+  html { font-size: max(3.1vw, 9px); }
+  body { overflow: auto; background: var(--bg); }
+  .deck { position: static; display: block; }
+  .stage { width: 100%; height: auto; min-height: 100vh; padding-bottom: 9rem; overflow: hidden; }
+  .slide { position: static; }
+  .slide.divider { min-height: 100vh; }
+  .slide-inner { height: auto; padding: 5rem 2.5rem 3rem 4.4rem; }
+  .slide-no { top: 2rem; right: 2.5rem; }
+  .progress-track { position: fixed; }
+  .deck-chrome {
+    position: fixed; bottom: 0; left: 0; right: 0; justify-content: space-between;
+    border-width: 0.4rem 0 0; border-color: var(--accent-1); padding: 1rem 0.9rem;
+  }
+  .deck-chrome.idle { opacity: 1; pointer-events: auto; }
+  .deck-chrome.idle > * { visibility: visible !important; }
+  .nav-btn, .btn { min-height: 44px; font-size: 1.4rem; }
+  .deck-chrome .nav-btn { padding: 0 0.8rem; letter-spacing: 0.04em; font-size: 1.2rem; flex-shrink: 0; min-width: 44px; }
+  .deck-chrome { gap: 0.6rem; }
+  .nav-info { white-space: nowrap; font-size: 1.3rem; }
+  .tally-row.with-text { grid-template-columns: 44px 1fr; }
+  .tally-row.with-text .tally-controls { grid-column: 2 / -1; }
+  .tally-step, .tally-count, .hier-spot, .q-letter { min-width: 44px; min-height: 44px; }
+  .flaw-seg { padding: 0.4rem 0.1rem; }
+  .part-btn, .q-opt, .warm-card, .board-card, .tps-phase, .board-input input, .board-input select { min-height: 44px; }
+  h1 { font-size: 5.2rem; }
+  h2 { font-size: 3.4rem; }
+  .g-2, .g-3, .g-4, .g-7-5, .g-5-7, .warm-grid, .tps-template, .board-input { grid-template-columns: 1fr; }
+  .warm-grid { grid-template-rows: none; }
+  .hero-mark { display: none; }
+  .chain { grid-template-columns: 1fr; }
+  .chain-links { display: none; }
+  .map-band { grid-template-columns: 1fr !important; }
+  .map-seg, .map-seg.current { min-height: 0; }
+  .hier-row.four { grid-template-columns: 1fr 1fr; }
+  .hier-row.two { padding: 0; }
+  .tps-band { grid-template-columns: 1fr; }
+  .board { grid-template-columns: 1fr 1fr; }
+  .s-head.is-activity { grid-template-columns: 1fr; row-gap: 1.4rem; }
+  .timer { align-self: start; justify-self: start; }
+  .cmp-table tbody th { width: 30%; }
+  .divider-num { font-size: 24rem; }
+  .ind-line { grid-template-columns: 1fr; }
+}
+
+/* ---------- Print: one slide per A4 page ---------- */
+
+@page { size: A4 portrait; margin: 10mm; }
+
+@media print {
+  html { font-size: 8.6pt; }
+  body { background: #fff; overflow: visible; }
+  .deck { position: static; display: block; }
+  .stage { width: auto; height: auto; background: #fff; overflow: visible; }
+  .slide { position: relative; display: block !important; page-break-after: always; break-after: page; animation: none; overflow: hidden; }
+  .slide.divider { background: var(--slide-accent); }
+  .slide-inner { height: auto; padding: 2.4rem 3rem 2rem 5rem; }
+  .pred-question { font-size: 1.7rem; margin-top: 1rem; }
+  .pred-outcome p { font-size: 1.4rem; }
+  .progress-track, .deck-chrome, .deco, .hero-mark, .timer, .tally-controls .tally-step, .board-input, .board-bar,
+  .blackout, .check-actions, .pred-actions, .flaw-actions, .worked-actions, .cmp-foot .btn, .warm-hint, .board-pager { display: none !important; }
+  .divider-num, .flaw-legend, .tally-track, .tally-pct, .pred-waiting, .tally-row.with-text .tally-bar-wrap { display: none !important; }
+  .tally-row.with-text { row-gap: 0; }
+  body.instructor .tally-row.key-answer .tally-letter { outline: 0.4rem solid var(--correct); outline-offset: 0.2rem; }
+  .rail, .s-head::before, .act-tag, .tally-letter, .q-letter, .claim-card, .map-seg, .slide.divider, .outcome-num,
+  .num-head, .tag-lag, .tag-lead, .step .num, .why-panel, .src-block, .hier-spot, .part-btn .num, .tps-phase,
+  .cmp-table thead th, .banner, .verdict, .warm-tag, .board-card, .exit-card, .chain-node, .dir-band, .card, .def-card, .panel-card {
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .g-4, .board { grid-template-columns: 1fr 1fr; }
+  .slide[data-archetype="predict"] .s-body, .slide[data-archetype="spot-the-flaw"] .s-body,
+  .slide[data-archetype="worked-example"] .s-body { grid-template-columns: 1fr; }
+  .pred-left { height: auto; }
+  .chain { grid-template-columns: 1fr 1fr; }
+  .chain-links, .dir-band .arrow { display: none; }
+  .hier-row.four { grid-template-columns: 1fr 1fr; }
+  .warm-grid { grid-template-rows: none; height: auto; }
+  .reveal-anim { opacity: 1; transform: none; visibility: visible; }
+  .step { opacity: 1; transform: none; }
+  body.instructor .step-why { display: block; font-size: 1.3rem; color: var(--text-muted); }
+  .s-head { margin-bottom: 1.2rem; }
+  h2 { font-size: 3rem; }
+  .grid { gap: 1.8rem; }
+  .cmp-table tbody tr td span { opacity: 1 !important; }
+  .cmp-table tbody tr td { background: var(--bg-card) !important; }
+  .detail-panel, .flaw-detail, .why-panel, .conf-banner { display: none !important; }
+  .outcome-list, .num-cards, .exit-grid, .hero, .fill { height: auto; }
+  .tally-bar { transition: none; }
+  .exit-card .lines { display: none; }
+  .map-seg, .map-seg.current { min-height: 0; }
+
+  /* Student print (default): questions and options only */
+  body:not(.instructor) .q-why, body:not(.instructor) .warm-answer, body:not(.instructor) .tally-controls,
+  body:not(.instructor) .check-side, body:not(.instructor) .pred-outcome, body:not(.instructor) .tally-track,
+  body:not(.instructor) .tally-pct, body:not(.instructor) .tally-total,
+  body:not(.instructor) .claim-follow, body:not(.instructor) .flaw-why-list,
+  body:not(.instructor) .flaw-legend, body:not(.instructor) .flaw-score, body:not(.instructor) .board-wrap .board { display: none !important; }
+  body:not(.instructor) .q-opt, body:not(.instructor) .flaw-seg { background: var(--bg-card) !important; border-color: var(--border) !important; }
+  body:not(.instructor) .tally-row.is-answer .tally-letter { outline: none; }
+
+  /* Instructor print: answers, why, tallies as numbers, notes */
+  body.instructor .q-why { visibility: visible; }
+  body.instructor .q-opt.key-correct { border-color: var(--correct); background: var(--correct-bg); }
+  body.instructor .warm-answer { visibility: visible; opacity: 1; }
+  body.instructor .pred-outcome { position: static; visibility: visible; opacity: 1; margin-top: 1.4rem; }
+  body.instructor .pred-waiting { display: none; }
+  body.instructor .flaw-why-list { display: block; margin-top: 1rem; font-size: 1.25rem; line-height: 1.35; }
+  body.instructor .flaw-why-list li { margin-left: 2rem; margin-top: 0.4rem; }
+  body.instructor .tally-count { border-color: transparent; }
+  body.instructor .notes {
+    display: block; position: relative; z-index: 2; margin: 0 3rem 2rem 5rem; padding: 1.4rem 1.8rem;
+    border: 0.2rem solid var(--text); font-size: 1.25rem; line-height: 1.4; background: #fff; color: var(--text);
+  }
+  body.instructor .notes::before { content: 'SPEAKER NOTES'; display: block; font-weight: 700; letter-spacing: 0.16em; font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+  .exit-sheets { display: block; }
+  .exit-page { page-break-after: always; break-after: page; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 270mm; }
+  .a6 { border: 1px dashed #6A5A48; padding: 6mm; display: flex; flex-direction: column; gap: 3mm; font-size: 10pt; }
+  .a6 .a6-title { font-weight: 800; font-size: 11pt; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1mm solid var(--accent-1); padding-bottom: 2mm; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .a6 .a6-q { font-weight: 700; }
+  .a6 .a6-lines { flex: 1; border-bottom: 1px solid #D8C8A8; min-height: 14mm; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+<div class="stage" id="stage">
+
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ============ 1. TITLE POSTER ============ -->
+  <section class="slide" id="s-title" data-accent="var(--accent-1)" data-archetype="title-poster">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 hero">
+        <div>
+          <span class="eyebrow">Coaching 1 &middot; Workshop 2 &middot; September 2026</span>
+          <h1>Lagging and<br>leading indicators</h1>
+          <p class="lede">How will you know you are on track before the result arrives? Today you give the goals in your hierarchy signals you can act on.</p>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <div class="hm-bar"></div>
+          <div class="hm-circle"></div>
+          <div class="hm-square"></div>
+          <div class="hm-ring"></div>
+          <div class="hm-tri"></div>
+          <div class="hm-label lead">Leading</div>
+          <div class="hm-label lag">Lagging</div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Welcome. This workshop builds on goal hierarchies: today we attach measures to them. Frame the question on the slide: most of us only find out whether a goal worked once it is too late to change anything. By the end, everyone will have drafted one lagging and two leading indicators for a branch of their own goals, and the follow-up task is to build the full goal network and extend the indicators to it. About 1 minute.</aside>
+    <div class="deco circle" style="width: 34rem; height: 34rem; background: var(--accent-8); opacity: 0.08; bottom: -16rem; left: -10rem"></div>
+    <div class="deco" style="width: 80rem; height: 1rem; background: var(--accent-4); opacity: 0.12; bottom: 8rem; left: 4rem; transform: rotate(-2deg)"></div>
+  </section>
+
+  <!-- ============ 2. WARM-UP ============ -->
+  <section class="slide" id="s-warm-up" data-accent="var(--accent-6)" data-archetype="retrieval">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Warm-up &middot; Stop and jot &middot; 5 min</span>
+          <h2>What do you already know?</h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body">
+        <div class="warm-grid" data-activity="retrieval"></div>
+      </div>
+    </div>
+    <aside class="notes">Individual and silent: WRITE, DO NOT TALK. Start the timer with t. Give three minutes of writing, then take one or two answers per card from the room before revealing each card with a click or r. The fourth card has a placeholder answer: replace it in ACTIVITIES with the model answer from your earlier teaching on Locke and Latham. Keep the reveals brisk; this is a check of starting points, and the hierarchy returns in Part 2.</aside>
+    <div class="deco ring" style="width: 26rem; height: 26rem; border-width: 2.4rem; border-color: var(--accent-4); opacity: 0.1; top: -12rem; right: 22rem"></div>
+    <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.07; bottom: -8rem; left: -4rem; transform: rotate(24deg)"></div>
+  </section>
+
+  <!-- ============ 3. OUTCOMES ============ -->
+  <section class="slide" id="s-outcomes" data-accent="var(--accent-7)" data-archetype="outcomes">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-5-7 fill">
+        <div class="outcomes-left" style="align-self: center">
+          <header class="s-head">
+            <span class="eyebrow">Outcomes</span>
+            <h2>By the end of this session</h2>
+          </header>
+          <p class="small quiet">An activity today checks each outcome. The fourth continues in your follow-up work, when you build your full goal network.</p>
+        </div>
+        <div class="outcome-list">
+          <div class="outcome-row" style="--row-color: var(--accent-1)"><div class="outcome-num">1</div><p><strong>Classify</strong> an indicator as leading or lagging and explain why.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-6)"><div class="outcome-num">2</div><p><strong>Place</strong> leading and lagging indicators on the levels of a goal hierarchy.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-5)"><div class="outcome-num">3</div><p><strong>Evaluate</strong> a leading indicator against three tests.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-8)"><div class="outcome-num">4</div><p><strong>Design</strong> one lagging and two leading indicators for one of your own goals.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Read the verbs aloud: classify, place, evaluate, design. Tell the room where each is checked: the classification check in Part 1, the hierarchy model and the flawed plan in Part 2, and the application task in Part 3. Outcome 4 is started today on one branch of their goals and finished in the follow-up work. About 1 minute.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-4); opacity: 0.09; top: -12rem; left: 20rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-2); opacity: 0.07; bottom: -9rem; left: 4rem"></div>
+  </section>
+
+  <!-- ============ 4. SESSION MAP ============ -->
+  <section class="slide" id="s-map-1" data-accent="var(--accent-5)" data-archetype="session-map" data-current="1">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map</span>
+        <h2>Today's session</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Now</span><p>A quick vote: how do you know you are on track?</p></div>
+      </div>
+    </div>
+    <aside class="notes">Walk the band left to right. The triangles mark segments where the room does something. Point out that Part 3 is the longest: that is where they work on their own goals. About 1 minute.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-6); opacity: 0.1; bottom: 12rem; left: 10rem; transform: rotate(-3deg)"></div>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-1); opacity: 0.07; top: -10rem; right: -6rem"></div>
+  </section>
+
+  <!-- ============ 5. HOOK: CLAIM TALLY ============ -->
+  <section class="slide" id="s-hook" data-accent="var(--accent-8)" data-archetype="claim-tally">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Claim tally &middot; 3 min</span>
+          <h2>Do you agree with this claim?</h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body grid g-2" data-activity="claim-tally">
+        <div class="claim-card">
+          <span class="label">A claim</span>
+          <p class="claim-text" data-field="claim"></p>
+          <span class="micro">Hands up for one option</span>
+        </div>
+        <div>
+          <div class="tally" data-tally="round1"></div>
+          <div class="claim-follow reveal-anim"><p data-field="followUp"></p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">This is a position prompt: it has no answer key and none is shown. Read the claim, ask for hands for each option, type or step the counts in (keys 1 to 3 add one; Shift subtracts). Then press r to show the follow-up line. Do not resolve the claim now: most rooms agree, because the end result feels like the honest measure. Come back to it at the close, when the room can say what the end result misses (it arrives too late to act on).</aside>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-3); opacity: 0.08; bottom: -5rem; left: 36rem; transform: rotate(32deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-4); opacity: 0.1; top: -9rem; left: 34rem"></div>
+  </section>
+
+  <!-- ============ 6. SECTION DIVIDER: PART 1 ============ -->
+  <section class="slide divider" id="s-part-1" data-accent="var(--accent-1)" data-archetype="section-divider">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <span class="eyebrow">Part 1</span>
+      <h1>Two kinds of signal</h1>
+      <h3>What does each indicator tell you, and when does it tell you?</h3>
+    </div>
+    <div class="divider-num" aria-hidden="true">1</div>
+    <aside class="notes">Part 1 fixes the two terms and how they relate. Keep the pace up here: definitions, a comparison, one chain, then a check with a confidence rating. Roughly 18 minutes.</aside>
+    <div class="deco circle" style="width: 30rem; height: 30rem; background: var(--bg); opacity: 0.12; top: -12rem; left: 48rem"></div>
+    <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 10rem; left: 0; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 7. DEFINITION: LAGGING ============ -->
+  <section class="slide" id="s-def-lagging" data-accent="var(--accent-2)" data-archetype="definition">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Definition</span>
+        <h2>Lagging indicator</h2>
+      </header>
+      <div class="s-body">
+        <div class="def-card"><p>A measure of an outcome that has already happened. It tells you, with certainty, whether you reached the goal, but only once the result can no longer be changed.</p></div>
+        <div class="grid g-2 def-pair">
+          <div class="card rail-top" style="--card-color: var(--lagging)">
+            <div class="card-name">Example</div>
+            <p>Last month's revenue for a subscription business.</p>
+            <p class="why-line">Once the figure is known, it is too late to change: it can only be learned from.</p>
+          </div>
+          <div class="card rail-top" style="--card-color: var(--leading); --card-ink: var(--leading-ink)">
+            <div class="card-name">Non-example</div>
+            <p>How often users open the product this week.</p>
+            <p class="why-line">Engagement can still be acted on before it shows up in revenue, so it leads.</p>
+          </div>
+        </div>
+        <p class="micro def-src">Source: Leung, A. X. (2025) Leading vs. lagging indicators, plus examples. Amplitude.</p>
+      </div>
+    </div>
+    <aside class="notes">Stress the two halves: certain, and too late. Leung's example is monthly recurring revenue: once last month's figure is in, it cannot be changed, only learned from. The non-example matters most: engagement looks like just another number, but it arrives while you can still do something. Ask: "In your own studies, what is a lagging indicator?" Expect the final module mark. About 3 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.07; top: -8rem; right: -6rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.1; bottom: -7rem; right: 26rem"></div>
+  </section>
+
+  <!-- ============ 8. DEFINITION: LEADING ============ -->
+  <section class="slide" id="s-def-leading" data-accent="var(--accent-4)" data-archetype="definition">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Definition</span>
+        <h2>Leading indicator</h2>
+      </header>
+      <div class="s-body">
+        <div class="def-card"><p>A measure that predicts a future outcome while you can still act on it. It guides what you do day to day, but it carries no guarantee.</p></div>
+        <div class="grid g-2 def-pair">
+          <div class="card rail-top" style="--card-color: var(--leading); --card-ink: var(--leading-ink)">
+            <div class="card-name">Example</div>
+            <p>A drop in app engagement in the second week of the month.</p>
+            <p class="why-line">The team can investigate and fix it before users leave and revenue falls.</p>
+          </div>
+          <div class="card rail-top" style="--card-color: var(--lagging)">
+            <div class="card-name">Non-example</div>
+            <p>Average revenue per user.</p>
+            <p class="why-line">It measures money already earned, so it reports on the past: it lags.</p>
+          </div>
+        </div>
+        <p class="micro def-src">Source: Leung (2025), Amplitude.</p>
+      </div>
+    </div>
+    <aside class="notes">The trade-off is the point: a leading indicator gives you time to act, and in exchange it is uncertain. Revenue could still fall for another reason even when engagement looks strong. Ask: "If engagement is high, is next month's revenue guaranteed?" No. Leung's advice is that leading indicators should correlate strongly with the outcome you want, which becomes our second test in Part 2. About 3 minutes.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-6); opacity: 0.07; bottom: -12rem; left: 30rem; transform: rotate(38deg)"></div>
+    <div class="deco ring" style="width: 18rem; height: 18rem; border-width: 2rem; border-color: var(--accent-1); opacity: 0.08; top: -7rem; right: 18rem"></div>
+  </section>
+
+  <!-- ============ 9. COMPARISON MATRIX ============ -->
+  <section class="slide" id="s-compare" data-accent="var(--accent-5)" data-archetype="comparison-matrix">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Side by side</span>
+        <h2>They differ in timing, certainty and use</h2>
+      </header>
+      <div class="s-body" data-activity="reveal">
+        <table class="cmp-table">
+          <thead><tr><th class="cmp-crit" scope="col">Criterion</th><th class="cmp-lag" scope="col">Lagging</th><th class="cmp-lead" scope="col">Leading</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="cmp-foot">
+          <p class="micro">Predict each row before it is revealed. Source: Leung (2025), Amplitude.</p>
+          <button class="btn" type="button" data-action="reveal-row">Reveal next row</button>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Before each row, read the criterion and ask the room to call out the answer for each column. Then reveal with r. The row on how often to check matters most for Part 3: leading indicators are checked continuously, lagging indicators at periodic reviews. About 5 minutes.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-8); opacity: 0.07; top: -9rem; right: 14rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-3); opacity: 0.08; bottom: -8rem; left: 24rem"></div>
+  </section>
+
+  <!-- ============ 10. CHAIN DIAGRAM ============ -->
+  <section class="slide" id="s-chain" data-accent="var(--accent-6)" data-archetype="chain">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">How they connect</span>
+        <h2>Leading indicators sit upstream</h2>
+      </header>
+      <div class="s-body">
+        <div class="dir-band"><span>Earlier: you can still act</span><span class="arrow"></span><span>Later: the result is fixed</span></div>
+        <div class="chain">
+          <div class="chain-node" style="--node-color: var(--accent-1)"><div class="card-name">What you do</div><p>45 minutes of resistance training before work on Monday, Wednesday and Friday</p></div>
+          <div class="chain-node" style="--node-color: var(--leading); --node-ink: var(--leading-ink)"><div class="card-name">Leading indicator</div><p>Sessions completed this week, out of three</p></div>
+          <div class="chain-node" style="--node-color: var(--accent-5)"><div class="card-name">The goal it serves</div><p>Be in good physical shape</p></div>
+          <div class="chain-node" style="--node-color: var(--lagging)"><div class="card-name">Lagging indicator</div><p>A fitness test repeated at the end of each term</p></div>
+        </div>
+        <div class="chain-links">
+          <div class="chain-link">is counted by</div>
+          <div class="chain-link">predicts progress towards</div>
+          <div class="chain-link">is confirmed by</div>
+        </div>
+        <div class="chain-note"><span class="pip" style="--pip: var(--slide-accent)"></span><p>"The more upstream of revenue the metric is, the more impact you'll be able to drive." <span class="micro">Leung (2025). Goal example: H&ouml;chli et al., as reported in Trexler.</span></p></div>
+      </div>
+    </div>
+    <aside class="notes">Read the chain left to right using the connector words. The behaviour and goal come from the Höchli et al. example in Trexler; the two indicators are added for this session. Point out the direction band: everything left of the lagging indicator can still be changed this week. Leung's line is about revenue, but the logic transfers: the further upstream you measure, the more you can steer. About 3 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.09; top: -12rem; right: -4rem; transform: rotate(28deg)"></div>
+    <div class="deco" style="width: 60rem; height: 1rem; background: var(--accent-1); opacity: 0.08; bottom: 5rem; left: 12rem; transform: rotate(-3deg)"></div>
+  </section>
+
+  <!-- ============ 11. CHECK WITH CONFIDENCE ============ -->
+  <section class="slide" id="s-check-classify" data-accent="var(--accent-8)" data-archetype="single-select">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Check &middot; Confidence &middot; 4 min</span>
+          <h2 data-field="stem"></h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body grid check-grid" data-activity="single-select">
+        <div>
+          <p class="q-goal" data-field="context"></p>
+          <div class="q-options"></div>
+        </div>
+        <div class="check-side">
+          <div class="conf-block">
+            <h3>How sure?</h3>
+            <div class="tally" data-tally="confidence"></div>
+          </div>
+          <div class="conf-banner" role="status"></div>
+          <div class="check-actions"><button class="btn" type="button" data-action="reveal">Reveal all</button><span class="pick-note">Click the letter most of the room chose.</span></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Individual first: everyone picks a letter silently, then HOLD UP A LETTER. Before any reveal, ask for hands on LOW, MEDIUM, HIGH and tally them (keys 1 to 3). Then click the letter most of the room held up. A wrong pick shows its reasoning for a few seconds, then clears so you can take the next most popular letter. If the room was mostly HIGH and the popular letter was wrong, the banner appears: ask why that answer felt right. Option B is the usual trap: it measures stress, but only when it is too late to act. Press r to show every option's reasoning.</aside>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-6); opacity: 0.07; bottom: -9rem; left: 20rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-4); opacity: 0.1; top: -6rem; left: 50rem; transform: rotate(30deg)"></div>
+  </section>
+
+  <!-- ============ 12. SESSION MAP REPRISE ============ -->
+  <section class="slide" id="s-map-2" data-accent="var(--accent-5)" data-archetype="session-map" data-current="3">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map &middot; Part 2</span>
+        <h2>Indicators in your goal hierarchy</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Now</span><p>Where does each kind of indicator belong in a goal hierarchy, and what makes a leading indicator worth tracking?</p></div>
+      </div>
+    </div>
+    <aside class="notes">Part 2 connects today's terms to the goal hierarchies the room already knows, then tests the quality of leading indicators. About 23 minutes, including a prediction and a spot-the-flaw activity.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-2); opacity: 0.07; bottom: -10rem; right: 20rem; transform: rotate(22deg)"></div>
+    <div class="deco circle" style="width: 26rem; height: 26rem; background: var(--accent-8); opacity: 0.08; top: -12rem; right: -8rem"></div>
+  </section>
+
+  <!-- ============ 13. ANNOTATED MODEL ============ -->
+  <section class="slide" id="s-hierarchy" data-accent="var(--accent-1)" data-archetype="annotated-model">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Applying it to your goals</span>
+        <h2>Each level gets a different signal</h2>
+      </header>
+      <div class="s-body grid g-7-5" data-activity="select-detail">
+        <div class="hier">
+          <div class="hier-level" data-part="0" style="--spot-color: var(--accent-1)">
+            <button class="hier-spot" type="button" data-part="0" aria-label="Part 1: superordinate goal">1</button>
+            <div class="hier-row one"><div class="hier-node">Be healthy</div></div>
+          </div>
+          <div class="hier-level" data-part="1" style="--spot-color: var(--lagging)">
+            <button class="hier-spot" type="button" data-part="1" aria-label="Part 2: intermediate goals">2</button>
+            <div class="hier-row four">
+              <div class="hier-node">Be in good physical shape<span class="tag-lag">Lagging</span></div>
+              <div class="hier-node">Get enough sleep<span class="tag-lag">Lagging</span></div>
+              <div class="hier-node">Practise stress management<span class="tag-lag">Lagging</span></div>
+              <div class="hier-node">Eat a healthy diet<span class="tag-lag">Lagging</span></div>
+            </div>
+          </div>
+          <div class="hier-level" data-part="2" style="--spot-color: var(--accent-4); --spot-on: var(--text)">
+            <button class="hier-spot" type="button" data-part="2" aria-label="Part 3: subordinate goals">3</button>
+            <div class="hier-row two">
+              <div class="hier-node">Yoga class on Thursdays<span class="tag-lead">Leading</span></div>
+              <div class="hier-node">40 push-ups on Wednesday afternoon<span class="tag-lead">Leading</span></div>
+            </div>
+          </div>
+          <p class="micro model-note">Hierarchy: H&ouml;chli et al., as reported in Trexler. Placing indicators on its levels is the approach this session proposes.</p>
+        </div>
+        <div>
+          <div class="part-list"></div>
+          <div class="detail-panel" aria-live="polite"><p class="placeholder-line">Select a level on the model, or press r to step through.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Step through with r. The hierarchy is the Höchli et al. example that Trexler discusses; "practise stress management" is Trexler's approach-oriented rewording of "avoid stress". Be clear that placing indicators on levels is our working method, not a finding. Link to multifinality: yoga on Thursdays can feed both physical shape and stress management, so one leading indicator can serve two intermediate goals. Ask: "Why not put a lagging indicator on 'be healthy'?" It is too broad to measure directly. About 4 minutes.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-6); opacity: 0.06; bottom: -14rem; left: -8rem; transform: rotate(40deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.1; top: -7rem; right: 30rem"></div>
+  </section>
+
+  <!-- ============ 14. NUMBERED CARDS ============ -->
+  <section class="slide" id="s-three-tests" data-accent="var(--accent-7)" data-archetype="numbered-cards">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Quality</span>
+        <h2>Three tests of a good leading indicator</h2>
+      </header>
+      <div class="s-body grid g-3 num-cards">
+        <div class="num-card" style="--card-color: var(--accent-1)">
+          <div class="num-head"><span class="num-big">1</span><h3>You can act on it</h3></div>
+          <div class="num-body"><p>It moves with what you do this week, so a drop tells you what to change before the result arrives.</p><p class="ask">Ask: what would I do differently if this fell?</p></div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-6)">
+          <div class="num-head"><span class="num-big">2</span><h3>It predicts the result</h3></div>
+          <div class="num-body"><p>It should correlate strongly with your lagging indicator. If the two part company, investigate and choose a new one.</p><p class="ask">Ask: if this rises, should my result follow?</p></div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-5)">
+          <div class="num-head"><span class="num-big">3</span><h3>You can check it often</h3></div>
+          <div class="num-body"><p>Track it continuously, week by week. Save the lagging indicator for periodic reviews.</p><p class="ask">Ask: can I see this every week?</p></div>
+        </div>
+      </div>
+      <p class="micro" style="margin-top: 1.4rem">Tests drawn from Leung (2025), Amplitude. Feedback works best when personalised and frequent, about weekly: Fry and Neff, as reported in Trexler.</p>
+    </div>
+    <aside class="notes">These three tests condense Leung's guidance: leading metrics let you act to affect the result, should correlate strongly with the outcome, and are tracked continuously. The Fry and Neff review (via Trexler) found reminders and feedback worked best when personalised and roughly weekly; it did not test more frequent feedback. The questions at the foot of each card are what pairs will use in Part 3. About 4 minutes.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-4); opacity: 0.12; top: 13rem; left: 20rem; transform: rotate(-2deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-2); opacity: 0.07; bottom: -10rem; right: -5rem"></div>
+  </section>
+
+  <!-- ============ 15. SPLIT WITH PANEL ============ -->
+  <section class="slide" id="s-busy-signals" data-accent="var(--accent-3)" data-archetype="split-panel">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">A common trap</span>
+        <h2>Some leading indicators look busy but predict little</h2>
+      </header>
+      <div class="s-body grid g-5-7 split">
+        <div>
+          <p class="small">Sign-ups can mislead: many people sign up without engaging. Leung suggests counting a milestone, such as completing onboarding, instead.</p>
+          <p class="small">When the leading indicator is on track but the lagging one does not move, investigate and choose a new leading indicator.</p>
+          <p class="micro" style="margin-top: 1.4rem">Source: Leung (2025), Amplitude.</p>
+        </div>
+        <div class="panel-card">
+          <div class="card-name" style="color: var(--accent-7-ink)">The same trap in a personal goal</div>
+          <p class="small"><strong>Intermediate goal:</strong> be in good physical shape</p>
+          <div class="ind-line"><span class="verdict weak">Weak</span><p>Gym check-ins this week. A check-in records arriving, not training.</p></div>
+          <div class="ind-line"><span class="verdict strong">Stronger</span><p>Planned sessions completed in full this week, out of three.</p></div>
+          <div class="banner">Count the behaviour that drives the result, not the easiest thing to count.</div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Leung's example is sign-ups versus activation: a sign-up is easy to count but many people never engage. The panel translates that to a personal goal; it is an illustration, not data. Ask the room for a study example of a busy but weak indicator: hours spent in the library is a good one, because presence is not the same as focused revision. About 3 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.07; bottom: -10rem; left: 10rem; transform: rotate(18deg)"></div>
+    <div class="deco ring" style="width: 20rem; height: 20rem; border-width: 2rem; border-color: var(--accent-6); opacity: 0.08; top: -9rem; right: 12rem"></div>
+  </section>
+
+  <!-- ============ 16. PREDICT AND REVEAL ============ -->
+  <section class="slide" id="s-predict-slack" data-accent="var(--accent-6)" data-archetype="predict">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Predict and reveal &middot; 5 min</span>
+          <h2>Which goal kept people going?</h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body grid g-5-7" data-activity="predict">
+        <div class="pred-left">
+          <div class="pred-situation"><p data-field="situation"></p></div>
+          <p class="pred-question" data-field="question"></p>
+          <p class="pred-waiting micro">Lock predictions, then reveal the result.</p>
+          <div class="pred-outcome" aria-live="polite"><div class="pred-body"></div></div>
+        </div>
+        <div>
+          <div class="tally" data-tally="round1"></div>
+          <div class="pred-actions">
+            <button class="btn" type="button" data-action="lock">Lock predictions</button>
+            <button class="btn ghost" type="button" data-action="reveal" disabled>Reveal result</button>
+            <span class="pred-status"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">DISCUSS WITH YOUR NEIGHBOUR for one minute, then hands for A to D. Tally with keys 1 to 4, press Lock predictions, then r. The result is from Sharif and Shu as reported in Trexler. Follow-up: many predict B (hardest goal) or A (easiest). Ask what slack with a cost would look like for a weekly leading indicator: aim for three sessions, with one missed session a fortnight excused but still counted. About 5 minutes.</aside>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-5); opacity: 0.07; bottom: -9rem; left: 14rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-4); opacity: 0.1; top: -6rem; left: 44rem; transform: rotate(26deg)"></div>
+  </section>
+
+  <!-- ============ 17. SPOT THE FLAW ============ -->
+  <section class="slide" id="s-flaw" data-accent="var(--accent-8)" data-archetype="spot-the-flaw">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Spot the flaw &middot; 6 min</span>
+          <h2>Find the flaws in this plan</h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body grid flaw-grid" data-activity="spot-the-flaw">
+        <div>
+          <div class="flaw-case">
+            <div class="card-name">Fictional case &middot; A student's plan</div>
+            <p class="flaw-passage"></p>
+            <ol class="flaw-why-list"></ol>
+          </div>
+          <div class="flaw-actions">
+            <button class="btn" type="button" data-action="check">Check</button>
+            <span class="flaw-score" aria-live="polite"></span>
+          </div>
+        </div>
+        <div>
+          <div class="detail-panel flaw-detail" aria-live="polite"><p class="placeholder-line">In pairs, find the parts of the plan that break the definitions or the three tests. Select each part the room calls out, then press Check.</p></div>
+          <div class="flaw-legend">
+            <div><span class="sw found"></span>Flaw found</div>
+            <div><span class="sw missed"></span>Flaw missed</div>
+            <div><span class="sw wrong"></span>Sound part selected as a flaw</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Pairs, three minutes: DISCUSS WITH YOUR NEIGHBOUR. Then take calls from the room and click each part named. Press Check (or r), then click any numbered part to show its reasoning. There are four flaws: the end-of-term weight used as a leading indicator, morning motivation used as a lagging indicator, a weekly count checked only once, and sign-ups used as a measure of training. Link each back to a definition or one of the three tests. About 6 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-3); opacity: 0.07; bottom: -12rem; right: 22rem; transform: rotate(34deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.07; top: -8rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 18. SESSION MAP REPRISE ============ -->
+  <section class="slide" id="s-map-3" data-accent="var(--accent-5)" data-archetype="session-map" data-current="4">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map &middot; Part 3</span>
+        <h2>Apply it to your own goals</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Now</span><p>A worked example, then you sketch one branch of your own goals and give it indicators.</p></div>
+      </div>
+    </div>
+    <aside class="notes">Part 3 is where the room produces its own work. Tell them now that the full goal network is follow-up work, so today they work on one branch only. About 21 minutes.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.09; bottom: -12rem; left: 30rem; transform: rotate(14deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.07; top: -9rem; right: 4rem"></div>
+  </section>
+
+  <!-- ============ 19. WORKED EXAMPLE ============ -->
+  <section class="slide" id="s-worked" data-accent="var(--accent-7)" data-archetype="worked-example">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Worked example</span>
+        <h2>Building indicators down one branch</h2>
+      </header>
+      <div class="s-body grid g-7-5" data-activity="worked">
+        <div>
+          <div class="steps"></div>
+        </div>
+        <div>
+          <div class="why-panel" aria-live="polite"><span class="label">Why this step</span><p class="why-text">Predict the first step before it appears.</p></div>
+          <div class="worked-actions">
+            <button class="btn" type="button" data-action="next-step">Next step</button>
+            <span class="micro">Branch: H&ouml;chli et al., as reported in Trexler. Indicators added for this session.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Before each reveal, ask the room to predict the next step; press r to show it. Steps 1 to 3 recall the hierarchy; 4 to 6 add the indicators. At step 5, name the three tests aloud. At step 6, point out slack with a cost from the prediction slide. This sets the exact format the room will copy on the next slide. About 5 minutes.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-1); opacity: 0.07; bottom: -9rem; left: 18rem; transform: rotate(24deg)"></div>
+    <div class="deco ring" style="width: 18rem; height: 18rem; border-width: 1.8rem; border-color: var(--accent-2); opacity: 0.07; top: -8rem; right: 34rem"></div>
+  </section>
+
+  <!-- ============ 20. THINK, PAIR, SHARE ============ -->
+  <section class="slide" id="s-apply" data-accent="var(--accent-6)" data-archetype="think-pair-share">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Think, pair, share &middot; 11 min</span>
+          <h2>Your turn</h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body" data-activity="think-pair-share">
+        <p class="tps-prompt" data-field="prompt"></p>
+        <div class="tps-band"></div>
+        <div class="tps-template"></div>
+      </div>
+    </div>
+    <aside class="notes">THINK is individual and silent: they write the branch and three indicators on paper using the template. PAIR: swap sheets and apply the three tests to each leading indicator, rewriting any that fail. Press t to start each phase; the highlight advances when a phase expires. SHARE happens on the next slide: ask pairs to choose their strongest leading indicator to offer to the board. Circulate during PAIR and listen for indicators that are really lagging. About 11 minutes.</aside>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.1; bottom: -11rem; right: -4rem"></div>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-8); opacity: 0.07; bottom: -6rem; left: 26rem; transform: rotate(36deg)"></div>
+  </section>
+
+  <!-- ============ 21. LIVE BOARD ============ -->
+  <section class="slide" id="s-board" data-accent="var(--accent-4)" data-archetype="live-board">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Live board &middot; 4 min</span>
+          <h2>Your leading indicators</h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body" data-activity="live-board">
+        <div class="board-wrap">
+          <div class="board" aria-live="polite"></div>
+          <div class="board-input">
+            <label class="sr-only" for="board-text">Leading indicator</label>
+            <input id="board-text" type="text" maxlength="90" placeholder="Type a leading indicator and press Enter">
+            <label class="sr-only" for="board-tag">Area of life</label>
+            <select id="board-tag"></select>
+            <button class="btn" type="button" data-action="add">Add</button>
+            <button class="btn ghost" type="button" data-action="cluster">Cluster by area</button>
+          </div>
+          <div class="board-bar">
+            <span class="micro board-count"></span>
+            <button class="btn ghost" type="button" data-action="delete" disabled>Delete selected</button>
+            <div class="board-pager"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Take one leading indicator from several pairs; no names, only the indicator. Type each in and press Enter. Before adding, ask the room the three tests aloud: can you act on it, does it predict the result, can you check it weekly? If one fails, ask the pair to repair it on the spot. Cluster by area at the end to show the range. Export responses from the menu after the session. About 4 minutes.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-1); opacity: 0.07; top: -9rem; left: 50rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 14rem; height: 14rem; background: var(--accent-6); opacity: 0.07; bottom: -8rem; left: -4rem"></div>
+  </section>
+
+  <!-- ============ 22. CLOSE AND BRIDGE ============ -->
+  <section class="slide" id="s-close" data-accent="var(--accent-1)" data-archetype="close-bridge">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 close-grid">
+        <div>
+          <header class="s-head">
+            <span class="eyebrow">Close</span>
+            <h2>What we can now do</h2>
+          </header>
+          <ul class="close-list">
+            <li><span class="pip" style="--pip: var(--accent-1)"></span>Classify an indicator as leading or lagging and explain why.</li>
+            <li><span class="pip" style="--pip: var(--accent-6)"></span>Place leading and lagging indicators on the levels of a goal hierarchy.</li>
+            <li><span class="pip" style="--pip: var(--accent-5)"></span>Evaluate a leading indicator against three tests.</li>
+            <li><span class="pip" style="--pip: var(--accent-8)"></span>Design one lagging and two leading indicators for one of your own goals.</li>
+          </ul>
+          <p class="small close-hook"><strong>Back to the opening claim:</strong> what does checking only the end result miss?</p>
+        </div>
+        <div>
+          <div class="bridge-card">
+            <h3>Follow-up work</h3>
+            <p>Build your full goal network.</p>
+            <p>Give each intermediate goal one lagging indicator, and each subordinate goal at least one leading indicator that passes the three tests.</p>
+          </div>
+          <div class="src-block">
+            <h3>Sources</h3>
+            <p>Leung, A. X. (2025) Leading vs. lagging indicators, plus examples. Amplitude.</p>
+            <p>Trexler, E. An evidence-based approach to goal setting and behavior change. Stronger by Science.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Read the four outcomes and ask for a quick thumbs check on each. Return to the opening claim: the end result is certain but arrives too late to act on, so on its own it cannot tell you whether you are on track. Set the follow-up work exactly as written. Presenter: export the room's responses from the Responses menu before closing the browser. About 2 minutes.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--accent-4); opacity: 0.09; bottom: -14rem; left: 30rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-2); opacity: 0.07; top: -9rem; left: 50rem"></div>
+  </section>
+
+  <!-- ============ 23. EXIT TICKET ============ -->
+  <section class="slide" id="s-exit" data-accent="var(--accent-6)" data-archetype="exit-ticket">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Exit ticket &middot; 3 min</span>
+          <h2>Before you leave</h2>
+        </div>
+        <div class="timer-slot"></div>
+      </header>
+      <div class="s-body exit-body" data-activity="exit-ticket">
+        <div class="grid g-3 exit-grid"></div>
+        <div class="exit-foot"><span class="micro">On paper. Hand it in on your way out.</span></div>
+      </div>
+    </div>
+    <aside class="notes">Hand out the printed A6 cards (they print after the slides, four to a page). Individual and silent. Collect them at the door. The first prompt tells you whether the room can write a leading indicator unaided; the confidence ratings tell you which outcome to revisit in 1:1 coaching meetings.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.07; bottom: -10rem; right: 10rem; transform: rotate(28deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.1; top: -7rem; left: 38rem"></div>
+  </section>
+
+  <!-- Print-only exit-ticket sheets: four A6 cards per A4 page -->
+  <div class="exit-sheets" aria-hidden="true"></div>
+
+  <div class="blackout" id="blackout"></div>
+
+  <div class="deck-chrome" id="chrome">
+    <span class="chrome-timer" id="chrome-timer"></span>
+    <button class="nav-btn ghost" type="button" id="prev-btn" aria-label="Previous slide">Prev</button>
+    <span class="nav-info" id="nav-info"></span>
+    <button class="nav-btn" type="button" id="next-btn" aria-label="Next slide">Next</button>
+    <div style="position: relative">
+      <button class="nav-btn ghost" type="button" id="resp-btn" aria-haspopup="true" aria-expanded="false">Responses</button>
+      <div class="resp-menu" id="resp-menu">
+        <button class="btn" type="button" id="export-btn">Export JSON</button>
+        <button class="btn" type="button" id="import-btn">Import JSON</button>
+        <label class="sr-only" for="import-file">Import responses file</label>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+        <button class="btn ghost" type="button" id="reset-btn">Reset</button>
+        <p class="resp-note" id="resp-note"></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ==================================================================
+   ACTIVITIES: all activity content for this deck.
+   Edit the text in quotes freely. Keep the structure (brackets,
+   commas, true/false) as it is. Each entry is keyed by the id of
+   its slide. "minutes" sets the timer; 0 hides the timer.
+   ================================================================== */
+const ACTIVITIES = {
+
+  // Slide 2. Warm-up on what the audience already knows. Answers reveal on click.
+  's-warm-up': {
+    pattern: 'retrieval',
+    minutes: 4,
+    prompts: [
+      { tag: 'WARM-UP', prompt: "Name the three levels of a goal hierarchy.",
+        answer: "Superordinate (a value, such as be healthy), intermediate (a direction, such as exercise more) and subordinate (a precise plan, such as training on set days).",
+        source: "Höchli et al., as reported in Trexler" },
+      { tag: 'WARM-UP', prompt: "What is multifinality? Give an example.",
+        answer: "One lower goal serves several higher goals. A morning jog supports physical activity, sleep and stress management at once.",
+        source: "Trexler" },
+      { tag: 'WARM-UP', prompt: "What does a superordinate goal, your vision, add to specific goals?",
+        answer: "It supplies the why behind lower goals, tells you which ones to pursue, and keeps you striving over a longer time.",
+        source: "Trexler" },
+      { tag: 'WARM-UP', prompt: "Why set goals in a way that goes beyond Locke and Latham?",
+        answer: "PLACEHOLDER: model answer on going beyond Locke and Latham, from your earlier teaching.",
+        source: "" }
+    ]
+  },
+
+  // Slide 5. Hook. A position prompt: no correct answer is ever shown.
+  's-hook': {
+    pattern: 'claim-tally',
+    minutes: 2,
+    claim: "The best way to know you are on track for a goal is to check the end result.",
+    options: ['Agree', 'Disagree', 'Unsure'],
+    followUp: "Hold on to your answer. By the end of Part 1 you can test it: what can the end result tell you, and when?"
+  },
+
+  // Slide 9. Comparison rows revealed one at a time (text from Leung, 2025).
+  's-compare': {
+    pattern: 'reveal',
+    rows: [
+      { criterion: 'Which way it looks', lagging: 'Backwards, at past results', leading: 'Forwards, at likely results' },
+      { criterion: 'Certainty', lagging: 'Certain: it has already happened', leading: 'Uncertain: no guarantee' },
+      { criterion: 'Can you still change it?', lagging: 'No: the result is fixed', leading: 'Yes: you can act before the outcome' },
+      { criterion: 'How often to check', lagging: 'Periodic reviews: monthly, quarterly or yearly', leading: 'Continuously, day to day' },
+      { criterion: 'What it guides', lagging: 'Long-term strategy', leading: 'Daily actions' }
+    ]
+  },
+
+  // Slide 11. Single-select check with a confidence step. Keep exactly one option correct.
+  's-check-classify': {
+    pattern: 'single-select',
+    minutes: 2,
+    confidence: true,
+    stem: "Which is a leading indicator?",
+    context: "<strong>Intermediate goal:</strong> practise stress management more effectively.",
+    options: [
+      { text: "Evenings this week with a ten-minute wind-down routine", correct: true,
+        why: "A weekly count of the planned behaviour: you can act on it now, check it often, and it should predict the result." },
+      { text: "Stress questionnaire score at the end of the semester", correct: false,
+        why: "It measures the outcome, but only at the end, when it can no longer be changed: a lagging indicator.",
+        misconception: "Any measure of the goal itself is leading" },
+      { text: "The aim to feel calmer by the end of the year", correct: false,
+        why: "This restates a goal. An indicator is a measure you can count or score.",
+        misconception: "Confusing a goal with an indicator" },
+      { text: "Number of stressful weeks recorded last term", correct: false,
+        why: "A count of past outcomes: it looks backwards and cannot be changed, so it lags.",
+        misconception: "Any count is a leading indicator" }
+    ],
+    // The presenter clicks the letter most of the room chose; that first click counts as the popular answer.
+    confidenceLabels: ['Low', 'Medium', 'High'],
+    confidenceBanner: "Confident and wrong: why did that answer feel right?"
+  },
+
+  // Slide 13. Levels of the goal hierarchy, shown in the detail panel.
+  's-hierarchy': {
+    pattern: 'select-detail',
+    parts: [
+      { name: 'Superordinate goal', color: 'var(--accent-1)',
+        detail: "Your vision. It is too broad to measure directly: the indicators beneath it tell you whether you are moving towards it." },
+      { name: 'Intermediate goals', color: 'var(--accent-2)',
+        detail: "Give each one a lagging indicator: the result you review monthly or at the end of term to see whether this direction paid off." },
+      { name: 'Subordinate goals', color: 'var(--accent-4)', ink: 'var(--accent-4-ink)', on: 'var(--text)',
+        detail: "Give each one leading indicators: counts of the planned behaviour you check weekly and act on at once. Through multifinality, one count can feed several goals above it." }
+    ]
+  },
+
+  // Slide 16. Predict and reveal. The result is from Sharif and Shu, as reported in Trexler.
+  's-predict-slack': {
+    pattern: 'predict',
+    minutes: 2,
+    situation: "In one experiment by Sharif and Shu, participants completed an annoying task (35 CAPTCHAs) for $1 a day, plus a $5 bonus for meeting their weekly goal. Four groups were given different goals.",
+    question: "Which group was most persistent and most likely to earn the bonus?",
+    options: [
+      { text: "5 days a week", correct: false },
+      { text: "7 days a week", correct: false },
+      { text: "Official goal of 5 days, but aim for 7", correct: false },
+      { text: "7 days a week, with up to 2 missed days excused from the bonus", correct: true }
+    ],
+    outcome: "D. The group given slack with a cost was more persistent and more likely to earn the bonus than all other groups. Missed days still lost their dollar, so slack had a cost. It was also the most preferred condition.",
+    source: "Sharif and Shu, as reported in Trexler, An evidence-based approach to goal setting and behavior change.",
+    followUp: "What would slack with a cost look like in the target for your leading indicator?"
+  },
+
+  // Slide 17. Spot the flaw. The passage is built from these pieces in order.
+  // Plain strings are ordinary text; objects are selectable segments.
+  's-flaw': {
+    pattern: 'spot-the-flaw',
+    minutes: 3,
+    passage: [
+      "My intermediate goal is to ",
+      { text: "be in good physical shape.", flaw: false,
+        why: "Sound. A clear intermediate goal is the right level to attach a lagging indicator to." },
+      " ",
+      { text: "My leading indicator is my weight at the end of term,", flaw: true,
+        why: "Flaw. An end-of-term result arrives too late to act on: it lags." },
+      " and ",
+      { text: "my lagging indicator is how motivated I feel each morning.", flaw: true,
+        why: "Flaw. Morning motivation is not the outcome of the goal, so it cannot confirm whether the goal was reached." },
+      " ",
+      { text: "I will count the training sessions I complete each week", flaw: false,
+        why: "Sound. A count of the planned behaviour that you can act on and check weekly." },
+      " and ",
+      { text: "check that count once, at the end of term.", flaw: true,
+        why: "Flaw. Checked once, at the end, a leading indicator gives no chance to act. Check it weekly." },
+      " ",
+      { text: "I also count the gym memberships I sign up for,", flaw: true,
+        why: "Flaw. Sign-ups record intent, not the behaviour that drives the result (Leung, 2025)." },
+      " ",
+      { text: "and I will compare my weekly count with a fitness test at the end of term.", flaw: false,
+        why: "Sound. Comparing the leading indicator with a lagging one tests whether it predicts the result." }
+    ]
+  },
+
+  // Slide 19. Worked example steps, revealed one at a time.
+  's-worked': {
+    pattern: 'reveal',
+    steps: [
+      { level: 'Superordinate', text: "Be healthy", color: 'var(--accent-1)',
+        why: "Start from the why. It decides which lower goals deserve indicators at all." },
+      { level: 'Intermediate', text: "Exercise more", color: 'var(--accent-5)',
+        why: "Lagging indicators attach at this level: the result you review periodically." },
+      { level: 'Subordinate', text: "45 minutes of resistance training before work on Monday, Wednesday and Friday", color: 'var(--accent-8)',
+        why: "The plan is precise, so the behaviour it names can be counted." },
+      { level: 'Lagging indicator', text: "A fitness test repeated at the end of each term", color: 'var(--accent-2)',
+        why: "Certain, periodic and too late to change: review it rather than steer by it." },
+      { level: 'Leading indicator 1', text: "Sessions completed each week, out of three", color: 'var(--accent-4)', on: 'var(--text)',
+        why: "Passes all three tests: you can act on it this week, it should predict the fitness result, and you can check it weekly. Add slack with a cost: one missed session a fortnight excused." },
+      { level: 'Leading indicator 2', text: "Minutes trained per session, against the planned 45", color: 'var(--accent-4)', on: 'var(--text)',
+        why: "A second leading indicator catches sessions that happen but fall short of the plan." }
+    ]
+  },
+
+  // Slide 20. Think, pair, share. Phase minutes drive the timer.
+  's-apply': {
+    pattern: 'think-pair-share',
+    prompt: "Sketch one branch of your own goals, then give it one lagging and two leading indicators.",
+    phases: [
+      { name: 'Think', minutes: 6, text: "On your own: write the branch and three indicators using the template below." },
+      { name: 'Pair', minutes: 5, text: "Swap sheets. Test each leading indicator against the three tests. Rewrite any that fail." },
+      { name: 'Share', minutes: 4, text: "Next slide: each pair offers its strongest leading indicator to the board." }
+    ],
+    template: [
+      { label: 'Superordinate goal' },
+      { label: 'Lagging indicator', kind: 'lag' },
+      { label: 'Intermediate goal' },
+      { label: 'Leading indicator 1', kind: 'lead' },
+      { label: 'Subordinate goal' },
+      { label: 'Leading indicator 2', kind: 'lead' }
+    ]
+  },
+
+  // Slide 21. Live board. The presenter types contributions; no names.
+  // At more than "capacity" cards the text gets smaller; beyond "pageSize" the board pages.
+  // Sized so two rows of 90-character entries fit the frame.
+  's-board': {
+    pattern: 'live-board',
+    minutes: 4,
+    tags: ['Health', 'Study', 'Work', 'Relationships', 'Other'],
+    capacity: 4,
+    pageSize: 8,
+    maxLength: 90
+  },
+
+  // Slide 23. Exit ticket prompts. The same prompts print on the A6 cards.
+  's-exit': {
+    pattern: 'exit-ticket',
+    minutes: 3,
+    prompts: [
+      "One leading indicator you will track this week, and when you will check it.",
+      "One question you still have about leading and lagging indicators.",
+      "Your confidence on each outcome, 1 to 5: classify, place, evaluate, design."
+    ]
+  }
+};
+
+/* ==================================================================
+   Deck logic below. No content to edit past this point.
+   ================================================================== */
+(function () {
+  'use strict';
+
+  var DECK_ID = '2026-09-lagging-and-leading-indicators';
+  var STORE_KEY = 'slides:standalone:' + DECK_ID + ':v1';
+  var OPTION_COLOURS = ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-5)', 'var(--accent-8)'];
+  var CONF_COLOURS = ['var(--accent-8)', 'var(--accent-5)', 'var(--accent-1)'];
+  var ON_ACCENT = { '1': '#fff', '2': '#fff', '3': '#fff', '4': 'var(--text)', '5': '#fff', '6': '#fff', '7': 'var(--text)', '8': '#fff' };
+  var INK = { '1': 'var(--accent-1)', '2': 'var(--accent-2)', '3': 'var(--accent-7-ink)', '4': 'var(--accent-4-ink)', '5': 'var(--accent-5)', '6': 'var(--text)', '7': 'var(--accent-7-ink)', '8': 'var(--text)' };
+  var LETTERS = 'ABCDEFGHI';
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+  var revealFns = {};
+  var numberFns = {};
+  var renderFns = [];
+
+  if (/[?&]instructor\b/.test(location.search)) document.body.classList.add('instructor');
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function accentNum(v) { var m = /accent-(\d)/.exec(v || ''); return m ? m[1] : '1'; }
+
+  /* ---------- Response store ---------- */
+
+  var storageOK = true;
+  var state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+  try {
+    var raw = window.localStorage.getItem(STORE_KEY);
+    if (raw) {
+      var parsed = JSON.parse(raw);
+      if (parsed && parsed.activities) state = parsed;
+    }
+    window.localStorage.setItem(STORE_KEY + ':probe', '1');
+    window.localStorage.removeItem(STORE_KEY + ':probe');
+  } catch (err) {
+    storageOK = false;
+  }
+  function act(id) {
+    if (!state.activities[id]) state.activities[id] = {};
+    return state.activities[id];
+  }
+  function save() {
+    state.savedAt = new Date().toISOString();
+    if (!storageOK) return;
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+    catch (err) { storageOK = false; updateRespNote(); }
+  }
+
+  /* ---------- Slide accents ---------- */
+
+  slides.forEach(function (s, i) {
+    var accent = s.getAttribute('data-accent') || 'var(--accent-1)';
+    var n = accentNum(accent);
+    s.style.setProperty('--slide-accent', accent);
+    s.style.setProperty('--slide-ink', INK[n]);
+    s.style.setProperty('--on-accent', ON_ACCENT[n]);
+    var no = s.querySelector('.slide-no');
+    if (no) no.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  });
+
+  /* ---------- Timer ---------- */
+
+  var timers = {};
+  function fmt(sec) {
+    sec = Math.max(0, Math.ceil(sec));
+    return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0');
+  }
+  function makeTimer(slideId, minutes, onExpire) {
+    var slide = document.getElementById(slideId);
+    var slot = slide.querySelector('.timer-slot');
+    if (!slot || !minutes) return null;
+    var btn = el('button', 'timer');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Timer');
+    btn.innerHTML = '<span class="timer-digits"></span><span class="timer-state"></span>';
+    slot.appendChild(btn);
+    var t = { id: slideId, total: minutes * 60, remaining: minutes * 60, running: false, expired: false, handle: null, last: 0, btn: btn, onExpire: onExpire };
+    t.set = function (mins) { t.stop(); t.total = mins * 60; t.remaining = t.total; t.expired = false; t.draw(); };
+    t.draw = function () {
+      btn.querySelector('.timer-digits').textContent = t.expired ? 'TIME' : fmt(t.remaining);
+      btn.querySelector('.timer-state').textContent = t.expired ? 'Press T to reset' : (t.running ? 'Running' : (t.remaining < t.total ? 'Paused' : 'Press T to start'));
+      btn.classList.toggle('running', t.running);
+      btn.classList.toggle('expired', t.expired);
+      updateChromeTimer();
+    };
+    t.tick = function () {
+      var now = Date.now();
+      t.remaining -= (now - t.last) / 1000;
+      t.last = now;
+      if (t.remaining <= 0) {
+        t.remaining = 0; t.expired = true; t.stop();
+        if (t.onExpire) t.onExpire();
+      }
+      t.draw();
+    };
+    t.start = function () {
+      if (t.expired) return;
+      t.running = true; t.last = Date.now();
+      t.handle = setInterval(t.tick, 250);
+      t.draw();
+    };
+    t.stop = function () { t.running = false; clearInterval(t.handle); t.handle = null; };
+    t.toggle = function () { if (t.running) { t.stop(); t.draw(); } else t.start(); };
+    t.reset = function () { t.stop(); t.remaining = t.total; t.expired = false; t.draw(); };
+    t.expire = function () { t.stop(); t.remaining = 0; t.expired = true; t.draw(); };
+    btn.addEventListener('click', function () { t.toggle(); });
+    timers[slideId] = t;
+    t.draw();
+    return t;
+  }
+  function updateChromeTimer() {
+    var ct = document.getElementById('chrome-timer');
+    var chrome = document.getElementById('chrome');
+    var shown = null;
+    Object.keys(timers).forEach(function (k) {
+      var t = timers[k];
+      if ((t.running || t.expired) && slides[current] && slides[current].id !== k && t.running) shown = t;
+    });
+    if (shown) {
+      ct.textContent = fmt(shown.remaining);
+      ct.classList.add('visible');
+      ct.classList.toggle('expired', shown.expired);
+      chrome.classList.add('keep');
+    } else {
+      ct.classList.remove('visible');
+      chrome.classList.remove('keep');
+    }
+  }
+
+  /* ---------- Tally ---------- */
+
+  function makeTally(container, slideId, key, labels, opts) {
+    opts = opts || {};
+    var store = act(slideId);
+    if (!store[key] || store[key].length !== labels.length) store[key] = labels.map(function () { return 0; });
+    var counts = store[key];
+    container.innerHTML = '';
+    var rows = [];
+    labels.forEach(function (label, i) {
+      var colour = (opts.colours || OPTION_COLOURS)[i % 4];
+      var row = el('div', 'tally-row' + (opts.withText ? ' with-text' : ''));
+      row.style.setProperty('--row-color', colour);
+      var letter = opts.letters ? opts.letters[i] : LETTERS[i];
+      var inputId = slideId + '-' + key + '-' + i;
+      row.innerHTML =
+        '<span class="tally-letter" aria-hidden="true">' + esc(letter) + '</span>' +
+        (opts.withText ? '<span class="tally-text">' + esc(label) + '</span>' : '') +
+        '<span class="tally-controls">' +
+          '<button class="tally-step" type="button" data-d="-1" aria-label="Remove one from ' + esc(label) + '">&minus;</button>' +
+          '<label class="sr-only" for="' + inputId + '">Count for ' + esc(label) + '</label>' +
+          '<input class="tally-count" id="' + inputId + '" type="number" min="0" max="999" inputmode="numeric">' +
+          '<button class="tally-step" type="button" data-d="1" aria-label="Add one to ' + esc(label) + '">+</button>' +
+        '</span>' +
+        '<span class="tally-bar-wrap">' +
+          (opts.withText ? '' : '<span class="tally-text" style="font-weight:700; min-width: 11rem">' + esc(label) + '</span>') +
+          '<span class="tally-track"><span class="tally-bar"></span></span><span class="tally-pct">0%</span>' +
+        '</span>';
+      container.appendChild(row);
+      rows.push(row);
+      var input = row.querySelector('.tally-count');
+      input.addEventListener('input', function () {
+        var v = parseInt(input.value, 10);
+        counts[i] = isNaN(v) ? 0 : Math.max(0, Math.min(999, v));
+        draw(true); save();
+      });
+      row.querySelectorAll('.tally-step').forEach(function (b) {
+        b.addEventListener('click', function () { api.step(i, parseInt(b.getAttribute('data-d'), 10)); });
+      });
+    });
+    var totalLine = el('div', 'tally-total');
+    container.appendChild(totalLine);
+    function draw(skipInputs) {
+      var sum = counts.reduce(function (a, b) { return a + b; }, 0);
+      rows.forEach(function (row, i) {
+        var pct = sum ? Math.round(counts[i] / sum * 100) : 0;
+        row.querySelector('.tally-bar').style.width = pct + '%';
+        row.querySelector('.tally-pct').textContent = pct + '%';
+        if (!skipInputs) row.querySelector('.tally-count').value = counts[i];
+      });
+      totalLine.textContent = 'Total: ' + sum;
+      if (opts.onChange) opts.onChange(counts);
+    }
+    var api = {
+      rows: rows, counts: counts, container: container,
+      step: function (i, d) {
+        if (api.locked || i < 0 || i >= counts.length) return;
+        counts[i] = Math.max(0, Math.min(999, counts[i] + d));
+        draw(); save();
+      },
+      set: function (arr) { arr.forEach(function (v, i) { counts[i] = v; }); draw(); save(); },
+      lock: function (on) {
+        api.locked = on;
+        container.classList.toggle('locked', on);
+        rows.forEach(function (r) { r.querySelectorAll('button, input').forEach(function (c) { c.disabled = on; }); });
+      },
+      draw: draw,
+      locked: false
+    };
+    draw();
+    return api;
+  }
+
+  /* ---------- Session maps ---------- */
+
+  var MAP = [
+    { name: 'Warm-up and hook', min: 11, act: true },
+    { name: 'Part 1: Two kinds of signal', min: 18, act: true },
+    { name: 'Part 2: Indicators in your hierarchy', min: 23, act: true },
+    { name: 'Part 3: Apply it to your goals', min: 21, act: true },
+    { name: 'Close', min: 5, act: true }
+  ];
+  document.querySelectorAll('.slide[data-archetype="session-map"]').forEach(function (s) {
+    var band = s.querySelector('.map-band');
+    var cur = parseInt(s.getAttribute('data-current'), 10) || 1;
+    band.style.gridTemplateColumns = MAP.map(function (m) { return 'minmax(9rem, ' + m.min + 'fr)'; }).join(' ');
+    MAP.forEach(function (m, i) {
+      var n = i + 1;
+      var seg = el('div', 'map-seg ' + (n < cur ? 'done' : (n === cur ? 'current' : 'upcoming')));
+      seg.innerHTML = (m.act ? '<span class="seg-act" aria-hidden="true"></span>' : '') +
+        '<span class="seg-name">' + esc(m.name) + '</span><span class="seg-min">' + m.min + ' min</span>';
+      if (n === cur) seg.setAttribute('aria-current', 'step');
+      band.appendChild(seg);
+    });
+  });
+
+  /* ---------- Fill data-field text ---------- */
+
+  Object.keys(ACTIVITIES).forEach(function (id) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    s.querySelectorAll('[data-field]').forEach(function (f) {
+      var v = ACTIVITIES[id][f.getAttribute('data-field')];
+      if (v !== undefined) f.innerHTML = v;
+    });
+  });
+
+  /* ---------- Slide 2: retrieval warm-up ---------- */
+
+  (function () {
+    var id = 's-warm-up', A = ACTIVITIES[id];
+    var grid = document.querySelector('#' + id + ' .warm-grid');
+    var colours = ['var(--accent-1)', 'var(--accent-5)', 'var(--accent-2)', 'var(--accent-8)'];
+    var cards = [];
+    A.prompts.forEach(function (p, i) {
+      var c = el('button', 'warm-card');
+      c.type = 'button';
+      c.style.setProperty('--card-color', colours[i % 4]);
+      c.innerHTML = '<span class="warm-top"><span class="warm-tag">' + esc(p.tag) + '</span><span class="warm-hint">Click to reveal</span></span>' +
+        '<span class="warm-prompt">' + esc(p.prompt) + '</span>' +
+        '<span class="warm-answer reveal-anim">' + esc(p.answer) + (p.source ? ' <span class="src">(' + esc(p.source) + ')</span>' : '') + '</span>';
+      c.setAttribute('aria-expanded', 'false');
+      c.addEventListener('click', function () {
+        var open = !c.classList.contains('open');
+        c.classList.toggle('open', open);
+        c.querySelector('.warm-answer').classList.toggle('visible', open);
+        c.setAttribute('aria-expanded', String(open));
+      });
+      grid.appendChild(c);
+      cards.push(c);
+    });
+    makeTimer(id, A.minutes);
+    revealFns[id] = function () {
+      for (var i = 0; i < cards.length; i++) { if (!cards[i].classList.contains('open')) { cards[i].click(); return; } }
+    };
+    numberFns[id] = function (n) { if (cards[n]) cards[n].click(); };
+  })();
+
+  /* ---------- Slide 5: claim tally ---------- */
+
+  (function () {
+    var id = 's-hook', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    makeTally(s.querySelector('[data-tally="round1"]'), id, 'round1', A.options, {
+      colours: ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-5)'],
+      letters: A.options.map(function (o) { return o.charAt(0).toUpperCase(); })
+    });
+    makeTimer(id, A.minutes);
+    var follow = s.querySelector('.claim-follow');
+    if (act(id).revealed) follow.classList.add('visible');
+    revealFns[id] = function () { follow.classList.add('visible'); act(id).revealed = true; save(); };
+  })();
+
+  /* ---------- Slide 9: comparison matrix ---------- */
+
+  (function () {
+    var id = 's-compare', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var tbody = s.querySelector('tbody');
+    A.rows.forEach(function (r) {
+      var tr = el('tr');
+      tr.innerHTML = '<th scope="row">' + esc(r.criterion) + '</th><td class="cmp-lag"><span>' + esc(r.lagging) + '</span></td><td class="cmp-lead"><span>' + esc(r.leading) + '</span></td>';
+      tbody.appendChild(tr);
+    });
+    var rows = tbody.querySelectorAll('tr');
+    var btn = s.querySelector('[data-action="reveal-row"]');
+    function next() {
+      for (var i = 0; i < rows.length; i++) {
+        if (!rows[i].classList.contains('revealed')) {
+          rows[i].classList.add('revealed');
+          if (i === rows.length - 1) btn.disabled = true;
+          return;
+        }
+      }
+    }
+    btn.addEventListener('click', next);
+    revealFns[id] = next;
+  })();
+
+  /* ---------- Slide 11: single-select check with confidence ---------- */
+
+  (function () {
+    var id = 's-check-classify', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var list = s.querySelector('.q-options');
+    var banner = s.querySelector('.conf-banner');
+    var revealed = false;
+    var clearTimer = null;
+    var opts = A.options.map(function (o, i) {
+      var b = el('button', 'q-opt' + (o.correct ? ' key-correct' : ''));
+      b.type = 'button';
+      b.style.setProperty('--row-color', OPTION_COLOURS[i]);
+      b.innerHTML = '<span class="q-letter">' + LETTERS[i] + '</span><span class="q-text">' + esc(o.text) + '</span>' +
+        '<span class="q-why"><span class="q-verdict">' + (o.correct ? 'Correct' : 'Not this one') + '</span>' + esc(o.why) + '</span>';
+      b.addEventListener('click', function () { pick(i); });
+      list.appendChild(b);
+      return b;
+    });
+    var conf = makeTally(s.querySelector('[data-tally="confidence"]'), id, 'confidence', A.confidenceLabels, {
+      colours: CONF_COLOURS, letters: A.confidenceLabels.map(function (l) { return l.charAt(0); }), withText: true
+    });
+    var store = act(id);
+    function pick(i) {
+      if (revealed) return;
+      // The first letter clicked is the room's most popular answer
+      if (store.firstPick === undefined) { store.firstPick = i; save(); }
+      clearTimeout(clearTimer);
+      opts.forEach(function (b) { b.classList.remove('correct', 'incorrect', 'show-why'); b.disabled = false; });
+      var o = A.options[i];
+      if (o.correct) { reveal(); return; }
+      opts[i].classList.add('incorrect', 'show-why');
+      opts.forEach(function (b) { b.disabled = true; });
+      clearTimer = setTimeout(function () {
+        opts[i].classList.remove('incorrect', 'show-why');
+        opts.forEach(function (b) { b.disabled = false; });
+      }, 2500);
+    }
+    function reveal() {
+      clearTimeout(clearTimer);
+      revealed = true;
+      opts.forEach(function (b, i) {
+        b.disabled = true;
+        b.classList.remove('incorrect');
+        b.classList.add('show-why');
+        b.classList.toggle('correct', !!A.options[i].correct);
+        if (!A.options[i].correct) b.classList.add('dimmed');
+      });
+      // Confident and wrong: High is the most common rating and the room's popular answer was incorrect
+      var c = conf.counts;
+      var topConf = c.indexOf(Math.max.apply(null, c));
+      var first = store.firstPick;
+      if (c[2] > 0 && topConf === 2 && first !== undefined && !A.options[first].correct) {
+        banner.textContent = A.confidenceBanner;
+        banner.classList.add('visible');
+      }
+      s.querySelector('[data-action="reveal"]').disabled = true;
+      act(id).revealed = true; save();
+    }
+    s.querySelector('[data-action="reveal"]').addEventListener('click', reveal);
+    makeTimer(id, A.minutes);
+    revealFns[id] = reveal;
+    s._forceBanner = function () { banner.textContent = A.confidenceBanner; banner.classList.add('visible'); };
+  })();
+
+  /* ---------- Slide 13: annotated model ---------- */
+
+  (function () {
+    var id = 's-hierarchy', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var list = s.querySelector('.part-list');
+    var panel = s.querySelector('.detail-panel');
+    var levels = s.querySelectorAll('.hier-level');
+    var btns = A.parts.map(function (p, i) {
+      var b = el('button', 'part-btn');
+      b.type = 'button';
+      b.style.setProperty('--spot-color', p.color);
+      if (p.on) b.style.setProperty('--spot-on', p.on);
+      b.innerHTML = '<span class="num">' + (i + 1) + '</span><span>' + esc(p.name) + '</span>';
+      b.addEventListener('click', function () { select(i); });
+      list.appendChild(b);
+      return b;
+    });
+    var sel = -1;
+    function select(i) {
+      sel = i;
+      var p = A.parts[i];
+      btns.forEach(function (b, j) { b.classList.toggle('selected', j === i); b.setAttribute('aria-pressed', String(j === i)); });
+      levels.forEach(function (l) { l.classList.toggle('selected', parseInt(l.getAttribute('data-part'), 10) === i); });
+      panel.style.setProperty('--detail-color', p.color);
+      panel.style.setProperty('--detail-ink', p.ink || p.color);
+      panel.innerHTML = '<div class="card-name">' + (i + 1) + ' &middot; ' + esc(p.name) + '</div><p>' + esc(p.detail) + '</p>';
+    }
+    s.querySelectorAll('.hier-spot').forEach(function (b) {
+      b.addEventListener('click', function () { select(parseInt(b.getAttribute('data-part'), 10)); });
+    });
+    revealFns[id] = function () { select((sel + 1) % A.parts.length); };
+    numberFns[id] = function (n) { if (A.parts[n]) select(n); };
+    s._select = select;
+  })();
+
+  /* ---------- Slide 16: predict and reveal ---------- */
+
+  (function () {
+    var id = 's-predict-slack', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var store = act(id);
+    var tally = makeTally(s.querySelector('[data-tally="round1"]'), id, 'round1', A.options.map(function (o) { return o.text; }), { withText: true });
+    var lockBtn = s.querySelector('[data-action="lock"]');
+    var revBtn = s.querySelector('[data-action="reveal"]');
+    var status = s.querySelector('.pred-status');
+    var body = s.querySelector('.pred-body');
+    var waiting = s.querySelector('.pred-waiting');
+    var answer = 0;
+    A.options.forEach(function (o, i) { if (o.correct) answer = i; });
+    body.innerHTML = '<div class="card-name">The result</div><p>' + esc(A.outcome) + '</p><p class="micro">Source: ' + esc(A.source) + '</p><p class="follow">' + esc(A.followUp) + '</p>';
+    tally.rows[answer].classList.add('key-answer');
+    function lock() {
+      tally.lock(true);
+      lockBtn.disabled = true;
+      revBtn.disabled = false;
+      status.textContent = 'Predictions locked';
+      store.locked = true; save();
+    }
+    function reveal() {
+      if (!store.locked) lock();
+      waiting.style.display = 'none';
+      s.querySelector('.pred-outcome').classList.add('visible');
+      tally.rows[answer].classList.add('is-answer');
+      revBtn.disabled = true;
+      store.revealed = true; save();
+    }
+    lockBtn.addEventListener('click', lock);
+    revBtn.addEventListener('click', reveal);
+    if (store.locked) lock();
+    if (store.revealed) reveal();
+    makeTimer(id, A.minutes);
+    revealFns[id] = function () { if (!store.locked) lock(); else reveal(); };
+  })();
+
+  /* ---------- Slide 17: spot the flaw ---------- */
+
+  (function () {
+    var id = 's-flaw', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var passage = s.querySelector('.flaw-passage');
+    var whyList = s.querySelector('.flaw-why-list');
+    var caseBox = s.querySelector('.flaw-case');
+    var panel = s.querySelector('.flaw-detail');
+    var score = s.querySelector('.flaw-score');
+    var checkBtn = s.querySelector('[data-action="check"]');
+    var segs = [];
+    var checked = false;
+    A.passage.forEach(function (piece) {
+      if (typeof piece === 'string') { passage.appendChild(document.createTextNode(piece)); return; }
+      var n = segs.length + 1;
+      var b = el('span', 'flaw-seg');
+      b.setAttribute('role', 'button');
+      b.tabIndex = 0;
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); b.click(); }
+      });
+      b.innerHTML = '<span class="seg-no" aria-hidden="true">' + n + '</span>' + esc(piece.text);
+      b.addEventListener('click', function () {
+        if (checked) { show(n - 1); return; }
+        var on = !b.classList.contains('selected');
+        b.classList.toggle('selected', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      passage.appendChild(b);
+      segs.push({ btn: b, data: piece });
+      var li = el('li', '', '<strong>' + (piece.flaw ? 'Flaw' : 'Sound') + ':</strong> ' + esc(piece.why.replace(/^(Flaw|Sound)\.\s*/, '')));
+      whyList.appendChild(li);
+    });
+    function show(i) {
+      var sg = segs[i];
+      var colour = sg.btn.classList.contains('correct') ? 'var(--correct)' : (sg.btn.classList.contains('incorrect') ? 'var(--incorrect)' : (sg.btn.classList.contains('ambiguous') ? 'var(--ambiguous)' : 'var(--border)'));
+      panel.style.setProperty('--detail-color', colour);
+      panel.style.setProperty('--detail-ink', 'var(--text)');
+      panel.innerHTML = '<div class="card-name">Part ' + (i + 1) + '</div><p>' + esc(sg.data.why) + '</p>';
+    }
+    function check() {
+      if (checked) return;
+      checked = true;
+      var found = 0, flaws = 0;
+      segs.forEach(function (sg) {
+        var sel = sg.btn.classList.contains('selected');
+        sg.btn.classList.remove('selected');
+        if (sg.data.flaw) { flaws++; if (sel) { found++; sg.btn.classList.add('correct'); } else sg.btn.classList.add('ambiguous'); }
+        else if (sel) sg.btn.classList.add('incorrect');
+      });
+      caseBox.classList.add('checked');
+      score.textContent = 'Found ' + found + ' of ' + flaws + ' flaws';
+      checkBtn.style.display = 'none';
+      panel.style.setProperty('--detail-color', 'var(--slide-accent)');
+      panel.innerHTML = '<div class="card-name">Checked</div><p>Click a numbered part to see why it is a flaw or sound.</p>';
+      act(id).checked = { found: found, flaws: flaws }; save();
+    }
+    checkBtn.addEventListener('click', check);
+    makeTimer(id, A.minutes);
+    revealFns[id] = check;
+    s._selectAll = function () { segs.forEach(function (sg) { sg.btn.classList.add('selected'); }); };
+    s._showLongest = function () {
+      var best = 0;
+      segs.forEach(function (sg, i) { if (sg.data.why.length > segs[best].data.why.length) best = i; });
+      show(best);
+    };
+  })();
+
+  /* ---------- Slide 19: worked example ---------- */
+
+  (function () {
+    var id = 's-worked', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var list = s.querySelector('.steps');
+    var whyText = s.querySelector('.why-text');
+    var btn = s.querySelector('[data-action="next-step"]');
+    var shown = 0;
+    var steps = A.steps.map(function (st, i) {
+      var d = el('div', 'step');
+      d.style.setProperty('--step-color', st.color);
+      if (st.on) d.style.setProperty('--step-on', st.on);
+      d.innerHTML = '<span class="num">' + (i + 1) + '</span><div><p><strong>' + esc(st.level) + ':</strong> ' + esc(st.text) + '</p><p class="step-why">' + esc(st.why) + '</p></div>';
+      list.appendChild(d);
+      return d;
+    });
+    function next() {
+      if (shown >= steps.length) return;
+      steps.forEach(function (d) { d.classList.remove('current'); });
+      steps[shown].classList.add('visible', 'current');
+      whyText.textContent = A.steps[shown].why;
+      shown++;
+      if (shown === steps.length) btn.disabled = true;
+    }
+    btn.addEventListener('click', next);
+    revealFns[id] = next;
+    s._showWhy = function (i) { whyText.textContent = A.steps[i].why; };
+  })();
+
+  /* ---------- Slide 20: think, pair, share ---------- */
+
+  (function () {
+    var id = 's-apply', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var band = s.querySelector('.tps-band');
+    var tpl = s.querySelector('.tps-template');
+    var colours = [['var(--accent-1)', '#fff'], ['var(--accent-6)', '#fff'], ['var(--accent-5)', '#fff']];
+    band.style.gridTemplateColumns = A.phases.map(function (p) { return Math.max(p.minutes, 3) + 'fr'; }).join(' ');
+    var phase = 0;
+    var blocks = A.phases.map(function (p, i) {
+      var b = el('button', 'tps-phase');
+      b.type = 'button';
+      b.style.setProperty('--phase-color', colours[i % 3][0]);
+      b.style.setProperty('--phase-on', colours[i % 3][1]);
+      b.innerHTML = '<span class="ph-name">' + esc(p.name.toUpperCase()) + ' &middot; ' + p.minutes + ' MIN</span><span class="ph-text">' + esc(p.text) + '</span>';
+      b.addEventListener('click', function () { setPhase(i); });
+      band.appendChild(b);
+      return b;
+    });
+    A.template.forEach(function (t) {
+      var tagHtml = t.kind === 'lag' ? '<span class="tag-lag">' + esc(t.label) + '</span>' : (t.kind === 'lead' ? '<span class="tag-lead">' + esc(t.label) + '</span>' : '<span class="lvl">' + esc(t.label) + '</span>');
+      tpl.appendChild(el('div', 'tpl-line', tagHtml + '<span></span>'));
+    });
+    var timer = makeTimer(id, A.phases[0].minutes, function () {
+      if (phase < A.phases.length - 1) setTimeout(function () { setPhase(phase + 1); }, 1200);
+    });
+    function setPhase(i) {
+      phase = i;
+      blocks.forEach(function (b, j) { b.classList.toggle('current', j === i); b.setAttribute('aria-pressed', String(j === i)); });
+      if (timer) timer.set(A.phases[i].minutes);
+    }
+    setPhase(0);
+    revealFns[id] = function () { setPhase((phase + 1) % A.phases.length); };
+  })();
+
+  /* ---------- Slide 21: live board ---------- */
+
+  (function () {
+    var id = 's-board', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var store = act(id);
+    if (!store.entries) store.entries = [];
+    var board = s.querySelector('.board');
+    var input = s.querySelector('#board-text');
+    var tagSel = s.querySelector('#board-tag');
+    var countEl = s.querySelector('.board-count');
+    var delBtn = s.querySelector('[data-action="delete"]');
+    var pager = s.querySelector('.board-pager');
+    var colours = ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-5)', 'var(--accent-2)', 'var(--accent-8)', 'var(--accent-3)', 'var(--accent-4)', 'var(--accent-7)'];
+    var inks = { 'var(--accent-3)': 'var(--accent-7-ink)', 'var(--accent-4)': 'var(--accent-4-ink)', 'var(--accent-7)': 'var(--accent-7-ink)' };
+    input.maxLength = A.maxLength;
+    A.tags.forEach(function (t) { var o = el('option'); o.value = t; o.textContent = t; tagSel.appendChild(o); });
+    var selected = -1, page = 0, clustered = false;
+    function ordered() {
+      var list = store.entries.map(function (e, i) { return { e: e, i: i }; });
+      if (clustered) list.sort(function (a, b) { return A.tags.indexOf(a.e.tag) - A.tags.indexOf(b.e.tag) || a.i - b.i; });
+      return list;
+    }
+    function draw() {
+      var list = ordered();
+      var pages = Math.max(1, Math.ceil(list.length / A.pageSize));
+      if (page >= pages) page = pages - 1;
+      board.innerHTML = '';
+      board.classList.toggle('dense', list.length > A.capacity);
+      if (!list.length) board.appendChild(el('div', 'board-empty', 'Contributions appear here.'));
+      list.slice(page * A.pageSize, (page + 1) * A.pageSize).forEach(function (item) {
+        var colour = colours[item.i % colours.length];
+        var c = el('button', 'board-card' + (item.i === selected ? ' selected' : ''));
+        c.type = 'button';
+        c.style.setProperty('--card-color', colour);
+        if (inks[colour]) c.style.setProperty('--card-ink', inks[colour]);
+        c.innerHTML = '<span class="b-tag">' + esc(item.e.tag) + '</span><span>' + esc(item.e.text) + '</span>';
+        c.setAttribute('aria-pressed', String(item.i === selected));
+        c.addEventListener('click', function () { selected = (selected === item.i) ? -1 : item.i; draw(); });
+        board.appendChild(c);
+      });
+      countEl.textContent = list.length + (list.length === 1 ? ' contribution' : ' contributions') + (storageOK ? '' : ' (not saved in this browser)');
+      delBtn.disabled = selected < 0;
+      pager.innerHTML = '';
+      if (pages > 1) {
+        var prev = el('button', 'btn ghost', 'Prev page'); prev.type = 'button'; prev.disabled = page === 0;
+        prev.addEventListener('click', function () { page--; draw(); });
+        var info = el('span', 'nav-info', 'Page ' + (page + 1) + ' / ' + pages);
+        var nxt = el('button', 'btn ghost', 'Next page'); nxt.type = 'button'; nxt.disabled = page >= pages - 1;
+        nxt.addEventListener('click', function () { page++; draw(); });
+        pager.appendChild(prev); pager.appendChild(info); pager.appendChild(nxt);
+      }
+    }
+    function add() {
+      var text = input.value.trim().slice(0, A.maxLength);
+      if (!text) return;
+      store.entries.push({ text: text, tag: tagSel.value });
+      input.value = '';
+      page = Math.floor((store.entries.length - 1) / A.pageSize);
+      save(); draw();
+    }
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); add(); } });
+    s.querySelector('[data-action="add"]').addEventListener('click', add);
+    s.querySelector('[data-action="cluster"]').addEventListener('click', function (e) {
+      clustered = !clustered;
+      e.currentTarget.textContent = clustered ? 'Order added' : 'Cluster by area';
+      draw();
+    });
+    delBtn.addEventListener('click', function () {
+      if (selected < 0) return;
+      if (!window.confirm('Delete this contribution?')) return;
+      store.entries.splice(selected, 1);
+      selected = -1; save(); draw();
+    });
+    makeTimer(id, A.minutes);
+    renderFns.push(draw);
+    s._fill = function (n) {
+      store.entries = [];
+      var long = 'Planned revision blocks completed this week out of five, logged every Sunday evening in my planner';
+      for (var i = 0; i < n; i++) store.entries.push({ text: long.slice(0, A.maxLength), tag: 'Relationships' });
+      page = 0; draw();
+    };
+    draw();
+  })();
+
+  /* ---------- Slide 23: exit ticket and print sheets ---------- */
+
+  (function () {
+    var id = 's-exit', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var grid = s.querySelector('.exit-grid');
+    var colours = ['var(--accent-1)', 'var(--accent-4)', 'var(--accent-6)'];
+    var names = ['Track', 'Ask', 'Rate'];
+    A.prompts.forEach(function (p, i) {
+      var c = el('div', 'exit-card');
+      c.style.setProperty('--card-color', colours[i % 3]);
+      if (i === 1) c.style.setProperty('--card-ink', 'var(--accent-4-ink)');
+      c.innerHTML = '<span class="card-name" style="color: var(--card-ink, var(--card-color))">' + (i + 1) + ' &middot; ' + names[i % 3] + '</span><p>' + esc(p) + '</p><div class="lines"></div>';
+      grid.appendChild(c);
+    });
+    var sheets = document.querySelector('.exit-sheets');
+    var pageEl = el('div', 'exit-page');
+    for (var k = 0; k < 4; k++) {
+      var card = el('div', 'a6');
+      var html = '<div class="a6-title">Exit ticket &middot; Lagging and leading indicators</div>';
+      A.prompts.forEach(function (p) { html += '<div class="a6-q">' + esc(p) + '</div><div class="a6-lines"></div>'; });
+      card.innerHTML = html;
+      pageEl.appendChild(card);
+    }
+    sheets.appendChild(pageEl);
+    makeTimer(id, A.minutes);
+  })();
+
+  /* ---------- Navigation ---------- */
+
+  function show(n, fromHash) {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides.forEach(function (s) { s.classList.remove('active'); });
+    slides[n].classList.add('active');
+    current = n;
+    var accent = slides[n].getAttribute('data-accent') || 'var(--accent-1)';
+    document.documentElement.style.setProperty('--slide-accent', accent);
+    var prog = document.getElementById('progress');
+    prog.style.width = ((n + 1) / total * 100) + '%';
+    prog.style.background = accent;
+    document.getElementById('nav-info').textContent = String(n + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.getElementById('prev-btn').disabled = n === 0;
+    document.getElementById('next-btn').disabled = n === total - 1;
+    if (!fromHash) {
+      try { history.replaceState(null, '', '#' + (n + 1)); } catch (err) { location.hash = String(n + 1); }
+    }
+    updateChromeTimer();
+    window.scrollTo(0, 0);
+  }
+  function go(d) { show(current + d); }
+  function fromHash() {
+    var m = /^#(\d+)$/.exec(location.hash);
+    return m ? parseInt(m[1], 10) - 1 : 0;
+  }
+  window.addEventListener('hashchange', function () { var n = fromHash(); if (n !== current) show(n, true); });
+  document.getElementById('prev-btn').addEventListener('click', function () { go(-1); });
+  document.getElementById('next-btn').addEventListener('click', function () { go(1); });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+    else if (document.exitFullscreen) document.exitFullscreen();
+  }
+
+  /* ---------- Responses menu ---------- */
+
+  var respBtn = document.getElementById('resp-btn');
+  var respMenu = document.getElementById('resp-menu');
+  function updateRespNote() {
+    var note = document.getElementById('resp-note');
+    if (storageOK) { note.textContent = 'Responses save automatically in this browser.'; note.classList.remove('warn'); }
+    else { note.textContent = 'Storage is unavailable: responses will not persist after this page closes. Export before closing.'; note.classList.add('warn'); }
+  }
+  updateRespNote();
+  function closeMenu() { respMenu.classList.remove('open'); respBtn.setAttribute('aria-expanded', 'false'); }
+  respBtn.addEventListener('click', function () {
+    var open = !respMenu.classList.contains('open');
+    respMenu.classList.toggle('open', open);
+    respBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.getElementById('export-btn').addEventListener('click', function () {
+    state.savedAt = new Date().toISOString();
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'standalone-' + DECK_ID + '-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  var fileInput = document.getElementById('import-file');
+  document.getElementById('import-btn').addEventListener('click', function () { fileInput.click(); });
+  fileInput.addEventListener('change', function () {
+    var f = fileInput.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var data = JSON.parse(reader.result);
+        if (!data || !data.activities) throw new Error('No activities');
+        if (!window.confirm('Replace the current responses with the imported file?')) return;
+        state = data; save(); location.reload();
+      } catch (err) { window.alert('That file could not be read as responses for this deck.'); }
+    };
+    reader.readAsText(f);
+    fileInput.value = '';
+  });
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!window.confirm('Clear all recorded responses for this deck? This cannot be undone.')) return;
+    state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+    try { window.localStorage.removeItem(STORE_KEY); } catch (err) { /* storage unavailable */ }
+    location.reload();
+  });
+
+  /* ---------- Keyboard ---------- */
+
+  var blackout = document.getElementById('blackout');
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    var typing = t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+    if (typing && e.key !== 'Escape') return;
+    if (t.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    if (blackout.classList.contains('on')) { e.preventDefault(); blackout.classList.remove('on'); return; }
+
+    var id = slides[current].id;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); go(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(total - 1); }
+    else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+    else if (k === 'b' || k === 'B' || k === '.') { e.preventDefault(); blackout.classList.add('on'); }
+    else if (k === 'Escape') { closeMenu(); if (typing) t.blur(); }
+    else if (k === 'r' || k === 'R') { if (revealFns[id]) { e.preventDefault(); revealFns[id](); } }
+    else if (k === 't') { if (timers[id]) { e.preventDefault(); timers[id].toggle(); } }
+    else if (k === 'T') { if (timers[id]) { e.preventDefault(); timers[id].reset(); } }
+    else if (/^Digit[1-9]$/.test(e.code)) {
+      var n = parseInt(e.code.slice(5), 10) - 1;
+      var rows = slides[current].querySelectorAll('.tally-row');
+      if (rows.length) {
+        if (rows[n]) {
+          e.preventDefault();
+          var btns = rows[n].querySelectorAll('.tally-step');
+          var b = e.shiftKey ? btns[0] : btns[1];
+          if (!b.disabled) b.click();
+        }
+      } else if (numberFns[id]) { e.preventDefault(); numberFns[id](n); }
+      else {
+        var opts = slides[current].querySelectorAll('.q-opt');
+        if (opts[n]) { e.preventDefault(); opts[n].click(); }
+      }
+    }
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#resp-menu') && e.target !== respBtn) closeMenu();
+  });
+
+  /* ---------- Idle-hiding chrome ---------- */
+
+  (function () {
+    var chrome = document.getElementById('chrome');
+    var h;
+    function wake() {
+      chrome.classList.remove('idle');
+      clearTimeout(h);
+      h = setTimeout(function () { if (!respMenu.classList.contains('open')) chrome.classList.add('idle'); }, 2500);
+    }
+    ['mousemove', 'keydown', 'touchstart', 'click'].forEach(function (evt) { document.addEventListener(evt, wake); });
+    wake();
+  })();
+
+  /* ---------- Test hooks for tests/verify-deck.mjs ---------- */
+
+  window.DECK = {
+    show: show,
+    current: function () { return current; },
+    timers: timers,
+    reveal: function (id) { if (revealFns[id]) revealFns[id](); },
+    storageOK: function () { return storageOK; },
+    state: function () { return state; },
+    worst: function (id) {
+      var s = document.getElementById(id);
+      s.querySelectorAll('.tally-count').forEach(function (inp) { inp.value = 999; inp.dispatchEvent(new Event('input')); });
+      if (timers[id]) timers[id].expire();
+      if (id === 's-warm-up') s.querySelectorAll('.warm-card').forEach(function (c) { if (!c.classList.contains('open')) c.click(); });
+      if (id === 's-hook') revealFns[id]();
+      if (id === 's-compare') for (var i = 0; i < 10; i++) revealFns[id]();
+      if (id === 's-check-classify') { revealFns[id](); s._forceBanner(); }
+      if (id === 's-predict-slack') { revealFns[id](); revealFns[id](); }
+      if (id === 's-flaw') { s._selectAll(); revealFns[id](); s._showLongest(); }
+      if (id === 's-worked') { for (var j = 0; j < 10; j++) revealFns[id](); var best = 0; ACTIVITIES[id].steps.forEach(function (st, k) { if (st.why.length > ACTIVITIES[id].steps[best].why.length) best = k; }); s._showWhy(best); }
+    },
+    selectPart: function (id, n) { var s = document.getElementById(id); if (s._select) s._select(n); },
+    fillBoard: function (n) { document.getElementById('s-board')._fill(n); }
+  };
+
+  show(fromHash(), true);
+})();
+</script>
+</body>
+</html>
