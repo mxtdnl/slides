@@ -25,6 +25,8 @@ reference/
 standalone/
   <YYYY-MM>-<slug>.html       A deck that belongs to no course (talk, workshop, guest lecture)
   <YYYY-MM>-<slug>.brief.md   Its context: read before writing content for it
+tools/
+  prompt-builder.html         Form that writes a Claude Code prompt to create a deck's context file and request its plan
 ```
 
 - Course slugs are short, lower-case and hyphenated (`social-phenomena`, `research-methods`).
@@ -38,6 +40,7 @@ standalone/
 - `CLAUDE.md` — Repository rules, visual system and workflow
 - `SLIDES.md` — Deck blueprint: stage model, type scale, slide archetypes, activity patterns, contrast rules, verification and build order
 - `reference/theory-of-change.html` — Reference implementation of the stage, navigation and the eight proven archetypes, carried over from a previous repository. Read-only: never edit it, link it from `index.html`, or copy its content
+- `tools/prompt-builder.html` — Deck prompt builder: a form that writes the deck's `COURSE.md` or `.brief.md` from the templates above and a Claude Code prompt that creates it and asks for the deck plan. Follows the visual system and the technical conventions; not a deck, so it is not listed in `index.html` deck grids
 
 Keep this list current. When adding a deck, add a line here in the form `courses/<slug>/<file>.html` — Course, week, topic, and the activity patterns it uses. Also add a card for it in `index.html` under its course heading, inside `.deck-grid`. When adding a course, add its `COURSE.md` here and a course heading in `index.html`. Standalone decks are listed as `standalone/<file>.html` — Occasion, audience, topic, activity patterns, and appear in `index.html` under a `STANDALONE` heading placed after the courses.
 
