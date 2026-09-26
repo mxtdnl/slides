@@ -41,6 +41,11 @@ tools/
 - `SLIDES.md` — Deck blueprint: stage model, type scale, slide archetypes, activity patterns, contrast rules, verification and build order
 - `reference/theory-of-change.html` — Reference implementation of the stage, navigation and the eight proven archetypes, carried over from a previous repository. Read-only: never edit it, link it from `index.html`, or copy its content
 - `tools/prompt-builder.html` — Deck prompt builder: a form that writes the deck's `COURSE.md` or `.brief.md` from the templates above and a Claude Code prompt that creates it and asks for the deck plan. Follows the visual system and the technical conventions; not a deck, so it is not listed in `index.html` deck grids
+- `index.html` — Landing page: a heading per course and a `STANDALONE` heading, each followed by a `.deck-grid` of deck cards
+- `tests/lint.mjs` — Static checks across every `.html` file (see Testing)
+- `tests/verify-deck.mjs` — Fit, state, keyboard, persistence, contrast and print harnesses for one deck (see `SLIDES.md` section 16)
+- `standalone/2026-09-lagging-and-leading-indicators.brief.md` — Brief for the deck below
+- `standalone/2026-09-lagging-and-leading-indicators.html` — Coaching 1 Workshop 2 (September 2026), undergraduate students at Hult, lagging and leading indicators applied to goal hierarchies; patterns: retrieval warm-up, claim tally, comparison-matrix row reveal, single-select with confidence check, select-detail, predict and reveal, spot the flaw, worked example, think pair share, live board, exit ticket
 
 Keep this list current. When adding a deck, add a line here in the form `courses/<slug>/<file>.html` — Course, week, topic, and the activity patterns it uses. Also add a card for it in `index.html` under its course heading, inside `.deck-grid`. When adding a course, add its `COURSE.md` here and a course heading in `index.html`. Standalone decks are listed as `standalone/<file>.html` — Occasion, audience, topic, activity patterns, and appear in `index.html` under a `STANDALONE` heading placed after the courses.
 
