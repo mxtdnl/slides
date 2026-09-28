@@ -82,8 +82,6 @@ button { cursor: pointer; }
   z-index: 60; opacity: 1; transition: opacity 0.3s ease;
 }
 .deck-chrome.idle { opacity: 0; pointer-events: none; }
-.deck-chrome.idle.keep { opacity: 1; pointer-events: auto; }
-.deck-chrome.idle.keep > :not(.chrome-timer) { visibility: hidden; }
 .nav-btn, .btn {
   background: var(--accent-1); color: #fff; border: 0.2rem solid transparent;
   min-width: 4.4rem; height: 2.8rem; padding: 0 1.4rem;
@@ -96,12 +94,6 @@ button { cursor: pointer; }
 .btn.ghost:hover:not(:disabled), .nav-btn.ghost:hover:not(:disabled) { background: var(--text); color: var(--bg-card); }
 .btn.big { height: 3.6rem; font-size: 1.3rem; padding: 0 2rem; }
 .nav-info { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); padding: 0 0.4rem; font-variant-numeric: tabular-nums; }
-.chrome-timer {
-  display: none; font-size: 1.3rem; font-weight: 800; font-variant-numeric: tabular-nums;
-  padding: 0.2rem 0.9rem; border: 0.2rem solid var(--text); background: var(--bg-card); color: var(--text);
-}
-.chrome-timer.visible { display: inline-block; }
-.chrome-timer.expired { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
 
 .resp-menu {
   position: absolute; right: 0; bottom: calc(100% + 0.6rem);
@@ -137,8 +129,6 @@ button { cursor: pointer; }
 
 .s-head { flex-shrink: 0; margin-bottom: 2rem; }
 .s-head::before { content: ''; display: block; width: 13rem; height: 0.9rem; background: var(--slide-accent); margin-bottom: 1.2rem; }
-.s-head.is-activity { display: grid; grid-template-columns: 1fr auto; column-gap: 3rem; align-items: end; }
-.s-head.is-activity::before { grid-column: 1 / -1; }
 
 .eyebrow {
   display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em;
@@ -303,19 +293,6 @@ p { font-size: 1.85rem; }
 .chain-link::before { content: ''; position: absolute; top: -0.6rem; left: 50%; transform: translateX(-50%); border-bottom: 1rem solid var(--text); border-left: 0.9rem solid transparent; border-right: 0.9rem solid transparent; }
 .chain-note { margin-top: 2.2rem; display: flex; gap: 1.4rem; align-items: center; }
 .chain-note p { font-size: 1.55rem; }
-
-/* ---------- Timer ---------- */
-
-.timer {
-  background: var(--bg-card); border: 0.3rem solid var(--text); padding: 0.5rem 1.6rem 0.6rem;
-  display: flex; flex-direction: column; align-items: center; min-width: 14rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.timer-digits { font-size: 3.2rem; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums; }
-.timer-state { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
-.timer.running { border-color: var(--slide-accent); }
-.timer.expired { background: var(--slide-accent); border-color: var(--slide-accent); color: var(--on-accent); }
-.timer.expired .timer-state { color: var(--on-accent); }
 
 /* ---------- Tally ---------- */
 
@@ -656,8 +633,6 @@ p { font-size: 1.85rem; }
   .hier-row.two { padding: 0; }
   .tps-band { grid-template-columns: 1fr; }
   .board { grid-template-columns: 1fr 1fr; }
-  .s-head.is-activity { grid-template-columns: 1fr; row-gap: 1.4rem; }
-  .timer { align-self: start; justify-self: start; }
   .cmp-table tbody th { width: 30%; }
   .divider-num { font-size: 24rem; }
   .ind-line { grid-template-columns: 1fr; }
@@ -677,7 +652,7 @@ p { font-size: 1.85rem; }
   .slide-inner { height: auto; padding: 2.4rem 3rem 2rem 5rem; }
   .pred-question { font-size: 1.7rem; margin-top: 1rem; }
   .pred-outcome p { font-size: 1.4rem; }
-  .progress-track, .deck-chrome, .deco, .hero-mark, .timer, .tally-controls .tally-step, .board-input, .board-bar,
+  .progress-track, .deck-chrome, .deco, .hero-mark, .tally-controls .tally-step, .board-input, .board-bar,
   .blackout, .check-actions, .pred-actions, .flaw-actions, .worked-actions, .cmp-foot .btn, .warm-hint, .board-pager { display: none !important; }
   .divider-num, .flaw-legend, .tally-track, .tally-pct, .pred-waiting, .tally-row.with-text .tally-bar-wrap { display: none !important; }
   .tally-row.with-text { row-gap: 0; }
@@ -786,13 +761,12 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Warm-up &middot; Stop and jot &middot; 5 min</span>
           <h2>What do you already know?</h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body">
         <div class="warm-grid" data-activity="retrieval"></div>
       </div>
     </div>
-    <aside class="notes">Individual and silent: WRITE, DO NOT TALK. Start the timer with t. Give three minutes of writing, then take one or two answers per card from the room before revealing each card with a click or r. The fourth card has a placeholder answer: replace it in ACTIVITIES with the model answer from your earlier teaching on Locke and Latham. Keep the reveals brisk; this is a check of starting points, and the hierarchy returns in Part 2.</aside>
+    <aside class="notes">Individual and silent: WRITE, DO NOT TALK. Give three minutes of writing, then take one or two answers per card from the room before revealing each card with a click or r. The fourth card has a placeholder answer: replace it in ACTIVITIES with the model answer from your earlier teaching on Locke and Latham. Keep the reveals brisk; this is a check of starting points, and the hierarchy returns in Part 2.</aside>
     <div class="deco ring" style="width: 26rem; height: 26rem; border-width: 2.4rem; border-color: var(--accent-4); opacity: 0.1; top: -12rem; right: 22rem"></div>
     <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.07; bottom: -8rem; left: -4rem; transform: rotate(24deg)"></div>
   </section>
@@ -852,7 +826,6 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Claim tally &middot; 3 min</span>
           <h2>Do you agree with this claim?</h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body grid g-2" data-activity="claim-tally">
         <div class="claim-card">
@@ -1013,7 +986,6 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Check &middot; Confidence &middot; 4 min</span>
           <h2 data-field="stem"></h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body grid check-grid" data-activity="single-select">
         <div>
@@ -1167,7 +1139,6 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Predict and reveal &middot; 5 min</span>
           <h2>Which goal kept people going?</h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body grid g-5-7" data-activity="predict">
         <div class="pred-left">
@@ -1201,7 +1172,6 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Spot the flaw &middot; 6 min</span>
           <h2>Find the flaws in this plan</h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body grid flaw-grid" data-activity="spot-the-flaw">
         <div>
@@ -1286,7 +1256,6 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Think, pair, share &middot; 11 min</span>
           <h2>Your turn</h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body" data-activity="think-pair-share">
         <p class="tps-prompt" data-field="prompt"></p>
@@ -1294,7 +1263,7 @@ p { font-size: 1.85rem; }
         <div class="tps-template"></div>
       </div>
     </div>
-    <aside class="notes">THINK is individual and silent: they write the branch and three indicators on paper using the template. PAIR: swap sheets and apply the three tests to each leading indicator, rewriting any that fail. Press t to start each phase; the highlight advances when a phase expires. SHARE happens on the next slide: ask pairs to choose their strongest leading indicator to offer to the board. Circulate during PAIR and listen for indicators that are really lagging. About 11 minutes.</aside>
+    <aside class="notes">THINK is individual and silent: they write the branch and three indicators on paper using the template. PAIR: swap sheets and apply the three tests to each leading indicator, rewriting any that fail. Press r (or click a phase) to advance the highlight when each phase is done. SHARE happens on the next slide: ask pairs to choose their strongest leading indicator to offer to the board. Circulate during PAIR and listen for indicators that are really lagging. About 11 minutes.</aside>
     <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.1; bottom: -11rem; right: -4rem"></div>
     <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-8); opacity: 0.07; bottom: -6rem; left: 26rem; transform: rotate(36deg)"></div>
   </section>
@@ -1309,7 +1278,6 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Live board &middot; 4 min</span>
           <h2>Your leading indicators</h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body" data-activity="live-board">
         <div class="board-wrap">
@@ -1383,7 +1351,6 @@ p { font-size: 1.85rem; }
           <span class="act-tag">Exit ticket &middot; 3 min</span>
           <h2>Before you leave</h2>
         </div>
-        <div class="timer-slot"></div>
       </header>
       <div class="s-body exit-body" data-activity="exit-ticket">
         <div class="grid g-3 exit-grid"></div>
@@ -1401,7 +1368,6 @@ p { font-size: 1.85rem; }
   <div class="blackout" id="blackout"></div>
 
   <div class="deck-chrome" id="chrome">
-    <span class="chrome-timer" id="chrome-timer"></span>
     <button class="nav-btn ghost" type="button" id="prev-btn" aria-label="Previous slide">Prev</button>
     <span class="nav-info" id="nav-info"></span>
     <button class="nav-btn" type="button" id="next-btn" aria-label="Next slide">Next</button>
@@ -1426,14 +1392,13 @@ p { font-size: 1.85rem; }
    ACTIVITIES: all activity content for this deck.
    Edit the text in quotes freely. Keep the structure (brackets,
    commas, true/false) as it is. Each entry is keyed by the id of
-   its slide. "minutes" sets the timer; 0 hides the timer.
+   its slide.
    ================================================================== */
 const ACTIVITIES = {
 
   // Slide 2. Warm-up on what the audience already knows. Answers reveal on click.
   's-warm-up': {
     pattern: 'retrieval',
-    minutes: 4,
     prompts: [
       { tag: 'WARM-UP', prompt: "Name the three levels of a goal hierarchy.",
         answer: "Superordinate (a value, such as be healthy), intermediate (a direction, such as exercise more) and subordinate (a precise plan, such as training on set days).",
@@ -1453,7 +1418,6 @@ const ACTIVITIES = {
   // Slide 5. Hook. A position prompt: no correct answer is ever shown.
   's-hook': {
     pattern: 'claim-tally',
-    minutes: 2,
     claim: "You can only know if you are on track for a goal once you reach it.",
     options: ['Agree', 'Disagree', 'Unsure'],
     followUp: "Hold on to your answer. By the end of Part 1 you can test it: what can the end result tell you, and when?"
@@ -1474,7 +1438,6 @@ const ACTIVITIES = {
   // Slide 11. Single-select check with a confidence step. Keep exactly one option correct.
   's-check-classify': {
     pattern: 'single-select',
-    minutes: 2,
     confidence: true,
     stem: "Which is a leading indicator?",
     context: "<strong>Intermediate goal:</strong> practise stress management more effectively.",
@@ -1512,7 +1475,6 @@ const ACTIVITIES = {
   // Slide 16. Predict and reveal. The result is from Sharif and Shu, as reported in Trexler.
   's-predict-slack': {
     pattern: 'predict',
-    minutes: 2,
     situation: "In one experiment by Sharif and Shu, participants completed an annoying task (35 CAPTCHAs) for $1 a day, plus a $5 bonus for meeting their weekly goal. Four groups were given different goals.",
     question: "Which group was most persistent and most likely to earn the bonus?",
     options: [
@@ -1530,7 +1492,6 @@ const ACTIVITIES = {
   // Plain strings are ordinary text; objects are selectable segments.
   's-flaw': {
     pattern: 'spot-the-flaw',
-    minutes: 3,
     passage: [
       "My intermediate goal is to ",
       { text: "be in good physical shape.", flaw: false,
@@ -1575,7 +1536,7 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 20. Think, pair, share. Phase minutes drive the timer.
+  // Slide 20. Think, pair, share. Phase minutes set the band widths and labels.
   's-apply': {
     pattern: 'think-pair-share',
     prompt: "Sketch one branch of your own goals, then give it one lagging and two leading indicators.",
@@ -1599,7 +1560,6 @@ const ACTIVITIES = {
   // Sized so two rows of 90-character entries fit the frame.
   's-board': {
     pattern: 'live-board',
-    minutes: 4,
     tags: ['Health', 'Study', 'Work', 'Relationships', 'Other'],
     capacity: 4,
     pageSize: 8,
@@ -1609,7 +1569,6 @@ const ACTIVITIES = {
   // Slide 23. Exit ticket prompts. The same prompts print on the A6 cards.
   's-exit': {
     pattern: 'exit-ticket',
-    minutes: 3,
     prompts: [
       "One leading indicator you will track this week, and when you will check it.",
       "One question you still have about leading and lagging indicators.",
@@ -1690,74 +1649,6 @@ const ACTIVITIES = {
     if (no) no.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
   });
 
-  /* ---------- Timer ---------- */
-
-  var timers = {};
-  function fmt(sec) {
-    sec = Math.max(0, Math.ceil(sec));
-    return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0');
-  }
-  function makeTimer(slideId, minutes, onExpire) {
-    var slide = document.getElementById(slideId);
-    var slot = slide.querySelector('.timer-slot');
-    if (!slot || !minutes) return null;
-    var btn = el('button', 'timer');
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Timer');
-    btn.innerHTML = '<span class="timer-digits"></span><span class="timer-state"></span>';
-    slot.appendChild(btn);
-    var t = { id: slideId, total: minutes * 60, remaining: minutes * 60, running: false, expired: false, handle: null, last: 0, btn: btn, onExpire: onExpire };
-    t.set = function (mins) { t.stop(); t.total = mins * 60; t.remaining = t.total; t.expired = false; t.draw(); };
-    t.draw = function () {
-      btn.querySelector('.timer-digits').textContent = t.expired ? 'TIME' : fmt(t.remaining);
-      btn.querySelector('.timer-state').textContent = t.expired ? 'Press T to reset' : (t.running ? 'Running' : (t.remaining < t.total ? 'Paused' : 'Press T to start'));
-      btn.classList.toggle('running', t.running);
-      btn.classList.toggle('expired', t.expired);
-      updateChromeTimer();
-    };
-    t.tick = function () {
-      var now = Date.now();
-      t.remaining -= (now - t.last) / 1000;
-      t.last = now;
-      if (t.remaining <= 0) {
-        t.remaining = 0; t.expired = true; t.stop();
-        if (t.onExpire) t.onExpire();
-      }
-      t.draw();
-    };
-    t.start = function () {
-      if (t.expired) return;
-      t.running = true; t.last = Date.now();
-      t.handle = setInterval(t.tick, 250);
-      t.draw();
-    };
-    t.stop = function () { t.running = false; clearInterval(t.handle); t.handle = null; };
-    t.toggle = function () { if (t.running) { t.stop(); t.draw(); } else t.start(); };
-    t.reset = function () { t.stop(); t.remaining = t.total; t.expired = false; t.draw(); };
-    t.expire = function () { t.stop(); t.remaining = 0; t.expired = true; t.draw(); };
-    btn.addEventListener('click', function () { t.toggle(); });
-    timers[slideId] = t;
-    t.draw();
-    return t;
-  }
-  function updateChromeTimer() {
-    var ct = document.getElementById('chrome-timer');
-    var chrome = document.getElementById('chrome');
-    var shown = null;
-    Object.keys(timers).forEach(function (k) {
-      var t = timers[k];
-      if ((t.running || t.expired) && slides[current] && slides[current].id !== k && t.running) shown = t;
-    });
-    if (shown) {
-      ct.textContent = fmt(shown.remaining);
-      ct.classList.add('visible');
-      ct.classList.toggle('expired', shown.expired);
-      chrome.classList.add('keep');
-    } else {
-      ct.classList.remove('visible');
-      chrome.classList.remove('keep');
-    }
-  }
 
   /* ---------- Tally ---------- */
 
@@ -1890,7 +1781,6 @@ const ACTIVITIES = {
       grid.appendChild(c);
       cards.push(c);
     });
-    makeTimer(id, A.minutes);
     revealFns[id] = function () {
       for (var i = 0; i < cards.length; i++) { if (!cards[i].classList.contains('open')) { cards[i].click(); return; } }
     };
@@ -1906,7 +1796,6 @@ const ACTIVITIES = {
       colours: ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-5)'],
       letters: A.options.map(function (o) { return o.charAt(0).toUpperCase(); })
     });
-    makeTimer(id, A.minutes);
     var follow = s.querySelector('.claim-follow');
     if (act(id).revealed) follow.classList.add('visible');
     revealFns[id] = function () { follow.classList.add('visible'); act(id).revealed = true; save(); };
@@ -1998,7 +1887,6 @@ const ACTIVITIES = {
       act(id).revealed = true; save();
     }
     s.querySelector('[data-action="reveal"]').addEventListener('click', reveal);
-    makeTimer(id, A.minutes);
     revealFns[id] = reveal;
     s._forceBanner = function () { banner.textContent = A.confidenceBanner; banner.classList.add('visible'); };
   })();
@@ -2074,7 +1962,6 @@ const ACTIVITIES = {
     revBtn.addEventListener('click', reveal);
     if (store.locked) lock();
     if (store.revealed) reveal();
-    makeTimer(id, A.minutes);
     revealFns[id] = function () { if (!store.locked) lock(); else reveal(); };
   })();
 
@@ -2138,7 +2025,6 @@ const ACTIVITIES = {
       act(id).checked = { found: found, flaws: flaws }; save();
     }
     checkBtn.addEventListener('click', check);
-    makeTimer(id, A.minutes);
     revealFns[id] = check;
     s._selectAll = function () { segs.forEach(function (sg) { sg.btn.classList.add('selected'); }); };
     s._showLongest = function () {
@@ -2202,13 +2088,9 @@ const ACTIVITIES = {
       var tagHtml = t.kind === 'lag' ? '<span class="tag-lag">' + esc(t.label) + '</span>' : (t.kind === 'lead' ? '<span class="tag-lead">' + esc(t.label) + '</span>' : '<span class="lvl">' + esc(t.label) + '</span>');
       tpl.appendChild(el('div', 'tpl-line', tagHtml + '<span></span>'));
     });
-    var timer = makeTimer(id, A.phases[0].minutes, function () {
-      if (phase < A.phases.length - 1) setTimeout(function () { setPhase(phase + 1); }, 1200);
-    });
     function setPhase(i) {
       phase = i;
       blocks.forEach(function (b, j) { b.classList.toggle('current', j === i); b.setAttribute('aria-pressed', String(j === i)); });
-      if (timer) timer.set(A.phases[i].minutes);
     }
     setPhase(0);
     revealFns[id] = function () { setPhase((phase + 1) % A.phases.length); };
@@ -2288,7 +2170,6 @@ const ACTIVITIES = {
       store.entries.splice(selected, 1);
       selected = -1; save(); draw();
     });
-    makeTimer(id, A.minutes);
     renderFns.push(draw);
     s._fill = function (n) {
       store.entries = [];
@@ -2324,7 +2205,6 @@ const ACTIVITIES = {
       pageEl.appendChild(card);
     }
     sheets.appendChild(pageEl);
-    makeTimer(id, A.minutes);
   })();
 
   /* ---------- Navigation ---------- */
@@ -2345,7 +2225,6 @@ const ACTIVITIES = {
     if (!fromHash) {
       try { history.replaceState(null, '', '#' + (n + 1)); } catch (err) { location.hash = String(n + 1); }
     }
-    updateChromeTimer();
     window.scrollTo(0, 0);
   }
   function go(d) { show(current + d); }
@@ -2433,8 +2312,6 @@ const ACTIVITIES = {
     else if (k === 'b' || k === 'B' || k === '.') { e.preventDefault(); blackout.classList.add('on'); }
     else if (k === 'Escape') { closeMenu(); if (typing) t.blur(); }
     else if (k === 'r' || k === 'R') { if (revealFns[id]) { e.preventDefault(); revealFns[id](); } }
-    else if (k === 't') { if (timers[id]) { e.preventDefault(); timers[id].toggle(); } }
-    else if (k === 'T') { if (timers[id]) { e.preventDefault(); timers[id].reset(); } }
     else if (/^Digit[1-9]$/.test(e.code)) {
       var n = parseInt(e.code.slice(5), 10) - 1;
       var rows = slides[current].querySelectorAll('.tally-row');
@@ -2475,14 +2352,12 @@ const ACTIVITIES = {
   window.DECK = {
     show: show,
     current: function () { return current; },
-    timers: timers,
     reveal: function (id) { if (revealFns[id]) revealFns[id](); },
     storageOK: function () { return storageOK; },
     state: function () { return state; },
     worst: function (id) {
       var s = document.getElementById(id);
       s.querySelectorAll('.tally-count').forEach(function (inp) { inp.value = 999; inp.dispatchEvent(new Event('input')); });
-      if (timers[id]) timers[id].expire();
       if (id === 's-warm-up') s.querySelectorAll('.warm-card').forEach(function (c) { if (!c.classList.contains('open')) c.click(); });
       if (id === 's-hook') revealFns[id]();
       if (id === 's-compare') for (var i = 0; i < 10; i++) revealFns[id]();
