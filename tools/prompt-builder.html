@@ -468,7 +468,7 @@
             <span class="hint">Waiting for approval is the repository's workflow (CLAUDE.md, Workflow step 2).</span>
           </div>
           <div class="actions">
-            <button type="button" class="ghost" id="reset">Clear form</button>
+            <button type="button" class="ghost" id="clear-form">Clear form</button>
           </div>
         </section>
       </form>
@@ -928,7 +928,7 @@ $('dl-context').addEventListener('click', () => {
   status('Downloaded ' + a.download + '.', true);
 });
 
-$('reset').addEventListener('click', () => {
+$('clear-form').addEventListener('click', () => {
   if (!window.confirm('Clear every field? This cannot be undone.')) return;
   form.reset();
   $('s-slug').dataset.auto = 'true';
