@@ -176,7 +176,7 @@ Twenty-four patterns in four families. Choose the archetype from the idea the sl
 | 3 | Session map | Framing | Showing the running order, reprised at each section | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slides 4, 12, 18 |
 | 4 | Section divider | Framing | Marking a new section | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 6 |
 | 5 | Close and bridge | Framing | Consolidating and pointing to the next session | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 22 (standalone variant) |
-| 6 | Statement | Exposition | One claim that deserves the whole frame | specified | |
+| 6 | Statement | Exposition | One claim that deserves the whole frame | specified | `standalone/2026-09-telegraphing.html` slide 2 |
 | 7 | Definition | Exposition | Fixing a term and its boundary | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slides 7, 8 |
 | 8 | Quote plus commentary | Exposition | A source's words, then interpretation | proven | `reference/theory-of-change.html` |
 | 9 | Split with panel | Exposition | One principle with one worked illustration | proven | `reference/theory-of-change.html` |

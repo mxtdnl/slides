@@ -5,7 +5,10 @@
 // initial and worst state of every slide, keyboard guards and focus
 // states, persistence (reload, export, reset, import, storage throwing),
 // contrast at 1280x720, print in both modes, and the 360px layout.
-// The deck must expose window.DECK (show, worst, selectPart, fillBoard).
+// The deck must expose window.DECK (show, current, worst; selectPart and fillBoard
+// where used). A deck with no response store sets DECK.hasStore = false and the
+// persistence harness is skipped. Slides with [data-activity] or [data-reveal]
+// are also measured in their worst state.
 // Exits non-zero on any failure.
 
 import { createRequire } from 'node:module';
@@ -49,7 +52,7 @@ async function openDeck(context, hash = '') {
 
 async function slideInfo(page) {
   return page.evaluate(() => Array.from(document.querySelectorAll('.slide')).map((s) => ({
-    id: s.id, archetype: s.getAttribute('data-archetype'), activity: !!s.querySelector('[data-activity]'),
+    id: s.id, archetype: s.getAttribute('data-archetype'), activity: !!s.querySelector('[data-activity], [data-reveal]'),
   })));
 }
 
@@ -225,7 +228,15 @@ log('\n== KEYBOARD ==');
 // ---------- Persistence ----------
 
 log('\n== PERSISTENCE ==');
-{
+const hasStore = await (async () => {
+  const ctx = await browser.newContext();
+  const page = await openDeck(ctx);
+  const r = await page.evaluate(() => window.DECK.hasStore !== false);
+  await ctx.close();
+  return r;
+})();
+if (!hasStore) log('Skipped: the deck declares no response store (interaction level none).');
+else {
   const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, acceptDownloads: true });
   const page = await openDeck(ctx);
   await page.evaluate(() => localStorage.clear());
@@ -391,7 +402,7 @@ for (const mode of ['student', 'instructor']) {
   over.forEach(([n, h]) => fail('PRINT', `${mode}: slide ${n} is ${h}px, taller than the 1047px A4 content box`));
   const pdf = await page.pdf({ format: 'A4', margin: { top: '10mm', bottom: '10mm', left: '10mm', right: '10mm' }, printBackground: true, preferCSSPageSize: true });
   const pages = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
-  const expected = slides.length + 1;
+  const expected = slides.length + await page.evaluate(() => document.querySelectorAll('.exit-page').length);
   log(`${mode.padEnd(10)} pages ${pages} (expected ${expected}); tallest slide ${Math.max(...heights)}px`);
   if (pages !== expected) fail('PRINT', `${mode}: ${pages} pages, expected ${expected}`);
   if (shotsDir) writeFileSync(join(shotsDir, `print-${mode}.pdf`), pdf);

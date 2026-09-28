@@ -46,6 +46,8 @@ tools/
 - `tests/verify-deck.mjs` — Fit, state, keyboard, persistence, contrast and print harnesses for one deck (see `SLIDES.md` section 16)
 - `standalone/2026-09-lagging-and-leading-indicators.brief.md` — Brief for the deck below
 - `standalone/2026-09-lagging-and-leading-indicators.html` — Coaching 1 Workshop 2 (September 2026), undergraduate students at Hult, lagging and leading indicators applied to goal hierarchies; patterns: retrieval warm-up, claim tally, comparison-matrix row reveal, single-select with confidence check, select-detail, predict and reveal, spot the flaw, worked example, think pair share, live board, exit ticket
+- `standalone/2026-09-telegraphing.brief.md` — Brief for the deck below
+- `standalone/2026-09-telegraphing.html` — Coaching department meeting (September 2026), student development coaches, telegraphing direction and purpose to emerging adults; dark theme, interaction level none: no activity patterns (presenter row reveal on the comparison matrix only)
 
 Keep this list current. When adding a deck, add a line here in the form `courses/<slug>/<file>.html` — Course, week, topic, and the activity patterns it uses. Also add a card for it in `index.html` under its course heading, inside `.deck-grid`. When adding a course, add its `COURSE.md` here and a course heading in `index.html`. Standalone decks are listed as `standalone/<file>.html` — Occasion, audience, topic, activity patterns, and appear in `index.html` under a `STANDALONE` heading placed after the courses.
 
