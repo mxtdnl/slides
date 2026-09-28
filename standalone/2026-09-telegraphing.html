@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Telegraphing</title>
+<style>
+/* ============================================================
+   TELEGRAPHING: PROJECTION DECK
+   Coaching department meeting, September 2026. Dark theme.
+   Interaction level: none (no activities, no response store, no timers).
+   A fixed 16:9 stage. The root font-size IS the slide unit:
+   1rem = 1% of stage width, so every dimension is in rem.
+   Dark theme rule: accents carry fills, rails, rules and borders.
+   Text is --text, --text-muted or gold (--accent-4) only.
+   ============================================================ */
+
+html { font-size: min(1vw, 1.7778vh); }
+
+:root {
+  --bg: #1A1510;
+  --bg-card: #2E241C;
+  --bg-surface: #241C14;
+  --bg-elevated: #382E24;
+  --text: #F2DFBE;
+  --text-muted: #A89878;
+  --text-dim: #6A5A48;
+  --border: #3A3228;
+  --accent-1: #5C3A96;
+  --accent-2: #B52838;
+  --accent-3: #C85218;
+  --accent-4: #D4A020;
+  --accent-5: #7A5828;
+  --accent-6: #B83068;
+  --accent-7: #CC6830;
+  --accent-8: #7E58A8;
+  --accent-4-ink: #7A5410;
+  --accent-7-ink: #9E4718;
+  --dark-ink: #2A1F18;          /* text on gold and orange fills */
+  --label: var(--accent-4);     /* the only accent readable as text on dark surfaces */
+  --slide-accent: var(--accent-1);
+  --on-accent: #fff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.85rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+button { font-family: inherit; color: inherit; cursor: pointer; }
+
+.deck { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+.stage { position: relative; width: 100rem; height: 56.25rem; background: var(--bg); overflow: hidden; }
+
+*:focus-visible { outline: 0.3rem solid var(--accent-4); outline-offset: 0.2rem; }
+
+/* ---------- Chrome ---------- */
+
+.progress-track { position: absolute; top: 0; left: 0; right: 0; height: 0.7rem; background: var(--bg-surface); z-index: 60; }
+.progress-fill { height: 100%; width: 0; background: var(--slide-accent); transition: width 0.4s ease, background-color 0.2s ease; }
+
+.deck-chrome {
+  position: absolute; bottom: 1.5rem; right: 2.4rem;
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card); border: 0.2rem solid var(--border);
+  z-index: 60; opacity: 1; transition: opacity 0.3s ease;
+}
+.deck-chrome.idle { opacity: 0; pointer-events: none; }
+.nav-btn, .btn {
+  background: var(--accent-1); color: #fff; border: 0.2rem solid transparent;
+  min-width: 4.4rem; height: 2.8rem; padding: 0 1.4rem;
+  font-weight: 700; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.nav-btn:hover:not(:disabled), .btn:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-0.2rem); }
+.nav-btn:disabled, .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-btn.ghost, .btn.ghost { background: transparent; color: var(--text); border-color: var(--text); }
+.nav-btn.ghost:hover:not(:disabled), .btn.ghost:hover:not(:disabled) { background: var(--text); color: var(--bg); }
+.nav-info { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); padding: 0 0.4rem; font-variant-numeric: tabular-nums; }
+
+.blackout { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: none; }
+.blackout.on { display: block; }
+
+/* ---------- Slide frame ---------- */
+
+.slide { position: absolute; inset: 0; display: none; }
+.slide.active { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(0.4rem); } to { opacity: 1; transform: none; } }
+
+.rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1.9rem; background: var(--slide-accent); z-index: 4; }
+.slide-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 3.8rem 5.5rem 4.6rem 7rem;
+  display: flex; flex-direction: column;
+}
+.slide-no {
+  position: absolute; top: 2.4rem; right: 5.5rem; z-index: 5;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2em; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.notes { display: none; }
+
+.s-head { flex-shrink: 0; margin-bottom: 2rem; }
+.s-head::before { content: ''; display: block; width: 13rem; height: 0.9rem; background: var(--slide-accent); margin-bottom: 1.2rem; }
+
+.eyebrow {
+  display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 0.7rem; color: var(--label);
+}
+h1 { font-size: 7rem; font-weight: 800; line-height: 0.94; letter-spacing: -0.01em; }
+h2 { font-size: 3.8rem; font-weight: 800; line-height: 1.02; letter-spacing: -0.005em; }
+h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
+.s-body { flex: 1; min-height: 0; position: relative; }
+p { font-size: 1.85rem; }
+.small { font-size: 1.55rem; }
+.micro { font-size: 1.25rem; color: var(--text-muted); line-height: 1.4; }
+.lede { font-size: 2.1rem; line-height: 1.4; color: var(--text-muted); }
+.quiet { color: var(--text-muted); }
+.label { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+
+.grid { display: grid; gap: 2.6rem; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-7-5 { grid-template-columns: 7fr 5fr; }
+.g-5-7 { grid-template-columns: 5fr 7fr; }
+.g-6-6 { grid-template-columns: 1fr 1fr; }
+.stack > * + * { margin-top: 1.2rem; }
+.center-y { align-content: center; }
+.fill { height: 100%; }
+
+.card { background: var(--bg-card); border: 0.2rem solid var(--border); padding: 1.8rem 2rem; position: relative; }
+.card.rail-top { border-top: 0.7rem solid var(--card-color, var(--slide-accent)); }
+.card-name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 0.6rem; }
+.pip { display: inline-block; width: 1.2rem; height: 1.2rem; background: var(--pip, var(--slide-accent)); flex-shrink: 0; }
+.banner { background: var(--slide-accent); color: var(--on-accent); padding: 1.3rem 1.8rem; font-size: 1.55rem; font-weight: 700; line-height: 1.4; }
+.banner.neutral { background: var(--text); color: var(--bg); }
+
+/* ---------- Decorative geometry ---------- */
+
+.deco { position: absolute; z-index: 1; pointer-events: none; }
+.deco.circle { border-radius: 50%; }
+.deco.ring { border-radius: 50%; background: transparent !important; border-style: solid; }
+.deco.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+/* ---------- 1. Title poster ---------- */
+
+.hero { align-items: center; height: 100%; grid-template-columns: 8fr 4fr; }
+.hero h1 { margin: 0.6rem 0 2.6rem; font-size: 7.6rem; }
+.hero .lede { max-width: 50rem; }
+.hero-mark { position: relative; height: 44rem; }
+.hero-mark > div { position: absolute; }
+.hm-circle { width: 19rem; height: 19rem; border-radius: 50%; background: var(--accent-1); top: 3rem; left: 8rem; }
+.hm-square { width: 11rem; height: 11rem; background: var(--accent-4); top: 25rem; left: 1rem; transform: rotate(16deg); }
+.hm-ring { width: 11rem; height: 11rem; border-radius: 50%; border: 1.4rem solid var(--accent-6); top: 26rem; left: 16rem; }
+.hm-tri { width: 9rem; height: 9rem; background: var(--accent-2); clip-path: polygon(0 0, 100% 50%, 0 100%); top: 8rem; left: 1.5rem; }
+.hm-signal { top: 41rem; left: 1rem; display: flex; gap: 1.2rem; align-items: center; transform: rotate(-4deg); }
+.hm-signal span { display: block; height: 1.6rem; background: var(--accent-7); }
+.hm-signal .dot { width: 1.6rem; }
+.hm-signal .dash { width: 4.4rem; }
+
+/* ---------- 2. Statement ---------- */
+
+.stmt-inner { justify-content: flex-end; padding-bottom: 8rem; }
+.stmt-text { font-size: 5rem; font-weight: 800; line-height: 1.05; max-width: 64rem; }
+.stmt-attr { margin-top: 2rem; }
+.stmt-block { position: absolute; top: -2rem; bottom: -2rem; right: 0; width: 25rem; background: var(--slide-accent); z-index: 1; }
+.stmt-block::after { content: ''; position: absolute; left: -7rem; top: 12rem; width: 14rem; height: 14rem; border-radius: 50%; border: 1.6rem solid var(--accent-1); }
+.slide[data-archetype="statement"] .slide-no { color: var(--on-accent); background: var(--slide-accent); }
+
+/* ---------- 3. Outcomes ---------- */
+
+.outcome-list { display: flex; flex-direction: column; justify-content: center; height: 100%; gap: 4rem; }
+.outcome-row { display: flex; align-items: center; gap: 2.4rem; }
+.outcome-num {
+  width: 6rem; height: 6rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: var(--row-on, #fff); font-size: 3rem; font-weight: 800;
+}
+.outcome-row p { font-size: 2.1rem; line-height: 1.35; }
+.outcome-row strong { font-weight: 800; color: var(--label); }
+.outcomes-left h2 { margin-bottom: 2rem; }
+
+/* ---------- 4. Session map ---------- */
+
+.map-band { display: grid; gap: 0.8rem; align-items: end; margin-top: 2rem; }
+.map-seg {
+  position: relative; min-height: 15rem; padding: 1.4rem 1.4rem 1.2rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-card); border-top: 0.6rem solid var(--slide-accent);
+  transition: background-color 0.2s ease, min-height 0.2s ease;
+}
+.map-seg.upcoming { background: color-mix(in srgb, var(--slide-accent) 15%, var(--bg-card)); border-top-color: transparent; }
+.map-seg.done { background: var(--bg-surface); }
+.map-seg.current { background: var(--slide-accent); color: var(--on-accent); min-height: 17rem; border-top-color: var(--slide-accent); }
+.map-seg .seg-name { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
+.map-seg .seg-min { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.map-next { margin-top: 4rem; display: grid; grid-template-columns: auto 1fr; gap: 2.4rem; align-items: start; }
+.map-next .label { padding: 0.5rem 1.1rem; background: var(--text); color: var(--bg); margin-top: 0.8rem; }
+.map-next p { font-size: 2.8rem; font-weight: 800; line-height: 1.2; max-width: 64rem; }
+
+/* ---------- Section divider ---------- */
+
+.slide.divider { background: var(--slide-accent); }
+.slide.divider .slide-inner { justify-content: center; color: #fff; }
+.slide.divider .eyebrow { color: #fff; }
+.slide.divider h1 { color: #fff; margin: 1rem 0 2.2rem; max-width: 70rem; }
+.slide.divider h3 { color: #fff; max-width: 64rem; }
+.slide.divider .slide-no { color: #fff; }
+.divider-num {
+  position: absolute; right: -3rem; bottom: -12rem; font-size: 40rem; font-weight: 800; line-height: 1;
+  color: var(--bg); opacity: 0.15; z-index: 1; pointer-events: none;
+}
+
+/* ---------- Numbered cards ---------- */
+
+.num-cards { align-items: stretch; }
+.num-card { display: flex; flex-direction: column; background: var(--bg-card); border: 0.2rem solid var(--border); }
+.num-head { background: var(--card-color); color: #fff; padding: 1.4rem 1.8rem 1.6rem; position: relative; overflow: hidden; min-height: 8rem; display: flex; align-items: flex-end; }
+.num-head .num-big { position: absolute; right: 1rem; top: -2.4rem; font-size: 11rem; font-weight: 800; line-height: 1; opacity: 0.25; }
+.num-head h3 { position: relative; font-size: 2.1rem; letter-spacing: 0.06em; }
+.num-body { padding: 1.6rem 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 1.4rem; }
+.num-body p { font-size: 1.65rem; line-height: 1.45; }
+.num-body .ask { font-size: 1.45rem; font-weight: 700; border-top: 0.3rem solid var(--card-color); padding-top: 1rem; }
+.num-foot { margin-top: 1.8rem; flex-shrink: 0; }
+
+/* ---------- Definition ---------- */
+
+.def-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 1rem solid var(--slide-accent); padding: 2rem 2.4rem; }
+.def-card p { font-size: 2.3rem; line-height: 1.4; }
+.def-pair { margin-top: 2.4rem; }
+.def-pair .card { padding: 1.8rem 2.2rem; }
+.def-pair .card p { font-size: 1.8rem; line-height: 1.4; }
+.def-pair .why-line { margin-top: 1rem; font-size: 1.55rem; color: var(--text-muted); }
+
+/* ---------- Quote plus commentary ---------- */
+
+.quote-grid { height: 100%; }
+.quote-block {
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 1rem solid var(--slide-accent);
+  padding: 2.4rem 2.6rem; display: flex; flex-direction: column; justify-content: center; gap: 1.8rem;
+}
+.quote-block blockquote { font-size: 2.1rem; font-style: italic; line-height: 1.45; }
+.quote-block .attr { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); }
+.commentary { display: flex; flex-direction: column; justify-content: center; }
+.commentary p { font-size: 1.7rem; line-height: 1.45; }
+.commentary .banner { margin-top: 2rem; }
+
+/* ---------- Split with panel ---------- */
+
+.split { height: 100%; }
+.split-text { display: flex; flex-direction: column; justify-content: center; }
+.split-text p { font-size: 1.7rem; line-height: 1.45; }
+.split-text p + p { margin-top: 1.6rem; }
+.panel-card {
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--slide-accent);
+  padding: 2.2rem 2.4rem; display: flex; flex-direction: column; justify-content: center; gap: 1.6rem;
+}
+.panel-card .said { font-size: 1.95rem; font-style: italic; line-height: 1.45; }
+
+/* ---------- Sequence band ---------- */
+
+.seq-band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; align-items: end; }
+.seq-block {
+  position: relative; overflow: hidden; background: var(--block-color); color: var(--block-on, #fff);
+  min-height: 11rem; padding: 1.4rem 1.6rem; display: flex; flex-direction: column; justify-content: flex-end;
+}
+.seq-block.emph { min-height: 14rem; }
+.seq-block .seq-no { position: absolute; right: 1rem; top: -1.6rem; font-size: 8rem; font-weight: 800; line-height: 1; opacity: 0.25; }
+.seq-block h3 { position: relative; font-size: 1.8rem; letter-spacing: 0.06em; }
+.seq-text { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-top: 0.8rem; }
+.seq-text p { background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.5rem solid var(--block-color); padding: 1.4rem 1.6rem; font-size: 1.6rem; line-height: 1.45; }
+.seq-foot { margin-top: 2.4rem; }
+
+/* ---------- Comparison matrix ---------- */
+
+.cmp-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.cmp-table th, .cmp-table td { border: 0.2rem solid var(--border); padding: 1.1rem 1.5rem; text-align: left; vertical-align: middle; }
+.cmp-table thead th { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; border-color: transparent; }
+.cmp-table thead th.cmp-crit { background: var(--text); color: var(--bg); width: 20%; }
+.cmp-table thead th.cmp-without { background: var(--accent-5); color: #fff; }
+.cmp-table thead th.cmp-with { background: var(--accent-4); color: var(--dark-ink); }
+.cmp-table tbody th { font-size: 1.5rem; font-weight: 700; background: var(--bg-card); }
+.cmp-table tbody td { font-size: 1.55rem; background: var(--bg-card); line-height: 1.4; }
+.cmp-table tbody td.cmp-without { border-left: 0.6rem solid var(--accent-5); }
+.cmp-table tbody td.cmp-with { border-left: 0.6rem solid var(--accent-4); }
+.cmp-table .say::before { content: '\201C'; }
+.cmp-table .say::after { content: '\201D'; }
+.cmp-table tbody tr td span { transition: opacity 0.3s ease; }
+.cmp-table tbody tr:not(.revealed) td span { opacity: 0; }
+.cmp-table tbody tr:not(.revealed) td { background: var(--bg-surface); }
+.cmp-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 1.8rem; gap: 2rem; }
+
+/* ---------- Close and bridge ---------- */
+
+.close-grid { align-items: center; height: 100%; }
+.close-list { display: flex; flex-direction: column; gap: 1.8rem; margin-top: 1rem; }
+.close-list li { list-style: none; display: grid; grid-template-columns: 1.6rem 1fr; gap: 1.4rem; align-items: start; font-size: 1.85rem; line-height: 1.35; }
+.close-list .pip { width: 1.6rem; height: 1.6rem; margin-top: 0.6rem; }
+.close-hook { margin-top: 3rem; font-size: 2.4rem; font-weight: 800; line-height: 1.25; padding: 1.6rem 2rem; background: var(--slide-accent); color: #fff; }
+.bridge-card { background: var(--bg-card); border: 0.3rem solid var(--text); padding: 2rem 2.2rem; }
+.bridge-card h3 { font-size: 1.5rem; letter-spacing: 0.16em; margin-bottom: 1.2rem; color: var(--label); }
+.bridge-card p { font-size: 1.5rem; line-height: 1.5; }
+
+/* ---------- Motion preference ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Narrow and portrait: a scrolling document ---------- */
+
+@media screen and (max-width: 860px), screen and (max-aspect-ratio: 1/1) {
+  html { font-size: max(3.1vw, 9px); }
+  body { overflow: auto; background: var(--bg); }
+  .deck { position: static; display: block; }
+  .stage { width: 100%; height: auto; min-height: 100vh; padding-bottom: 9rem; overflow: hidden; }
+  .slide { position: static; }
+  .slide.divider { min-height: 100vh; }
+  .slide-inner { height: auto; padding: 5rem 2.5rem 3rem 4.4rem; }
+  .slide-no { top: 2rem; right: 2.5rem; }
+  .progress-track { position: fixed; }
+  .deck-chrome {
+    position: fixed; bottom: 0; left: 0; right: 0; justify-content: space-between;
+    border-width: 0.4rem 0 0; border-color: var(--accent-1); padding: 1rem 0.9rem;
+  }
+  .deck-chrome.idle { opacity: 1; pointer-events: auto; }
+  .nav-btn, .btn { min-height: 44px; min-width: 44px; font-size: 1.4rem; }
+  .nav-info { white-space: nowrap; font-size: 1.3rem; }
+  h1, .hero h1 { font-size: 5.2rem; }
+  h2 { font-size: 3.4rem; }
+  .stmt-text { font-size: 3.8rem; }
+  .stmt-inner { padding-bottom: 4rem; padding-right: 12rem; }
+  .stmt-block { width: 8rem; }
+  .stmt-block::after { display: none; }
+  .slide[data-archetype="statement"] .slide-no { color: var(--text-muted); right: 10.5rem; }
+  .g-2, .g-3, .g-7-5, .g-5-7, .g-6-6, .seq-band, .seq-text { grid-template-columns: 1fr; }
+  .hero-mark { display: none; }
+  .map-band { grid-template-columns: 1fr !important; }
+  .map-seg, .map-seg.current, .seq-block, .seq-block.emph { min-height: 0; }
+  .cmp-table thead th.cmp-crit { width: 26%; }
+  .cmp-table th, .cmp-table td { padding: 0.8rem; }
+  .cmp-foot { flex-direction: column; align-items: flex-start; }
+  .divider-num { font-size: 24rem; }
+}
+
+/* ---------- Print: one slide per A4 page, light palette on paper ---------- */
+
+@page { size: A4 portrait; margin: 10mm; }
+
+@media print {
+  :root {
+    --bg: #fff;
+    --bg-card: #FFFAF2;
+    --bg-surface: #E8D2A8;
+    --text: #2A1F18;
+    --text-muted: #6A5A48;
+    --border: #D8C8A8;
+    --label: var(--accent-4-ink);
+  }
+  html { font-size: 8.6pt; }
+  body { background: #fff; overflow: visible; }
+  .deck { position: static; display: block; }
+  .stage { width: auto; height: auto; background: #fff; overflow: visible; }
+  .slide { position: relative; display: block !important; page-break-after: always; break-after: page; animation: none; overflow: hidden; }
+  .slide-inner { height: auto; padding: 2.4rem 3rem 2rem 5rem; }
+  .progress-track, .deck-chrome, .deco, .hero-mark, .blackout, .cmp-foot .btn, .divider-num, .stmt-block { display: none !important; }
+  .rail, .s-head::before, .slide.divider, .outcome-num, .map-seg, .num-head, .seq-block, .cmp-table thead th, .banner,
+  .close-hook, .card, .def-card, .quote-block, .panel-card, .num-card, .seq-text p, .bridge-card {
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .slide[data-archetype="statement"] .slide-no { color: var(--text-muted); }
+  .stmt-inner { padding: 8rem 3rem 8rem 5rem; }
+  .s-head { margin-bottom: 1.2rem; }
+  h2 { font-size: 3rem; }
+  .grid { gap: 1.8rem; }
+  .hero, .fill, .quote-grid, .split, .close-grid, .outcome-list { height: auto; }
+  .map-seg, .map-seg.current, .seq-block, .seq-block.emph, .num-head { min-height: 0; }
+  .num-head .num-big { display: none; }
+  .num-head { padding: 1rem 1.4rem; }
+  .num-head h3 { font-size: 1.5rem; letter-spacing: 0.02em; }
+  .num-body { padding: 1.2rem 1.4rem; }
+  .num-body p { font-size: 1.45rem; }
+  .num-body .ask { font-size: 1.3rem; }
+  .seq-band, .seq-text { grid-template-columns: 1fr 1fr; }
+  .slide[data-archetype="close-bridge"] .s-body, .slide[data-archetype="quote-commentary"] .s-body { grid-template-columns: 1fr; }
+  .cmp-table tbody tr td span { opacity: 1 !important; }
+  .cmp-table tbody tr td { background: var(--bg-card) !important; }
+  body.instructor .notes {
+    display: block; position: relative; z-index: 2; margin: 0 3rem 2rem 5rem; padding: 1.4rem 1.8rem;
+    border: 0.2rem solid var(--text); font-size: 1.25rem; line-height: 1.4; background: #fff; color: var(--text);
+  }
+  body.instructor .notes::before { content: 'SPEAKER NOTES'; display: block; font-weight: 700; letter-spacing: 0.16em; font-size: 1.1rem; margin-bottom: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+<div class="stage" id="stage">
+
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ============ 1. TITLE POSTER ============ -->
+  <section class="slide" id="s-title" data-accent="var(--accent-1)" data-archetype="title-poster">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 hero">
+        <div>
+          <span class="eyebrow">Coaching department meeting &middot; September 2026</span>
+          <h1>Telegraphing</h1>
+          <p class="lede">Our students cannot see what we are trying to do unless we show them. Telegraphing makes the direction of travel visible, explicitly and often.</p>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <div class="hm-circle"></div>
+          <div class="hm-tri"></div>
+          <div class="hm-square"></div>
+          <div class="hm-ring"></div>
+          <div class="hm-signal"><span class="dot"></span><span class="dash"></span><span class="dot"></span><span class="dash"></span><span class="dash"></span><span class="dot"></span></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Welcome. This is a short session, about 25 minutes, with no activities: it introduces one idea and one tool. The idea: students cannot see what we are trying to do in a session unless we show them. The tool: telegraphing, a word borrowed from sport, entertainment and video games. We will see what the word means, connect it to our own research on directiveness, and finish with what to telegraph and when. About 30 seconds.</aside>
+    <div class="deco circle" style="width: 34rem; height: 34rem; background: var(--accent-8); opacity: 0.1; bottom: -18rem; left: -10rem"></div>
+    <div class="deco" style="width: 80rem; height: 1rem; background: var(--accent-4); opacity: 0.12; bottom: 7rem; left: 4rem; transform: rotate(-2deg)"></div>
+  </section>
+
+  <!-- ============ 2. STATEMENT ============ -->
+  <section class="slide" id="s-premise" data-accent="var(--accent-4)" data-archetype="statement">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="stmt-block" aria-hidden="true"></div>
+    <div class="slide-inner stmt-inner">
+      <div class="s-body" style="flex: 0 0 auto">
+        <p class="stmt-text">Students cannot see where a session is going unless we show them.</p>
+        <p class="micro stmt-attr">The premise of this session</p>
+      </div>
+    </div>
+    <aside class="notes">Let this sit for a moment. We know where a session is going: we planned it, and we know why each question matters. The student in front of us usually does not. Ask the room, rhetorically: in your last session, at what point did the student know what the session was for? Did you tell them, or did you assume they knew? About 1 minute.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-6); opacity: 0.1; top: -12rem; left: 20rem; transform: rotate(22deg)"></div>
+    <div class="deco" style="width: 60rem; height: 1rem; background: var(--accent-2); opacity: 0.12; top: 17rem; left: -4rem; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 3. OUTCOMES ============ -->
+  <section class="slide" id="s-outcomes" data-accent="var(--accent-2)" data-archetype="outcomes">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-5-7 fill">
+        <div class="outcomes-left" style="align-self: center">
+          <header class="s-head">
+            <span class="eyebrow">Outcomes</span>
+            <h2>By the end of this session</h2>
+          </header>
+          <p class="small quiet">No activities today. Both outcomes return as a question on the final slide.</p>
+        </div>
+        <div class="outcome-list">
+          <div class="outcome-row" style="--row-color: var(--accent-1)"><div class="outcome-num">1</div><p><strong>Explain</strong> what telegraphing is, and why emerging adults need the direction of travel made explicit.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-4); --row-on: var(--dark-ink)"><div class="outcome-num">2</div><p><strong>Telegraph</strong> the goal, the purpose and the next move at planned points in your own sessions.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Two outcomes. The first is about the concept: what the word means and why it matters for our students in particular. The second is about practice: three things to telegraph and four moments to do it. There are no activities in this session, so the check is yours to do afterwards: the final slide asks where you will telegraph first. About 1 minute.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-4); opacity: 0.09; top: -13rem; left: 22rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-6); opacity: 0.1; bottom: -9rem; left: 4rem"></div>
+  </section>
+
+  <!-- ============ 4. SESSION MAP ============ -->
+  <section class="slide" id="s-map-1" data-accent="var(--accent-8)" data-archetype="session-map" data-current="1">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map</span>
+        <h2>Today's session</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Next</span><p>What does it mean to telegraph a move?</p></div>
+      </div>
+    </div>
+    <aside class="notes">This slide telegraphs the session: three parts and a close, about 25 minutes. Part 1 fixes the word. Part 2 connects it to the directiveness finding in our own study. Part 3, the longest, turns it into practice: what to telegraph and when. Point out that this slide is itself an example of the tool. About 30 seconds.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-6); opacity: 0.12; bottom: 11rem; left: 10rem; transform: rotate(-3deg)"></div>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.08; top: -10rem; right: -6rem"></div>
+  </section>
+
+  <!-- ============ 5. SECTION DIVIDER: PART 1 ============ -->
+  <section class="slide divider" id="s-part-1" data-accent="var(--accent-1)" data-archetype="section-divider">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <span class="eyebrow">Part 1</span>
+      <h1>The word</h1>
+      <h3>What does it mean to telegraph a move?</h3>
+    </div>
+    <div class="divider-num" aria-hidden="true">1</div>
+    <aside class="notes">Part 1: the word itself. We borrow it from three places, and each use adds something to how we can use it in coaching. About 6 minutes for this part.</aside>
+    <div class="deco circle" style="width: 30rem; height: 30rem; background: var(--bg); opacity: 0.12; top: -12rem; left: 48rem"></div>
+    <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 10rem; left: 0; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 6. NUMBERED CARDS: THREE CONTEXTS ============ -->
+  <section class="slide" id="s-contexts" data-accent="var(--accent-6)" data-archetype="numbered-cards">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Three contexts</span>
+        <h2>Telegraphing shows the next move</h2>
+      </header>
+      <div class="s-body grid g-3 num-cards">
+        <div class="num-card" style="--card-color: var(--accent-1)">
+          <div class="num-head"><span class="num-big">1</span><h3>Sport</h3></div>
+          <div class="num-body"><p>A fighter draws back before striking. The opponent reads the movement and gets ready for the blow.</p><p class="ask">Unintended: it gives the move away.</p></div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-2)">
+          <div class="num-head"><span class="num-big">2</span><h3>Entertainment</h3></div>
+          <div class="num-body"><p>A story plants a hint of what is coming, so the audience is ready when it arrives.</p><p class="ask">Deliberate: it prepares the audience.</p></div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-5)">
+          <div class="num-head"><span class="num-big">3</span><h3>Video games</h3></div>
+          <div class="num-body"><p>An enemy winds up before it attacks. The wind-up is designed so the player can read the move and react.</p><p class="ask">Designed: it gives the player a chance to respond.</p></div>
+        </div>
+      </div>
+      <div class="banner num-foot">Coaching borrows the designer's sense: signal the move on purpose, so the student can respond.</div>
+    </div>
+    <aside class="notes">Take the cards left to right. In sport, telegraphing is a flaw: a boxer who draws back before a punch gives the opponent time to react, so coaches train it out. In entertainment, writers do it on purpose so a later moment lands. In video games it is designed in: it makes obvious what the next move is, and when. That last sense is ours: we signal on purpose so the student can see what is coming and take part. About 3 minutes.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-4); opacity: 0.12; top: 12.5rem; left: 24rem; transform: rotate(-2deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-8); opacity: 0.1; bottom: -11rem; right: -5rem"></div>
+  </section>
+
+  <!-- ============ 7. DEFINITION ============ -->
+  <section class="slide" id="s-definition" data-accent="var(--accent-4)" data-archetype="definition">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Definition &middot; In coaching</span>
+        <h2>Telegraphing</h2>
+      </header>
+      <div class="s-body">
+        <div class="def-card"><p>Making the direction and purpose of what you are doing visible to the student before you do it, explicitly and often.</p></div>
+        <div class="grid g-2 def-pair">
+          <div class="card rail-top" style="--card-color: var(--accent-4)">
+            <div class="card-name">Example</div>
+            <p>&ldquo;Today we test your options against the goal you set last time, so you leave with one to try.&rdquo;</p>
+            <p class="why-line">It names the goal, the purpose and the move before they happen.</p>
+          </div>
+          <div class="card rail-top" style="--card-color: var(--accent-2)">
+            <div class="card-name">Non-example</div>
+            <p>&ldquo;You should drop the module and take the internship.&rdquo;</p>
+            <p class="why-line">It gives the answer rather than the direction of travel. The student no longer does the thinking.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">The definition has two halves: direction and purpose, and before you do it. Stress "explicitly and often": once at the start of the year is not enough. The non-example is the point of the slide. Telegraphing is a form of direction, but it points the way; it does not choose for the student. That boundary is what keeps it compatible with a non-directive stance. Ask: "Which of these would a student find more directive?" Both are, in different ways. About 2.5 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.12; top: -8rem; right: -6rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-6); opacity: 0.1; bottom: -8rem; right: 30rem"></div>
+  </section>
+
+  <!-- ============ 8. SESSION MAP REPRISE ============ -->
+  <section class="slide" id="s-map-2" data-accent="var(--accent-8)" data-archetype="session-map" data-current="3">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map</span>
+        <h2>Where we are</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Next</span><p>What our own research says about direction.</p></div>
+      </div>
+    </div>
+    <aside class="notes">We have the word. Now to why it matters for our students in particular: the directiveness theme in Garcia et al. (2025), the study of our own coaching programme. About 30 seconds.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-2); opacity: 0.12; bottom: 11rem; left: 12rem; transform: rotate(-3deg)"></div>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.08; top: -11rem; right: 8rem; transform: rotate(24deg)"></div>
+  </section>
+
+  <!-- ============ 9. QUOTE PLUS COMMENTARY ============ -->
+  <section class="slide" id="s-direction" data-accent="var(--accent-2)" data-archetype="quote-commentary">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Garcia et al. (2025)</span>
+        <h2>Emerging adults need a direction of travel</h2>
+      </header>
+      <div class="s-body grid g-6-6 center-y quote-grid">
+        <div class="quote-block">
+          <blockquote>&ldquo;An effective amount of direction in a coaching relationship with emerging adults may look like, rather than proscribing answers to problems, establishing the direction of travel when working with an emerging adult.&rdquo;</blockquote>
+          <span class="attr">Garcia, McCloy, Saati, Cassar and Neal (2025)</span>
+        </div>
+        <div class="commentary">
+          <p>Students described a tension between a desire for autonomy and a need for guidance.</p>
+          <p style="margin-top: 1.4rem">The study places effective direction between the prescriptive career adviser and the neutral, detached coach.</p>
+          <div class="banner">Telegraphing is one way to establish that direction without giving the answer.</div>
+          <p class="micro" style="margin-top: 1.4rem">An exploratory study: three student focus groups (12 students) and one coach focus group (4 coaches).</p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">This is the directiveness theme from our own study. Students were grateful for non-directive coaching, but many also wanted structure and found parts of the experience confusing. The paper's proposal is a middle ground: set the direction of travel without prescribing answers. The banner is this session's argument, not the paper's claim: the paper does not use the word telegraphing. Be clear about the limits: a small, exploratory study with a convenience sample of highly engaged students. About 3 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-8); opacity: 0.1; top: -12rem; right: 16rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; bottom: -8rem; left: 26rem"></div>
+  </section>
+
+  <!-- ============ 10. SPLIT WITH PANEL ============ -->
+  <section class="slide" id="s-expectations" data-accent="var(--accent-5)" data-archetype="split-panel">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Garcia et al. (2025)</span>
+        <h2>Unclear purpose left some students frustrated</h2>
+      </header>
+      <div class="s-body grid g-5-7 split">
+        <div class="split-text">
+          <p>Some students &ldquo;expected clear guidelines and actionable points and were sometimes frustrated by sessions that nudged them towards introspection&rdquo;.</p>
+          <p>The authors suggest coaches understand &ldquo;where more directive advice could be helpful to potentially overwhelmed students&rdquo;.</p>
+        </div>
+        <div class="panel-card">
+          <div class="card-name">What the coaches found helps</div>
+          <p class="said">&ldquo;clarifying what expectations are on both sides and providing more information about the aims and objectives of the coaching process can help with engagement&rdquo;</p>
+          <div class="banner">That is telegraphing: say what the session is for before asking the student to do the work.</div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">The frustration here is about purpose rather than method. Introspection is the right move; the student just could not see why it was happening. The paper reports that coaches found clarifying expectations and explaining the aims of coaching helped engagement, and its conclusion calls for explicit framing of the coaching role. Telegraphing does that framing at session level, and repeats it. Ask: when a student says a session "was not useful", how often is that a telegraphing gap? About 2.5 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-6); opacity: 0.1; bottom: -11rem; left: 12rem; transform: rotate(18deg)"></div>
+    <div class="deco ring" style="width: 20rem; height: 20rem; border-width: 2rem; border-color: var(--accent-4); opacity: 0.1; top: -9rem; right: 12rem"></div>
+  </section>
+
+  <!-- ============ 11. SECTION DIVIDER: PART 3 ============ -->
+  <section class="slide divider" id="s-part-3" data-accent="var(--accent-1)" data-archetype="section-divider">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <span class="eyebrow">Part 3</span>
+      <h1>The practice</h1>
+      <h3>What do we telegraph, and when?</h3>
+    </div>
+    <div class="divider-num" aria-hidden="true">3</div>
+    <aside class="notes">Part 3 turns the idea into something to use in the next session: three things to telegraph, four moments to do it, and a before and after. About 9 minutes for this part.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--bg); opacity: 0.12; top: -12rem; left: 44rem; transform: rotate(20deg)"></div>
+    <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 10rem; left: 0; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 12. NUMBERED CARDS: WHAT TO TELEGRAPH ============ -->
+  <section class="slide" id="s-what" data-accent="var(--accent-7)" data-archetype="numbered-cards">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">What to telegraph</span>
+        <h2>Telegraph three things</h2>
+      </header>
+      <div class="s-body grid g-3 num-cards">
+        <div class="num-card" style="--card-color: var(--accent-1)">
+          <div class="num-head"><span class="num-big">1</span><h3>The goal</h3></div>
+          <div class="num-body"><p>Where we are going. Name the goal this session serves, in the student's own words where you can.</p><p class="ask">&ldquo;This is about the goal you set...&rdquo;</p></div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-6)">
+          <div class="num-head"><span class="num-big">2</span><h3>The purpose</h3></div>
+          <div class="num-body"><p>Why it matters to them. Link the activity to something the student cares about, and repeat the why.</p><p class="ask">&ldquo;We are doing this because...&rdquo;</p></div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-5)">
+          <div class="num-head"><span class="num-big">3</span><h3>The move</h3></div>
+          <div class="num-body"><p>What happens next and why you are doing it that way, especially before a non-directive move.</p><p class="ask">&ldquo;I am going to ask rather than tell, because...&rdquo;</p></div>
+        </div>
+      </div>
+      <p class="micro num-foot">A working structure for our practice; no published framework is implied.</p>
+    </div>
+    <aside class="notes">Three things. The goal: where this is heading, ideally in the student's own words, so it stays their goal. The purpose: why this matters to them, and say it more than once. The move: what you are about to do and why, which matters most before a non-directive move, because that is where the frustration in the study appeared. The sentence starters are prompts, not scripts. Be clear this is our own working structure rather than a published model. About 3 minutes.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-4); opacity: 0.12; top: 12.5rem; left: 26rem; transform: rotate(-2deg)"></div>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-2); opacity: 0.1; bottom: -12rem; right: -6rem; transform: rotate(24deg)"></div>
+  </section>
+
+  <!-- ============ 13. SEQUENCE BAND: WHEN ============ -->
+  <section class="slide" id="s-when" data-accent="var(--accent-6)" data-archetype="sequence-band">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">When to telegraph</span>
+        <h2>Telegraph at every turn in the session</h2>
+      </header>
+      <div class="s-body">
+        <div class="seq-band">
+          <div class="seq-block" style="--block-color: var(--accent-1)"><span class="seq-no" aria-hidden="true">1</span><h3>Opening</h3></div>
+          <div class="seq-block" style="--block-color: var(--accent-4); --block-on: var(--dark-ink)"><span class="seq-no" aria-hidden="true">2</span><h3>Transition</h3></div>
+          <div class="seq-block emph" style="--block-color: var(--accent-2)"><span class="seq-no" aria-hidden="true">3</span><h3>Before a non&#8209;directive move</h3></div>
+          <div class="seq-block" style="--block-color: var(--accent-8)"><span class="seq-no" aria-hidden="true">4</span><h3>Close</h3></div>
+        </div>
+        <div class="seq-text">
+          <p style="--block-color: var(--accent-1)">Say where the session is going and how it connects to their goal.</p>
+          <p style="--block-color: var(--accent-4)">Name the shift: what we just did, what comes next, and why.</p>
+          <p style="--block-color: var(--accent-2)">Explain why you are asking rather than telling, so silence reads as purposeful.</p>
+          <p style="--block-color: var(--accent-8)">Link what happened back to the goal and say what comes next.</p>
+        </div>
+        <div class="banner neutral seq-foot">Explicitly and often: assume the student has not seen the plan.</div>
+      </div>
+    </div>
+    <aside class="notes">Four moments. The opening and close are familiar; the two in the middle are easier to miss. Transitions: name the shift out loud. Before a non-directive move, the taller block: an open question or a silence can read as the coach withholding help unless you say why you are doing it. "Often" is the key word. Repetition can feel redundant to us, but the student is carrying a great deal else. About 2.5 minutes.</aside>
+    <div class="deco circle" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.08; top: -13rem; right: 10rem"></div>
+    <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-8); opacity: 0.1; bottom: -9rem; left: 36rem; transform: rotate(30deg)"></div>
+  </section>
+
+  <!-- ============ 14. COMPARISON MATRIX: FICTIONAL CASE ============ -->
+  <section class="slide" id="s-matrix" data-accent="var(--accent-4)" data-archetype="comparison-matrix">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Fictional case</span>
+        <h2>Telegraphing takes a sentence or two</h2>
+      </header>
+      <div class="s-body" data-reveal="rows">
+        <table class="cmp-table">
+          <thead><tr><th class="cmp-crit" scope="col">Moment</th><th class="cmp-without" scope="col">Untelegraphed</th><th class="cmp-with" scope="col">Telegraphed</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="cmp-foot">
+          <p class="micro">An illustration written for this session. Press R or the button to reveal each row.</p>
+          <button class="btn" type="button" data-action="reveal-row">Reveal next row</button>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">A fictional case, written for this session. Reveal one row at a time with R. Before each reveal, read the untelegraphed line in the student's voice and ask the room what the student is probably thinking. The telegraphed column adds only a sentence or two each time: telegraphing costs seconds. Row 3 links back to the study: silence without a reason can read as the coach holding back. About 3 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-6); opacity: 0.1; top: -11rem; right: 18rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.12; bottom: -9rem; left: 30rem"></div>
+  </section>
+
+  <!-- ============ 15. CLOSE AND BRIDGE ============ -->
+  <section class="slide" id="s-close" data-accent="var(--accent-1)" data-archetype="close-bridge">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 close-grid">
+        <div>
+          <header class="s-head">
+            <span class="eyebrow">Close</span>
+            <h2>What we can now do</h2>
+          </header>
+          <ul class="close-list">
+            <li><span class="pip" style="--pip: var(--accent-1)"></span>Explain what telegraphing is, and why emerging adults need the direction of travel made explicit.</li>
+            <li><span class="pip" style="--pip: var(--accent-4)"></span>Telegraph the goal, the purpose and the next move at planned points in your own sessions.</li>
+          </ul>
+          <p class="close-hook">Where in your next session will you telegraph first?</p>
+        </div>
+        <div>
+          <div class="bridge-card">
+            <h3>To go further</h3>
+            <p>Garcia, S., McCloy, K., Saati, M., Cassar, S., &amp; Neal, M. (2025). Coaching as a tool for personal development in emerging adults: an exploration of a nascent approach. In <em>ICERI2025 Proceedings</em> (pp. 3721-3730). IATED.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Restate the two outcomes. Then leave the question on screen: where in your next session will you telegraph first? Suggest people pick one moment from the sequence (opening, transition, before a non-directive move, close) and one of the three things (goal, purpose, move). If time allows, take two or three answers from the room. The paper is on the right for anyone who wants the full directiveness theme. About 1 minute.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--accent-4); opacity: 0.08; bottom: -15rem; left: 32rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-6); opacity: 0.1; top: -9rem; left: 52rem"></div>
+  </section>
+
+  <div class="blackout" id="blackout"></div>
+  <div class="deck-chrome" id="chrome">
+    <button class="nav-btn ghost" type="button" id="prev-btn" aria-label="Previous slide">Prev</button>
+    <span class="nav-info" id="nav-info"></span>
+    <button class="nav-btn" type="button" id="next-btn" aria-label="Next slide">Next</button>
+  </div>
+</div>
+</div>
+
+<script>
+/* ============================================================
+   EDITABLE CONTENT
+   This deck has no activities (interaction level: none), so there
+   are no timers, tallies or stored responses. The only editable
+   content outside the slide markup is below.
+   ============================================================ */
+
+const ACTIVITIES = {
+  // Slide 14: fictional before-and-after case. Rows reveal one at a time (R key or button).
+  // Keep each cell to about twelve words. said: true shows the text in quotation marks.
+  's-matrix': {
+    pattern: 'reveal',
+    minutes: 0,                       // 0: no timer
+    rows: [
+      { moment: 'Opening',
+        without: { text: 'So, how have things been?', said: true },
+        with:    { text: 'Last time you set an internship goal. Today we test your plan.', said: true } },
+      { moment: 'Open question',
+        without: { text: 'What do you think you should do?', said: true },
+        with:    { text: 'I will ask rather than advise, because this choice has to be yours.', said: true } },
+      { moment: 'Silence',
+        without: { text: 'The coach waits. The student wonders what is expected.', said: false },
+        with:    { text: 'Take a minute. I am giving you space to think it through.', said: true } },
+      { moment: 'Close',
+        without: { text: 'Great, see you in two weeks.', said: true },
+        with:    { text: 'That moved you a step towards the internship. Next time: your CV.', said: true } }
+    ]
+  }
+};
+
+// Session map: one segment per part, widths proportional to minutes.
+const MAP = [
+  { name: 'Opening', min: 3 },
+  { name: 'Part 1: The word', min: 6 },
+  { name: 'Part 2: The evidence', min: 6 },
+  { name: 'Part 3: The practice', min: 9 },
+  { name: 'Close', min: 1 }
+];
+
+(function () {
+  'use strict';
+
+  // Text colour on each accent fill (SLIDES.md section 10): dark ink on gold and orange.
+  var ON_ACCENT = { '1': '#fff', '2': '#fff', '3': '#fff', '4': 'var(--dark-ink)', '5': '#fff', '6': '#fff', '7': 'var(--dark-ink)', '8': '#fff' };
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+  var revealFns = {};
+
+  if (/[?&]instructor\b/.test(location.search)) document.body.classList.add('instructor');
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function accentNum(v) { var m = /accent-(\d)/.exec(v || ''); return m ? m[1] : '1'; }
+
+  /* ---------- Slide accents and numbering ---------- */
+
+  slides.forEach(function (s, i) {
+    var accent = s.getAttribute('data-accent') || 'var(--accent-1)';
+    s.style.setProperty('--slide-accent', accent);
+    s.style.setProperty('--on-accent', ON_ACCENT[accentNum(accent)]);
+    var no = s.querySelector('.slide-no');
+    if (no) no.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  });
+
+  /* ---------- Session maps ---------- */
+
+  document.querySelectorAll('.slide[data-archetype="session-map"]').forEach(function (s) {
+    var band = s.querySelector('.map-band');
+    var cur = parseInt(s.getAttribute('data-current'), 10) || 1;
+    band.style.gridTemplateColumns = MAP.map(function (m) { return 'minmax(9rem, ' + m.min + 'fr)'; }).join(' ');
+    MAP.forEach(function (m, i) {
+      var n = i + 1;
+      var seg = el('div', 'map-seg ' + (n < cur ? 'done' : (n === cur ? 'current' : 'upcoming')));
+      seg.innerHTML = '<span class="seg-name">' + esc(m.name) + '</span><span class="seg-min">' + m.min + ' min</span>';
+      if (n === cur) seg.setAttribute('aria-current', 'step');
+      band.appendChild(seg);
+    });
+  });
+
+  /* ---------- Slide 14: comparison matrix, row reveal ---------- */
+
+  (function () {
+    var id = 's-matrix', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var tbody = s.querySelector('tbody');
+    function cell(c, cls) { return '<td class="' + cls + '"><span class="' + (c.said ? 'say' : '') + '">' + esc(c.text) + '</span></td>'; }
+    A.rows.forEach(function (r) {
+      var tr = el('tr');
+      tr.innerHTML = '<th scope="row">' + esc(r.moment) + '</th>' + cell(r.without, 'cmp-without') + cell(r.with, 'cmp-with');
+      tbody.appendChild(tr);
+    });
+    var rows = tbody.querySelectorAll('tr');
+    var btn = s.querySelector('[data-action="reveal-row"]');
+    function next() {
+      for (var i = 0; i < rows.length; i++) {
+        if (!rows[i].classList.contains('revealed')) {
+          rows[i].classList.add('revealed');
+          if (i === rows.length - 1) btn.disabled = true;
+          return;
+        }
+      }
+    }
+    btn.addEventListener('click', next);
+    revealFns[id] = next;
+  })();
+
+  /* ---------- Navigation ---------- */
+
+  function show(n, fromHash) {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides.forEach(function (s) { s.classList.remove('active'); });
+    slides[n].classList.add('active');
+    current = n;
+    var accent = slides[n].getAttribute('data-accent') || 'var(--accent-1)';
+    document.documentElement.style.setProperty('--slide-accent', accent);
+    var prog = document.getElementById('progress');
+    prog.style.width = ((n + 1) / total * 100) + '%';
+    prog.style.background = accent;
+    document.getElementById('nav-info').textContent = String(n + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.getElementById('prev-btn').disabled = n === 0;
+    document.getElementById('next-btn').disabled = n === total - 1;
+    if (!fromHash) {
+      try { history.replaceState(null, '', '#' + (n + 1)); } catch (err) { location.hash = String(n + 1); }
+    }
+    window.scrollTo(0, 0);
+  }
+  function go(d) { show(current + d); }
+  function fromHash() {
+    var m = /^#(\d+)$/.exec(location.hash);
+    return m ? parseInt(m[1], 10) - 1 : 0;
+  }
+  window.addEventListener('hashchange', function () { var n = fromHash(); if (n !== current) show(n, true); });
+  document.getElementById('prev-btn').addEventListener('click', function () { go(-1); });
+  document.getElementById('next-btn').addEventListener('click', function () { go(1); });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+    else if (document.exitFullscreen) document.exitFullscreen();
+  }
+
+  /* ---------- Keyboard ---------- */
+
+  var blackout = document.getElementById('blackout');
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    var typing = t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+    if (typing && e.key !== 'Escape') return;
+    if (t.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    if (blackout.classList.contains('on')) { e.preventDefault(); blackout.classList.remove('on'); return; }
+
+    var id = slides[current].id;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); go(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(total - 1); }
+    else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+    else if (k === 'b' || k === 'B' || k === '.') { e.preventDefault(); blackout.classList.add('on'); }
+    else if (k === 'Escape') { if (typing) t.blur(); }
+    else if (k === 'r' || k === 'R') { if (revealFns[id]) { e.preventDefault(); revealFns[id](); } }
+  });
+
+  /* ---------- Idle-hiding chrome ---------- */
+
+  (function () {
+    var chrome = document.getElementById('chrome');
+    var h;
+    function wake() {
+      chrome.classList.remove('idle');
+      clearTimeout(h);
+      h = setTimeout(function () { chrome.classList.add('idle'); }, 2500);
+    }
+    ['mousemove', 'keydown', 'touchstart', 'click'].forEach(function (evt) { document.addEventListener(evt, wake); });
+    wake();
+  })();
+
+  /* ---------- Test hooks for tests/verify-deck.mjs ---------- */
+
+  window.DECK = {
+    show: show,
+    current: function () { return current; },
+    hasStore: false,
+    reveal: function (id) { if (revealFns[id]) revealFns[id](); },
+    worst: function (id) {
+      if (revealFns[id]) for (var i = 0; i < 10; i++) revealFns[id]();
+    }
+  };
+
+  show(fromHash(), true);
+})();
+</script>
+</body>
+</html>
