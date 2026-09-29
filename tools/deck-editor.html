@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deck text editor</title>
+<style>
+  :root {
+    --bg: #F2DFBE;
+    --bg-card: #FFFAF2;
+    --bg-deep: #E8D2A8;
+    --text: #2A1F18;
+    --text-muted: #6A5A48;
+    --border: #D8C8A8;
+    --accent-1: #5C3A96;
+    --accent-2: #B52838;
+    --accent-3: #C85218;
+    --accent-4: #D4A020;
+    --accent-5: #7A5828;
+    --accent-6: #B83068;
+    --accent-7: #CC6830;
+    --accent-8: #7E58A8;
+    --accent-4-ink: #7A5410;
+    --accent-7-ink: #9E4718;
+    --correct: #2A7A42;
+    --correct-ink: #1F6A36;
+    --correct-tint: #E6F4EA;
+    --incorrect: #B82828;
+    --incorrect-tint: #FDEEEE;
+    --ambiguous: #B98A10;
+    --ambiguous-ink: #7A5410;
+    --ambiguous-tint: #FFF3D6;
+  }
+  * { box-sizing: border-box; }
+  html { font-size: 16px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  .page { position: relative; overflow-x: clip; min-height: 100vh; }
+  .shape { position: absolute; pointer-events: none; z-index: 0; }
+  .shape-1 { width: 380px; height: 380px; background: var(--accent-6); opacity: 0.08; top: -120px; right: -110px; transform: rotate(22deg); }
+  .shape-2 { width: 280px; height: 280px; border: 40px solid var(--accent-4); border-radius: 50%; opacity: 0.12; top: 520px; left: -130px; }
+  .shape-3 { width: 140%; height: 64px; background: var(--accent-1); opacity: 0.07; top: 300px; left: -20%; transform: rotate(-3deg); }
+
+  header.banner {
+    position: relative; z-index: 1;
+    background: var(--accent-6); color: #fff;
+    padding: 28px 16px 24px;
+    border-bottom: 6px solid var(--accent-4);
+  }
+  .wrap { max-width: 1800px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+  header.banner .wrap { padding: 0; }
+  .eyebrow {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  header.banner .eyebrow { color: #fff; }
+  h1 { font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; margin: 0 0 10px; }
+  header.banner p { margin: 0; max-width: 62em; font-size: 1rem; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.92em; overflow-wrap: anywhere; }
+
+  .card {
+    background: var(--bg-card); border: 2px solid var(--border); border-top: 6px solid var(--accent-1);
+    padding: 20px; margin-bottom: 20px; position: relative;
+  }
+  .card[data-accent="2"] { border-top-color: var(--accent-2); }
+  .card[data-accent="3"] { border-top-color: var(--accent-3); }
+  .card[data-accent="4"] { border-top-color: var(--accent-4); }
+  .card[data-accent="5"] { border-top-color: var(--accent-5); }
+  .card[data-accent="6"] { border-top-color: var(--accent-6); }
+  .card[data-accent="7"] { border-top-color: var(--accent-7); }
+  .card h2 {
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    margin: 0 0 14px; color: var(--accent-1);
+  }
+  .card[data-accent="2"] h2 { color: var(--accent-2); }
+  .card[data-accent="3"] h2 { color: var(--accent-3); }
+  .card[data-accent="4"] h2 { color: var(--accent-4-ink); }
+  .card[data-accent="5"] h2 { color: var(--accent-5); }
+  .card[data-accent="6"] h2 { color: var(--accent-6); }
+  .card[data-accent="7"] h2 { color: var(--accent-7-ink); }
+
+  .toolbar { margin-top: 24px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  button {
+    font: inherit; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--accent-1); color: #fff; border: 2px solid var(--accent-1); border-radius: 0;
+    padding: 10px 16px; min-height: 44px; cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  button:hover { background: var(--accent-2); border-color: var(--accent-2); transform: translateY(-2px); }
+  button.ghost { background: transparent; color: var(--text); border-color: var(--text); }
+  button.ghost:hover { background: var(--bg-deep); color: var(--text); border-color: var(--text); }
+  button.mini { font-size: 0.68rem; padding: 4px 10px; min-height: 32px; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  button:disabled:hover { background: var(--accent-1); border-color: var(--accent-1); }
+  button.ghost:disabled:hover { background: transparent; border-color: var(--text); }
+  button:focus-visible, textarea:focus-visible, iframe:focus-visible, summary:focus-visible {
+    outline: 3px solid var(--accent-2); outline-offset: 2px;
+  }
+  .file-info { margin: 12px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+  .file-info .dirty { color: var(--accent-7-ink); }
+  .support { margin: 6px 0 0; color: var(--text-muted); font-size: 0.9rem; }
+  .status { min-height: 1.5em; margin: 8px 0 0; font-weight: 700; font-size: 0.9rem; }
+  .status.ok { color: var(--correct-ink); }
+  .status.bad { color: var(--incorrect); }
+  .meta { color: var(--text-muted); font-size: 0.85rem; margin: 8px 0 0; }
+  [hidden] { display: none !important; }
+
+  .empty ol { margin: 0; padding-left: 22px; max-width: 60em; }
+  .empty li { margin-bottom: 6px; }
+
+  /* Three columns: slide list, fields, preview */
+  .layout {
+    display: grid; gap: 20px; align-items: start;
+    grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1.1fr);
+    grid-template-areas: "list fields preview";
+  }
+  .list-col { grid-area: list; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
+  .fields-col { grid-area: fields; }
+  .preview-col { grid-area: preview; position: sticky; top: 16px; }
+  @media (max-width: 1320px) {
+    .layout { grid-template-columns: 230px minmax(0, 1fr); grid-template-areas: "list preview" "list fields"; }
+    .preview-col { position: static; }
+  }
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "preview" "list" "fields"; }
+    .list-col { position: static; max-height: 50vh; }
+    button.mini { min-height: 44px; }
+  }
+
+  .slide-list { list-style: none; margin: 0; padding: 0; }
+  .slide-list li { margin: 0 0 4px; }
+  .slide-btn {
+    display: flex; gap: 8px; align-items: center; width: 100%; text-align: left;
+    background: transparent; color: var(--text); border: 2px solid transparent;
+    font-size: 0.85rem; font-weight: 400; letter-spacing: 0; text-transform: none; padding: 6px 8px;
+  }
+  .slide-btn:hover { background: var(--bg-deep); border-color: var(--border); color: var(--text); transform: none; }
+  .slide-btn[aria-current="true"] { border-color: var(--accent-1); background: var(--bg); }
+  .slide-btn .num { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 1.6em; }
+  .slide-btn .pip { width: 10px; height: 10px; flex: none; background: var(--pip, var(--accent-1)); }
+  .slide-btn .lbl { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .slide-btn .count {
+    flex: none; background: var(--accent-3); color: #fff; font-size: 0.7rem; font-weight: 700;
+    padding: 1px 6px; letter-spacing: 0.04em;
+  }
+
+  .fields-head { margin-bottom: 16px; }
+  .fields-head .eyebrow { color: var(--accent-3); }
+  .card .fields-head h2 {
+    font-size: 1.4rem; font-weight: 800; letter-spacing: 0; text-transform: none; color: var(--text);
+    margin: 0; line-height: 1.2; overflow-wrap: anywhere;
+  }
+  .fblock { margin: 0 0 16px; padding: 12px 14px; border: 2px solid var(--border); border-left: 6px solid var(--border); background: #fff; }
+  .fblock.notes { border-left-color: var(--accent-5); background: var(--bg-card); }
+  .fblock.script { border-left-color: var(--accent-8); }
+  .flabel { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 6px; color: var(--text); }
+  .fblock.notes .flabel { color: var(--accent-5); }
+  .fblock.script > .flabel { color: var(--accent-1); }
+  .fhint { color: var(--text-muted); font-size: 0.85rem; margin: -2px 0 10px; }
+  .ffield { margin: 0 0 8px; }
+  .ffield:last-child { margin-bottom: 0; }
+  .fsub { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 3px; }
+  .frow { display: flex; gap: 8px; align-items: flex-start; }
+  textarea {
+    flex: 1; min-width: 0; width: 100%; font: inherit; color: var(--text); background: #fff;
+    border: 2px solid var(--border); border-radius: 0; padding: 8px 10px; min-height: 44px;
+    resize: none; overflow: hidden; line-height: 1.45;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  textarea:focus { border-color: var(--accent-1); }
+  .ffield.changed textarea { border-color: var(--accent-3); border-left-width: 6px; background: #FFF6EE; }
+  .ffield .revert { visibility: hidden; }
+  .ffield.changed .revert { visibility: visible; }
+  .fwords { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+  .fwords.over { color: var(--incorrect); font-weight: 700; }
+
+  /* The deck renders at a fixed projection size and is scaled to fit, so it never switches to its narrow layout. */
+  .frame-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--text); border: 2px solid var(--text); overflow: hidden; }
+  .frame-wrap iframe {
+    position: absolute; top: 0; left: 0; width: 1280px; height: 720px; border: 0; display: block; background: var(--text);
+    transform-origin: 0 0; transform: scale(var(--scale, 0.5));
+  }
+  .fit { margin: 12px 0; padding: 8px 12px; border-left: 6px solid var(--border); background: var(--bg-deep); font-weight: 700; font-size: 0.9rem; min-height: 2.6em; }
+  .fit.ok { border-left-color: var(--correct); background: var(--correct-tint); color: var(--correct-ink); }
+  .fit.bad { border-left-color: var(--incorrect); background: var(--incorrect-tint); color: var(--incorrect); }
+  .fit-all { margin-top: 12px; }
+  .fit-all ul { list-style: none; margin: 6px 0 0; padding: 0; }
+  .fit-all li { margin: 0 0 6px; }
+  .fit-all .ok { color: var(--correct-ink); font-weight: 700; }
+  .fit-all .bad { color: var(--incorrect); font-weight: 700; }
+
+  .changes details > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+  .change-list { list-style: none; margin: 10px 0 0; padding: 0; }
+  .change-list li { padding: 10px 0; border-top: 2px solid var(--border); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: start; }
+  .change-where { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-3); grid-column: 1 / -1; }
+  .change-text { overflow-wrap: anywhere; font-size: 0.92rem; }
+  del { background: var(--incorrect-tint); color: var(--incorrect); text-decoration: line-through; }
+  ins { background: var(--correct-tint); color: var(--correct-ink); text-decoration: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+
+  <header class="banner">
+    <div class="wrap">
+      <p class="eyebrow">Tools</p>
+      <h1>Deck text editor</h1>
+      <p>Open a deck from your copy of the repository, change its words, and save it. Only text can change: headings, body text, speaker notes and activity content. Layout, colours and code stay exactly as they were. Nothing leaves this page.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="card toolbar" data-accent="2" aria-label="File">
+      <div class="actions">
+        <button type="button" id="open">Open deck</button>
+        <button type="button" id="save" disabled>Save</button>
+        <button type="button" class="ghost" id="download" disabled>Download copy</button>
+        <button type="button" class="ghost" id="revert-all" disabled>Revert all</button>
+        <input type="file" id="file-input" accept=".html,.htm,text/html" hidden>
+      </div>
+      <p class="file-info" id="file-info">No deck open.</p>
+      <p class="support" id="support"></p>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card empty" id="empty" data-accent="4">
+      <h2>How it works</h2>
+      <ol>
+        <li>Open a deck file (<code>courses/&lt;course&gt;/*.html</code> or <code>standalone/*.html</code>) with the button above, or drop it on this page.</li>
+        <li>Pick a slide on the left and edit its text. The preview shows the slide with your changes, and says whether the text still fits.</li>
+        <li>Save writes the file back where it came from. Download copy saves a separate copy instead.</li>
+        <li>Give the updated file to Claude Code with "here's the updated file". It follows <code>EDITOR.md</code>: it checks that only text changed, replaces the old version, and runs the tests.</li>
+      </ol>
+    </section>
+
+    <div class="layout" id="layout" hidden>
+      <nav class="card list-col" data-accent="1" aria-label="Slides">
+        <h2>Slides</h2>
+        <ol class="slide-list" id="slide-list"></ol>
+      </nav>
+
+      <section class="card fields-col" data-accent="3" id="fields" aria-label="Text on this slide"></section>
+
+      <aside class="card preview-col" data-accent="6" aria-label="Preview">
+        <h2>Preview</h2>
+        <div class="frame-wrap" id="frame-wrap"><iframe id="frame" title="Preview of the selected slide" sandbox="allow-scripts"></iframe></div>
+        <div class="fit" id="fit" role="status">Loading preview.</div>
+        <div class="actions">
+          <button type="button" class="ghost mini" id="final-state">Show final state</button>
+          <button type="button" class="ghost mini" id="reset-preview">Reset preview</button>
+          <button type="button" class="ghost mini" id="check-all">Check every slide</button>
+        </div>
+        <div class="fit-all" id="fit-all" role="status"></div>
+        <p class="meta">Double-click text in the preview to jump to its field. Final state opens the slide's reveals and fills its activities. The fit shown here is a guide; <code>tests/verify-deck.mjs</code> has the final say. Responses entered in the preview are not stored.</p>
+      </aside>
+    </div>
+
+    <section class="card changes" data-accent="7" id="changes-card" hidden>
+      <details id="changes-details">
+        <summary id="changes-summary">Changes</summary>
+        <ol class="change-list" id="change-list"></ol>
+      </details>
+    </section>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SETTINGS
+   Plain lists that control what the editor offers. Edit freely.
+   ============================================================ */
+
+// Keys in a deck's activity data whose values are code, not wording.
+// Strings under these keys are never offered for editing.
+const LOGIC_KEYS = ['pattern', 'color', 'colour', 'ink', 'on', 'kind', 'type', 'id', 'key', 'bin', 'target', 'accent', 'mode', 'variant'];
+
+// Speaker notes word limit (SLIDES.md section 3). Longer notes get a warning, not a block.
+const NOTES_WORD_LIMIT = 120;
+
+// Names shown for the element that holds each piece of text.
+const TAG_LABELS = {
+  h1: 'Title', h2: 'Heading', h3: 'Sub-heading', h4: 'Sub-heading', p: 'Paragraph', li: 'List item',
+  th: 'Table heading', td: 'Table cell', button: 'Button', aside: 'Aside', figcaption: 'Caption',
+  blockquote: 'Quotation', label: 'Label', span: 'Text', div: 'Text', dt: 'Term', dd: 'Description',
+  caption: 'Table caption', text: 'Diagram text', tspan: 'Diagram text', summary: 'Summary', header: 'Text',
+  section: 'Text', footer: 'Text', figure: 'Text', ul: 'List', ol: 'List', table: 'Table', tr: 'Table row'
+};
+
+// Inline formatting inside a paragraph. Text inside these is edited as a separate part of the paragraph.
+const FORMAT_LABELS = {
+  strong: 'bold', b: 'bold', em: 'italic', i: 'italic', a: 'link', code: 'code', sup: 'superscript',
+  sub: 'subscript', small: 'small', mark: 'highlight', abbr: 'abbreviation', q: 'quotation',
+  cite: 'citation', u: 'underline', s: 'struck through'
+};
+
+/* ============================================================
+   Logic below. No settings past this point.
+   ============================================================ */
+
+const $ = (id) => document.getElementById(id);
+const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr', 'param']);
+const RAW_TEXT = new Set(['script', 'style', 'textarea', 'title']);
+const WS = /^[ \t\n\r\f]*$/;
+const HAS_FSA = typeof window.showOpenFilePicker === 'function';
+
+/* ---------- Text helpers ---------- */
+
+const decoder = document.createElement('textarea');
+function decodeEntities(raw) {
+  if (raw.indexOf('&') === -1) return raw;
+  decoder.innerHTML = raw; // parsed as plain text inside a textarea: no elements are created
+  return decoder.value;
+}
+function norm(v) { return v.replace(/[ \t\n\r\f]+/g, ' ').replace(/^ | $/g, ''); }
+function straighten(v) {
+  return v.replace(/[\u2018\u2019\u201A\u201B\u2032]/g, "'").replace(/[\u201C\u201D\u201E\u201F\u2033]/g, '"');
+}
+function entityMap(raw) {
+  const map = {};
+  (raw.match(/&(#[0-9]+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);/g) || []).forEach((ent) => {
+    const ch = decodeEntities(ent);
+    if (ch !== ent && [...ch].length === 1) map[ch] = ent;
+  });
+  return map;
+}
+function encodeText(v, ents, quote) {
+  let out = '';
+  for (const ch of v) {
+    if (ents[ch]) out += ents[ch];
+    else if (ch === '&') out += '&amp;';
+    else if (ch === '<') out += '&lt;';
+    else if (ch === '>') out += '&gt;';
+    else if (ch === '\u00A0') out += '&nbsp;';
+    else if (quote && ch === quote) out += quote === '"' ? '&quot;' : '&#39;';
+    else out += ch;
+  }
+  return out;
+}
+function encodeJs(v, quote) {
+  v = straighten(v);
+  const other = quote === '"' ? "'" : '"';
+  if (v.indexOf(quote) !== -1 && v.indexOf(other) === -1) quote = other;
+  let out = quote;
+  for (const ch of v) {
+    if (ch === '\\') out += '\\\\';
+    else if (ch === quote) out += '\\' + quote;
+    else if (ch === '\n') out += '\\n';
+    else if (ch === '\r') out += '\\r';
+    else if (ch === '\u2028') out += '\\u2028';
+    else if (ch === '\u2029') out += '\\u2029';
+    else out += ch;
+  }
+  // A closing script tag inside a string would end the deck's script block early.
+  return (out + quote).replace(/<\/(script)/gi, '<\\/$1');
+}
+function humanise(s) {
+  return String(s).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[-_]+/g, ' ').toLowerCase();
+}
+function words(v) { const t = v.trim(); return t ? t.split(/\s+/).length : 0; }
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+/* ---------- Deck parser ----------
+   Walks the source once and records the exact position of every piece of
+   editable text, so saving rewrites those positions and nothing else. */
+
+function parseDeck(src) {
+  const n = src.length;
+  const fields = [];
+  const blocks = [];
+  const slides = [];
+  const stack = [];
+  const scripts = [];
+  let bodyClose = -1;
+  let slideNow = -1;
+
+  function newBlock(props) {
+    const b = Object.assign({ id: blocks.length, fields: [], hint: '', insertPos: null }, props);
+    blocks.push(b);
+    return b;
+  }
+  function addField(block, props) {
+    const f = Object.assign({ id: fields.length, block: block.id, slide: block.slide }, props);
+    fields.push(f);
+    block.fields.push(f);
+    return f;
+  }
+  function recomputeSlide() {
+    slideNow = -1;
+    for (let k = stack.length - 1; k >= 0; k--) if (stack[k].slide !== undefined) { slideNow = stack[k].slide; break; }
+  }
+  function classes(el) { return el.cls ? el.cls.split(/\s+/).filter(Boolean) : []; }
+  function blockLabel(el) {
+    const cl = classes(el);
+    if (el.name === 'aside' && cl.indexOf('notes') !== -1) return 'Speaker notes';
+    if (cl.indexOf('eyebrow') !== -1) return 'Eyebrow';
+    const base = TAG_LABELS[el.name] || el.name.toUpperCase();
+    return cl.length ? base + ' (' + humanise(cl[0]) + ')' : base;
+  }
+
+  function textRun(a, b) {
+    if (slideNow < 0 || b <= a) return;
+    for (let k = stack.length - 1; k >= 0; k--) if (stack[k].deco) return;
+    const raw = src.slice(a, b);
+    if (WS.test(raw)) return;
+    const lead = /^[ \t\n\r\f]*/.exec(raw)[0];
+    const trail = /[ \t\n\r\f]*$/.exec(raw)[0];
+    const mid = raw.slice(lead.length, raw.length - trail.length);
+    const value = norm(decodeEntities(mid));
+    if (!value) return;
+    // The block is the nearest element that is not inline formatting.
+    const formats = [];
+    let host = null;
+    for (let k = stack.length - 1; k >= 0; k--) {
+      if (FORMAT_LABELS[stack[k].name]) { formats.unshift(FORMAT_LABELS[stack[k].name]); continue; }
+      host = stack[k];
+      break;
+    }
+    if (!host) return;
+    if (host.blockId === undefined) {
+      const isNotes = host.name === 'aside' && classes(host).indexOf('notes') !== -1;
+      host.blockId = newBlock({ slide: slideNow, kind: isNotes ? 'notes' : 'html', label: blockLabel(host), tag: host.name, cls: host.cls, insertPos: host.nameEnd }).id;
+    }
+    addField(blocks[host.blockId], {
+      kind: 'html', start: a, end: b, lead: lead, trail: trail,
+      value: value, ents: entityMap(mid), sub: formats.join(', ')
+    });
+  }
+
+  function readStartTag(lt) {
+    const m = /^<([a-zA-Z][\w:-]*)/.exec(src.slice(lt, lt + 80));
+    const name = m[1].toLowerCase();
+    let j = lt + m[0].length;
+    const nameEnd = j;
+    const attrs = {};
+    while (j < n) {
+      while (j < n && /\s/.test(src[j])) j++;
+      if (src[j] === '>') return { name, attrs, nameEnd, end: j + 1, selfClosing: false };
+      if (src[j] === '/' && src[j + 1] === '>') return { name, attrs, nameEnd, end: j + 2, selfClosing: true };
+      let k = j;
+      while (k < n && !/[\s=>\/]/.test(src[k])) k++;
+      if (k === j) { j++; continue; }
+      const an = src.slice(j, k).toLowerCase();
+      j = k;
+      while (j < n && /\s/.test(src[j])) j++;
+      if (src[j] === '=') {
+        j++;
+        while (j < n && /\s/.test(src[j])) j++;
+        const q = src[j];
+        if (q === '"' || q === "'") {
+          let e = src.indexOf(q, j + 1);
+          if (e === -1) e = n;
+          attrs[an] = { value: src.slice(j + 1, e), start: j + 1, end: e, quote: q };
+          j = e + 1;
+        } else {
+          let e = j;
+          while (e < n && !/[\s>]/.test(src[e])) e++;
+          attrs[an] = { value: src.slice(j, e), start: j, end: e, quote: '' };
+          j = e;
+        }
+      } else {
+        attrs[an] = { value: '', start: j, end: j, quote: '' };
+      }
+    }
+    return { name, attrs, nameEnd, end: n, selfClosing: false };
+  }
+
+  let i = 0;
+  while (i < n) {
+    const lt = src.indexOf('<', i);
+    if (lt === -1) { textRun(i, n); break; }
+    if (lt > i) textRun(i, lt);
+    if (src.startsWith('<!--', lt)) {
+      const e = src.indexOf('-->', lt + 4);
+      i = e === -1 ? n : e + 3;
+      continue;
+    }
+    if (src[lt + 1] === '!' || src[lt + 1] === '?') {
+      const e = src.indexOf('>', lt);
+      i = e === -1 ? n : e + 1;
+      continue;
+    }
+    if (src[lt + 1] === '/') {
+      const m = /^<\/([a-zA-Z][\w:-]*)[^>]*>/.exec(src.slice(lt, lt + 120));
+      if (!m) { i = lt + 1; continue; }
+      const name = m[1].toLowerCase();
+      if (name === 'body') bodyClose = lt;
+      for (let k = stack.length - 1; k >= 0; k--) {
+        if (stack[k].name === name) {
+          for (let q = k; q < stack.length; q++) if (stack[q].slide !== undefined) slides[stack[q].slide].end = lt + m[0].length;
+          stack.length = k;
+          break;
+        }
+      }
+      recomputeSlide();
+      i = lt + m[0].length;
+      continue;
+    }
+    if (!/[a-zA-Z]/.test(src[lt + 1] || '')) { i = lt + 1; continue; }
+
+    const tag = readStartTag(lt);
+    const cls = tag.attrs['class'] ? tag.attrs['class'].value : '';
+
+    // Placeholder text shown inside an empty input or text box on a slide.
+    const ph = tag.attrs['placeholder'];
+    if (ph && slideNow >= 0 && ph.quote && norm(decodeEntities(ph.value))) {
+      const b = newBlock({ slide: slideNow, kind: 'html', label: 'Placeholder in an input box', tag: tag.name, cls: cls, insertPos: tag.nameEnd });
+      addField(b, { kind: 'attr', start: ph.start, end: ph.end, lead: '', trail: '', quote: ph.quote, value: norm(decodeEntities(ph.value)), ents: entityMap(ph.value), sub: '' });
+    }
+
+    if (RAW_TEXT.has(tag.name)) {
+      const re = new RegExp('</' + tag.name + '\\b', 'ig');
+      re.lastIndex = tag.end;
+      const close = re.exec(src);
+      const cEnd = close ? close.index : n;
+      if (tag.name === 'script') scripts.push({ start: tag.end, end: cEnd });
+      if (tag.name === 'title' && slideNow < 0) {
+        const raw = src.slice(tag.end, cEnd);
+        if (norm(decodeEntities(raw))) {
+          const lead = /^[ \t\n\r\f]*/.exec(raw)[0];
+          const trail = /[ \t\n\r\f]*$/.exec(raw)[0];
+          const mid = raw.slice(lead.length, raw.length - trail.length);
+          const b = newBlock({ slide: -1, kind: 'title', label: 'Browser tab title', hint: 'Shown on the browser tab, not on a slide.' });
+          addField(b, { kind: 'title', start: tag.end, end: cEnd, lead: lead, trail: trail, value: norm(decodeEntities(mid)), ents: entityMap(mid), sub: '' });
+        }
+      }
+      const gt = close ? src.indexOf('>', close.index) : -1;
+      i = gt === -1 ? n : gt + 1;
+      continue;
+    }
+
+    if (VOID.has(tag.name) || tag.selfClosing) { i = tag.end; continue; }
+
+    const el = { name: tag.name, cls: cls, nameEnd: tag.nameEnd };
+    const cl = cls.split(/\s+/);
+    if (cl.indexOf('deco') !== -1) el.deco = true;
+    if (tag.name === 'section' && cl.indexOf('slide') !== -1) {
+      const a = tag.attrs;
+      el.slide = slides.length;
+      slides.push({
+        index: slides.length, start: lt, end: n,
+        id: a.id ? a.id.value : '',
+        accent: a['data-accent'] ? a['data-accent'].value : '',
+        archetype: a['data-archetype'] ? a['data-archetype'].value : ''
+      });
+    }
+    stack.push(el);
+    recomputeSlide();
+    i = tag.end;
+  }
+
+  // Activity content and other data at the top of the deck's script.
+  const slideById = {};
+  slides.forEach((s) => { if (s.id) slideById[s.id] = s.index; });
+  scripts.forEach((r) => parseScriptData(src, r.start, r.end, slideById, newBlock, addField));
+
+  fields.sort((a, b) => a.start - b.start);
+  fields.forEach((f, k) => { f.id = k; });
+  slides.forEach((s) => {
+    const own = blocks.filter((b) => b.slide === s.index && (b.kind === 'html' || b.kind === 'notes'));
+    const head = own.find((b) => b.tag === 'h1' || b.tag === 'h2') || own.find((b) => /stmt/.test(b.cls || '')) || own.find((b) => b.kind !== 'notes');
+    s.headBlock = head || null;
+  });
+  return { fields, blocks, slides, bodyClose };
+}
+
+/* ---------- Script data parser ----------
+   Reads the constant declarations (ACTIVITIES and similar) at the top of a
+   script and stops at the first statement that is not one. */
+
+function parseScriptData(src, start, end, slideById, newBlock, addField) {
+  let j = start;
+  let decl = null;          // name of the constant being read, or '' to read without offering fields
+  let declStart = false;
+  const frames = [];        // open objects and arrays: { type, label, index }
+  let pendingKey = null;
+  let comments = [];
+  const entryBlocks = {};
+  let constHint = '';
+
+  function skipWs() { while (j < end && /\s/.test(src[j])) j++; }
+  function readString() {
+    const q = src[j];
+    let k = j + 1;
+    let v = '';
+    while (k < end && src[k] !== q) {
+      const c = src[k];
+      if (c === '\n') return null;
+      if (c === '\\') {
+        const d = src[k + 1];
+        k += 2;
+        if (d === 'n') v += '\n';
+        else if (d === 't') v += '\t';
+        else if (d === 'r') v += '\r';
+        else if (d === 'b') v += '\b';
+        else if (d === 'f') v += '\f';
+        else if (d === 'v') v += '\v';
+        else if (d === '0') v += '\0';
+        else if (d === 'x') { v += String.fromCharCode(parseInt(src.substr(k, 2), 16)); k += 2; }
+        else if (d === 'u' && src[k] === '{') { const e = src.indexOf('}', k); v += String.fromCodePoint(parseInt(src.slice(k + 1, e), 16)); k = e + 1; }
+        else if (d === 'u') { v += String.fromCharCode(parseInt(src.substr(k, 4), 16)); k += 4; }
+        else if (d === '\r' && src[k] === '\n') { k += 1; }
+        else if (d === '\n' || d === '\r' || d === '\u2028' || d === '\u2029') { /* line continuation */ }
+        else v += d;
+        continue;
+      }
+      v += c;
+      k++;
+    }
+    return { start: j, end: k + 1, value: v, quote: q };
+  }
+  function nextChar(k) { while (k < end && /\s/.test(src[k])) k++; return src[k]; }
+  function blockFor(path) {
+    // One block per activity (keyed by slide id) or per other constant.
+    const key = decl === 'ACTIVITIES' && path.length ? 'A:' + path[0] : 'C:' + decl;
+    if (entryBlocks[key]) return entryBlocks[key];
+    let b;
+    if (decl === 'ACTIVITIES' && path.length) {
+      const slide = slideById[path[0]] !== undefined ? slideById[path[0]] : -1;
+      b = newBlock({ slide: slide, kind: 'script', label: slide >= 0 ? 'Activity content' : 'Activity content: ' + path[0], hint: frames.length && frames[0].hints ? (frames[0].hints[path[0]] || '') : '' });
+    } else {
+      b = newBlock({ slide: -1, kind: 'script', label: 'Script data: ' + decl, hint: constHint });
+    }
+    entryBlocks[key] = b;
+    return b;
+  }
+
+  while (j < end) {
+    skipWs();
+    if (j >= end) break;
+    const c = src[j];
+    if (c === '/' && src[j + 1] === '/') {
+      const e = src.indexOf('\n', j);
+      comments.push(src.slice(j + 2, e === -1 || e > end ? end : e).trim());
+      j = e === -1 || e > end ? end : e + 1;
+      continue;
+    }
+    if (c === '/' && src[j + 1] === '*') {
+      const e = src.indexOf('*/', j + 2);
+      j = e === -1 || e > end ? end : e + 2;
+      continue;
+    }
+    if (!frames.length && !declStart) {
+      // Top level: only "const NAME =" (or let, var) continues the data section.
+      const m = /^(const|let|var)\s+([A-Za-z_$][\w$]*)\s*=/.exec(src.slice(j, j + 200));
+      if (!m) break;
+      decl = /^[A-Z][A-Z0-9_]*$/.test(m[2]) ? m[2] : '';
+      constHint = comments.join(' ');
+      comments = [];
+      declStart = true;
+      j += m[0].length;
+      continue;
+    }
+    if (c === '"' || c === "'") {
+      const s = readString();
+      if (!s) break;
+      j = s.end;
+      const top = frames[frames.length - 1];
+      if (top && top.type === 'obj' && nextChar(j) === ':') {
+        pendingKey = s.value;
+        if (frames.length === 1) { top.hints = top.hints || {}; top.hints[s.value] = comments.join(' '); }
+        comments = [];
+        continue;
+      }
+      comments = [];
+      if (decl) {
+        const path = frames.slice(1).map((f) => f.label).concat(top ? [top.type === 'obj' ? pendingKey : top.index] : []);
+        if (frames.length === 1 && top.type === 'obj' && decl === 'ACTIVITIES') continue;
+        const logic = path.some((p) => typeof p === 'string' && LOGIC_KEYS.indexOf(p) !== -1);
+        const cssLike = /^\s*(var\(--|--[a-z]|#[0-9a-fA-F]{3,8}\s*$|rgba?\(|hsla?\()/.test(s.value);
+        if (frames.length === 2 && decl === 'ACTIVITIES' && pendingKey === 'pattern') {
+          const b = blockFor(path);
+          if (b.label === 'Activity content') b.label = 'Activity content (' + humanise(s.value) + ')';
+        }
+        if (!logic && !cssLike && !WS.test(s.value)) {
+          const rest = decl === 'ACTIVITIES' ? path.slice(1) : path;
+          const sub = rest.map((p) => typeof p === 'number' ? 'item ' + (p + 1) : humanise(p)).join(' \u203A ');
+          addField(blockFor(path), { kind: 'js', start: s.start, end: s.end, quote: s.quote, value: s.value, sub: sub || 'text' });
+        }
+      }
+      continue;
+    }
+    if (c === '`') {
+      // Template literals are left alone.
+      let k = j + 1;
+      while (k < end && src[k] !== '`') k += src[k] === '\\' ? 2 : 1;
+      j = k + 1;
+      comments = [];
+      continue;
+    }
+    if (c === '{' || c === '[') {
+      const top = frames[frames.length - 1];
+      const label = !top ? null : (top.type === 'obj' ? pendingKey : top.index);
+      frames.push({ type: c === '{' ? 'obj' : 'arr', label: label, index: 0 });
+      pendingKey = null;
+      comments = [];
+      j++;
+      continue;
+    }
+    if (c === '}' || c === ']') {
+      frames.pop();
+      j++;
+      comments = [];
+      continue;
+    }
+    if (c === ',') {
+      const top = frames[frames.length - 1];
+      if (top && top.type === 'arr') top.index++;
+      if (top && top.type === 'obj') pendingKey = null;
+      j++;
+      continue;
+    }
+    if (c === ';') {
+      if (!frames.length) { decl = null; declStart = false; }
+      j++;
+      continue;
+    }
+    if (/[A-Za-z_$]/.test(c)) {
+      const m = /^[A-Za-z_$][\w$]*/.exec(src.slice(j, j + 100));
+      j += m[0].length;
+      const top = frames[frames.length - 1];
+      if (top && top.type === 'obj' && nextChar(j) === ':') {
+        pendingKey = m[0];
+        if (frames.length === 1) { top.hints = top.hints || {}; top.hints[m[0]] = comments.join(' '); }
+      }
+      comments = [];
+      continue;
+    }
+    if (!frames.length && declStart && c !== '(') {
+      j++;
+      continue;
+    }
+    if (c === '(' && !frames.length) break;
+    comments = [];
+    j++;
+  }
+}
+
+/* ---------- State ---------- */
+
+let doc = null;            // { name, text, handle, model }
+const edits = new Map();   // field id -> new value
+let sel = 0;               // selected slide index; -1 is the whole-deck entry
+let focusedBlock = null;
+let frameReady = false;
+let previewTimer = null;
+let hasDeckHook = false;
+const frame = $('frame');
+
+/* ---------- Building the output ---------- */
+
+function encodeField(f, v) {
+  if (f.kind === 'js') return encodeJs(v, f.quote);
+  if (f.kind === 'attr') return encodeText(v, f.ents, f.quote);
+  return f.lead + encodeText(v, f.ents) + f.trail;
+}
+
+const PREVIEW_STYLE = '<style>*,*::before,*::after{transition:none!important;animation:none!important}[data-ed-hl]{outline:0.35rem solid #B52838!important;outline-offset:0.2rem}</style>';
+
+function buildOutput(instrument) {
+  const src = doc.text;
+  const m = doc.model;
+  const ops = [];
+  m.fields.forEach((f) => { if (edits.has(f.id)) ops.push({ s: f.start, e: f.end, t: encodeField(f, edits.get(f.id)) }); });
+  if (instrument) {
+    m.blocks.forEach((b) => { if (b.insertPos !== null) ops.push({ s: b.insertPos, e: b.insertPos, t: ' data-ed-b="' + b.id + '"' }); });
+    const pos = m.bodyClose >= 0 ? m.bodyClose : src.length;
+    ops.push({ s: pos, e: pos, t: PREVIEW_STYLE + '<scr' + 'ipt>(' + previewAgent.toString() + ')();</scr' + 'ipt>' });
+  }
+  ops.sort((a, b) => a.s - b.s || (a.e - a.s) - (b.e - b.s));
+  const parts = [];
+  let at = 0;
+  ops.forEach((op) => {
+    if (op.s < at) throw new Error('Two edits overlap in the source.');
+    parts.push(src.slice(at, op.s), op.t);
+    at = op.e;
+  });
+  parts.push(src.slice(at));
+  return parts.join('');
+}
+
+// Builds the file to save and proves that only the edited text changed:
+// same slides in the same order, and every piece of text reads back as intended.
+function buildChecked() {
+  const out = buildOutput(false);
+  const again = parseDeck(out);
+  const m = doc.model;
+  const ids = (x) => x.slides.map((s) => s.id).join('|');
+  if (ids(again) !== ids(m)) throw new Error('Not saved: the slides changed while building the file. Nothing was written.');
+  const eff = (f, v) => f.kind === 'js' ? straighten(v) : norm(v);
+  const expected = [];
+  m.fields.forEach((f) => {
+    const v = eff(f, edits.has(f.id) ? edits.get(f.id) : f.value);
+    if (!WS.test(v)) expected.push(v);
+  });
+  const got = again.fields.map((f) => f.value);
+  if (got.length !== expected.length || got.some((v, k) => v !== expected[k])) {
+    throw new Error('Not saved: the text did not read back as edited. Nothing was written. Use Download copy and tell Claude Code, or revert the last change.');
+  }
+  return out;
+}
+
+/* ---------- Rendering ---------- */
+
+function status(msg, ok) {
+  const s = $('status');
+  s.textContent = msg;
+  s.className = 'status ' + (ok ? 'ok' : 'bad');
+}
+
+function fieldValue(f) { return edits.has(f.id) ? edits.get(f.id) : f.value; }
+
+function slideLabel(s) {
+  const t = s.headBlock ? s.headBlock.fields.map(fieldValue).join(' ') : '';
+  return t || s.id || 'Slide ' + (s.index + 1);
+}
+
+function accentVar(v) { return /^var\(--accent-[1-8]\)$/.test(v || '') ? v : 'var(--accent-1)'; }
+
+function editCount(slide) {
+  let c = 0;
+  edits.forEach((v, id) => { if (doc.model.fields[id].slide === slide) c++; });
+  return c;
+}
+
+function renderList() {
+  const list = $('slide-list');
+  list.textContent = '';
+  const m = doc.model;
+  const entries = [];
+  if (m.blocks.some((b) => b.slide === -1 && b.fields.length)) entries.push({ index: -1, num: '', label: 'Whole deck', accent: 'var(--accent-5)' });
+  m.slides.forEach((s) => entries.push({ index: s.index, num: pad2(s.index + 1), label: slideLabel(s), accent: accentVar(s.accent) }));
+  entries.forEach((e) => {
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'slide-btn';
+    b.dataset.index = e.index;
+    if (e.index === sel) b.setAttribute('aria-current', 'true');
+    const num = document.createElement('span');
+    num.className = 'num';
+    num.textContent = e.num;
+    const pip = document.createElement('span');
+    pip.className = 'pip';
+    pip.style.setProperty('--pip', e.accent);
+    const lbl = document.createElement('span');
+    lbl.className = 'lbl';
+    lbl.textContent = e.label;
+    b.append(num, pip, lbl);
+    const c = editCount(e.index);
+    if (c) {
+      const cnt = document.createElement('span');
+      cnt.className = 'count';
+      cnt.textContent = c;
+      cnt.setAttribute('aria-label', c + (c === 1 ? ' change' : ' changes'));
+      b.appendChild(cnt);
+    }
+    b.addEventListener('click', () => select(e.index));
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+}
+
+function autosize(t) {
+  t.style.height = 'auto';
+  t.style.height = (t.scrollHeight + 4) + 'px';
+}
+
+function renderFields() {
+  const box = $('fields');
+  box.textContent = '';
+  const m = doc.model;
+  const head = document.createElement('div');
+  head.className = 'fields-head';
+  const eb = document.createElement('p');
+  eb.className = 'eyebrow';
+  const h = document.createElement('h2');
+  if (sel === -1) {
+    eb.textContent = 'Not on any one slide';
+    h.textContent = 'Whole deck';
+  } else {
+    const s = m.slides[sel];
+    eb.textContent = 'Slide ' + pad2(sel + 1) + ' of ' + pad2(m.slides.length) + (s.archetype ? ' \u00B7 ' + humanise(s.archetype) : '');
+    h.textContent = slideLabel(s);
+  }
+  head.append(eb, h);
+  box.appendChild(head);
+
+  const blocks = m.blocks.filter((b) => b.slide === sel && b.fields.length);
+  // Slide text first, then speaker notes, then activity content from the script.
+  const order = { title: 0, html: 1, notes: 2, script: 3 };
+  blocks.sort((a, b) => order[a.kind] - order[b.kind] || a.fields[0].start - b.fields[0].start);
+  if (!blocks.length) {
+    const p = document.createElement('p');
+    p.className = 'meta';
+    p.textContent = 'This slide has no editable text.';
+    box.appendChild(p);
+  }
+  blocks.forEach((b) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'fblock' + (b.kind === 'notes' ? ' notes' : '') + (b.kind === 'script' ? ' script' : '');
+    const lab = document.createElement('span');
+    lab.className = 'flabel';
+    lab.id = 'bl-' + b.id;
+    lab.textContent = b.label;
+    wrap.appendChild(lab);
+    if (b.hint) {
+      const hint = document.createElement('p');
+      hint.className = 'fhint';
+      hint.textContent = b.hint;
+      wrap.appendChild(hint);
+    }
+    if (b.kind === 'script' && b.fields.some((f) => /<[a-z]/i.test(f.value))) {
+      const hint = document.createElement('p');
+      hint.className = 'fhint';
+      hint.textContent = 'Some of this text contains tags such as <strong>. Keep each opening tag with its closing tag.';
+      wrap.appendChild(hint);
+    }
+    b.fields.forEach((f) => wrap.appendChild(fieldRow(b, f)));
+    box.appendChild(wrap);
+  });
+  requestAnimationFrame(() => box.querySelectorAll('textarea').forEach(autosize));
+}
+
+function fieldRow(b, f) {
+  const row = document.createElement('div');
+  row.className = 'ffield' + (edits.has(f.id) ? ' changed' : '');
+  row.dataset.fid = f.id;
+  const ids = ['bl-' + b.id];
+  const multi = b.fields.length > 1 || f.sub;
+  if (multi) {
+    const sub = document.createElement('span');
+    sub.className = 'fsub';
+    sub.id = 'fs-' + f.id;
+    sub.textContent = f.sub || (b.kind === 'script' ? 'text' : 'part ' + (b.fields.indexOf(f) + 1));
+    row.appendChild(sub);
+    ids.push(sub.id);
+  }
+  const line = document.createElement('div');
+  line.className = 'frow';
+  const t = document.createElement('textarea');
+  t.rows = 1;
+  t.spellcheck = true;
+  t.lang = 'en-GB';
+  t.value = fieldValue(f);
+  t.setAttribute('aria-labelledby', ids.join(' '));
+  t.dataset.fid = f.id;
+  t.addEventListener('keydown', (e) => { if (e.key === 'Enter') e.preventDefault(); });
+  t.addEventListener('input', () => onInput(t, f, row));
+  t.addEventListener('focus', () => {
+    focusedBlock = b.kind === 'script' || b.kind === 'title' ? null : b.id;
+    post({ type: 'highlight', block: focusedBlock });
+  });
+  const rv = document.createElement('button');
+  rv.type = 'button';
+  rv.className = 'ghost mini revert';
+  rv.textContent = 'Revert';
+  rv.setAttribute('aria-label', 'Revert this text');
+  rv.addEventListener('click', () => {
+    edits.delete(f.id);
+    t.value = f.value;
+    afterEdit(t, f, row);
+    t.focus();
+  });
+  line.append(t, rv);
+  row.appendChild(line);
+  if (b.kind === 'notes') {
+    const wc = document.createElement('div');
+    wc.className = 'fwords';
+    row.appendChild(wc);
+    updateWords(row, t.value);
+  }
+  return row;
+}
+
+function updateWords(row, v) {
+  const wc = row.querySelector('.fwords');
+  if (!wc) return;
+  const n = words(v);
+  wc.textContent = n + ' words' + (n > NOTES_WORD_LIMIT ? ': over the ' + NOTES_WORD_LIMIT + '-word limit for notes' : '');
+  wc.classList.toggle('over', n > NOTES_WORD_LIMIT);
+}
+
+function onInput(t, f, row) {
+  let v = t.value;
+  let pos = t.selectionStart;
+  if (/[\r\n]/.test(v)) v = v.replace(/\r?\n|\r/g, ' ');
+  if (f.kind === 'js' && v !== straighten(v)) {
+    v = straighten(v);
+    status('Curly quotes in activity content become straight quotes: the deck code requires them.', true);
+  }
+  if (v !== t.value) { t.value = v; t.setSelectionRange(pos, pos); }
+  if (v === f.value) edits.delete(f.id);
+  else edits.set(f.id, v);
+  afterEdit(t, f, row);
+}
+
+function afterEdit(t, f, row) {
+  row.classList.toggle('changed', edits.has(f.id));
+  autosize(t);
+  updateWords(row, t.value);
+  refreshChrome();
+  schedulePreview();
+}
+
+// Everything outside the fields panel that depends on the edits.
+let listTimer = null;
+function refreshChrome() {
+  const n = edits.size;
+  $('save').disabled = !doc;
+  $('download').disabled = !doc;
+  $('revert-all').disabled = !n;
+  const info = $('file-info');
+  info.textContent = '';
+  if (doc) {
+    info.append(doc.name + ' \u00B7 ' + doc.model.slides.length + ' slides \u00B7 ');
+    const d = document.createElement('span');
+    d.className = n ? 'dirty' : '';
+    d.textContent = n ? n + (n === 1 ? ' unsaved change' : ' unsaved changes') : 'no unsaved changes';
+    info.appendChild(d);
+    if (!doc.handle && HAS_FSA) info.append(' \u00B7 opened without a file handle: Save downloads a copy');
+  }
+  document.title = (n ? '* ' : '') + 'Deck text editor';
+  clearTimeout(listTimer);
+  listTimer = setTimeout(() => { renderList(); renderChanges(); }, 150);
+}
+
+function renderChanges() {
+  const card = $('changes-card');
+  const list = $('change-list');
+  list.textContent = '';
+  card.hidden = !edits.size;
+  $('changes-summary').textContent = 'Changes (' + edits.size + ')';
+  const m = doc.model;
+  [...edits.keys()].sort((a, b) => a - b).forEach((id) => {
+    const f = m.fields[id];
+    const b = m.blocks[f.block];
+    const li = document.createElement('li');
+    const where = document.createElement('div');
+    where.className = 'change-where';
+    where.textContent = (f.slide === -1 ? 'Whole deck' : 'Slide ' + pad2(f.slide + 1)) + ' \u00B7 ' + b.label + (f.sub ? ' \u00B7 ' + f.sub : '');
+    const txt = document.createElement('div');
+    txt.className = 'change-text';
+    const del = document.createElement('del');
+    del.textContent = f.value;
+    const ins = document.createElement('ins');
+    ins.textContent = edits.get(id);
+    txt.append(del, ' \u2192 ', ins);
+    const go = document.createElement('button');
+    go.type = 'button';
+    go.className = 'ghost mini';
+    go.textContent = 'Go to';
+    go.addEventListener('click', () => { select(f.slide); focusField(id); });
+    li.append(where, txt, go);
+    list.appendChild(li);
+  });
+}
+
+function focusField(id) {
+  const t = $('fields').querySelector('textarea[data-fid="' + id + '"]');
+  if (t) { t.focus(); t.scrollIntoView({ block: 'center' }); }
+}
+
+function select(index, fromPreview) {
+  sel = index;
+  focusedBlock = null;
+  renderList();
+  renderFields();
+  $('fit-all').textContent = '';
+  if (!fromPreview) {
+    post({ type: 'show', index: Math.max(0, sel) });
+    post({ type: 'highlight', block: null });
+  }
+}
+
+/* ---------- Preview ---------- */
+
+function post(msg) {
+  if (frameReady && frame.contentWindow) frame.contentWindow.postMessage(msg, '*');
+}
+
+// The preview frame is 1280 by 720; scale it to the width of its column.
+const PREVIEW_WIDTH = 1280;
+function scalePreview() {
+  const w = $('frame-wrap').clientWidth;
+  if (w) frame.style.setProperty('--scale', String(w / PREVIEW_WIDTH));
+}
+if (window.ResizeObserver) new ResizeObserver(scalePreview).observe($('frame-wrap'));
+window.addEventListener('resize', scalePreview);
+
+function renderPreview() {
+  if (!doc) return;
+  frameReady = false;
+  let html;
+  try { html = buildOutput(true); } catch (err) { status(err.message, false); return; }
+  frame.srcdoc = html;
+}
+
+function schedulePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(renderPreview, 450);
+}
+
+function fitText(fit) {
+  if (!fit) return { cls: '', text: 'No active slide to measure.' };
+  const over = Math.max(fit.bottom, fit.right);
+  if (over > 0.05) {
+    const where = fit.bottom >= fit.right ? 'at the bottom' : 'on the right';
+    return { cls: 'bad', text: 'Too long: overflows ' + where + ' by ' + over.toFixed(1) + 'rem (body text is about 2.8rem a line). Shorten the text.' };
+  }
+  if (fit.spills) return { cls: 'bad', text: 'Text spills out of a box inside the slide. Shorten the text.' };
+  return { cls: 'ok', text: 'Fits.' };
+}
+
+// Runs inside the preview frame. It measures fit the way tests/verify-deck.mjs does.
+function previewAgent() {
+  var marked = [];
+  function post(m) { parent.postMessage(m, '*'); }
+  function measure() {
+    var s = document.querySelector('.slide.active');
+    if (!s) return null;
+    var inner = s.querySelector('.slide-inner') || s;
+    var cs = getComputedStyle(inner);
+    var ir = inner.getBoundingClientRect();
+    var limitB = ir.bottom - parseFloat(cs.paddingBottom);
+    var limitR = ir.right - parseFloat(cs.paddingRight);
+    var rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 1;
+    var body = s.querySelector('.s-body') || inner;
+    var els = [].slice.call(body.querySelectorAll('*'));
+    if (body !== inner) els.unshift(body);
+    var mb = -Infinity, mr = -Infinity, spills = 0;
+    els.forEach(function (el) {
+      var b = el.getBoundingClientRect();
+      var st = getComputedStyle(el);
+      if (b.height > 0 && b.width > 0 && st.display !== 'none') {
+        if (b.bottom > mb) mb = b.bottom;
+        if (b.right > mr) mr = b.right;
+      }
+      if (parseFloat(st.flexGrow) > 0 && st.minHeight === '0px' && el.scrollHeight > el.clientHeight + 2) spills++;
+    });
+    if (body !== inner) [].forEach.call(inner.children, function (el) {
+      var b = el.getBoundingClientRect();
+      if (b.height > 0 && b.bottom > mb) mb = b.bottom;
+    });
+    if (mb === -Infinity) return { bottom: -99, right: -99, spills: 0 };
+    return { bottom: (mb - limitB) / rem, right: (mr - limitR) / rem, spills: spills };
+  }
+  function current() { return window.DECK && window.DECK.current ? window.DECK.current() : 0; }
+  var last = current();
+  function report() { post({ type: 'fit', index: current(), fit: measure() }); }
+  function watch() {
+    setTimeout(function () {
+      var c = current();
+      if (c !== last) { last = c; post({ type: 'at', index: c }); }
+      report();
+    }, 30);
+  }
+  window.addEventListener('message', function (e) {
+    if (e.source !== parent) return;
+    var m = e.data || {};
+    if (m.type === 'show') {
+      if (window.DECK && window.DECK.show) window.DECK.show(m.index);
+      last = current();
+      report();
+    } else if (m.type === 'final') {
+      try { if (window.DECK && window.DECK.worst) window.DECK.worst(m.id); } catch (err) { /* not every slide has a final state */ }
+      report();
+    } else if (m.type === 'highlight') {
+      marked.forEach(function (el) { el.removeAttribute('data-ed-hl'); });
+      marked = m.block === null ? [] : [].slice.call(document.querySelectorAll('[data-ed-b="' + m.block + '"]'));
+      marked.forEach(function (el) { el.setAttribute('data-ed-hl', ''); });
+    } else if (m.type === 'checkAll') {
+      var slides = document.querySelectorAll('.slide');
+      var out = [];
+      for (var i = 0; i < slides.length; i++) {
+        var s = slides[i];
+        if (window.DECK && window.DECK.show) window.DECK.show(i);
+        var r = { index: i, id: s.id, initial: measure(), final: null };
+        if (s.querySelector('[data-activity], [data-reveal]') || s.getAttribute('data-archetype') === 'worked-example') {
+          try { if (window.DECK && window.DECK.worst) window.DECK.worst(s.id); } catch (err) { /* ignore */ }
+          r.final = measure();
+        }
+        out.push(r);
+      }
+      post({ type: 'checked', results: out });
+    }
+  });
+  document.addEventListener('keyup', watch);
+  document.addEventListener('click', watch);
+  document.addEventListener('dblclick', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('[data-ed-b]') : null;
+    if (el) post({ type: 'pick', block: Number(el.getAttribute('data-ed-b')) });
+  });
+  post({ type: 'ready', deck: !!(window.DECK && window.DECK.show) });
+}
+
+window.addEventListener('message', (e) => {
+  if (e.source !== frame.contentWindow || !doc) return;
+  const m = e.data || {};
+  if (m.type === 'ready') {
+    frameReady = true;
+    hasDeckHook = m.deck;
+    post({ type: 'show', index: Math.max(0, sel) });
+    post({ type: 'highlight', block: focusedBlock });
+    if (!m.deck) {
+      $('fit').className = 'fit';
+      $('fit').textContent = 'This deck has no window.DECK hook, so the preview cannot follow the selected slide.';
+    }
+  } else if (m.type === 'fit') {
+    if (!hasDeckHook) return;
+    const r = fitText(m.fit);
+    $('fit').className = 'fit ' + r.cls;
+    $('fit').textContent = (m.index === Math.max(0, sel) ? '' : 'Slide ' + pad2(m.index + 1) + ': ') + r.text;
+  } else if (m.type === 'at') {
+    if (m.index !== sel && m.index >= 0 && m.index < doc.model.slides.length) select(m.index, true);
+  } else if (m.type === 'pick') {
+    const b = doc.model.blocks[m.block];
+    if (!b) return;
+    if (b.slide !== sel) select(b.slide, true);
+    focusField(b.fields[0].id);
+  } else if (m.type === 'checked') {
+    renderCheckAll(m.results);
+    renderPreview();
+  }
+});
+
+function renderCheckAll(results) {
+  const box = $('fit-all');
+  box.textContent = '';
+  const bad = [];
+  results.forEach((r) => {
+    [['initial', r.initial], ['final state', r.final]].forEach(([state, f]) => {
+      if (!f) return;
+      const over = Math.max(f.bottom, f.right);
+      if (over > 0.05 || f.spills) bad.push({ index: r.index, state: state, over: over, spills: f.spills });
+    });
+  });
+  const p = document.createElement('p');
+  p.className = bad.length ? 'bad' : 'ok';
+  p.textContent = bad.length
+    ? bad.length + (bad.length === 1 ? ' problem' : ' problems') + ' found across ' + results.length + ' slides:'
+    : 'Every slide fits, in its initial and final states (' + results.length + ' slides).';
+  box.appendChild(p);
+  if (!bad.length) return;
+  const ul = document.createElement('ul');
+  bad.forEach((x) => {
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ghost mini';
+    b.textContent = 'Slide ' + pad2(x.index + 1);
+    b.addEventListener('click', () => select(x.index));
+    li.append(b, ' ' + (x.over > 0.05 ? 'overflows by ' + x.over.toFixed(1) + 'rem' : 'text spills out of a box') + ' (' + x.state + ')');
+    ul.appendChild(li);
+  });
+  box.appendChild(ul);
+}
+
+$('final-state').addEventListener('click', () => {
+  if (sel >= 0) post({ type: 'final', id: doc.model.slides[sel].id });
+});
+$('reset-preview').addEventListener('click', renderPreview);
+$('check-all').addEventListener('click', () => {
+  $('fit-all').textContent = 'Checking every slide.';
+  post({ type: 'checkAll' });
+});
+
+/* ---------- Opening and saving ---------- */
+
+function load(text, name, handle) {
+  let model;
+  try { model = parseDeck(text); } catch (err) { status('Could not read ' + name + ': ' + err.message, false); return; }
+  if (!model.slides.length) {
+    status('No slides found in ' + name + '. Open a deck from courses/ or standalone/.', false);
+    return;
+  }
+  doc = { name: name, text: text, handle: handle, model: model };
+  edits.clear();
+  sel = 0;
+  $('empty').hidden = true;
+  $('layout').hidden = false;
+  scalePreview();
+  refreshChrome();
+  renderList();
+  renderFields();
+  renderChanges();
+  $('fit-all').textContent = '';
+  renderPreview();
+  status('Opened ' + name + ': ' + model.slides.length + ' slides, ' + model.fields.length + ' pieces of text.', true);
+}
+
+// After a save, the saved text becomes the new starting point.
+function adopt(text) {
+  const keep = sel;
+  doc.text = text;
+  doc.model = parseDeck(text);
+  edits.clear();
+  sel = keep < doc.model.slides.length ? keep : 0;
+  refreshChrome();
+  renderList();
+  renderFields();
+  renderChanges();
+  renderPreview();
+}
+
+function confirmDiscard() {
+  return !edits.size || window.confirm('Discard ' + edits.size + ' unsaved change(s)?');
+}
+
+async function openDeck() {
+  if (!confirmDiscard()) return;
+  if (!HAS_FSA) { $('file-input').click(); return; }
+  try {
+    const picked = await window.showOpenFilePicker({
+      types: [{ description: 'Deck (HTML)', accept: { 'text/html': ['.html', '.htm'] } }],
+      multiple: false
+    });
+    await loadHandle(picked[0]);
+  } catch (err) {
+    if (err && err.name === 'AbortError') return;
+    status('Could not open the file: ' + (err && err.message ? err.message : err), false);
+  }
+}
+
+async function loadHandle(h) {
+  const f = await h.getFile();
+  load(await f.text(), f.name, h);
+}
+
+function download(text, name) {
+  const blob = new Blob([text], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+async function save() {
+  if (!doc) return;
+  let out;
+  try { out = buildChecked(); } catch (err) { status(err.message, false); return; }
+  const n = edits.size;
+  const summary = n + (n === 1 ? ' change' : ' changes');
+  if (!doc.handle) {
+    download(out, doc.name);
+    adopt(out);
+    status('Downloaded ' + doc.name + ' (' + summary + '). This browser cannot write the file in place, so give the downloaded copy to Claude Code.', true);
+    return;
+  }
+  try {
+    const h = doc.handle;
+    if (h.queryPermission) {
+      let p = await h.queryPermission({ mode: 'readwrite' });
+      if (p !== 'granted') p = await h.requestPermission({ mode: 'readwrite' });
+      if (p !== 'granted') { status('Permission to save was refused. Use Download copy instead.', false); return; }
+    }
+    const onDisk = await (await h.getFile()).text();
+    if (onDisk !== doc.text && !window.confirm(doc.name + ' has changed on disk since you opened it. Overwrite it with your version?')) {
+      status('Not saved.', false);
+      return;
+    }
+    const w = await h.createWritable();
+    await w.write(out);
+    await w.close();
+    adopt(out);
+    status('Saved ' + doc.name + ' (' + summary + '). Next: ask Claude Code to check and commit it (EDITOR.md).', true);
+  } catch (err) {
+    status('Could not save: ' + (err && err.message ? err.message : err) + '. Use Download copy instead.', false);
+  }
+}
+
+$('open').addEventListener('click', openDeck);
+$('save').addEventListener('click', save);
+$('download').addEventListener('click', () => {
+  if (!doc) return;
+  try {
+    download(buildChecked(), doc.name);
+    status('Downloaded a copy of ' + doc.name + '. Your edits stay open here; the original file is unchanged.', true);
+  } catch (err) { status(err.message, false); }
+});
+$('revert-all').addEventListener('click', () => {
+  if (!edits.size || !window.confirm('Revert all ' + edits.size + ' change(s)?')) return;
+  edits.clear();
+  refreshChrome();
+  renderFields();
+  renderChanges();
+  renderPreview();
+  status('All changes reverted.', true);
+});
+$('file-input').addEventListener('change', async (e) => {
+  const f = e.target.files && e.target.files[0];
+  if (f) load(await f.text(), f.name, null);
+  e.target.value = '';
+});
+
+document.addEventListener('dragover', (e) => { e.preventDefault(); });
+document.addEventListener('drop', async (e) => {
+  e.preventDefault();
+  const dt = e.dataTransfer;
+  if (!dt) return;
+  // Both must be taken before the first await: the drop data expires after this event.
+  const item = dt.items && dt.items[0];
+  const handlePromise = item && item.kind === 'file' && item.getAsFileSystemHandle ? item.getAsFileSystemHandle() : null;
+  const file = dt.files && dt.files[0];
+  if (!file || !confirmDiscard()) return;
+  try {
+    const h = handlePromise ? await handlePromise : null;
+    if (h && h.kind === 'file') { await loadHandle(h); return; }
+  } catch (err) { /* fall back to the plain file */ }
+  load(await file.text(), file.name, null);
+});
+
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+    e.preventDefault();
+    if (doc) save();
+  }
+});
+window.addEventListener('beforeunload', (e) => {
+  if (edits.size) { e.preventDefault(); e.returnValue = ''; }
+});
+
+$('support').textContent = HAS_FSA
+  ? 'Save writes straight back to the file you opened (Chrome and Edge ask for permission the first time).'
+  : 'This browser cannot write files in place, so Save downloads the edited deck instead. Chrome or Edge can save in place.';
+if (!HAS_FSA) $('save').textContent = 'Save (download)';
+</script>
+</body>
+</html>

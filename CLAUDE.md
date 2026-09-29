@@ -2,7 +2,7 @@
 
 Projection decks for lectures and seminars across several courses. Every deck is a static, self-contained HTML file with inline CSS and JavaScript: no build step, no dependencies, no network calls. The repository is served through GitHub Pages and every deck must also work when opened directly from the file system.
 
-Read this file for repository rules and the visual system. Read `SLIDES.md` before building or editing any deck: it covers the stage model, slide archetypes, activity patterns and verification. Before writing any content, read the deck's context file: the course's `COURSE.md` for a course deck, or the deck's `.brief.md` for a standalone deck.
+Read this file for repository rules and the visual system. Read `SLIDES.md` before building or editing any deck: it covers the stage model, slide archetypes, activity patterns and verification. Before writing any content, read the deck's context file: the course's `COURSE.md` for a course deck, or the deck's `.brief.md` for a standalone deck. When the user supplies an edited copy of a deck ("here's the updated file"), follow `EDITOR.md`.
 
 ---
 
@@ -12,6 +12,7 @@ Read this file for repository rules and the visual system. Read `SLIDES.md` befo
 index.html                    Landing page: every course and every deck
 CLAUDE.md                     This file
 SLIDES.md                     Deck blueprint
+EDITOR.md                     Replacing a deck with an edited copy from the deck text editor
 tests/
   verify-deck.mjs             Fit, state, contrast and print harnesses (see SLIDES.md section 16)
   lint.mjs                    Static checks across every deck (see Testing)
@@ -27,6 +28,7 @@ standalone/
   <YYYY-MM>-<slug>.brief.md   Its context: read before writing content for it
 tools/
   prompt-builder.html         Form that writes a Claude Code prompt to create a deck's context file and request its plan
+  deck-editor.html            Deck text editor: edits a deck's text in the browser and saves it back to the file
 ```
 
 - Course slugs are short, lower-case and hyphenated (`social-phenomena`, `research-methods`).
@@ -41,6 +43,8 @@ tools/
 - `SLIDES.md` — Deck blueprint: stage model, type scale, slide archetypes, activity patterns, contrast rules, verification and build order
 - `reference/theory-of-change.html` — Reference implementation of the stage, navigation and the eight proven archetypes, carried over from a previous repository. Read-only: never edit it, link it from `index.html`, or copy its content
 - `tools/prompt-builder.html` — Deck prompt builder: a form that writes the deck's `COURSE.md` or `.brief.md` from the templates above and a Claude Code prompt that creates it and asks for the deck plan. Follows the visual system and the technical conventions; not a deck, so it is not listed in `index.html` deck grids
+- `tools/deck-editor.html` — Deck text editor: opens a deck file, edits its text only (slide text, speaker notes, `placeholder` values, `<title>` and the string values in the constants at the top of the script), previews each slide with a fit check, and saves in place through the File System Access API (Chrome and Edge) or as a download elsewhere. Source-preserving: only edited text changes in the file. Follows the visual system and the technical conventions; not a deck, so it is not listed in `index.html` deck grids
+- `EDITOR.md` — What Claude Code does when the user supplies an edited deck: find and match the file, confirm only text changed, check it, replace the old version, verify, commit and report
 - `index.html` — Landing page: a heading per course and a `STANDALONE` heading, each followed by a `.deck-grid` of deck cards
 - `tests/lint.mjs` — Static checks across every `.html` file (see Testing)
 - `tests/verify-deck.mjs` — Fit, state, keyboard, persistence, contrast and print harnesses for one deck (see `SLIDES.md` section 16)
