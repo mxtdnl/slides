@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Psychology, Economics &amp; Politics</title>
+<style>
+/* ============================================================
+   BACHELOR'S IN PSYCHOLOGY, ECONOMICS & POLITICS: PROJECTION DECK
+   Recruitment talk for prospective students. Light theme.
+   A fixed 16:9 stage. The root font-size IS the slide unit:
+   1rem = 1% of stage width, so every dimension is in rem.
+   Deck colour mapping (from the brief): Psychology = --accent-6,
+   Economics = --accent-4 (text in --accent-4-ink), Politics = --accent-2,
+   Interdisciplinary = --accent-1.
+   ============================================================ */
+
+html { font-size: min(1vw, 1.7778vh); }
+
+:root {
+  --bg: #F2DFBE;
+  --bg-card: #FFFAF2;
+  --bg-deep: #E8D2A8;
+  --text: #2A1F18;
+  --text-muted: #6A5A48;
+  --border: #D8C8A8;
+  --accent-1: #5C3A96;
+  --accent-2: #B52838;
+  --accent-3: #C85218;
+  --accent-4: #D4A020;
+  --accent-5: #7A5828;
+  --accent-6: #B83068;
+  --accent-7: #CC6830;
+  --accent-8: #7E58A8;
+  --accent-4-ink: #7A5410;
+  --accent-7-ink: #9E4718;
+  --correct: #2A7A42;
+  --correct-ink: #1F6A36;
+  --correct-bg: #E6F4EA;
+  --incorrect: #B82828;
+  --incorrect-ink: #B82828;
+  --incorrect-bg: #FDEEEE;
+  --psy: var(--accent-6);
+  --eco: var(--accent-4);
+  --eco-ink: var(--accent-4-ink);
+  --pol: var(--accent-2);
+  --slide-accent: var(--accent-1);
+  --slide-ink: var(--accent-1);
+  --on-accent: #fff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--text);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.85rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+button, input, select { font-family: inherit; color: inherit; }
+button { cursor: pointer; }
+
+.deck { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+.stage { position: relative; width: 100rem; height: 56.25rem; background: var(--bg); overflow: hidden; }
+
+*:focus-visible { outline: 0.3rem solid var(--accent-1); outline-offset: 0.2rem; }
+
+/* ---------- Chrome ---------- */
+
+.progress-track { position: absolute; top: 0; left: 0; right: 0; height: 0.7rem; background: var(--bg-deep); z-index: 60; }
+.progress-fill { height: 100%; width: 0; background: var(--slide-accent); transition: width 0.4s ease, background-color 0.2s ease; }
+
+.deck-chrome {
+  position: absolute; bottom: 1.5rem; right: 2.4rem;
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card); border: 0.2rem solid var(--border);
+  z-index: 60; opacity: 1; transition: opacity 0.3s ease;
+}
+.deck-chrome.idle { opacity: 0; pointer-events: none; }
+.nav-btn, .btn {
+  background: var(--accent-1); color: #fff; border: 0.2rem solid transparent;
+  min-width: 4.4rem; height: 2.8rem; padding: 0 1.4rem;
+  font-weight: 700; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+.nav-btn:hover:not(:disabled), .btn:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-0.2rem); }
+.nav-btn:disabled, .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.ghost, .nav-btn.ghost { background: transparent; color: var(--text); border-color: var(--text); }
+.btn.ghost:hover:not(:disabled), .nav-btn.ghost:hover:not(:disabled) { background: var(--text); color: var(--bg-card); }
+.nav-info { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); padding: 0 0.4rem; font-variant-numeric: tabular-nums; }
+
+.resp-menu {
+  position: absolute; right: 0; bottom: calc(100% + 0.6rem);
+  background: var(--bg-card); border: 0.2rem solid var(--text);
+  padding: 1rem; display: none; flex-direction: column; gap: 0.7rem; min-width: 22rem;
+}
+.resp-menu.open { display: flex; }
+.resp-menu .btn { width: 100%; }
+.resp-note { font-size: 1.1rem; color: var(--text-muted); line-height: 1.35; }
+.resp-note.warn { color: var(--incorrect-ink); font-weight: 700; }
+
+.blackout { position: absolute; inset: 0; background: var(--text); z-index: 100; display: none; }
+.blackout.on { display: block; }
+
+/* ---------- Slide frame ---------- */
+
+.slide { position: absolute; inset: 0; display: none; }
+.slide.active { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(0.4rem); } to { opacity: 1; transform: none; } }
+
+.rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1.9rem; background: var(--slide-accent); z-index: 4; }
+.slide-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 3.8rem 5.5rem 4.6rem 7rem;
+  display: flex; flex-direction: column;
+}
+.slide-no {
+  position: absolute; top: 2.4rem; right: 5.5rem; z-index: 5;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2em; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.notes { display: none; }
+
+.s-head { flex-shrink: 0; margin-bottom: 2rem; }
+.s-head::before { content: ''; display: block; width: 13rem; height: 0.9rem; background: var(--slide-accent); margin-bottom: 1.2rem; }
+
+.eyebrow {
+  display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 0.7rem; color: var(--slide-ink);
+}
+.act-tag {
+  display: inline-block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--slide-accent); color: var(--on-accent); padding: 0.35rem 1rem; margin-bottom: 0.9rem;
+}
+h1 { font-size: 7rem; font-weight: 800; line-height: 0.94; letter-spacing: -0.01em; }
+h2 { font-size: 3.8rem; font-weight: 800; line-height: 1.02; letter-spacing: -0.005em; }
+h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
+.s-body { flex: 1; min-height: 0; position: relative; }
+p { font-size: 1.85rem; }
+.small { font-size: 1.55rem; }
+.micro { font-size: 1.25rem; color: var(--text-muted); line-height: 1.4; }
+.lede { font-size: 2.1rem; line-height: 1.4; color: var(--text-muted); }
+.quiet { color: var(--text-muted); }
+.label { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+
+.grid { display: grid; gap: 2.6rem; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.g-4 { grid-template-columns: repeat(4, 1fr); }
+.g-7-5 { grid-template-columns: 7fr 5fr; }
+.g-5-7 { grid-template-columns: 5fr 7fr; }
+.g-6-6 { grid-template-columns: 1fr 1fr; }
+.center-y { align-content: center; }
+.fill { height: 100%; }
+
+.card { background: var(--bg-card); border: 0.2rem solid var(--border); padding: 1.8rem 2rem; position: relative; }
+.card.rail-left { border-left: 0.9rem solid var(--card-color, var(--slide-accent)); }
+.card.rail-top { border-top: 0.7rem solid var(--card-color, var(--slide-accent)); }
+.card-name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--card-ink, var(--card-color, var(--slide-ink))); margin-bottom: 0.6rem; }
+
+.pip { display: inline-block; width: 1.2rem; height: 1.2rem; background: var(--pip, var(--slide-accent)); flex-shrink: 0; }
+.banner { background: var(--text); color: var(--bg-card); padding: 1.3rem 1.7rem; font-size: 1.55rem; font-weight: 700; line-height: 1.4; }
+
+.reveal-anim { opacity: 0; transform: translateY(0.4rem); transition: opacity 0.3s ease, transform 0.3s ease; visibility: hidden; }
+.reveal-anim.visible { opacity: 1; transform: none; visibility: visible; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Decorative geometry ---------- */
+
+.deco { position: absolute; z-index: 1; pointer-events: none; }
+.deco.circle { border-radius: 50%; }
+.deco.ring { border-radius: 50%; background: transparent !important; border-style: solid; }
+.deco.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+/* ---------- 1. Title poster ---------- */
+
+.hero { align-items: center; height: 100%; }
+.hero h1 { margin: 0.6rem 0 2.4rem; }
+.hero .lede { max-width: 50rem; }
+.hero .micro { margin-top: 2.2rem; }
+.hero-mark { position: relative; height: 44rem; }
+.hero-mark > div { position: absolute; }
+.hm-circle { width: 21rem; height: 21rem; border-radius: 50%; background: var(--eco); top: 2rem; left: 13rem; }
+.hm-ring { width: 15rem; height: 15rem; border-radius: 50%; border: 1.8rem solid var(--psy); top: 20rem; left: 1rem; }
+.hm-square { width: 13rem; height: 13rem; background: var(--pol); top: 26rem; left: 19rem; transform: rotate(16deg); }
+.hm-tri { width: 11rem; height: 11rem; background: var(--accent-1); clip-path: polygon(0 0, 100% 50%, 0 100%); top: 6rem; left: 0; }
+.hm-bar { width: 34rem; height: 1.4rem; background: var(--accent-8); top: 42.5rem; left: 0; transform: rotate(-4deg); }
+
+/* ---------- Statement ---------- */
+
+.stmt-inner { justify-content: flex-end; padding-bottom: 8rem; }
+.stmt-text { font-size: 5rem; font-weight: 800; line-height: 1.05; max-width: 64rem; }
+.stmt-attr { margin-top: 2rem; }
+.stmt-block { position: absolute; top: -2rem; bottom: -2rem; right: 0; width: 25rem; background: var(--slide-accent); z-index: 1; }
+.stmt-block::after { content: ''; position: absolute; left: -7rem; top: 12rem; width: 14rem; height: 14rem; border-radius: 50%; border: 1.6rem solid var(--accent-4); }
+.stmt-lenses { position: absolute; left: -2.2rem; bottom: 12rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.stmt-lenses span { display: block; width: 4.4rem; height: 4.4rem; }
+.slide[data-archetype="statement"] .slide-no { color: var(--on-accent); background: var(--slide-accent); }
+
+/* ---------- Section divider ---------- */
+
+.slide.divider { background: var(--slide-accent); }
+.slide.divider .slide-inner { justify-content: center; color: #fff; }
+.slide.divider .eyebrow { color: #fff; }
+.slide.divider h1 { color: #fff; margin: 1rem 0 2.2rem; max-width: 70rem; }
+.slide.divider h3 { color: #fff; max-width: 64rem; }
+.slide.divider .slide-no { color: #fff; }
+.divider-num {
+  position: absolute; right: -3rem; bottom: -12rem; font-size: 40rem; font-weight: 800; line-height: 1;
+  color: var(--bg); opacity: 0.15; z-index: 1; pointer-events: none;
+}
+
+/* ---------- Card grid: how the degree is built ---------- */
+
+.built-grid { grid-template-rows: 1fr 1fr; height: 100%; gap: 2rem 2.4rem; }
+.built-grid .card { display: flex; flex-direction: column; justify-content: center; padding: 1.6rem 2rem; }
+.built-grid .card-name { font-size: 1.6rem; margin-bottom: 0.8rem; }
+.built-grid .card p { font-size: 1.5rem; line-height: 1.42; color: var(--text); }
+
+/* ---------- Card grid: Challenges ---------- */
+
+.chal-grid { height: 100%; gap: 1.8rem; }
+.chal-card { display: flex; flex-direction: column; gap: 1.1rem; padding: 1.6rem 1.7rem 1.8rem; overflow: hidden; }
+.chal-card h3 { font-size: 1.8rem; letter-spacing: 0.02em; line-height: 1.15; text-transform: none; position: relative; }
+.chal-partner { position: relative; align-self: flex-start; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--card-color); color: var(--card-on, #fff); padding: 0.35rem 0.8rem; }
+.chal-card p { font-size: 1.45rem; line-height: 1.45; position: relative; }
+.chal-num { position: absolute; right: 1.2rem; bottom: 0.4rem; font-size: 7rem; font-weight: 800; line-height: 1; color: var(--card-color); opacity: 0.18; }
+
+/* ---------- Split with panel ---------- */
+
+.split { height: 100%; }
+.split-text { display: flex; flex-direction: column; justify-content: center; }
+.split-text p { font-size: 1.8rem; line-height: 1.45; }
+.split-text p + p { margin-top: 1.6rem; }
+.panel-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--slide-accent); padding: 2.2rem 2.4rem; display: flex; flex-direction: column; justify-content: center; gap: 1.6rem; }
+.role-line { display: grid; grid-template-columns: 13rem 1fr; gap: 1.4rem; align-items: center; }
+.role-line .verb { font-size: 1.25rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.5rem 0.7rem; text-align: center; background: var(--role-color); color: var(--role-on, #fff); }
+.role-line p { font-size: 1.75rem; line-height: 1.3; font-weight: 700; }
+.panel-card .banner { margin-top: 0.6rem; }
+
+/* ---------- Tally ---------- */
+
+.tally { display: flex; flex-direction: column; gap: 1rem; }
+.tally-row { display: grid; grid-template-columns: 3.4rem auto minmax(0, 1fr); gap: 1rem; align-items: center; }
+.tally-letter {
+  width: 3.4rem; height: 3.4rem; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: var(--row-on, #fff); font-size: 1.6rem; font-weight: 800;
+}
+.tally-text { font-size: 1.5rem; line-height: 1.3; font-weight: 700; }
+.tally-controls { display: flex; align-items: center; gap: 0.4rem; }
+.tally-step {
+  width: 3rem; height: 3rem; background: var(--bg-card); border: 0.2rem solid var(--text);
+  font-size: 1.6rem; font-weight: 800; line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.tally-step:hover:not(:disabled) { background: var(--row-color); border-color: var(--row-color); color: var(--row-on, #fff); }
+.tally-count {
+  width: 5.6rem; height: 3rem; text-align: center; font-size: 1.6rem; font-weight: 800;
+  border: 0.2rem solid var(--border); background: var(--bg-card); font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield; appearance: textfield;
+}
+.tally-count::-webkit-inner-spin-button, .tally-count::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.tally-bar-wrap { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.tally-bar-wrap .tally-text { min-width: 15rem; }
+.tally-track { position: relative; flex: 1; height: 2.2rem; background: var(--bg-deep); min-width: 6rem; }
+.tally-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--row-color); transition: width 0.6s ease; }
+.tally-pct { font-size: 1.4rem; font-weight: 700; min-width: 5rem; text-align: right; font-variant-numeric: tabular-nums; }
+.tally-total { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+
+/* ---------- Claim tally ---------- */
+
+.claim-grid { height: 100%; grid-template-columns: 5fr 6fr; }
+.claim-card { background: var(--slide-accent); color: #fff; padding: 3rem 3.2rem; display: flex; flex-direction: column; justify-content: space-between; }
+.claim-card .label { color: #fff; }
+.claim-card .claim-text { font-size: 3.2rem; font-weight: 800; line-height: 1.18; margin: 1.6rem 0; }
+.claim-card .micro { color: #fff; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.claim-side { display: flex; flex-direction: column; justify-content: center; }
+.claim-follow { margin-top: 2.4rem; min-height: 10rem; background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--text); padding: 1.5rem 1.8rem; }
+.claim-follow p { font-size: 1.6rem; line-height: 1.45; }
+
+/* ---------- Numbered cards ---------- */
+
+.num-cards { height: 100%; }
+.num-card { display: flex; flex-direction: column; background: var(--bg-card); border: 0.2rem solid var(--border); }
+.num-head { background: var(--card-color); color: var(--card-on, #fff); padding: 1.3rem 1.8rem 1.4rem; position: relative; overflow: hidden; min-height: 7.6rem; display: flex; align-items: flex-end; }
+#s-capstone .num-head { min-height: 12rem; }
+#s-capstone .num-body p { font-size: 1.5rem; }
+#s-capstone .num-body .ask { font-size: 1.35rem; }
+.num-head .num-big { position: absolute; right: 1rem; top: -2.4rem; font-size: 11rem; font-weight: 800; line-height: 1; opacity: 0.25; }
+.num-head h3 { position: relative; font-size: 2.1rem; letter-spacing: 0.06em; }
+.num-body { padding: 1.7rem 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 1.4rem; }
+.num-body p { font-size: 1.6rem; line-height: 1.45; }
+.num-body .ask { font-size: 1.4rem; font-weight: 700; line-height: 1.4; border-top: 0.3rem solid var(--card-color); padding-top: 1rem; }
+.course-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+.course-list li { display: grid; grid-template-columns: 1.2rem 1fr; gap: 1rem; align-items: start; font-size: 1.5rem; line-height: 1.3; font-weight: 700; }
+.course-list .pip { margin-top: 0.45rem; }
+.lens-strip { display: flex; gap: 1.4rem; flex-wrap: wrap; border-top: 0.3rem solid var(--card-color); padding-top: 1rem; }
+.lens-strip span { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* ---------- Skills grid ---------- */
+
+.skill-grid { grid-template-rows: 1fr 1fr; height: 100%; gap: 1.6rem; }
+.skill-grid .card { padding: 1.3rem 1.5rem; display: flex; flex-direction: column; }
+.skill-grid .card-name { font-size: 1.3rem; line-height: 1.3; margin-bottom: 0.7rem; letter-spacing: 0.1em; }
+.skill-grid .card p { font-size: 1.35rem; line-height: 1.4; }
+
+/* ---------- Quote plus commentary ---------- */
+
+.quote-grid { height: 100%; }
+.quote-block {
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 1rem solid var(--slide-accent);
+  padding: 2.4rem 2.6rem; display: flex; flex-direction: column; justify-content: center; gap: 1.8rem;
+}
+.quote-block blockquote { font-size: 2.1rem; font-style: italic; line-height: 1.45; }
+.quote-block .attr { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slide-ink); }
+.commentary { display: flex; flex-direction: column; justify-content: center; }
+.commentary p { font-size: 1.75rem; line-height: 1.45; }
+.commentary p + p { margin-top: 1.4rem; }
+.commentary .banner { margin-top: 2.2rem; }
+
+/* ---------- Select-detail: electives ---------- */
+
+.elect-wrap { display: grid; grid-template-columns: 7fr 5fr; height: 100%; gap: 2.2rem; }
+.elect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem 1rem; align-content: space-between; }
+.elect-chip {
+  display: flex; align-items: center; text-align: left; min-height: 4.2rem;
+  background: var(--bg-card); border: 0.25rem solid var(--border); border-left: 0.8rem solid var(--chip-color);
+  padding: 0.4rem 1.1rem; font-size: 1.3rem; font-weight: 700; line-height: 1.22;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+.elect-chip:hover { transform: translateY(-0.2rem); border-color: var(--chip-color); box-shadow: 0 0.4rem 1.2rem rgba(42,31,24,0.1); }
+.elect-chip.selected { border-color: var(--chip-color); background: color-mix(in srgb, var(--chip-color) 12%, var(--bg-card)); }
+.elect-foot { min-height: 0; display: flex; flex-direction: column; gap: 1.4rem; }
+.elect-foot .detail-panel { flex: 1; }
+.detail-panel {
+  background: var(--bg-card); border: 0.2rem solid var(--border);
+  border-left: 0.9rem solid var(--detail-color, var(--border)); padding: 1.5rem 1.9rem;
+}
+.detail-panel .card-name { color: var(--detail-ink, var(--text-muted)); font-size: 1.3rem; line-height: 1.35; margin-bottom: 1rem; }
+.detail-panel p { font-size: 1.55rem; line-height: 1.45; }
+.detail-panel .placeholder-line { color: var(--text-muted); }
+.elect-rule { background: var(--accent-1); color: #fff; padding: 1.3rem 1.8rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
+.elect-rule .label { color: #fff; }
+.elect-rule p { font-size: 1.5rem; line-height: 1.4; font-weight: 700; }
+
+/* ---------- Close and bridge ---------- */
+
+.close-grid { align-items: center; height: 100%; }
+.close-list { display: flex; flex-direction: column; gap: 1.4rem; margin-top: 1.8rem; }
+.close-list li { list-style: none; display: grid; grid-template-columns: 1.6rem 1fr; gap: 1.4rem; align-items: start; font-size: 1.7rem; line-height: 1.35; }
+.close-list .pip { width: 1.6rem; height: 1.6rem; margin-top: 0.5rem; }
+.close-hook { margin-top: 2.2rem; }
+.bridge-card { background: var(--bg-card); border: 0.3rem solid var(--text); padding: 1.8rem 2rem; }
+.bridge-card h3 { font-size: 1.5rem; letter-spacing: 0.16em; margin-bottom: 1rem; }
+.bridge-card p { font-size: 1.5rem; line-height: 1.45; }
+.bridge-card p + p { margin-top: 0.8rem; }
+.bridge-card .big { font-size: 2.4rem; font-weight: 800; }
+.src-block { background: var(--slide-accent); color: #fff; padding: 1.6rem 2rem; margin-top: 1.8rem; }
+.src-block h3 { font-size: 1.4rem; letter-spacing: 0.16em; margin-bottom: 0.8rem; }
+.src-block p { font-size: 1.4rem; line-height: 1.45; }
+.close-src { margin-top: 1.6rem; }
+
+/* ---------- Motion preference ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Narrow and portrait: a scrolling document ---------- */
+
+@media screen and (max-width: 860px), screen and (max-aspect-ratio: 1/1) {
+  html { font-size: max(3.1vw, 9px); }
+  body { overflow: auto; background: var(--bg); }
+  .deck { position: static; display: block; }
+  .stage { width: 100%; height: auto; min-height: 100vh; padding-bottom: 9rem; overflow: hidden; }
+  .slide { position: static; }
+  .slide.divider { min-height: 100vh; }
+  .slide-inner { height: auto; padding: 5rem 2.5rem 3rem 4.4rem; }
+  .slide-no { top: 2rem; right: 2.5rem; }
+  .progress-track { position: fixed; }
+  .deck-chrome {
+    position: fixed; bottom: 0; left: 0; right: 0; justify-content: space-between;
+    border-width: 0.4rem 0 0; border-color: var(--accent-1); padding: 1rem 0.9rem; gap: 0.6rem;
+  }
+  .deck-chrome.idle { opacity: 1; pointer-events: auto; }
+  .nav-btn, .btn { min-height: 44px; font-size: 1.4rem; }
+  .deck-chrome .nav-btn { padding: 0 0.8rem; letter-spacing: 0.04em; font-size: 1.2rem; flex-shrink: 0; min-width: 44px; }
+  .nav-info { white-space: nowrap; font-size: 1.3rem; }
+  .tally-step, .tally-count { min-width: 44px; min-height: 44px; }
+  .tally-row { grid-template-columns: 3.4rem 1fr; }
+  .tally-bar-wrap { grid-column: 1 / -1; }
+  .tally-bar-wrap .tally-text { min-width: 0; }
+  .elect-chip { min-height: 44px; }
+  h1 { font-size: 5.2rem; }
+  h2 { font-size: 3.4rem; }
+  .g-2, .g-3, .g-4, .g-7-5, .g-5-7, .g-6-6, .claim-grid, .elect-grid, .elect-foot { grid-template-columns: 1fr; }
+  .built-grid, .skill-grid { grid-template-rows: none; }
+  .hero-mark, .stmt-block { display: none; }
+  .stmt-inner { padding-bottom: 5rem; }
+  .slide[data-archetype="statement"] .slide-no { color: var(--text-muted); background: none; }
+  .divider-num { font-size: 24rem; }
+  .role-line { grid-template-columns: 1fr; }
+}
+
+/* ---------- Print: one slide per A4 page ---------- */
+
+@page { size: A4 portrait; margin: 10mm; }
+
+@media print {
+  html { font-size: 8.6pt; }
+  body { background: #fff; overflow: visible; }
+  .deck { position: static; display: block; }
+  .stage { width: auto; height: auto; background: #fff; overflow: visible; }
+  .slide { position: relative; display: block !important; page-break-after: always; break-after: page; animation: none; overflow: hidden; }
+  .slide.divider { background: var(--slide-accent); }
+  .slide-inner { height: auto; padding: 2.4rem 3rem 2rem 5rem; }
+  .progress-track, .deck-chrome, .deco, .hero-mark, .tally-controls .tally-step, .blackout, .divider-num, .stmt-block, .tally-track, .tally-pct { display: none !important; }
+  .rail, .s-head::before, .act-tag, .tally-letter, .claim-card, .slide.divider, .num-head, .chal-partner, .role-line .verb,
+  .banner, .src-block, .elect-rule, .elect-chip, .card, .panel-card, .quote-block, .pip {
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .slide[data-archetype="statement"] .slide-no { color: var(--text-muted); background: none; }
+  .stmt-inner { padding-bottom: 3rem; }
+  .g-4, .elect-grid { grid-template-columns: 1fr 1fr; }
+  .built-grid, .skill-grid { grid-template-rows: none; grid-template-columns: 1fr 1fr; }
+  .claim-grid, .g-7-5, .g-6-6, .elect-foot { grid-template-columns: 1fr; }
+  .reveal-anim { opacity: 1; transform: none; visibility: visible; }
+  .s-head { margin-bottom: 1.2rem; }
+  h2 { font-size: 3rem; }
+  .grid { gap: 1.6rem; }
+  .hero, .fill, .num-cards, .chal-grid, .built-grid, .skill-grid, .split, .quote-grid, .close-grid, .claim-grid, .elect-wrap { height: auto; }
+  .detail-panel { display: none !important; }
+  .tally-bar { transition: none; }
+  .num-head, #s-capstone .num-head { min-height: 0; }
+  .num-head .num-big { font-size: 7rem; top: -1rem; }
+
+  /* Student print (default): no tallies, no follow-up lines, no notes */
+  body:not(.instructor) .tally-controls, body:not(.instructor) .tally-total,
+  body:not(.instructor) .claim-follow { display: none !important; }
+
+  /* Instructor print: tallies as numbers, notes */
+  body.instructor .tally-count { border-color: transparent; }
+  body.instructor .notes {
+    display: block; position: relative; z-index: 2; margin: 0 3rem 2rem 5rem; padding: 1.4rem 1.8rem;
+    border: 0.2rem solid var(--text); font-size: 1.25rem; line-height: 1.4; background: #fff; color: var(--text);
+  }
+  body.instructor .notes::before { content: 'SPEAKER NOTES'; display: block; font-weight: 700; letter-spacing: 0.16em; font-size: 1.1rem; margin-bottom: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+<div class="stage" id="stage">
+
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ============ 1. TITLE POSTER ============ -->
+  <section class="slide" id="s-title" data-accent="var(--accent-1)" data-archetype="title-poster">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 hero">
+        <div>
+          <span class="eyebrow">Hult &middot; London &middot; Bachelor's degree</span>
+          <h1>Psychology,<br>Economics<br>&amp; Politics</h1>
+          <p class="lede">One degree, three lenses, and real problems to point them at.</p>
+          <p class="micro">Based on the PEP Course Guide, last updated June 2026. Course content is subject to change.</p>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <div class="hm-bar"></div>
+          <div class="hm-circle"></div>
+          <div class="hm-ring"></div>
+          <div class="hm-square"></div>
+          <div class="hm-tri"></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Welcome the room. Set the promise: in about 25 minutes they will see how the Bachelor's in Psychology, Economics and Politics is built, what they would actually do on it, and the choices they would make later. The three shapes are the three disciplines, and the colours stay with them through the deck: magenta for psychology, gold for economics, red for politics. Mention the caveat on screen: everything comes from the current course guide, and course content is subject to change. About 1 minute.</aside>
+    <div class="deco circle" style="width: 34rem; height: 34rem; background: var(--accent-8); opacity: 0.08; bottom: -16rem; left: -10rem"></div>
+    <div class="deco" style="width: 80rem; height: 1rem; background: var(--accent-4); opacity: 0.12; bottom: 8rem; left: 4rem; transform: rotate(-2deg)"></div>
+  </section>
+
+  <!-- ============ 2. HOOK: CLAIM TALLY ============ -->
+  <section class="slide" id="s-hook" data-accent="var(--accent-8)" data-archetype="claim-tally">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <span class="act-tag">Show of hands &middot; 2 min</span>
+        <h2>Pick your lens</h2>
+      </header>
+      <div class="s-body grid claim-grid" data-activity="claim-tally">
+        <div class="claim-card">
+          <span class="label">A question</span>
+          <p class="claim-text" data-field="question"></p>
+          <span class="micro">Hands up for one lens</span>
+        </div>
+        <div class="claim-side">
+          <div class="tally" data-tally="round1"></div>
+          <div class="claim-follow reveal-anim"><p data-field="followUp"></p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">This is an opinion prompt: there is no right answer and none is shown. Read the question, then ask for hands for each lens and step the counts in (keys 1 to 3 add one; Shift with the key subtracts). Comment on the split: every lens has something to say. Press r to show the follow-up line, which sets up the whole talk. Keep the tally visible and come back to it on the final slide. About 2 minutes.</aside>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-3); opacity: 0.08; bottom: -5rem; left: 36rem; transform: rotate(32deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-4); opacity: 0.1; top: -9rem; left: 34rem"></div>
+  </section>
+
+  <!-- ============ 3. STATEMENT ============ -->
+  <section class="slide" id="s-lenses" data-accent="var(--accent-5)" data-archetype="statement">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="stmt-block" aria-hidden="true">
+      <div class="stmt-lenses"><span style="background: var(--psy)"></span><span style="background: var(--eco)"></span><span style="background: var(--pol)"></span></div>
+    </div>
+    <div class="slide-inner stmt-inner">
+      <div class="s-body" style="flex: 0 0 auto">
+        <p class="stmt-text">Take one problem. Look at it through three lenses. Then bring what you see together.</p>
+        <p class="micro stmt-attr">After the Social Phenomena Challenge, PEP Course Guide</p>
+      </div>
+    </div>
+    <aside class="notes">Let the sentence land. This is the idea the whole degree is built on. The course guide describes it for the Social Phenomena Challenge: investigate an issue from multiple disciplinary lenses, then synthesise those perspectives to generate new insights. Link back to the tally: whichever lens they picked, on this degree they would not have to choose only one. About 1 minute.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-6); opacity: 0.1; top: -12rem; left: 20rem; transform: rotate(22deg)"></div>
+    <div class="deco" style="width: 60rem; height: 1rem; background: var(--accent-8); opacity: 0.12; top: 17rem; left: -4rem; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 4. CARD GRID: HOW THE DEGREE IS BUILT ============ -->
+  <section class="slide" id="s-built" data-accent="var(--accent-3)" data-archetype="card-grid">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">The shape of the degree</span>
+        <h2>How the degree is built</h2>
+      </header>
+      <div class="s-body grid g-3 built-grid">
+        <div class="card rail-left" style="--card-color: var(--accent-1)"><div class="card-name">Challenges</div><p>Four projects with partner organisations: a charity, a business, a think tank and the civil service.</p></div>
+        <div class="card rail-left" style="--card-color: var(--accent-7); --card-ink: var(--accent-7-ink)"><div class="card-name">Core courses</div><p>Foundations in psychology, economics and politics, from microeconomics to social psychology.</p></div>
+        <div class="card rail-left" style="--card-color: var(--accent-5)"><div class="card-name">Skills and career</div><p>Collaboration, communication, thinking skills, coaching and career strategy.</p></div>
+        <div class="card rail-left" style="--card-color: var(--accent-3); --card-ink: var(--accent-7-ink)"><div class="card-name">Interdisciplinary</div><p>Courses that work across all three disciplines, such as Propaganda.</p></div>
+        <div class="card rail-left" style="--card-color: var(--accent-8)"><div class="card-name">Electives</div><p>Choose your direction, from Behavioural Economics to Rising China.</p></div>
+        <div class="card rail-left" style="--card-color: var(--accent-6)"><div class="card-name">Capstone</div><p>Finish with a Social Action Project, a Multi-Stakeholder Simulation or a Senior Thesis.</p></div>
+      </div>
+    </div>
+    <aside class="notes">The map for the rest of the talk. Six building blocks, which the next slides open one at a time: Challenges first, because they are what makes this degree unusual, then what you learn, then where you take it. Do not promise which year each block falls in: individual timelines differ, for example with transfer credits. About 1.5 minutes.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-4); opacity: 0.09; top: -14rem; right: -8rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-2); opacity: 0.07; bottom: -11rem; left: 30rem"></div>
+  </section>
+
+  <!-- ============ 5. SECTION DIVIDER: PART 1 ============ -->
+  <section class="slide divider" id="s-part-1" data-accent="var(--accent-1)" data-archetype="section-divider">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <span class="eyebrow">Part 1</span>
+      <h1>Challenges</h1>
+      <h3>Real partners, real problems. What would you actually do?</h3>
+    </div>
+    <div class="divider-num" aria-hidden="true">1</div>
+    <aside class="notes">Part 1 is the heart of the pitch: the four Challenges. Keep it concrete. The question to hold for the room is what they would actually be doing, week to week, with a partner organisation. About 6 minutes for this part, including a show of hands.</aside>
+    <div class="deco circle" style="width: 30rem; height: 30rem; background: var(--bg); opacity: 0.12; top: -12rem; left: 48rem"></div>
+    <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 10rem; left: 0; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 6. CARD GRID: THE FOUR CHALLENGES ============ -->
+  <section class="slide" id="s-challenges" data-accent="var(--accent-4)" data-archetype="card-grid">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Core Challenges</span>
+        <h2>Four Challenges, four kinds of partner</h2>
+      </header>
+      <div class="s-body grid g-4 chal-grid">
+        <div class="card rail-top chal-card" style="--card-color: var(--accent-1)">
+          <h3>Social Phenomena Challenge</h3>
+          <span class="chal-partner">Partner: a charity</span>
+          <p>Investigate a complex social issue, such as men's mental health or homelessness, through several disciplinary lenses, and bring the insights together.</p>
+          <span class="chal-num" aria-hidden="true">01</span>
+        </div>
+        <div class="card rail-top chal-card" style="--card-color: var(--accent-2)">
+          <h3>Experiment Challenge</h3>
+          <span class="chal-partner">Partner: a business</span>
+          <p>Design and run a scientific experiment on human behaviour in a real-world setting, with findings that matter to your partner.</p>
+          <span class="chal-num" aria-hidden="true">02</span>
+        </div>
+        <div class="card rail-top chal-card" style="--card-color: var(--accent-5)">
+          <h3>Propaganda Challenge</h3>
+          <span class="chal-partner">Partner: a think tank</span>
+          <p>Analyse historical and contemporary propaganda: how it works, why it works, and to what end.</p>
+          <span class="chal-num" aria-hidden="true">03</span>
+        </div>
+        <div class="card rail-top chal-card" style="--card-color: var(--accent-8)">
+          <h3>Policy Challenge</h3>
+          <span class="chal-partner">Partner: the civil service</span>
+          <p>Act as policy analyst and negotiator on a current issue such as climate resilience, education reform or public health.</p>
+          <span class="chal-num" aria-hidden="true">04</span>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Walk left to right. Stress that partners are more than clients: in the Social Phenomena Challenge you engage with the issue the charity works on; in the Experiment Challenge the research must be academically grounded and also useful to the partner; in the Propaganda Challenge the think tank may be a source of expertise or a client for messaging; in the Policy Challenge civil service professionals give input and guidance. Do not name specific partner organisations: none are confirmed in the guide. About 3 minutes.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--accent-6); opacity: 0.07; top: -15rem; right: 12rem; transform: rotate(22deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-2); opacity: 0.07; bottom: -11rem; left: -6rem"></div>
+  </section>
+
+  <!-- ============ 7. SPLIT WITH PANEL: POLICY CHALLENGE ============ -->
+  <section class="slide" id="s-policy" data-accent="var(--accent-2)" data-archetype="split-panel">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Policy Challenge up close</span>
+        <h2>Analyse a policy issue, then negotiate it</h2>
+      </header>
+      <div class="s-body grid g-5-7 split">
+        <div class="split-text">
+          <p>You explore a complex societal issue through the lenses of psychology, politics and economics.</p>
+          <p>With input and guidance from civil service professionals, you then take part in a multi-stakeholder negotiation simulation.</p>
+        </div>
+        <div class="panel-card">
+          <div class="role-line" style="--role-color: var(--psy)"><span class="verb">Represent</span><p>competing interests</p></div>
+          <div class="role-line" style="--role-color: var(--eco); --role-on: var(--text)"><span class="verb">Navigate</span><p>trade-offs</p></div>
+          <div class="role-line" style="--role-color: var(--pol)"><span class="verb">Propose</span><p>policy interventions</p></div>
+          <div class="banner">Critical thinking, strategic communication and collaborative problem-solving, in a high-fidelity setting informed by the real world.</div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">One Challenge in more depth, so the room can picture it. The Policy Challenge asks you to be two things at once: an analyst who understands the issue from three disciplines, and a negotiator who represents one side of it. Ask the room, rhetorically: whose interests would you most want to represent in a negotiation about education reform? About 1.5 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.09; top: -11rem; right: 18rem; transform: rotate(28deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.07; bottom: -9rem; left: 12rem"></div>
+  </section>
+
+  <!-- ============ 8. MID CHECK: CLAIM TALLY ============ -->
+  <section class="slide" id="s-pick" data-accent="var(--accent-8)" data-archetype="claim-tally">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <span class="act-tag">Show of hands &middot; 2 min</span>
+        <h2>Your first Challenge</h2>
+      </header>
+      <div class="s-body grid claim-grid" data-activity="claim-tally">
+        <div class="claim-card">
+          <span class="label">A question</span>
+          <p class="claim-text" data-field="question"></p>
+          <span class="micro">Hands up for one Challenge</span>
+        </div>
+        <div class="claim-side">
+          <div class="tally" data-tally="round1"></div>
+          <div class="claim-follow reveal-anim"><p data-field="followUp"></p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Another opinion prompt with no right answer. Take hands for each Challenge (keys 1 to 4). Ask one or two people with the most popular choice what drew them to it, and one person who chose the least popular. Then press r: the follow-up line reminds the room that all four are core Challenges, so nobody has to choose. About 2 minutes.</aside>
+    <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-7); opacity: 0.08; bottom: -7rem; left: 38rem; transform: rotate(24deg)"></div>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.07; top: -11rem; left: 30rem"></div>
+  </section>
+
+  <!-- ============ 9. SECTION DIVIDER: PART 2 ============ -->
+  <section class="slide divider" id="s-part-2" data-accent="var(--accent-5)" data-archetype="section-divider">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <span class="eyebrow">Part 2</span>
+      <h1>What you learn</h1>
+      <h3>Foundations in three disciplines, the skills to use them, and courses that join them up.</h3>
+    </div>
+    <div class="divider-num" aria-hidden="true">2</div>
+    <aside class="notes">Part 2 covers the knowledge the Challenges draw on: core courses in each discipline, the skills and career courses, coaching, and the interdisciplinary courses. About 8 minutes for this part.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--bg); opacity: 0.12; top: -10rem; left: 52rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--bg); opacity: 0.1; bottom: -8rem; left: 10rem"></div>
+  </section>
+
+  <!-- ============ 10. NUMBERED CARDS: CORE COURSES ============ -->
+  <section class="slide" id="s-core" data-accent="var(--accent-1)" data-archetype="numbered-cards">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Core courses</span>
+        <h2>Four core courses in each discipline</h2>
+      </header>
+      <div class="s-body grid g-3 num-cards">
+        <div class="num-card" style="--card-color: var(--psy)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">1</span><h3>Psychology</h3></div>
+          <div class="num-body">
+            <ul class="course-list">
+              <li><span class="pip" style="--pip: var(--psy)"></span>Genes, Mind, Brain &amp; Behaviour</li>
+              <li><span class="pip" style="--pip: var(--psy)"></span>PsychLab: Research Methods</li>
+              <li><span class="pip" style="--pip: var(--psy)"></span>Social Psychology</li>
+              <li><span class="pip" style="--pip: var(--psy)"></span>Individual Differences</li>
+            </ul>
+            <p class="ask">Design an experiment and present it at a mock conference poster session.</p>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--eco); --card-on: var(--text)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">2</span><h3>Economics</h3></div>
+          <div class="num-body">
+            <ul class="course-list">
+              <li><span class="pip" style="--pip: var(--eco)"></span>Principles of Microeconomics</li>
+              <li><span class="pip" style="--pip: var(--eco)"></span>Principles of Macroeconomics</li>
+              <li><span class="pip" style="--pip: var(--eco)"></span>Econometrics &amp; Quantitative Interpretation</li>
+              <li><span class="pip" style="--pip: var(--eco)"></span>World Economy</li>
+            </ul>
+            <p class="ask">Turn raw economic data into clear, persuasive insight.</p>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--pol)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">3</span><h3>Politics</h3></div>
+          <div class="num-body">
+            <ul class="course-list">
+              <li><span class="pip" style="--pip: var(--pol)"></span>Political Theory &amp; Ideology</li>
+              <li><span class="pip" style="--pip: var(--pol)"></span>Introduction to International Relations</li>
+              <li><span class="pip" style="--pip: var(--pol)"></span>International Politics Since 1945</li>
+              <li><span class="pip" style="--pip: var(--pol)"></span>Comparative Politics</li>
+            </ul>
+            <p class="ask">Make sense of the world as it is today.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Twelve core courses, four per discipline. Pick one highlight per column rather than reading the list: in psychology, PsychLab ends in a mock conference poster session; in economics, Econometrics teaches you to turn raw data into a persuasive story; in politics, International Politics Since 1945 connects the post-war world to today's. No biology background is expected for Genes, Mind, Brain and Behaviour. About 3 minutes.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-8); opacity: 0.08; top: -13rem; right: 14rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-7); opacity: 0.08; bottom: -10rem; left: -5rem"></div>
+  </section>
+
+  <!-- ============ 11. CARD GRID: SKILLS AND CAREER ============ -->
+  <section class="slide" id="s-skills" data-accent="var(--accent-7)" data-archetype="card-grid">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Skills and career courses</span>
+        <h2>Skills you learn by doing</h2>
+      </header>
+      <div class="s-body grid g-4 skill-grid">
+        <div class="card rail-top" style="--card-color: var(--accent-1)"><div class="card-name">Collaboration</div><p>Teamwork, conflict resolution and leadership, learned through simulations and team projects.</p></div>
+        <div class="card rail-top" style="--card-color: var(--accent-7); --card-ink: var(--accent-7-ink)"><div class="card-name">Communication (Oral)</div><p>Speak with clarity, confidence and impact in meetings and interviews.</p></div>
+        <div class="card rail-top" style="--card-color: var(--accent-5)"><div class="card-name">Communication (Writing)</div><p>Clear, concise and persuasive writing, built through peer feedback and revision.</p></div>
+        <div class="card rail-top" style="--card-color: var(--accent-8)"><div class="card-name">Learning to Learn</div><p>Personal strategies for focus, motivation, retention and problem-solving.</p></div>
+        <div class="card rail-top" style="--card-color: var(--accent-4); --card-ink: var(--accent-4-ink)"><div class="card-name">Critical Thinking</div><p>Analyse information, recognise biases and use tools such as AI well.</p></div>
+        <div class="card rail-top" style="--card-color: var(--accent-6)"><div class="card-name">Creative Thinking</div><p>Generate ideas, challenge assumptions and develop innovative solutions.</p></div>
+        <div class="card rail-top" style="--card-color: var(--accent-3); --card-ink: var(--accent-7-ink)"><div class="card-name">Coaching 1</div><p>One-to-one coaching sessions and workshops on self-awareness, strengths and goals.</p></div>
+        <div class="card rail-top" style="--card-color: var(--accent-2)"><div class="card-name">Advanced Career Strategies</div><p>Job searching, networking, interviews, negotiation and a development plan.</p></div>
+      </div>
+    </div>
+    <aside class="notes">The course guide describes most of these as highly experiential or highly practical: hands-on exercises, simulations, role-play, peer feedback. That is the point to make, rather than listing all eight. Pick two to name aloud, then move to coaching on the next slide. About 2 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-1); opacity: 0.07; top: -12rem; right: 20rem; transform: rotate(24deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-6); opacity: 0.07; bottom: -9rem; left: 44rem"></div>
+  </section>
+
+  <!-- ============ 12. QUOTE PLUS COMMENTARY: COACHING ============ -->
+  <section class="slide" id="s-coaching" data-accent="var(--accent-6)" data-archetype="quote-commentary">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Coaching 1</span>
+        <h2>Coaching puts you in charge of your development</h2>
+      </header>
+      <div class="s-body grid g-6-6 center-y quote-grid">
+        <div class="quote-block">
+          <blockquote>&ldquo;This course establishes a foundation for lifelong development by treating you as the expert on your own experience, with your coach as a thinking partner rather than an instructor.&rdquo;</blockquote>
+          <span class="attr">Coaching 1 &middot; PEP Course Guide</span>
+        </div>
+        <div class="commentary">
+          <p>At the start of your degree, one-to-one coaching sessions and workshops help you build self-awareness, clarity and ownership.</p>
+          <p>You examine your identity, recognise your strengths and set meaningful goals that extend beyond the classroom.</p>
+          <div class="banner">You set the goals. Your coach helps you think them through.</div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Coaching is a distinctive part of the degree, so give it its own moment. Read the quotation, then explain the difference in plain terms: a coach does not tell you what to do; they help you work out what you want and how to get there. The guide places Coaching 1 at the outset of the degree. About 1.5 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.09; top: -11rem; right: 16rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-8); opacity: 0.08; bottom: -8rem; left: 26rem"></div>
+  </section>
+
+  <!-- ============ 13. NUMBERED CARDS: INTERDISCIPLINARY ============ -->
+  <section class="slide" id="s-inter" data-accent="var(--accent-1)" data-archetype="numbered-cards">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Interdisciplinary courses</span>
+        <h2>Courses that join the disciplines up</h2>
+      </header>
+      <div class="s-body grid g-3 num-cards">
+        <div class="num-card" style="--card-color: var(--accent-1)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">1</span><h3>Explaining Explanation</h3></div>
+          <div class="num-body">
+            <p>What counts as an explanation in social science, and how psychology, economics and politics each explain things differently.</p>
+            <div class="lens-strip"><span><span class="pip" style="--pip: var(--psy)"></span>Psy</span><span><span class="pip" style="--pip: var(--eco)"></span>Eco</span><span><span class="pip" style="--pip: var(--pol)"></span>Pol</span></div>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-3)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">2</span><h3>Social Research</h3></div>
+          <div class="num-body">
+            <p>Surveys, experiments, interviews, case studies and content analysis: how social science produces knowledge, and how to do it yourself.</p>
+            <div class="lens-strip"><span><span class="pip" style="--pip: var(--psy)"></span>Psy</span><span><span class="pip" style="--pip: var(--eco)"></span>Eco</span><span><span class="pip" style="--pip: var(--pol)"></span>Pol</span></div>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-8)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">3</span><h3>Propaganda</h3></div>
+          <div class="num-body">
+            <p>How propaganda shapes beliefs, behaviours and power, seen through cognitive psychology, political theory and economic incentives.</p>
+            <div class="lens-strip"><span><span class="pip" style="--pip: var(--psy)"></span>Psy</span><span><span class="pip" style="--pip: var(--eco)"></span>Eco</span><span><span class="pip" style="--pip: var(--pol)"></span>Pol</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">These three courses do the joining up that the statement slide promised. Link Propaganda back to the Propaganda Challenge: the course gives you the theory, and the Challenge puts it to work with a think tank. Social Research gives you the methods you will need for the Experiment Challenge and, later, a Senior Thesis. About 1.5 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.09; top: -12rem; right: 12rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-2); opacity: 0.07; bottom: -10rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 14. SECTION DIVIDER: PART 3 ============ -->
+  <section class="slide divider" id="s-part-3" data-accent="var(--accent-2)" data-archetype="section-divider">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <span class="eyebrow">Part 3</span>
+      <h1>Where you take it</h1>
+      <h3>Choose your electives, then finish with a capstone.</h3>
+    </div>
+    <div class="divider-num" aria-hidden="true">3</div>
+    <aside class="notes">Part 3 is about choice: the electives that let each student shape the degree, and the three ways to finish it. About 5 minutes for this part.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--bg); opacity: 0.12; top: -12rem; left: 46rem; transform: rotate(14deg)"></div>
+    <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 12rem; left: 0; transform: rotate(-3deg)"></div>
+  </section>
+
+  <!-- ============ 15. SELECT-DETAIL: ELECTIVES ============ -->
+  <section class="slide" id="s-electives" data-accent="var(--accent-3)" data-archetype="select-detail">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Sample electives</span>
+        <h2>Pick your direction</h2>
+      </header>
+      <div class="s-body elect-wrap" data-activity="select-detail">
+        <div class="elect-grid"></div>
+        <div class="elect-foot">
+          <div class="detail-panel" aria-live="polite"><div class="card-name">Select an elective</div><p class="placeholder-line">Click any elective above to see what it covers.</p></div>
+          <div class="elect-rule"><span class="label">The rule</span><p data-field="rule"></p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Ask the room to call out an elective that sounds interesting, then click it to show what it covers (keys 1 to 9 select the first nine; r steps through them in order). These are sample electives: the list can change. Every student takes at least one elective listed as interdisciplinary. The guide does not say which of these carry that label, so do not assign it on the slide. About 3 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.07; top: -12rem; right: 18rem; transform: rotate(26deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-6); opacity: 0.07; bottom: -9rem; left: -4rem"></div>
+  </section>
+
+  <!-- ============ 16. NUMBERED CARDS: CAPSTONE ============ -->
+  <section class="slide" id="s-capstone" data-accent="var(--accent-5)" data-archetype="numbered-cards">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Capstone options</span>
+        <h2>Three ways to finish</h2>
+      </header>
+      <div class="s-body grid g-3 num-cards">
+        <div class="num-card" style="--card-color: var(--accent-2)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">1</span><h3>Social Action Project</h3></div>
+          <div class="num-body">
+            <p>Work inside a community organisation tackling a real social challenge, from food poverty to youth empowerment, as an active contributor.</p>
+            <p class="ask">Reflection, ethical engagement and a civic identity.</p>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-1)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">2</span><h3>Multi-Stakeholder Simulation</h3></div>
+          <div class="num-body">
+            <p>Represent governments, corporations or civil society in a large-scale simulation, negotiating against a live dashboard of consequences.</p>
+            <p class="ask">Systems thinking and strategic reasoning under uncertainty.</p>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--accent-3)">
+          <div class="num-head"><span class="num-big" aria-hidden="true">3</span><h3>Senior Thesis</h3></div>
+          <div class="num-body">
+            <p>An independent research project: a dissertation of 10,000 to 12,500 words and an oral defence, guided by a faculty supervisor.</p>
+            <p class="ask">Starts with Senior Thesis: Proposal, Research &amp; Ethics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Three very different endings. The Social Action Project puts you inside a community organisation. The Multi-Stakeholder Simulation scales up the Policy Challenge: a national emergency or a collapsing regional economy, with no single actor able to act alone. The Senior Thesis is the most important piece of writing an undergraduate completes, according to the guide, and it begins with a proposal course that includes ethical approval. About 1.5 minutes.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.09; top: -13rem; right: 14rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-8); opacity: 0.08; bottom: -10rem; left: -5rem"></div>
+  </section>
+
+  <!-- ============ 17. CLOSE AND BRIDGE ============ -->
+  <section class="slide" id="s-close" data-accent="var(--accent-1)" data-archetype="close-bridge">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 close-grid">
+        <div>
+          <header class="s-head">
+            <span class="eyebrow">Close</span>
+            <h2>What PEP gives you</h2>
+          </header>
+          <ul class="close-list">
+            <li><span class="pip" style="--pip: var(--accent-1)"></span>Four Challenges with partner organisations: a charity, a business, a think tank and the civil service.</li>
+            <li><span class="pip" style="--pip: var(--psy)"></span>Core courses in psychology, economics and politics, and courses that join them up.</li>
+            <li><span class="pip" style="--pip: var(--eco)"></span>Skills, coaching and career courses built around practice.</li>
+            <li><span class="pip" style="--pip: var(--pol)"></span>Your choice of electives, and a capstone to finish.</li>
+          </ul>
+          <p class="small close-hook"><strong>Back to the opening question:</strong> which lens would you reach for now?</p>
+        </div>
+        <div>
+          <div class="bridge-card">
+            <h3>To go further</h3>
+            <p class="big">hult.edu</p>
+            <p>Read the full Bachelor's in Psychology, Economics &amp; Politics Course Guide.</p>
+          </div>
+          <div class="src-block">
+            <h3>Next</h3>
+            <p>PLACEHOLDER: next step or contact for applicants</p>
+          </div>
+          <p class="micro close-src">Source: PEP Course Guide, London, last updated June 2026. Course content is subject to change.</p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Recap the four points, then return to the opening tally: ask whether anyone would change their lens now. The honest answer the degree wants is all three. Point the room to hult.edu and the full course guide. Replace the placeholder in the Next block with the application step or contact before presenting. Presenter: export the room's tallies from the Responses menu if you want to keep them. About 1 minute, then questions.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--accent-4); opacity: 0.09; bottom: -14rem; left: 30rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-2); opacity: 0.07; top: -9rem; left: 50rem"></div>
+  </section>
+
+  <div class="blackout" id="blackout"></div>
+
+  <div class="deck-chrome" id="chrome">
+    <button class="nav-btn ghost" type="button" id="prev-btn" aria-label="Previous slide">Prev</button>
+    <span class="nav-info" id="nav-info"></span>
+    <button class="nav-btn" type="button" id="next-btn" aria-label="Next slide">Next</button>
+    <div style="position: relative">
+      <button class="nav-btn ghost" type="button" id="resp-btn" aria-haspopup="true" aria-expanded="false">Responses</button>
+      <div class="resp-menu" id="resp-menu">
+        <button class="btn" type="button" id="export-btn">Export JSON</button>
+        <button class="btn" type="button" id="import-btn">Import JSON</button>
+        <label class="sr-only" for="import-file">Import responses file</label>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+        <button class="btn ghost" type="button" id="reset-btn">Reset</button>
+        <p class="resp-note" id="resp-note"></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ==================================================================
+   ACTIVITIES: all activity content for this deck.
+   Edit the text in quotes freely. Keep the structure (brackets,
+   commas) as it is. Each entry is keyed by the id of its slide.
+   ================================================================== */
+const ACTIVITIES = {
+
+  // Slide 2. Hook. An opinion prompt: no correct answer is ever shown.
+  // Colours follow the deck mapping: Psychology, Economics, Politics.
+  's-hook': {
+    pattern: 'claim-tally',
+    question: "Take homelessness. Which lens would you reach for first to explain it?",
+    options: ['Psychology', 'Economics', 'Politics'],
+    colours: ['var(--accent-6)', 'var(--accent-4)', 'var(--accent-2)'],
+    followUp: "Every answer is defensible. On this degree you would not have to choose: you would use all three, then bring them together."
+  },
+
+  // Slide 8. Mid check. An opinion prompt: no correct answer is ever shown.
+  // Colours match the Challenge cards on slide 6.
+  's-pick': {
+    pattern: 'claim-tally',
+    question: "Which Challenge would you take on first?",
+    options: ['Social Phenomena', 'Experiment', 'Propaganda', 'Policy'],
+    colours: ['var(--accent-1)', 'var(--accent-7)', 'var(--accent-5)', 'var(--accent-8)'],
+    followUp: "Good news: you do not have to choose. All four are core Challenges in the programme."
+  },
+
+  // Slide 15. Sample electives, shown one at a time in the detail panel.
+  // Summaries are condensed from the PEP Course Guide (June 2026).
+  's-electives': {
+    pattern: 'select-detail',
+    rule: "Every PEP student takes at least one elective listed as interdisciplinary.",
+    items: [
+      { name: "Behavioural Economics",
+        detail: "Connects psychology, economics and game theory to explain how economic agents actually behave, moving beyond the assumption of perfect rationality." },
+      { name: "Psychology & Law",
+        detail: "How psychological phenomena affect justice outcomes throughout the justice process, and how psychology can improve our success in achieving justice." },
+      { name: "The Economics of Institutions & the Hidden Engines of Change",
+        detail: "How the rules and structures governing society shape economic outcomes and social innovation, explored through interactive discussion and hands-on case studies." },
+      { name: "Political Economy of Fiscal Policy & the Public Sector",
+        detail: "Tools for analysing the macro and micro environment of the public sector, with a comparison of the major mixed economies of the world." },
+      { name: "Government & Legislation",
+        detail: "A second-year course on how laws are created, implemented and administered, comparing the United Kingdom, the United States and other representative systems." },
+      { name: "The EU",
+        detail: "The EU's institutions, processes and major policies, the leading theories of European integration, and the EU as a global actor." },
+      { name: "Citizens & States",
+        detail: "The tension between universal visions of politics, such as human rights and global justice, and particular ones rooted in nations, peoples and cultures." },
+      { name: "The End of History in the 21st Century",
+        detail: "Francis Fukuyama's The End of History and the Last Man, examined through politics, economics and psychology: was he wrong, premature or simply misunderstood?" },
+      { name: "International Organisations & Global Governance",
+        detail: "How and why states create and reform institutions such as the UN, the World Trade Organization, the IMF and the World Bank, with simulations and policy briefs." },
+      { name: "Democracy & Authoritarianism in the Age of Contemporary Populism",
+        detail: "What democracy means, what sustains it, and why voters support leaders who undermine the very institutions designed to protect their rights." },
+      { name: "Rising China",
+        detail: "The political economy of China's rise, the pressures now testing its development model, and its expanding role in global trade, finance, technology and politics." }
+    ]
+  }
+};
+
+/* ==================================================================
+   Deck logic below. No content to edit past this point.
+   ================================================================== */
+(function () {
+  'use strict';
+
+  var DECK_ID = '2026-10-pep-degree';
+  var STORE_KEY = 'slides:standalone:' + DECK_ID + ':v1';
+  var ON_ACCENT = { '1': '#fff', '2': '#fff', '3': '#fff', '4': 'var(--text)', '5': '#fff', '6': '#fff', '7': 'var(--text)', '8': '#fff' };
+  var INK = { '1': 'var(--accent-1)', '2': 'var(--accent-2)', '3': 'var(--accent-7-ink)', '4': 'var(--accent-4-ink)', '5': 'var(--accent-5)', '6': 'var(--text)', '7': 'var(--accent-7-ink)', '8': 'var(--text)' };
+  var LETTERS = 'ABCDEFGHI';
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+  var revealFns = {};
+  var numberFns = {};
+
+  if (/[?&]instructor\b/.test(location.search)) document.body.classList.add('instructor');
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function accentNum(v) { var m = /accent-(\d)/.exec(v || ''); return m ? m[1] : '1'; }
+
+  /* ---------- Response store ---------- */
+
+  var storageOK = true;
+  var state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+  try {
+    var raw = window.localStorage.getItem(STORE_KEY);
+    if (raw) {
+      var parsed = JSON.parse(raw);
+      if (parsed && parsed.activities) state = parsed;
+    }
+    window.localStorage.setItem(STORE_KEY + ':probe', '1');
+    window.localStorage.removeItem(STORE_KEY + ':probe');
+  } catch (err) {
+    storageOK = false;
+  }
+  function act(id) {
+    if (!state.activities[id]) state.activities[id] = {};
+    return state.activities[id];
+  }
+  function save() {
+    state.savedAt = new Date().toISOString();
+    if (!storageOK) return;
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+    catch (err) { storageOK = false; updateRespNote(); }
+  }
+
+  /* ---------- Slide accents and numbers ---------- */
+
+  slides.forEach(function (s, i) {
+    var accent = s.getAttribute('data-accent') || 'var(--accent-1)';
+    var n = accentNum(accent);
+    s.style.setProperty('--slide-accent', accent);
+    s.style.setProperty('--slide-ink', INK[n]);
+    s.style.setProperty('--on-accent', ON_ACCENT[n]);
+    var no = s.querySelector('.slide-no');
+    if (no) no.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  });
+
+  /* ---------- Fill data-field text ---------- */
+
+  Object.keys(ACTIVITIES).forEach(function (id) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    s.querySelectorAll('[data-field]').forEach(function (f) {
+      var v = ACTIVITIES[id][f.getAttribute('data-field')];
+      if (v !== undefined) f.textContent = v;
+    });
+  });
+
+  /* ---------- Tally ---------- */
+
+  function makeTally(container, slideId, key, labels, colours) {
+    var store = act(slideId);
+    if (!store[key] || store[key].length !== labels.length) store[key] = labels.map(function () { return 0; });
+    var counts = store[key];
+    container.innerHTML = '';
+    var rows = [];
+    labels.forEach(function (label, i) {
+      var colour = colours[i % colours.length];
+      var row = el('div', 'tally-row');
+      row.style.setProperty('--row-color', colour);
+      row.style.setProperty('--row-on', ON_ACCENT[accentNum(colour)]);
+      var inputId = slideId + '-' + key + '-' + i;
+      row.innerHTML =
+        '<span class="tally-letter" aria-hidden="true">' + LETTERS[i] + '</span>' +
+        '<span class="tally-controls">' +
+          '<button class="tally-step" type="button" data-d="-1" aria-label="Remove one from ' + esc(label) + '">&minus;</button>' +
+          '<label class="sr-only" for="' + inputId + '">Count for ' + esc(label) + '</label>' +
+          '<input class="tally-count" id="' + inputId + '" type="number" min="0" max="999" inputmode="numeric">' +
+          '<button class="tally-step" type="button" data-d="1" aria-label="Add one to ' + esc(label) + '">+</button>' +
+        '</span>' +
+        '<span class="tally-bar-wrap">' +
+          '<span class="tally-text">' + esc(label) + '</span>' +
+          '<span class="tally-track"><span class="tally-bar"></span></span><span class="tally-pct">0%</span>' +
+        '</span>';
+      container.appendChild(row);
+      rows.push(row);
+      var input = row.querySelector('.tally-count');
+      input.addEventListener('input', function () {
+        var v = parseInt(input.value, 10);
+        counts[i] = isNaN(v) ? 0 : Math.max(0, Math.min(999, v));
+        draw(true); save();
+      });
+      row.querySelectorAll('.tally-step').forEach(function (b) {
+        b.addEventListener('click', function () { step(i, parseInt(b.getAttribute('data-d'), 10)); });
+      });
+    });
+    var totalLine = el('div', 'tally-total');
+    container.appendChild(totalLine);
+    function draw(skipInputs) {
+      var sum = counts.reduce(function (a, b) { return a + b; }, 0);
+      rows.forEach(function (row, i) {
+        var pct = sum ? Math.round(counts[i] / sum * 100) : 0;
+        row.querySelector('.tally-bar').style.width = pct + '%';
+        row.querySelector('.tally-pct').textContent = pct + '%';
+        if (!skipInputs) row.querySelector('.tally-count').value = counts[i];
+      });
+      totalLine.textContent = 'Total: ' + sum;
+    }
+    function step(i, d) {
+      if (i < 0 || i >= counts.length) return;
+      counts[i] = Math.max(0, Math.min(999, counts[i] + d));
+      draw(); save();
+    }
+    draw();
+  }
+
+  /* ---------- Slides 2 and 8: claim tallies ---------- */
+
+  ['s-hook', 's-pick'].forEach(function (id) {
+    var A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    makeTally(s.querySelector('[data-tally="round1"]'), id, 'round1', A.options, A.colours);
+    var follow = s.querySelector('.claim-follow');
+    if (act(id).revealed) follow.classList.add('visible');
+    revealFns[id] = function () { follow.classList.add('visible'); act(id).revealed = true; save(); };
+  });
+
+  /* ---------- Slide 15: electives, select one with a shared detail panel ---------- */
+
+  (function () {
+    var id = 's-electives', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var grid = s.querySelector('.elect-grid');
+    var panel = s.querySelector('.detail-panel');
+    var colours = ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-4)', 'var(--accent-2)', 'var(--accent-8)', 'var(--accent-5)', 'var(--accent-7)', 'var(--accent-3)'];
+    var sel = -1;
+    var chips = A.items.map(function (it, i) {
+      var b = el('button', 'elect-chip');
+      b.type = 'button';
+      b.style.setProperty('--chip-color', colours[i % colours.length]);
+      b.setAttribute('aria-pressed', 'false');
+      b.textContent = it.name;
+      b.addEventListener('click', function () { select(i); });
+      grid.appendChild(b);
+      return b;
+    });
+    function select(i) {
+      sel = i;
+      var colour = colours[i % colours.length];
+      chips.forEach(function (b, j) { b.classList.toggle('selected', j === i); b.setAttribute('aria-pressed', String(j === i)); });
+      panel.style.setProperty('--detail-color', colour);
+      panel.style.setProperty('--detail-ink', INK[accentNum(colour)]);
+      panel.innerHTML = '<div class="card-name">' + esc(A.items[i].name) + '</div><p>' + esc(A.items[i].detail) + '</p>';
+    }
+    revealFns[id] = function () { select((sel + 1) % A.items.length); };
+    numberFns[id] = function (n) { if (A.items[n]) select(n); };
+    s._select = select;
+    s._selectLongest = function () {
+      var best = 0;
+      A.items.forEach(function (it, i) { if ((it.name + it.detail).length > (A.items[best].name + A.items[best].detail).length) best = i; });
+      select(best);
+    };
+  })();
+
+  /* ---------- Navigation ---------- */
+
+  function show(n, fromHash) {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides.forEach(function (s) { s.classList.remove('active'); });
+    slides[n].classList.add('active');
+    current = n;
+    var accent = slides[n].getAttribute('data-accent') || 'var(--accent-1)';
+    document.documentElement.style.setProperty('--slide-accent', accent);
+    var prog = document.getElementById('progress');
+    prog.style.width = ((n + 1) / total * 100) + '%';
+    prog.style.background = accent;
+    document.getElementById('nav-info').textContent = String(n + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.getElementById('prev-btn').disabled = n === 0;
+    document.getElementById('next-btn').disabled = n === total - 1;
+    if (!fromHash) {
+      try { history.replaceState(null, '', '#' + (n + 1)); } catch (err) { location.hash = String(n + 1); }
+    }
+    window.scrollTo(0, 0);
+  }
+  function go(d) { show(current + d); }
+  function fromHash() {
+    var m = /^#(\d+)$/.exec(location.hash);
+    return m ? parseInt(m[1], 10) - 1 : 0;
+  }
+  window.addEventListener('hashchange', function () { var n = fromHash(); if (n !== current) show(n, true); });
+  document.getElementById('prev-btn').addEventListener('click', function () { go(-1); });
+  document.getElementById('next-btn').addEventListener('click', function () { go(1); });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+    else if (document.exitFullscreen) document.exitFullscreen();
+  }
+
+  /* ---------- Responses menu ---------- */
+
+  var respBtn = document.getElementById('resp-btn');
+  var respMenu = document.getElementById('resp-menu');
+  function updateRespNote() {
+    var note = document.getElementById('resp-note');
+    if (storageOK) { note.textContent = 'Responses save automatically in this browser.'; note.classList.remove('warn'); }
+    else { note.textContent = 'Storage is unavailable: responses will not persist after this page closes. Export before closing.'; note.classList.add('warn'); }
+  }
+  updateRespNote();
+  function closeMenu() { respMenu.classList.remove('open'); respBtn.setAttribute('aria-expanded', 'false'); }
+  respBtn.addEventListener('click', function () {
+    var open = !respMenu.classList.contains('open');
+    respMenu.classList.toggle('open', open);
+    respBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.getElementById('export-btn').addEventListener('click', function () {
+    state.savedAt = new Date().toISOString();
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'standalone-' + DECK_ID + '-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  var fileInput = document.getElementById('import-file');
+  document.getElementById('import-btn').addEventListener('click', function () { fileInput.click(); });
+  fileInput.addEventListener('change', function () {
+    var f = fileInput.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var data = JSON.parse(reader.result);
+        if (!data || !data.activities) throw new Error('No activities');
+        if (!window.confirm('Replace the current responses with the imported file?')) return;
+        state = data; save(); location.reload();
+      } catch (err) { window.alert('That file could not be read as responses for this deck.'); }
+    };
+    reader.readAsText(f);
+    fileInput.value = '';
+  });
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!window.confirm('Clear all recorded responses for this deck? This cannot be undone.')) return;
+    state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+    try { window.localStorage.removeItem(STORE_KEY); } catch (err) { /* storage unavailable */ }
+    location.reload();
+  });
+
+  /* ---------- Keyboard ---------- */
+
+  var blackout = document.getElementById('blackout');
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    var typing = t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+    if (typing && e.key !== 'Escape') return;
+    if (t.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    if (blackout.classList.contains('on')) { e.preventDefault(); blackout.classList.remove('on'); return; }
+
+    var id = slides[current].id;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); go(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(total - 1); }
+    else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+    else if (k === 'b' || k === 'B' || k === '.') { e.preventDefault(); blackout.classList.add('on'); }
+    else if (k === 'Escape') { closeMenu(); if (typing) t.blur(); }
+    else if (k === 'r' || k === 'R') { if (revealFns[id]) { e.preventDefault(); revealFns[id](); } }
+    else if (/^Digit[1-9]$/.test(e.code)) {
+      var n = parseInt(e.code.slice(5), 10) - 1;
+      var rows = slides[current].querySelectorAll('.tally-row');
+      if (rows.length) {
+        if (rows[n]) {
+          e.preventDefault();
+          var btns = rows[n].querySelectorAll('.tally-step');
+          (e.shiftKey ? btns[0] : btns[1]).click();
+        }
+      } else if (numberFns[id]) { e.preventDefault(); numberFns[id](n); }
+    }
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#resp-menu') && e.target !== respBtn) closeMenu();
+  });
+
+  /* ---------- Idle-hiding chrome ---------- */
+
+  (function () {
+    var chrome = document.getElementById('chrome');
+    var h;
+    function wake() {
+      chrome.classList.remove('idle');
+      clearTimeout(h);
+      h = setTimeout(function () { if (!respMenu.classList.contains('open')) chrome.classList.add('idle'); }, 2500);
+    }
+    ['mousemove', 'keydown', 'touchstart', 'click'].forEach(function (evt) { document.addEventListener(evt, wake); });
+    wake();
+  })();
+
+  /* ---------- Test hooks for tests/verify-deck.mjs ---------- */
+
+  window.DECK = {
+    show: show,
+    current: function () { return current; },
+    reveal: function (id) { if (revealFns[id]) revealFns[id](); },
+    storageOK: function () { return storageOK; },
+    state: function () { return state; },
+    worst: function (id) {
+      var s = document.getElementById(id);
+      s.querySelectorAll('.tally-count').forEach(function (inp) { inp.value = 999; inp.dispatchEvent(new Event('input')); });
+      if (id === 's-hook' || id === 's-pick') revealFns[id]();
+      if (id === 's-electives') s._selectLongest();
+    },
+    selectPart: function (id, n) { var s = document.getElementById(id); if (s._select) s._select(n); }
+  };
+
+  show(fromHash(), true);
+})();
+</script>
+</body>
+</html>

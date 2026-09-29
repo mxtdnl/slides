@@ -245,14 +245,18 @@ else {
   const board = slides.findIndex((s) => s.archetype === 'live-board');
   await page.evaluate((n) => { window.DECK.show(n); document.activeElement.blur(); }, hook);
   await page.keyboard.press('Digit1'); await page.keyboard.press('Digit1'); await page.keyboard.press('Digit2');
-  await page.evaluate((n) => window.DECK.show(n), board);
-  await page.fill('#board-text', 'Sessions completed this week');
-  await page.keyboard.press('Enter');
+  // A deck without a live board (interaction level light) checks the tally only
+  if (board >= 0) {
+    await page.evaluate((n) => window.DECK.show(n), board);
+    await page.fill('#board-text', 'Sessions completed this week');
+    await page.keyboard.press('Enter');
+  }
   await page.reload(); await page.waitForFunction(() => window.DECK);
   const after = await page.evaluate(() => window.DECK.state().activities);
-  const hookId = slides[hook].id, boardId = slides[board].id;
-  const okReload = after[hookId] && after[hookId].round1.join(',') === '2,1,0' && after[boardId] && after[boardId].entries.length === 1;
-  log(`Reload keeps tally and board: ${okReload ? 'yes' : 'NO'}`);
+  const hookId = slides[hook].id, boardId = board >= 0 ? slides[board].id : null;
+  const boardOK = (st) => !boardId || (st[boardId] && st[boardId].entries.length === 1);
+  const okReload = after[hookId] && after[hookId].round1.join(',').startsWith('2,1,0') && boardOK(after);
+  log(`Reload keeps tally${boardId ? ' and board' : ''}: ${okReload ? 'yes' : 'NO'}`);
   if (!okReload) fail('PERSISTENCE', 'tally or board did not survive a reload');
 
   // Export
@@ -279,7 +283,7 @@ else {
   await Promise.all([page.waitForEvent('load'), fc.setFiles(exportPath)]);
   await page.waitForFunction(() => window.DECK);
   const imported = await page.evaluate(() => window.DECK.state().activities);
-  const okImport = JSON.stringify(imported[hookId].round1) === JSON.stringify(exported.activities[hookId].round1) && imported[boardId].entries.length === exported.activities[boardId].entries.length;
+  const okImport = JSON.stringify(imported[hookId].round1) === JSON.stringify(exported.activities[hookId].round1) && (!boardId || imported[boardId].entries.length === exported.activities[boardId].entries.length);
   log(`Import restores the export: ${okImport ? 'yes' : 'NO'}`);
   if (!okImport) fail('PERSISTENCE', 'import did not restore the exported state');
   await ctx.close();
