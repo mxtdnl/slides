@@ -54,6 +54,8 @@ tools/
 - `standalone/2026-09-telegraphing.html` — Coaching department meeting (September 2026), student development coaches, telegraphing direction and purpose to emerging adults; dark theme, interaction level none: no activity patterns (presenter row reveal on the comparison matrix only)
 - `standalone/2026-10-pep-degree.brief.md` — Brief for the deck below
 - `standalone/2026-10-pep-degree.html` — Recruitment talk (October 2026, date to be confirmed), prospective students, the Bachelor's in Psychology, Economics & Politics built from the PEP Course Guide (June 2026); interaction level light: two claim tallies by show of hands (hook and mid check), select-detail on the electives
+- `standalone/2026-10-frontier-briefing.brief.md` — Brief for the deck below
+- `standalone/2026-10-frontier-briefing.html` — Class briefing before a FRONTIER simulation session (October 2026), non-experts about to run AI firms, how the market, the three quarterly decisions, the phone and the projector work; dark theme, interaction level light: claim tally (hook), comparison-matrix row reveal, single-select check, annotated images of the phone and projector screens
 
 Keep this list current. When adding a deck, add a line here in the form `courses/<slug>/<file>.html` — Course, week, topic, and the activity patterns it uses. Also add a card for it in `index.html` under its course heading, inside `.deck-grid`. When adding a course, add its `COURSE.md` here and a course heading in `index.html`. Standalone decks are listed as `standalone/<file>.html` — Occasion, audience, topic, activity patterns, and appear in `index.html` under a `STANDALONE` heading placed after the courses.
 

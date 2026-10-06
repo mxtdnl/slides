@@ -165,7 +165,7 @@ Rules of thumb for a wide frame:
 
 ## 6. Slide archetypes
 
-Twenty-four patterns in four families. Choose the archetype from the idea the slide carries, not from variety for its own sake.
+Twenty-five patterns in four families. Choose the archetype from the idea the slide carries, not from variety for its own sake.
 
 ### Register
 
@@ -195,6 +195,7 @@ Twenty-four patterns in four families. Choose the archetype from the idea the sl
 | 22 | Case vignette | Evidence | A concrete case to reason about | specified | |
 | 23 | Worked example | Evidence | A solution shown step by step | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 19 |
 | 24 | Claim and correction | Evidence | A common misconception set against the evidence | specified | |
+| 25 | Annotated image | Evidence | A screenshot or supplied illustration whose parts need naming | specified | `standalone/2026-10-frontier-briefing.html` slides 7, 13, 14 (portrait), 12 (landscape), 15 (strip) |
 
 ### Framing
 
@@ -259,6 +260,8 @@ The inset is `W/8 + g/8`. With a `1.6rem` gap that is `12.5% + 0.2rem`, which pu
 **23. Worked example.** `g-7-5`. Left: the steps of a solution in a vertical stack, revealed one at a time. Right: a `WHY THIS STEP` panel showing the reasoning for the current step. Before each reveal the presenter asks the room to predict the next step, which the notes should prompt. Maximum six steps visible; split longer solutions across slides with a `CARRIED FORWARD` card at the top of the continuation. Pair it with the complete-the-example pattern (section 9.13).
 
 **24. Claim and correction.** `g-2`. Left: a card headed `A COMMON CLAIM` with the claim at `2.1rem`, and a tally of whether the room agrees (section 9.2). Right, revealed after the tally: a card headed `WHAT THE EVIDENCE SHOWS` with the correction, a line on why the claim is attractive, and a source line. Explaining why a misconception is plausible is what distinguishes this from simply stating the correct view. The correction needs a supplied source; without one the slide is not built.
+
+**25. Annotated image.** A screenshot or supplied illustration with numbered parts, for teaching a real interface or picture rather than a model built in markup (that is the annotated model). The image follows section 12.1: supplied by the instructor or captured at their request, embedded as base64 at its display size, alt text on every image. Each part is a box on the image (`x`, `y`, `w`, `h` as fractions of the image) with a name and one line of text, all in `ACTIVITIES`; the legend shows every part's text at all times, so nothing is hidden from the room. Selecting a part (marker, legend entry, its number key, or `r` to step) outlines its box on the image in the part's accent with a `--text` outline, so the box reads on dark screenshots. Three variants. **Portrait** (a phone screen): `auto 1fr`, the image filling the body height with its markers in a gutter to its right, each beside a bracket showing the part's vertical extent, so no marker covers the screenshot; legend in one or two columns. **Landscape** (a projector or desktop screen): the image in a fixed `56rem` column, markers placed on the image at a point given in `ACTIVITIES` (`mx`, `my`) over empty areas, and a one-column legend with the name inline; keep each line to about eight words. **Strip**: two to four screens in sequence, each with one always-visible box and a numbered caption beneath. Crop screenshots to the part that carries the content before encoding; a tall phone screen with empty space shrinks everything on it. Maximum seven parts per image. Marker and legend numerals are large text (at least `1.5rem` bold) so the burnt orange fill passes at 1280x720.
 
 ---
 
@@ -587,7 +590,7 @@ The `CLAUDE.md` geometry rules apply, with deck-specific sizing.
 
 Decoration is geometric and never figurative. Photographs are content, used where a real case is being discussed and the image carries information the text cannot. They are never background texture.
 
-- **Only images the instructor supplies**, with a credit line on the slide.
+- **Only images the instructor supplies**, with a credit line on the slide. Screenshots of software the session uses count as supplied when the instructor asks for them; capture them from a staged or practice run with fictional data, never from live participant data, and say so in a caption on the first slide that shows them.
 - **Embed as base64 data URIs.** The one-file rule permits no network calls, and a separate image file breaks opening the deck from the filesystem.
 - **Resize to the display box before encoding.** Encode at the displayed aspect ratio and let `object-fit: cover` do the final fitting; quality `0.72` to `0.74` JPEG keeps a banner-sized image to a few tens of kilobytes. Encoding at a different aspect ratio and cropping twice wastes bytes and loses control of the framing.
 - **Choose the crop deliberately**, so the subject survives a wide crop rather than a centre crop that decapitates people.
