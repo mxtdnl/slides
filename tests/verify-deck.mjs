@@ -53,6 +53,7 @@ async function openDeck(context, hash = '') {
 async function slideInfo(page) {
   return page.evaluate(() => Array.from(document.querySelectorAll('.slide')).map((s) => ({
     id: s.id, archetype: s.getAttribute('data-archetype'), activity: !!s.querySelector('[data-activity], [data-reveal]'),
+    tally: !!s.querySelector('.tally-row'),
   })));
 }
 
@@ -241,7 +242,9 @@ else {
   const page = await openDeck(ctx);
   await page.evaluate(() => localStorage.clear());
   await page.reload(); await page.waitForFunction(() => window.DECK);
-  const hook = slides.findIndex((s) => s.archetype === 'claim-tally');
+  // The first claim tally, or failing that the first slide with any tally
+  let hook = slides.findIndex((s) => s.archetype === 'claim-tally');
+  if (hook < 0) hook = slides.findIndex((s) => s.tally);
   const board = slides.findIndex((s) => s.archetype === 'live-board');
   await page.evaluate((n) => { window.DECK.show(n); document.activeElement.blur(); }, hook);
   await page.keyboard.press('Digit1'); await page.keyboard.press('Digit1'); await page.keyboard.press('Digit2');

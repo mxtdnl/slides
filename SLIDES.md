@@ -192,7 +192,7 @@ Twenty-five patterns in four families. Choose the archetype from the idea the sl
 | 19 | Annotated model | Relations | A diagram whose parts need naming in turn | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 13 |
 | 20 | Data exhibit | Evidence | One chart supporting one claim | specified | |
 | 21 | Photograph | Evidence | An image that carries information text cannot | specified | |
-| 22 | Case vignette | Evidence | A concrete case to reason about | specified | |
+| 22 | Case vignette | Evidence | A concrete case to reason about | specified | `standalone/2026-10-pep-meta-session.html` slide 16 (fact strip with three cards, no discussion questions) |
 | 23 | Worked example | Evidence | A solution shown step by step | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 19 |
 | 24 | Claim and correction | Evidence | A common misconception set against the evidence | specified | |
 | 25 | Annotated image | Evidence | A screenshot or supplied illustration whose parts need naming | specified | `standalone/2026-10-frontier-briefing.html` slides 7, 13, 14 (portrait), 12 (landscape), 15 (strip) |
