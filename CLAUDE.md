@@ -153,6 +153,7 @@ These are non-negotiable.
 8. **Scoring.** Only questions with a single defensible answer may resolve as correct or incorrect. Judgement, opinion and position prompts never display a right answer; they display the room's distribution.
 9. **Privacy.** No deck stores or displays individual names of students or other participants. Group labels only.
 10. **UK English** throughout, in prose, labels and code comments.
+11. **Favicon on every page.** Every `.html` file outside `reference/` carries the repository favicon: a pull-down projection screen with a play triangle, as 16px and 32px PNGs embedded as `data:image/png;base64` URIs in two `<link rel="icon">` tags placed directly after `<title>`. Copy both tags verbatim from `index.html` into every new deck, tool or page; never redraw the icon or link a separate image file.
 
 ---
 
@@ -311,6 +312,7 @@ If an instruction in a request conflicts with this file, `SLIDES.md` or the deck
 - No `border-radius` values other than `0` and `50%`
 - Files under `reference/` are excluded from every check below
 - Every deck under `courses/` or `standalone/` is linked from `index.html` and listed in the Files section of this file
+- The two favicon `<link rel="icon">` tags are present and identical to those in `index.html`
 - Every course folder has a `COURSE.md`, and every standalone deck has a matching `.brief.md`
 - A count of `PLACEHOLDER:` strings per deck, printed as a warning
 
