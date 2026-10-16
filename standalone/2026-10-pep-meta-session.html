@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Attention Trap</title>
+<style>
+/* ============================================================
+   THE ATTENTION TRAP: PROJECTION DECK
+   Hult Masterclass, 22 October 2026, delivered over Zoom. Dark theme.
+   Interaction: full (estimate, four predict-and-reveal checks,
+   a stepwise chain, take a side, exit ticket). Responses arrive in
+   the Zoom chat; the presenter enters them.
+   A fixed 16:9 stage. The root font-size IS the slide unit:
+   1rem = 1% of stage width, so every dimension is in rem.
+   Dark theme rule: accents carry fills, rails, rules and borders.
+   Text is --text, --text-muted or gold (--accent-4) only.
+   The phone screens are schematic drawings built from shapes.
+   ============================================================ */
+
+html { font-size: min(1vw, 1.7778vh); }
+
+:root {
+  --bg: #1A1510;
+  --bg-card: #2E241C;
+  --bg-surface: #241C14;
+  --bg-elevated: #382E24;
+  --text: #F2DFBE;
+  --text-muted: #A89878;
+  --text-dim: #6A5A48;
+  --border: #3A3228;
+  --accent-1: #5C3A96;
+  --accent-2: #B52838;
+  --accent-3: #C85218;
+  --accent-4: #D4A020;
+  --accent-5: #7A5828;
+  --accent-6: #B83068;
+  --accent-7: #CC6830;
+  --accent-8: #7E58A8;
+  --accent-4-ink: #7A5410;
+  --accent-7-ink: #9E4718;
+  --correct: #2A8A4A;
+  --correct-bg: rgba(42,138,74,0.15);
+  --incorrect: #C83838;
+  --incorrect-bg: rgba(200,56,56,0.12);
+  --dark-ink: #2A1F18;          /* text on gold and orange fills */
+  --label: var(--accent-4);     /* the only accent readable as text on dark surfaces */
+  --slide-accent: var(--accent-1);
+  --on-accent: #fff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.85rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+button, input { font-family: inherit; color: inherit; }
+button { cursor: pointer; }
+
+.deck { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+.stage { position: relative; width: 100rem; height: 56.25rem; background: var(--bg); overflow: hidden; }
+
+*:focus-visible { outline: 0.3rem solid var(--accent-4); outline-offset: 0.2rem; }
+
+/* ---------- Chrome ---------- */
+
+.progress-track { position: absolute; top: 0; left: 0; right: 0; height: 0.7rem; background: var(--bg-surface); z-index: 60; }
+.progress-fill { height: 100%; width: 0; background: var(--slide-accent); transition: width 0.4s ease, background-color 0.2s ease; }
+
+.deck-chrome {
+  position: absolute; bottom: 1.5rem; right: 2.4rem;
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card); border: 0.2rem solid var(--border);
+  z-index: 60; opacity: 1; transition: opacity 0.3s ease;
+}
+.deck-chrome.idle { opacity: 0; pointer-events: none; }
+.nav-btn, .btn {
+  background: var(--accent-1); color: #fff; border: 0.2rem solid transparent;
+  min-width: 4.4rem; height: 2.8rem; padding: 0 1.4rem;
+  font-weight: 700; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.nav-btn:hover:not(:disabled), .btn:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-0.2rem); }
+.nav-btn:disabled, .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-btn.ghost, .btn.ghost { background: transparent; color: var(--text); border-color: var(--text); }
+.nav-btn.ghost:hover:not(:disabled), .btn.ghost:hover:not(:disabled) { background: var(--text); color: var(--bg); }
+.nav-info { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); padding: 0 0.4rem; font-variant-numeric: tabular-nums; }
+
+.resp-menu {
+  position: absolute; right: 0; bottom: calc(100% + 0.6rem);
+  background: var(--bg-card); border: 0.2rem solid var(--text);
+  padding: 1rem; display: none; flex-direction: column; gap: 0.7rem; min-width: 22rem;
+}
+.resp-menu.open { display: flex; }
+.resp-menu .btn { width: 100%; }
+.resp-note { font-size: 1.1rem; color: var(--text-muted); line-height: 1.35; }
+.resp-note.warn { color: var(--text); font-weight: 700; border-left: 0.4rem solid var(--incorrect); padding-left: 0.6rem; }
+
+/* A running timer stays visible when the presenter leaves its slide */
+.mini-timer {
+  position: absolute; bottom: 1.5rem; left: 3rem; z-index: 61; display: none;
+  background: var(--bg-card); border: 0.2rem solid var(--text); padding: 0.4rem 1rem;
+  font-size: 1.3rem; font-weight: 800; letter-spacing: 0.1em; font-variant-numeric: tabular-nums;
+}
+.mini-timer.on { display: block; }
+
+.blackout { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: none; }
+.blackout.on { display: block; }
+
+/* ---------- Slide frame ---------- */
+
+.slide { position: absolute; inset: 0; display: none; }
+.slide.active { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(0.4rem); } to { opacity: 1; transform: none; } }
+
+.rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1.9rem; background: var(--slide-accent); z-index: 4; }
+.slide-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 3.8rem 5.5rem 4.6rem 7rem;
+  display: flex; flex-direction: column;
+}
+.slide-no {
+  position: absolute; top: 2.4rem; right: 5.5rem; z-index: 5;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2em; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.notes { display: none; }
+
+.s-head { flex-shrink: 0; margin-bottom: 2rem; }
+.s-head::before { content: ''; display: block; width: 13rem; height: 0.9rem; background: var(--slide-accent); margin-bottom: 1.2rem; }
+.s-head.is-activity { display: grid; grid-template-columns: 1fr auto; column-gap: 3rem; align-items: end; }
+.s-head.is-activity::before { grid-column: 1 / -1; }
+
+.eyebrow {
+  display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 0.7rem; color: var(--label);
+}
+.act-tag {
+  display: inline-block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--slide-accent); color: var(--on-accent); padding: 0.35rem 1rem; margin-bottom: 0.9rem;
+}
+h1 { font-size: 7rem; font-weight: 800; line-height: 0.94; letter-spacing: -0.01em; }
+h2 { font-size: 3.8rem; font-weight: 800; line-height: 1.02; letter-spacing: -0.005em; }
+h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
+.s-body { flex: 1; min-height: 0; position: relative; }
+p { font-size: 1.85rem; }
+.small { font-size: 1.55rem; }
+.micro { font-size: 1.25rem; color: var(--text-muted); line-height: 1.4; }
+.lede { font-size: 2.1rem; line-height: 1.4; color: var(--text-muted); }
+.quiet { color: var(--text-muted); }
+.label { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+
+.grid { display: grid; gap: 2.6rem; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-7-5 { grid-template-columns: 7fr 5fr; }
+.g-5-7 { grid-template-columns: 5fr 7fr; }
+.stack > * + * { margin-top: 1.2rem; }
+.fill { height: 100%; }
+
+.card { background: var(--bg-card); border: 0.2rem solid var(--border); padding: 1.8rem 2rem; position: relative; }
+.card-name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 0.6rem; }
+.pip { display: inline-block; width: 1.2rem; height: 1.2rem; background: var(--pip, var(--slide-accent)); flex-shrink: 0; }
+
+.reveal-anim { opacity: 0; transform: translateY(0.4rem); transition: opacity 0.3s ease, transform 0.3s ease; visibility: hidden; }
+.reveal-anim.visible { opacity: 1; transform: none; visibility: visible; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Decorative geometry ---------- */
+
+.deco { position: absolute; z-index: 1; pointer-events: none; }
+.deco.circle { border-radius: 50%; }
+.deco.ring { border-radius: 50%; background: transparent !important; border-style: solid; }
+.deco.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+/* ---------- Timer ---------- */
+
+.timer {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.1rem;
+  min-width: 13rem; padding: 0.6rem 1.4rem; background: var(--bg-card); border: 0.25rem solid var(--text);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.timer-digits { font-size: 3.2rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.timer-label { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+.timer.running { border-color: var(--slide-accent); }
+.timer.expired { background: var(--slide-accent); border-color: var(--slide-accent); color: var(--on-accent); }
+.timer.expired .timer-label { color: var(--on-accent); }
+
+/* ---------- 1. Title poster ---------- */
+
+.hero { align-items: center; height: 100%; }
+.hero h1 { margin: 0.6rem 0 2.4rem; }
+.hero .lede { max-width: 52rem; }
+.pep-tags { display: flex; gap: 1rem; margin-top: 2.6rem; }
+.pep-tags span { padding: 0.6rem 1.2rem; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; background: var(--tag); color: var(--tag-on, #fff); }
+.hero-by { margin-top: 2rem; }
+.hero-mark { position: relative; height: 44rem; }
+.hero-mark > div { position: absolute; }
+.hm-phone { width: 15rem; height: 28rem; border: 1.2rem solid var(--accent-1); top: 6rem; left: 9rem; transform: rotate(-8deg); }
+.hm-circle { width: 13rem; height: 13rem; border-radius: 50%; background: var(--accent-6); top: 2rem; left: 21rem; }
+.hm-square { width: 9rem; height: 9rem; background: var(--accent-4); top: 30rem; left: 2rem; transform: rotate(18deg); }
+.hm-ring { width: 10rem; height: 10rem; border-radius: 50%; border: 1.3rem solid var(--accent-2); top: 28rem; left: 24rem; }
+.hm-tri { width: 9rem; height: 9rem; background: var(--accent-7); clip-path: polygon(0 0, 100% 50%, 0 100%); top: 14rem; left: 0; }
+.hm-bars { top: 38rem; left: 10rem; display: flex; gap: 0.8rem; align-items: flex-end; transform: rotate(-4deg); }
+.hm-bars span { display: block; width: 2.4rem; background: var(--accent-8); }
+
+/* ---------- Outcomes ---------- */
+
+.outcome-list { display: flex; flex-direction: column; justify-content: center; height: 100%; gap: 3rem; }
+.outcome-row { display: flex; align-items: center; gap: 2.4rem; }
+.outcome-num {
+  width: 5.6rem; height: 5.6rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: var(--row-on, #fff); font-size: 2.8rem; font-weight: 800;
+}
+.outcome-row p { font-size: 2rem; line-height: 1.35; }
+.outcome-row strong { font-weight: 800; color: var(--label); }
+.outcomes-left h2 { margin-bottom: 2rem; }
+
+/* ---------- Session map ---------- */
+
+.map-band { display: grid; gap: 0.8rem; align-items: end; margin-top: 1rem; }
+.map-seg {
+  position: relative; min-height: 15rem; padding: 1.4rem 1.4rem 1.2rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-card); border-top: 0.6rem solid var(--slide-accent);
+}
+.map-seg.upcoming { background: color-mix(in srgb, var(--slide-accent) 15%, var(--bg-card)); border-top-color: transparent; }
+.map-seg.done { background: var(--bg-surface); }
+.map-seg.current { background: var(--slide-accent); color: var(--on-accent); min-height: 17rem; border-top-color: var(--slide-accent); }
+.map-seg .seg-name { font-size: 1.8rem; font-weight: 800; line-height: 1.2; }
+.map-seg .seg-min { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.map-seg .seg-act {
+  position: absolute; bottom: 1.3rem; right: 1.2rem; width: 1.8rem; height: 1.6rem;
+  background: currentColor; clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.map-next { margin-top: 3.4rem; display: grid; grid-template-columns: auto 1fr; gap: 2.4rem; align-items: start; }
+.map-next .label { padding: 0.5rem 1.1rem; background: var(--text); color: var(--bg); margin-top: 0.8rem; }
+.map-next p { font-size: 2.6rem; font-weight: 800; line-height: 1.2; max-width: 64rem; }
+
+/* ---------- Tally ---------- */
+
+.tally { display: flex; flex-direction: column; gap: 0.8rem; }
+.tally-row { display: grid; grid-template-columns: 3.4rem auto 1fr; gap: 1rem; align-items: center; }
+.tally-row.with-text { grid-template-columns: 3.4rem 1fr auto; row-gap: 0.3rem; }
+.tally-row.with-text .tally-track { height: 1.4rem; }
+.tally-row.with-text .tally-bar-wrap { grid-column: 2 / -1; }
+.tally-letter {
+  width: 3.4rem; height: 3.4rem; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: var(--row-on, #fff); font-size: 1.6rem; font-weight: 800;
+}
+.tally-text { font-size: 1.5rem; line-height: 1.3; font-weight: 700; }
+.tally-controls { display: flex; align-items: center; gap: 0.4rem; }
+.tally-step {
+  width: 3rem; height: 3rem; background: var(--bg-card); border: 0.2rem solid var(--text);
+  font-size: 1.6rem; font-weight: 800; line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.tally-step:hover:not(:disabled) { background: var(--row-color); border-color: var(--row-color); color: var(--row-on, #fff); }
+.tally-step:disabled { opacity: 0.4; cursor: not-allowed; }
+.tally-count {
+  width: 5.6rem; height: 3rem; text-align: center; font-size: 1.6rem; font-weight: 800;
+  border: 0.2rem solid var(--border); background: var(--bg-card); font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield; appearance: textfield;
+}
+.tally-count::-webkit-inner-spin-button, .tally-count::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.tally-bar-wrap { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.tally-track { position: relative; flex: 1; height: 2.2rem; background: var(--bg-surface); min-width: 6rem; }
+.tally-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--row-color); transition: width 0.6s ease; }
+.tally-ghost { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border: 0.25rem solid var(--text-muted); transition: width 0.6s ease; z-index: 1; }
+.tally-pct { font-size: 1.4rem; font-weight: 700; min-width: 5rem; text-align: right; font-variant-numeric: tabular-nums; }
+.tally-total { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.tally.locked .tally-step { visibility: hidden; }
+.tally.locked .tally-count { border-color: transparent; }
+.tally-row.is-answer .tally-letter { outline: 0.4rem solid var(--correct); outline-offset: 0.2rem; }
+
+/* ---------- Estimate ---------- */
+
+.est-prompt { font-size: 2.1rem; font-weight: 800; line-height: 1.25; max-width: 80rem; }
+.est-unit { margin-top: 0.6rem; }
+.est-entry { margin-top: 1rem; display: grid; grid-template-columns: auto repeat(8, 1fr); gap: 0.9rem; align-items: center; }
+.est-entry .label { color: var(--text-muted); padding-right: 0.6rem; }
+.est-input {
+  height: 4rem; width: 100%; text-align: center; font-size: 1.8rem; font-weight: 800; font-variant-numeric: tabular-nums;
+  background: var(--bg-card); border: 0.2rem solid var(--border); -moz-appearance: textfield; appearance: textfield;
+}
+.est-input::-webkit-inner-spin-button, .est-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.est-input:focus { border-color: var(--slide-accent); }
+.est-scale { position: relative; height: 9.2rem; margin: 1.4rem 2rem 0; }
+.est-axis { position: absolute; left: 0; right: 0; top: 6rem; height: 0.5rem; background: var(--text); }
+.est-tick { position: absolute; top: 6.5rem; transform: translateX(-50%); font-size: 1.3rem; font-weight: 700; color: var(--text-muted); padding-top: 0.6rem; }
+.est-tick::before { content: ''; position: absolute; top: -0.5rem; left: 50%; width: 0.3rem; height: 1rem; background: var(--text); transform: translateX(-50%); }
+.est-pip { position: absolute; width: 1.8rem; height: 1.8rem; transform: translateX(-50%); background: var(--accent-8); border: 0.2rem solid var(--text); }
+.est-median { position: absolute; top: 0; transform: translateX(-50%); display: none; flex-direction: column; align-items: center; }
+.est-median.on { display: flex; }
+.est-median span { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+.est-median i { display: block; width: 0; height: 0; border-left: 0.9rem solid transparent; border-right: 0.9rem solid transparent; border-top: 1.2rem solid var(--text); margin-top: 0.2rem; }
+.est-truth { position: absolute; top: 0; bottom: 3.1rem; width: 1.2rem; transform: translateX(-50%); background: var(--accent-4); }
+.est-truth-label { position: absolute; top: 0; left: 1.8rem; white-space: nowrap; font-size: 1.6rem; font-weight: 800; color: var(--label); }
+.est-panel { margin-top: 0.8rem; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; }
+.est-result { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--accent-4); padding: 1rem 1.6rem; min-height: 7.6rem; }
+.est-result p { font-size: 1.55rem; line-height: 1.4; }
+
+/* ---------- Predict and reveal ---------- */
+
+.pred-left { position: relative; height: 100%; display: flex; flex-direction: column; }
+.effect-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--slide-accent); padding: 1.6rem 1.8rem; }
+.effect-card p { font-size: 1.6rem; line-height: 1.45; }
+.effect-card .micro { margin-top: 0.9rem; }
+.pred-question { font-size: 2.2rem; font-weight: 800; line-height: 1.25; margin-top: 1.8rem; }
+.pred-ask { margin-top: 0.8rem; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); }
+.pred-outcome {
+  position: absolute; inset: 0; background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--correct);
+  padding: 1.4rem 1.6rem; visibility: hidden; opacity: 0; transition: opacity 0.3s ease;
+  display: flex; flex-direction: column; gap: 0.7rem;
+}
+.pred-outcome.visible { visibility: visible; opacity: 1; }
+.pred-outcome p { font-size: 1.4rem; line-height: 1.38; }
+.pred-outcome .micro { font-size: 1.25rem; }
+.pred-outcome .follow { font-weight: 800; margin-top: auto; border-top: 0.3rem solid var(--slide-accent); padding-top: 0.8rem; }
+.pred-right { display: flex; flex-direction: column; }
+.pred-right .tally { gap: 1.1rem; }
+.pred-actions { display: flex; gap: 1rem; margin-top: 1.6rem; align-items: center; }
+.pred-status { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.pred-whys { display: grid; gap: 0.3rem; border-top: 0.2rem solid var(--border); padding-top: 0.7rem; }
+.pred-whys p { font-size: 1.25rem; line-height: 1.35; padding-left: 2.2rem; text-indent: -2.2rem; }
+.pred-whys strong { display: inline-block; width: 2.2rem; text-indent: 0; color: var(--label); }
+
+/* ---------- Annotated model: schematic phone screens ----------
+   Each part has a box on the drawing (x, y, w, h as fractions) and a
+   legend entry. Markers sit in a gutter to the right with a bracket
+   showing the part's height. Selecting a part outlines it. */
+
+.ai-portrait { display: grid; grid-template-columns: auto 1fr; grid-template-rows: minmax(0, 1fr); gap: 3rem; height: 100%; }
+.ai-wrap { position: relative; height: 100%; aspect-ratio: 9 / 16; margin-right: 5rem; }
+.ai-layer { position: absolute; inset: 0; }
+.ai-region {
+  position: absolute; left: calc(var(--x) * 100%); top: calc(var(--y) * 100%);
+  width: calc(var(--w) * 100%); height: calc(var(--h) * 100%);
+  border: 0.4rem solid var(--part-color); outline: 0.2rem solid var(--text); outline-offset: 0;
+  visibility: hidden; pointer-events: none;
+}
+.ai-region.selected { visibility: visible; }
+.ai-bracket {
+  position: absolute; left: calc(100% + 0.7rem); top: calc(var(--y) * 100%); height: calc(var(--h) * 100%);
+  width: 0.6rem; background: var(--part-color); pointer-events: none;
+}
+.ai-mark {
+  position: absolute; width: 3rem; height: 3rem; transform: translate(-50%, -50%);
+  left: calc(100% + 3.4rem); top: min(calc((var(--y) + var(--h) / 2) * 100%), calc(100% - 1.5rem));
+  background: var(--part-color); color: var(--part-on, #fff); border: 0.2rem solid var(--text);
+  font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+}
+.ai-mark.selected { outline: 0.3rem solid var(--text); outline-offset: 0.2rem; }
+.ai-col { display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+.ai-legend { display: grid; gap: 1.2rem; }
+.ai-item {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.4rem; align-items: start; text-align: left;
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.6rem solid var(--part-color); padding: 1.2rem 1.4rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.ai-item .num { width: 3.4rem; height: 3.4rem; background: var(--part-color); color: var(--part-on, #fff); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; }
+.ai-item .txt { font-size: 1.55rem; line-height: 1.38; }
+.ai-item .txt strong { display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 0.2rem; }
+.ai-item.selected { border-color: var(--text); border-left-color: var(--part-color); background: var(--bg-elevated); }
+.ai-note { margin-top: 1.6rem; }
+
+/* The phone itself: every element is placed by top and height in % of the screen */
+.phone { position: absolute; inset: 0; background: var(--bg-surface); border: 0.2rem solid var(--text-muted); overflow: hidden; }
+.phone > * { position: absolute; left: 5%; right: 5%; }
+.ph-bar { background: var(--bg-elevated); }
+.ph-post { background: var(--bg-card); padding: 0.7rem; display: flex; flex-direction: column; gap: 0.5rem; overflow: hidden; }
+.ph-head { display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0; }
+.ph-av { width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--av, var(--text-muted)); flex-shrink: 0; }
+.ph-line { display: block; height: 0.45rem; background: var(--text-muted); opacity: 0.55; }
+.ph-img { flex: 1; background: var(--bg-elevated); position: relative; }
+.ph-img.reward { background: var(--accent-4); }
+.ph-play { position: absolute; left: 50%; top: 50%; width: 2.4rem; height: 2.6rem; transform: translate(-40%, -50%); background: var(--text); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.ph-load { display: flex; gap: 0.6rem; justify-content: center; align-items: center; }
+.ph-load i { display: block; width: 0.9rem; height: 0.9rem; background: var(--text-muted); }
+.ph-banner { background: var(--accent-6); display: flex; gap: 0.6rem; align-items: center; padding: 0 0.7rem; }
+.ph-banner .ph-line { background: #fff; opacity: 0.8; }
+.ph-actions { display: flex; gap: 0.7rem; align-items: center; }
+.ph-like { width: 2.4rem; height: 2.4rem; background: var(--accent-6); flex-shrink: 0; }
+.ph-icon { width: 2.4rem; height: 2.4rem; border: 0.3rem solid var(--text-muted); flex-shrink: 0; }
+.ph-count { display: flex; gap: 0.3rem; align-items: center; flex-wrap: wrap; align-content: center; }
+.ph-count i { display: block; width: 0.8rem; height: 0.8rem; background: var(--accent-6); }
+.ph-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 0.4rem; }
+.ph-grid i { display: block; background: var(--c); }
+.ph-stats { display: flex; gap: 0.7rem; align-items: center; }
+.ph-stat { flex: 1; display: flex; flex-direction: column; gap: 0.35rem; align-items: center; }
+.ph-stat b { display: block; width: 70%; height: 0.9rem; background: var(--text); }
+.ph-filters { display: flex; gap: 0.6rem; align-items: center; justify-content: center; }
+.ph-filters i { display: block; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--c); }
+.ph-filters i.on { outline: 0.3rem solid var(--text); outline-offset: 0.15rem; }
+.ph-bubble { padding: 0.7rem; display: flex; flex-direction: column; gap: 0.45rem; justify-content: center; }
+.ph-bubble.them { right: 30%; background: var(--bg-elevated); }
+.ph-bubble.me { left: 30%; background: var(--accent-1); }
+.ph-bubble.me .ph-line { background: #fff; opacity: 0.7; }
+.ph-ticks { display: flex; gap: 0.2rem; justify-content: flex-end; align-items: center; }
+.ph-ticks i { display: block; width: 0.8rem; height: 1.4rem; border-right: 0.35rem solid var(--tick); border-bottom: 0.35rem solid var(--tick); transform: rotate(45deg); margin-right: 0.3rem; }
+.ph-setting { background: var(--bg-card); display: flex; align-items: center; gap: 1rem; padding: 0 0.9rem; }
+.ph-setting .lines { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+.ph-toggle { width: 4.4rem; height: 2.4rem; background: var(--accent-4); position: relative; flex-shrink: 0; }
+.ph-toggle::after { content: ''; position: absolute; right: 0.3rem; top: 0.3rem; width: 1.8rem; height: 1.8rem; background: var(--dark-ink); }
+
+/* ---------- Chain diagram ---------- */
+
+.dir-band {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.7rem 1.4rem; background: var(--text); color: var(--bg);
+}
+.dir-band .arrow { flex: 1; height: 0.3rem; background: var(--bg); margin: 0 2rem; position: relative; }
+.dir-band .arrow::after { content: ''; position: absolute; right: -0.2rem; top: -0.7rem; border-left: 1.2rem solid var(--bg); border-top: 0.85rem solid transparent; border-bottom: 0.85rem solid transparent; }
+.chain { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; margin-top: 1.8rem; }
+.chain-node { background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.9rem solid var(--node-color); padding: 1.6rem 1.8rem; min-height: 17rem; transition: opacity 0.3s ease; }
+.chain-node h3 { font-size: 1.7rem; margin-bottom: 0.8rem; }
+.chain-node p { font-size: 1.6rem; line-height: 1.4; }
+.chain-node.pending { background: var(--bg-surface); border-top-color: var(--border); }
+.chain-node.pending > * { visibility: hidden; }
+.chain-node.pending::after { content: '?'; display: block; font-size: 6rem; font-weight: 800; color: var(--text-muted); text-align: center; margin-top: -10rem; }
+.chain-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; margin: 0 calc(12.5% + 0.2rem); padding-top: 1.4rem; }
+.chain-link { text-align: center; font-size: 1.4rem; font-weight: 700; position: relative; padding-top: 1rem; }
+.chain-link::before { content: ''; position: absolute; top: -0.6rem; left: 50%; transform: translateX(-50%); border-bottom: 1rem solid var(--text); border-left: 0.9rem solid transparent; border-right: 0.9rem solid transparent; }
+.chain-link.pending { visibility: hidden; }
+.chain-note { margin-top: 2.2rem; display: flex; gap: 1.4rem; align-items: center; }
+.chain-note p { font-size: 1.7rem; font-weight: 700; flex: 1; }
+
+/* ---------- Case: the settlement ---------- */
+
+.fact-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; }
+.fact { background: var(--fc); color: var(--fc-on, #fff); padding: 1rem 1.3rem; }
+.fact .label { display: block; font-size: 1.25rem; margin-bottom: 0.3rem; }
+.fact b { display: block; font-size: 1.6rem; font-weight: 800; line-height: 1.25; }
+.case-cols { margin-top: 1.8rem; gap: 1.8rem; }
+.case-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.9rem solid var(--card-color); padding: 1.5rem 1.8rem; }
+.case-card h3 { font-size: 1.5rem; letter-spacing: 0.14em; margin-bottom: 0.9rem; color: var(--label); }
+.case-card p { font-size: 1.6rem; line-height: 1.45; }
+.case-list li { list-style: none; display: grid; grid-template-columns: 1.1rem 1fr; gap: 1rem; align-items: start; font-size: 1.55rem; line-height: 1.35; }
+.case-list li + li { margin-top: 0.7rem; }
+.case-list .pip { width: 1.1rem; height: 1.1rem; margin-top: 0.55rem; background: var(--card-color); }
+.src-line { margin-top: 1.4rem; }
+
+/* ---------- Split with panel: regulation ---------- */
+
+.lag-rows { display: flex; flex-direction: column; gap: 1.2rem; justify-content: center; height: 100%; }
+.lag-row { display: grid; grid-template-columns: 5rem 1fr; gap: 1.8rem; align-items: start; }
+.lag-num { width: 5rem; height: 5rem; display: flex; align-items: center; justify-content: center; background: var(--row-color); color: var(--row-on, #fff); font-size: 2.4rem; font-weight: 800; }
+.lag-row h3 { font-size: 1.7rem; margin-bottom: 0.3rem; }
+.lag-row p { font-size: 1.6rem; line-height: 1.4; }
+.panel-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--accent-4); padding: 1.6rem 2rem; display: flex; flex-direction: column; gap: 1rem; height: 100%; justify-content: center; }
+.panel-card h3 { font-size: 1.6rem; letter-spacing: 0.14em; color: var(--label); }
+.panel-card li { list-style: none; display: grid; grid-template-columns: 1.2rem 1fr; gap: 1.1rem; font-size: 1.55rem; line-height: 1.35; }
+.panel-card li .pip { width: 1.2rem; height: 1.2rem; margin-top: 0.6rem; }
+.panel-card .micro { margin-top: 0.6rem; }
+
+/* ---------- Take a side ---------- */
+
+.side-grid { display: grid; grid-template-columns: 8fr 4fr; gap: 2.6rem; height: 100%; }
+.side-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; align-content: start; }
+.side-col { display: flex; flex-direction: column; gap: 0.8rem; }
+.side-head { background: var(--col); color: var(--col-on, #fff); padding: 0.6rem 1.4rem; }
+.side-head h3 { font-size: 1.7rem; letter-spacing: 0.14em; }
+.arg { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.6rem solid var(--col); padding: 0.8rem 1.1rem; min-height: 7rem; }
+.arg p { font-size: 1.35rem; line-height: 1.36; }
+.arg .micro { font-size: 1.25rem; line-height: 1.3; margin-top: 0.2rem; }
+.side-right { display: flex; flex-direction: column; gap: 0.9rem; }
+.side-right .tally { gap: 0.8rem; }
+.side-right .tally-row { grid-template-columns: 3.2rem auto 1fr; gap: 0.8rem; }
+.side-right .tally-count { width: 4.6rem; }
+.side-right .tally-text { display: none; }
+.side-right .tally-pct { min-width: 4rem; }
+.side-right .tally-track { min-width: 4rem; }
+.side-right .tally.off, .side-round.off { display: none; }
+.side-do { background: var(--slide-accent); color: var(--on-accent); padding: 1.1rem 1.4rem; }
+.side-do p { font-size: 1.6rem; font-weight: 700; margin-top: 0.3rem; }
+.side-round { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 0.3rem solid var(--slide-accent); padding-bottom: 0.3rem; margin-top: 0.8rem; }
+.side-round .label { color: var(--label); }
+.side-round .rec { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+.side-actions { display: flex; gap: 1rem; align-items: center; margin-top: 0.4rem; }
+.side-actions .btn { white-space: nowrap; }
+
+/* ---------- Close and bridge ---------- */
+
+.close-grid { align-items: center; height: 100%; }
+.close-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+.close-list li { list-style: none; display: grid; grid-template-columns: 1.6rem 1fr; gap: 1.4rem; align-items: start; font-size: 1.85rem; line-height: 1.35; }
+.close-list .pip { width: 1.6rem; height: 1.6rem; margin-top: 0.6rem; }
+.bridge-card { background: var(--bg-card); border: 0.3rem solid var(--text); padding: 1.8rem 2rem; }
+.bridge-card h3 { font-size: 1.5rem; letter-spacing: 0.16em; margin-bottom: 1rem; color: var(--label); }
+.bridge-card p { font-size: 1.45rem; line-height: 1.45; }
+.bridge-card p + p { margin-top: 1rem; }
+.close-block { background: var(--accent-4); color: var(--dark-ink); padding: 1.6rem 2rem; margin-top: 1.8rem; }
+.close-block p { font-size: 1.85rem; font-weight: 800; line-height: 1.3; }
+
+/* ---------- Exit ticket ---------- */
+
+.exit-body { display: flex; flex-direction: column; }
+.exit-grid { flex: 1; min-height: 0; }
+.exit-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--card-color); padding: 2rem 2.2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.exit-card .card-name { font-size: 1.3rem; }
+.exit-card p { font-size: 1.85rem; line-height: 1.35; font-weight: 700; }
+.exit-card .lines { flex: 1; background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 3.1rem, var(--border) 3.1rem, var(--border) 3.3rem); min-height: 8rem; }
+.exit-foot { margin-top: 1.6rem; display: flex; justify-content: space-between; align-items: center; }
+.exit-foot .label { padding: 0.5rem 1.1rem; background: var(--text); color: var(--bg); }
+.exit-sheets { display: none; }
+
+/* ---------- Motion preference ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Narrow and portrait: a scrolling document ---------- */
+
+@media screen and (max-width: 860px), screen and (max-aspect-ratio: 1/1) {
+  html { font-size: max(3.1vw, 9px); }
+  body { overflow: auto; background: var(--bg); }
+  .deck { position: static; display: block; }
+  .stage { width: 100%; height: auto; min-height: 100vh; padding-bottom: 9rem; overflow: hidden; }
+  .slide { position: static; }
+  .slide-inner { height: auto; padding: 5rem 2.5rem 3rem 4.4rem; }
+  .slide-no { top: 2rem; right: 2.5rem; }
+  .progress-track { position: fixed; }
+  .deck-chrome {
+    position: fixed; bottom: 0; left: 0; right: 0; justify-content: space-between;
+    border-width: 0.4rem 0 0; border-color: var(--accent-1); padding: 1rem 0.9rem; gap: 0.6rem;
+  }
+  .deck-chrome.idle { opacity: 1; pointer-events: auto; }
+  .mini-timer { position: fixed; bottom: 7rem; left: 1rem; }
+  .nav-btn, .btn { min-height: 44px; min-width: 44px; font-size: 1.4rem; }
+  .deck-chrome .nav-btn { padding: 0 0.8rem; letter-spacing: 0.04em; font-size: 1.2rem; flex-shrink: 0; }
+  .nav-info { white-space: nowrap; font-size: 1.3rem; }
+  .tally-step, .tally-count, .ai-mark, .est-input, .timer { min-width: 44px; min-height: 44px; }
+  .ai-item { min-height: 44px; }
+  h1 { font-size: 4.2rem; }
+  h2 { font-size: 3.4rem; }
+  .pep-tags { flex-wrap: wrap; }
+  .hero > div { min-width: 0; }
+  .s-head.is-activity { grid-template-columns: 1fr; row-gap: 1.2rem; }
+  .timer { justify-self: start; }
+  .g-2, .g-3, .g-7-5, .g-5-7, .ai-portrait, .side-grid, .side-cols, .fact-strip { grid-template-columns: 1fr; }
+  .hero-mark { display: none; }
+  .chain { grid-template-columns: 1fr; }
+  .chain-links { display: none; }
+  .map-band { grid-template-columns: 1fr !important; }
+  .map-seg, .map-seg.current, .chain-node { min-height: 0; }
+  .chain-node.pending::after { margin-top: 0; }
+  .ai-wrap { height: 36rem; justify-self: start; margin-right: 6rem; }
+  .est-entry { grid-template-columns: repeat(4, 1fr); }
+  .est-entry .label { grid-column: 1 / -1; }
+  .pred-outcome { position: static; display: none; margin-top: 1.4rem; }
+  .pred-outcome.visible { display: flex; }
+  .tally-row.with-text { grid-template-columns: 44px 1fr; }
+  .tally-row.with-text .tally-controls { grid-column: 2 / -1; }
+  .outcome-list, .lag-rows, .panel-card, .fill, .hero, .close-grid, .side-grid { height: auto; }
+}
+
+/* ---------- Print: one slide per A4 page, light palette on paper ---------- */
+
+@page { size: A4 portrait; margin: 10mm; }
+
+@media print {
+  :root {
+    --bg: #fff;
+    --bg-card: #FFFAF2;
+    --bg-surface: #E8D2A8;
+    --bg-elevated: #F2DFBE;
+    --text: #2A1F18;
+    --text-muted: #6A5A48;
+    --border: #D8C8A8;
+    --label: var(--accent-4-ink);
+    --correct-bg: #E6F4EA;
+    --incorrect-bg: #FDEEEE;
+  }
+  html { font-size: 8.6pt; }
+  body { background: #fff; overflow: visible; }
+  .deck { position: static; display: block; }
+  .stage { width: auto; height: auto; background: #fff; overflow: visible; }
+  .slide { position: relative; display: block !important; page-break-after: always; break-after: page; animation: none; overflow: hidden; }
+  .slide-inner { height: auto; padding: 2.4rem 3rem 2rem 5rem; }
+  .progress-track, .deck-chrome, .mini-timer, .deco, .hero-mark, .blackout, .timer, .tally-controls .tally-step,
+  .pred-actions, .side-actions, .chain-note .btn, .est-entry, .tally-track, .tally-pct { display: none !important; }
+  .rail, .s-head::before, .act-tag, .tally-letter, .map-seg, .outcome-num, .chain-node, .dir-band, .card, .effect-card,
+  .ai-item, .ai-item .num, .ai-mark, .ai-bracket, .phone, .phone *, .fact, .case-card, .lag-num, .panel-card, .side-head,
+  .arg, .bridge-card, .close-block, .exit-card, .est-axis, .est-truth, .est-pip, .pep-tags span, .pred-outcome {
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .s-head { margin-bottom: 1.2rem; }
+  h2 { font-size: 3rem; }
+  .grid { gap: 1.8rem; }
+  .hero, .fill, .close-grid, .outcome-list, .ai-portrait, .lag-rows, .panel-card, .side-grid { height: auto; }
+  .outcome-list { gap: 2rem; }
+  .map-seg, .map-seg.current, .chain-node { min-height: 0; }
+  .chain { grid-template-columns: 1fr 1fr; }
+  .chain-links, .dir-band .arrow { display: none; }
+  .chain-node.pending { background: var(--bg-card); border-top-color: var(--node-color); }
+  .chain-node.pending > * { visibility: visible; }
+  .chain-node.pending::after { display: none; }
+  .reveal-anim { opacity: 1; transform: none; visibility: visible; }
+  .ai-portrait { grid-template-columns: auto 1fr; }
+  .ai-wrap { height: 34rem; }
+  .ai-region.selected { visibility: hidden; }
+  .ai-item.selected { background: var(--bg-card); border-color: var(--border); border-left-color: var(--part-color); }
+  .tally-bar, .tally-ghost { transition: none; }
+  .tally-row.with-text .tally-bar-wrap { display: none; }
+  .side-cols { grid-template-columns: 1fr 1fr; }
+  .side-right .tally.off, .side-round.off { display: flex; }
+  .side-do { display: none; }
+  .side-grid { grid-template-columns: 2fr 1fr; }
+  .pred-right .tally { gap: 0.5rem; }
+  .pred-ask { display: none; }
+  .est-scale { height: 9rem; }
+
+  /* Student print (default): questions and options only */
+  body:not(.instructor) .pred-outcome, body:not(.instructor) .pred-whys, body:not(.instructor) .tally-total,
+  body:not(.instructor) .tally-controls, body:not(.instructor) .est-truth, body:not(.instructor) .est-result,
+  body:not(.instructor) .est-median, body:not(.instructor) .est-pip, body:not(.instructor) .side-right { display: none !important; }
+  body:not(.instructor) .tally-row.is-answer .tally-letter { outline: none; }
+
+  /* Instructor print: answers, every why, stored tallies as numbers, notes */
+  body.instructor .pred-outcome { position: static; visibility: visible; opacity: 1; margin-top: 1.2rem; }
+  body.instructor .effect-card { display: none; }
+  body.instructor .tally-row.key-answer .tally-letter { outline: 0.4rem solid var(--correct); outline-offset: 0.2rem; }
+  body.instructor .tally-count { border-color: transparent; }
+  body.instructor .est-truth { display: block; }
+  body.instructor .notes {
+    display: block; position: relative; z-index: 2; margin: 0 3rem 2rem 5rem; padding: 1.4rem 1.8rem;
+    border: 0.2rem solid var(--text); font-size: 1.25rem; line-height: 1.4; background: #fff; color: var(--text);
+  }
+  body.instructor .notes::before { content: 'SPEAKER NOTES'; display: block; font-weight: 700; letter-spacing: 0.16em; font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+  .exit-sheets { display: block; }
+  .exit-page { page-break-after: always; break-after: page; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 270mm; }
+  .a6 { border: 1px dashed #6A5A48; padding: 6mm; display: flex; flex-direction: column; gap: 3mm; font-size: 10pt; }
+  .a6 .a6-title { font-weight: 800; font-size: 11pt; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1mm solid var(--accent-1); padding-bottom: 2mm; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .a6 .a6-q { font-weight: 700; }
+  .a6 .a6-lines { flex: 1; border-bottom: 1px solid #D8C8A8; min-height: 14mm; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+<div class="stage" id="stage">
+
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ============ 1. TITLE POSTER ============ -->
+  <section class="slide" id="s-title" data-accent="var(--accent-1)" data-archetype="title-poster">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 hero">
+        <div>
+          <span class="eyebrow">Hult Masterclass &middot; 22 October 2026</span>
+          <h1>The Attention<br>Trap</h1>
+          <p class="lede">Meta, minors and the business of addiction: how platforms engineer your attention, why it pays, and who should stop it.</p>
+          <div class="pep-tags">
+            <span style="--tag: var(--accent-6)">Psychology</span>
+            <span style="--tag: var(--accent-4); --tag-on: var(--dark-ink)">Economics</span>
+            <span style="--tag: var(--accent-2)">Politics</span>
+          </div>
+          <p class="micro hero-by">Maxted Neal</p>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <div class="hm-phone"></div>
+          <div class="hm-circle"></div>
+          <div class="hm-tri"></div>
+          <div class="hm-square"></div>
+          <div class="hm-ring"></div>
+          <div class="hm-bars"><span style="height: 2rem"></span><span style="height: 3.4rem"></span><span style="height: 5rem"></span><span style="height: 7rem"></span></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Welcome everyone, and ask them to keep the Zoom chat open: they will answer in it all session. Open with the case. In August 2026 Meta, the parent company of Facebook and Instagram, settled a lawsuit brought by attorneys general from 51 US jurisdictions. They claimed Meta designed its platforms to keep young people hooked and misled the public about the risks. Meta admitted no wrongdoing. Today we look at that case through three lenses: psychology, economics and politics, the three subjects of the PEP degree. About 30 seconds.</aside>
+    <div class="deco circle" style="width: 34rem; height: 34rem; background: var(--accent-8); opacity: 0.1; bottom: -18rem; left: -10rem"></div>
+    <div class="deco" style="width: 80rem; height: 1rem; background: var(--accent-4); opacity: 0.12; bottom: 7rem; left: 4rem; transform: rotate(-2deg)"></div>
+  </section>
+
+  <!-- ============ 2. HOOK: ESTIMATE ============ -->
+  <section class="slide" id="s-estimate" data-accent="var(--accent-4)" data-archetype="estimate">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Estimate &middot; 1 min</span>
+          <h2>Two apps, how much of your day?</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-estimate" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body" data-activity="estimate">
+        <p class="est-prompt" data-field="prompt"></p>
+        <p class="micro est-unit" data-field="unit"></p>
+        <div class="est-entry"><span class="label">From the chat</span></div>
+        <div class="est-scale" aria-hidden="true">
+          <div class="est-median"><span></span><i></i></div>
+          <div class="est-axis"></div>
+          <div class="est-truth reveal-anim"><span class="est-truth-label"></span></div>
+        </div>
+        <div class="est-panel">
+          <div class="est-result reveal-anim"><p class="est-answer"></p><p class="micro est-source"></p></div>
+          <button class="btn" type="button" data-action="reveal">Reveal</button>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Ask everyone to type a number from 0 to 100 in the chat. Type up to eight of the estimates into the boxes; each one appears as a pip, with the median marked. Then press r for the answer: about 30%, from a German study of WhatsApp and Facebook use, cited by Montag and colleagues (2019). Point out that Facebook is a Meta platform. The question for the session: how does an app capture that much of a day? About 1 minute.</aside>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-6); opacity: 0.1; bottom: -6rem; left: 46rem; transform: rotate(28deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-1); opacity: 0.12; top: -10rem; left: 30rem"></div>
+  </section>
+
+  <!-- ============ 3. OUTCOMES ============ -->
+  <section class="slide" id="s-outcomes" data-accent="var(--accent-2)" data-archetype="outcomes">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-5-7 fill">
+        <div class="outcomes-left" style="align-self: center">
+          <header class="s-head">
+            <span class="eyebrow">Outcomes</span>
+            <h2>By the end of this masterclass</h2>
+          </header>
+          <p class="small quiet">You will answer in the chat at every step, and take a side at the end.</p>
+        </div>
+        <div class="outcome-list">
+          <div class="outcome-row" style="--row-color: var(--accent-1)"><div class="outcome-num">1</div><p><strong>Explain</strong> how four psychological effects capture attention.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-6)"><div class="outcome-num">2</div><p><strong>Identify</strong> the platform feature that uses each effect.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-4); --row-on: var(--dark-ink)"><div class="outcome-num">3</div><p><strong>Explain</strong> why more of your time earns a free app money.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-8)"><div class="outcome-num">4</div><p><strong>Evaluate</strong> whether governments should ban addictive design for under-18s.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Read the four verbs. The four effect slides test the first two; the chain on how the business model works tests the third; the take-a-side debate tests the fourth. Nothing here assumes any background in psychology, economics or politics. About 30 seconds.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-4); opacity: 0.09; top: -12rem; left: 20rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-6); opacity: 0.1; bottom: -9rem; left: 4rem"></div>
+  </section>
+
+  <!-- ============ 4. SESSION MAP ============ -->
+  <section class="slide" id="s-map" data-accent="var(--accent-8)" data-archetype="session-map" data-current="2">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map</span>
+        <h2>Three lenses in twenty minutes</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Now</span><p>Psychology: four effects, and the features built on them.</p></div>
+      </div>
+    </div>
+    <aside class="notes">The running order. Psychology takes most of the time: four effects, each with a question and then a look at the feature that uses it. Then a short look at the money, and then the politics: the settlement and a debate. About 15 seconds.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-4); opacity: 0.12; bottom: 12rem; left: 10rem; transform: rotate(-3deg)"></div>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-2); opacity: 0.1; top: -10rem; right: -6rem"></div>
+  </section>
+
+  <!-- ============ 5. EFFECT 1: PREDICT ============ -->
+  <section class="slide" id="s-pred-reinforce" data-accent="var(--accent-6)" data-archetype="predict">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Effect 1 &middot; Predict and reveal &middot; 1 min</span>
+          <h2>Intermittent reinforcement</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-pred-reinforce" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid g-5-7" data-activity="predict"></div>
+    </div>
+    <aside class="notes">Explain the effect in one breath: if you never know when the reward comes, you keep trying, because the next try might pay. Slot machines are built on this. Ask: which feature uses it? Type A, B, C or D in the chat. Tally with keys 1 to 4, press Lock predictions, then r. Answer: B, the endless feed. If many chose A, say read receipts come up later as a different effect. About 1 minute.</aside>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-4); opacity: 0.08; bottom: -9rem; left: 14rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-1); opacity: 0.12; top: -6rem; left: 50rem; transform: rotate(26deg)"></div>
+  </section>
+
+  <!-- ============ 6. EFFECT 1: THE FEATURE ============ -->
+  <section class="slide" id="s-feed" data-accent="var(--accent-4)" data-archetype="annotated-model">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Effect 1 in the app &middot; The endless feed</span>
+        <h2>The endless feed pays out at random</h2>
+      </header>
+      <div class="s-body ai-portrait">
+        <div class="ai-wrap">
+          <div class="phone" aria-hidden="true">
+            <div class="ph-bar" style="top: 2%; height: 4%"></div>
+            <div class="ph-post" style="top: 8%; height: 25%"><div class="ph-head"><span class="ph-av"></span><span class="ph-line" style="width: 40%"></span></div><div class="ph-img"></div><span class="ph-line" style="width: 70%"></span></div>
+            <div class="ph-post" style="top: 35%; height: 26%"><div class="ph-head"><span class="ph-av" style="--av: var(--accent-4)"></span><span class="ph-line" style="width: 50%"></span></div><div class="ph-img reward"></div><span class="ph-line" style="width: 60%"></span></div>
+            <div class="ph-post" style="top: 63%; height: 24%"><div class="ph-head"><span class="ph-av"></span><span class="ph-line" style="width: 35%"></span></div><div class="ph-img"><span class="ph-play"></span></div></div>
+            <div class="ph-post" style="top: 89%; height: 10%"><div class="ph-head"><span class="ph-av"></span><span class="ph-line" style="width: 45%"></span></div></div>
+          </div>
+          <div class="ai-layer"></div>
+        </div>
+        <div class="ai-col">
+          <div class="ai-legend"></div>
+          <p class="micro ai-note">A schematic drawing, not a screenshot of a real app. Sources: Montag, Lachmann, Herrlich and Zweig (2019), section 3.1; Amirthalingam and Khera (2024).</p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Step through the parts with r or the number keys. Part 1: there is no bottom, so you never reach a natural point to stop and reconsider. Part 2: most posts are ordinary, but now and then one is funny or interesting, and that unpredictable payoff keeps you scrolling. Part 3: autoplay, the same idea for video. Ask: when did you last decide to stop scrolling, rather than being interrupted? About 45 seconds.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-6); opacity: 0.08; top: -12rem; right: -6rem; transform: rotate(22deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.12; bottom: -8rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 7. EFFECT 2: PREDICT ============ -->
+  <section class="slide" id="s-pred-reward" data-accent="var(--accent-2)" data-archetype="predict">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Effect 2 &middot; Predict and reveal &middot; 1 min</span>
+          <h2>Social reward</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-pred-reward" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid g-5-7" data-activity="predict"></div>
+    </div>
+    <aside class="notes">Explain: approval from other people is processed as a reward, in brain areas involved in reward. Ask which feature uses it, letters in the chat. Tally, lock, reveal. Answer: C, the Like button. If some chose B, read receipts, separate approval (a reward) from expectation (pressure, effect 4). About 1 minute.</aside>
+    <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-4); opacity: 0.08; bottom: -8rem; left: 20rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-8); opacity: 0.12; top: -8rem; left: 46rem"></div>
+  </section>
+
+  <!-- ============ 8. EFFECT 2: THE FEATURE ============ -->
+  <section class="slide" id="s-like" data-accent="var(--accent-8)" data-archetype="annotated-model">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Effect 2 in the app &middot; The Like button</span>
+        <h2>Every Like is a small social reward</h2>
+      </header>
+      <div class="s-body ai-portrait">
+        <div class="ai-wrap">
+          <div class="phone" aria-hidden="true">
+            <div class="ph-banner" style="top: 3%; height: 8%"><span class="ph-av" style="--av: #fff"></span><span class="ph-line" style="width: 55%"></span></div>
+            <div class="ph-bar" style="top: 14%; height: 4%"></div>
+            <div class="ph-head" style="top: 20%; height: 5%"><span class="ph-av" style="--av: var(--accent-4)"></span><span class="ph-line" style="width: 40%"></span></div>
+            <div class="ph-img" style="top: 27%; height: 36%; background: var(--accent-1)"></div>
+            <div class="ph-actions" style="top: 65%; height: 7%"><span class="ph-like"></span><span class="ph-icon"></span><span class="ph-icon"></span></div>
+            <div class="ph-count" style="top: 74%; height: 8%"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div style="top: 85%; height: 10%; display: flex; flex-direction: column; gap: 0.5rem"><span class="ph-line" style="width: 85%"></span><span class="ph-line" style="width: 60%"></span></div>
+          </div>
+          <div class="ai-layer"></div>
+        </div>
+        <div class="ai-col">
+          <div class="ai-legend"></div>
+          <p class="micro ai-note">A schematic drawing. Sources: Montag et al. (2019), section 3.5, citing Sherman et al. (2016); Amirthalingam and Khera (2024).</p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Step through with r. Part 1: one tap gives another person positive feedback; the button was co-developed by Justin Rosenstein, a former Facebook worker. Part 2: in a study of adolescents by Sherman and colleagues, photos shown with many Likes produced stronger activity in the ventral striatum, a brain area involved in processing rewards. Part 3: notifications about new Likes create urgency that pulls you back. About 45 seconds.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.08; top: -11rem; right: -5rem; transform: rotate(30deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-6); opacity: 0.1; bottom: -9rem; left: 44rem"></div>
+  </section>
+
+  <!-- ============ 9. EFFECT 3: PREDICT ============ -->
+  <section class="slide" id="s-pred-compare" data-accent="var(--accent-5)" data-archetype="predict">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Effect 3 &middot; Predict and reveal &middot; 1 min</span>
+          <h2>Social comparison</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-pred-compare" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid g-5-7" data-activity="predict"></div>
+    </div>
+    <aside class="notes">Explain: we judge ourselves against other people, and when the comparison goes badly, self-esteem can fall. Ask which feature uses it. Tally, lock, reveal. Answer: A, a feed of other people's best photos. Stress the word curated: you see their highlights and your own ordinary day. About 1 minute.</aside>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-7); opacity: 0.1; bottom: -7rem; left: 26rem; transform: rotate(22deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.1; top: -10rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 10. EFFECT 3: THE FEATURE ============ -->
+  <section class="slide" id="s-curated" data-accent="var(--accent-7)" data-archetype="annotated-model">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Effect 3 in the app &middot; The curated feed</span>
+        <h2>Best moments invite unfair comparison</h2>
+      </header>
+      <div class="s-body ai-portrait">
+        <div class="ai-wrap">
+          <div class="phone" aria-hidden="true">
+            <div class="ph-head" style="top: 3%; height: 6%"><span class="ph-av" style="--av: var(--accent-6); width: 2.6rem; height: 2.6rem"></span><span class="ph-line" style="width: 45%"></span></div>
+            <div class="ph-stats" style="top: 11%; height: 8%"><span class="ph-stat"><b></b><span class="ph-line" style="width: 60%"></span></span><span class="ph-stat"><b></b><span class="ph-line" style="width: 60%"></span></span><span class="ph-stat"><b></b><span class="ph-line" style="width: 60%"></span></span></div>
+            <div class="ph-grid" style="top: 22%; height: 52%">
+              <i style="--c: var(--accent-4)"></i><i style="--c: var(--accent-6)"></i><i style="--c: var(--accent-7)"></i>
+              <i style="--c: var(--accent-8)"></i><i style="--c: var(--accent-2)"></i><i style="--c: var(--accent-4)"></i>
+              <i style="--c: var(--accent-3)"></i><i style="--c: var(--accent-1)"></i><i style="--c: var(--accent-6)"></i>
+            </div>
+            <div class="ph-filters" style="top: 79%; height: 10%"><i style="--c: var(--accent-4)" class="on"></i><i style="--c: var(--accent-6)"></i><i style="--c: var(--accent-8)"></i><i style="--c: var(--accent-7)"></i></div>
+          </div>
+          <div class="ai-layer"></div>
+        </div>
+        <div class="ai-col">
+          <div class="ai-legend"></div>
+          <p class="micro ai-note">A schematic drawing. Sources: Amirthalingam and Khera (2024), citing Chou and Edge (2012); Montag et al. (2019); Johns Hopkins Bloomberg School of Public Health (2026).</p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Step through with r. Part 1: carefully chosen photos and idealised lives make comparison easy and rarely fair. Part 2: Likes, comments and follower numbers show how others are perceived, so you can rank yourself against them. Part 3: cosmetic filters change how faces look; the 2026 settlement bans some features associated with mental health harms, including cosmetic filters. About 45 seconds.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-1); opacity: 0.1; top: -12rem; right: -6rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; bottom: -8rem; left: 42rem"></div>
+  </section>
+
+  <!-- ============ 11. EFFECT 4: PREDICT ============ -->
+  <section class="slide" id="s-pred-pressure" data-accent="var(--accent-6)" data-archetype="predict">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Effect 4 &middot; Predict and reveal &middot; 1 min</span>
+          <h2>Social pressure and defaults</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-pred-pressure" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid g-5-7" data-activity="predict"></div>
+    </div>
+    <aside class="notes">Two ideas together. Social pressure: we try to meet what others expect, such as a quick reply. Defaults: most people never change a setting, which is why the starting setting matters so much. Ask which feature uses both. Tally, lock, reveal. Answer: D, read receipts switched on by default. About 1 minute.</aside>
+    <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-4); opacity: 0.08; bottom: -8rem; left: 18rem; transform: rotate(24deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.12; top: -9rem; left: 48rem"></div>
+  </section>
+
+  <!-- ============ 12. EFFECT 4: THE FEATURE ============ -->
+  <section class="slide" id="s-ticks" data-accent="var(--accent-4)" data-archetype="annotated-model">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Effect 4 in the app &middot; Read receipts</span>
+        <h2>Two ticks turn a message into an obligation</h2>
+      </header>
+      <div class="s-body ai-portrait">
+        <div class="ai-wrap">
+          <div class="phone" aria-hidden="true">
+            <div class="ph-head" style="top: 2%; height: 7%; background: var(--bg-elevated); padding: 0 0.7rem"><span class="ph-av" style="--av: var(--accent-8)"></span><span class="ph-line" style="width: 40%"></span></div>
+            <div class="ph-bubble them" style="top: 12%; height: 9%"><span class="ph-line" style="width: 80%"></span><span class="ph-line" style="width: 50%"></span></div>
+            <div class="ph-bubble me" style="top: 24%; height: 9%"><span class="ph-line" style="width: 80%"></span><span class="ph-line" style="width: 60%"></span></div>
+            <div class="ph-ticks" style="top: 34%; height: 5%; --tick: var(--text-muted)"><i></i><i></i></div>
+            <div class="ph-bubble them" style="top: 42%; height: 7%"><span class="ph-line" style="width: 70%"></span></div>
+            <div class="ph-bubble me" style="top: 52%; height: 9%"><span class="ph-line" style="width: 85%"></span><span class="ph-line" style="width: 45%"></span></div>
+            <div class="ph-ticks" style="top: 62%; height: 5%; --tick: var(--accent-4)"><i></i><i></i></div>
+            <div class="ph-setting" style="top: 78%; height: 14%"><span class="lines"><span class="ph-line" style="width: 80%"></span><span class="ph-line" style="width: 55%"></span></span><span class="ph-toggle"></span></div>
+          </div>
+          <div class="ai-layer"></div>
+        </div>
+        <div class="ai-col">
+          <div class="ai-legend"></div>
+          <p class="micro ai-note">A schematic drawing; on the real app the read ticks turn blue. Source: Montag et al. (2019), section 3.3.</p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Step through with r. Part 1: two grey ticks mean the message reached the other phone. Part 2: the ticks change colour when it is read; both people know the rule, so both expect a fast reply, which can undermine well-being and feed the fear of missing out. Part 3: the function comes switched on, and most users do not know they can turn it off. One anecdotal report from Microsoft found only 5% of Word users change default settings. About 45 seconds.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-2); opacity: 0.08; top: -12rem; right: -6rem; transform: rotate(26deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-8); opacity: 0.12; bottom: -8rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 13. SESSION MAP: ECONOMICS ============ -->
+  <section class="slide" id="s-map-econ" data-accent="var(--accent-1)" data-archetype="session-map" data-current="3">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map</span>
+        <h2>Economics: why would a free app want your time?</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Now</span><p>Follow the money from your screen to the platform's revenue.</p></div>
+      </div>
+    </div>
+    <aside class="notes">Psychology done. Now the economics, briefly: the apps cost nothing, so how do they make money from the time you spend in them? About 15 seconds.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-6); opacity: 0.12; bottom: 12rem; left: 10rem; transform: rotate(-3deg)"></div>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.08; top: -10rem; right: -6rem"></div>
+  </section>
+
+  <!-- ============ 14. CHAIN: THE BUSINESS MODEL ============ -->
+  <section class="slide" id="s-chain" data-accent="var(--accent-3)" data-archetype="chain">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Economics &middot; The attention business model</span>
+        <h2>Your time becomes data, then revenue</h2>
+      </header>
+      <div class="s-body" data-reveal="chain">
+        <div class="dir-band"><span>You pay with data</span><span class="arrow"></span><span>The platform earns</span></div>
+        <div class="chain">
+          <div class="chain-node" style="--node-color: var(--accent-6)"><h3>Time in the app</h3><p>The features you have just seen keep users occupied as long as possible.</p></div>
+          <div class="chain-node pending" style="--node-color: var(--accent-4)"><h3>Data per person</h3><p>Every extra minute adds to the personal data the platform can harvest.</p></div>
+          <div class="chain-node pending" style="--node-color: var(--accent-8)"><h3>Microtargeting</h3><p>More data makes ads more precisely matched to each person.</p></div>
+          <div class="chain-node pending" style="--node-color: var(--accent-2)"><h3>Revenue</h3><p>Personalised ads boost clicks and buys, so revenue tends to rise.</p></div>
+        </div>
+        <div class="chain-links">
+          <div class="chain-link pending">generates</div>
+          <div class="chain-link pending">sharpens</div>
+          <div class="chain-link pending">raises</div>
+        </div>
+        <div class="chain-note"><span class="pip" style="--pip: var(--accent-4)"></span><p>The app is free because you pay with your data rather than with money.</p><button class="btn" type="button" data-action="next-link">Next link</button></div>
+        <p class="micro src-line">Source: Montag et al. (2019), section 2, citing Matz et al. (2017) on personalised ads.</p>
+      </div>
+    </div>
+    <aside class="notes">Before each reveal, ask the chat: what comes next? Press r to show each link. Time in the app generates data; more data sharpens microtargeting, meaning ads matched to each person; personalised ads raise clicks and buys, so revenue rises. Then read the note: you pay with data rather than money. That is why every feature from the last ten minutes is worth money to the platform. About 1.5 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.08; top: -12rem; right: -4rem; transform: rotate(28deg)"></div>
+    <div class="deco" style="width: 60rem; height: 1rem; background: var(--accent-1); opacity: 0.12; bottom: 3rem; left: 12rem; transform: rotate(-3deg)"></div>
+  </section>
+
+  <!-- ============ 15. SESSION MAP: POLITICS ============ -->
+  <section class="slide" id="s-map-politics" data-accent="var(--accent-1)" data-archetype="session-map" data-current="4">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map</span>
+        <h2>Politics: who should stop it?</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Now</span><p>The Meta settlement, why regulation lags, and a vote.</p></div>
+      </div>
+    </div>
+    <aside class="notes">If attention is this valuable, the platforms have little reason to stop on their own. So the last part is politics: what the courts did, why regulation is slow, and what you think should happen. About 15 seconds.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-2); opacity: 0.12; bottom: 12rem; left: 10rem; transform: rotate(-3deg)"></div>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-6); opacity: 0.1; top: -10rem; right: -6rem"></div>
+  </section>
+
+  <!-- ============ 16. CASE: THE SETTLEMENT ============ -->
+  <section class="slide" id="s-settlement" data-accent="var(--accent-2)" data-archetype="case-vignette">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Politics &middot; The case</span>
+        <h2>Meta settled; the algorithms stay</h2>
+      </header>
+      <div class="s-body">
+        <div class="fact-strip">
+          <div class="fact" style="--fc: var(--accent-1)"><span class="label">Filed</span><b>October 2023, in a US federal court</b></div>
+          <div class="fact" style="--fc: var(--accent-6)"><span class="label">Brought by</span><b>Attorneys general of 51 US jurisdictions</b></div>
+          <div class="fact" style="--fc: var(--accent-5)"><span class="label">Settled</span><b>August 2026, a week into the trial</b></div>
+          <div class="fact" style="--fc: var(--accent-4); --fc-on: var(--dark-ink)"><span class="label">Value</span><b>About $12 billion over 10 years; up to $17 billion</b></div>
+        </div>
+        <div class="grid g-3 case-cols">
+          <div class="case-card" style="--card-color: var(--accent-8)">
+            <h3>The claims</h3>
+            <p>The states claimed Meta built Facebook and Instagram to keep young people hooked, and misled the public about the risks. Meta admitted no wrongdoing.</p>
+          </div>
+          <div class="case-card" style="--card-color: var(--correct)">
+            <h3>What changes</h3>
+            <ul class="case-list">
+              <li><span class="pip"></span>A two-hour daily limit</li>
+              <li><span class="pip"></span>A block on overnight use</li>
+              <li><span class="pip"></span>No notifications in school hours</li>
+              <li><span class="pip"></span>Prompts to pause</li>
+              <li><span class="pip"></span>No cosmetic filters</li>
+            </ul>
+          </div>
+          <div class="case-card" style="--card-color: var(--incorrect)">
+            <h3>What stays</h3>
+            <ul class="case-list">
+              <li><span class="pip"></span>The engagement algorithms</li>
+              <li><span class="pip"></span>Defaults young users can change</li>
+              <li><span class="pip"></span>Other platforms to switch to</li>
+              <li><span class="pip"></span>Terms that end after 10 years</li>
+            </ul>
+          </div>
+        </div>
+        <p class="micro src-line">Source: Thrul and Mendelson, interviewed by the Johns Hopkins Bloomberg School of Public Health, 16 September 2026.</p>
+      </div>
+    </div>
+    <aside class="notes">Walk the fact strip, then the claims. The suit also said Meta broke the US Children's Online Privacy Protection Rule by collecting data from children it knew were under 13. Then the two lists. Optional extras users can opt into: a feed not driven by algorithms, and autoplay switched off. The limitation the Johns Hopkins researchers stress: the algorithms that keep young people on screen are not changing. An auditor watches for five years only, with limited authority. Ask the chat: which of the four effects does the settlement leave untouched? About 1 minute.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.08; top: -11rem; right: 12rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.12; bottom: -10rem; left: -4rem"></div>
+  </section>
+
+  <!-- ============ 17. SPLIT WITH PANEL: WHY REGULATION LAGS ============ -->
+  <section class="slide" id="s-lag" data-accent="var(--accent-5)" data-archetype="split-panel">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Politics &middot; Why regulation lags</span>
+        <h2>The evidence sits inside the platforms</h2>
+      </header>
+      <div class="s-body grid g-7-5">
+        <div class="lag-rows">
+          <div class="lag-row" style="--row-color: var(--accent-1)"><div class="lag-num">1</div><div><h3>Researchers cannot see the data</h3><p>Independent scientists rarely get platform data, so no one outside can measure what each feature does.</p></div></div>
+          <div class="lag-row" style="--row-color: var(--accent-6)"><div class="lag-num">2</div><div><h3>Tests run out of sight</h3><p>Platforms A/B test new versions of features on users, mostly unsolicited.</p></div></div>
+          <div class="lag-row" style="--row-color: var(--accent-2)"><div class="lag-num">3</div><div><h3>Cause is still debated</h3><p>Problematic use is linked to anxiety and depression; whether social media causes them is open.</p></div></div>
+        </div>
+        <div class="panel-card">
+          <h3>What accountability could look like</h3>
+          <ul class="stack">
+            <li><span class="pip" style="--pip: var(--accent-4)"></span>Regulate or ban certain design features</li>
+            <li><span class="pip" style="--pip: var(--accent-6)"></span>Pay a fee instead of paying with data</li>
+            <li><span class="pip" style="--pip: var(--accent-8)"></span>An archive of internal documents for researchers</li>
+            <li><span class="pip" style="--pip: var(--accent-2)"></span>Laws that hold companies to account on an ongoing basis</li>
+          </ul>
+          <p class="micro">Sources: Montag et al. (2019), sections 4 and 5; Thrul and Mendelson, Johns Hopkins Bloomberg School of Public Health (2026).</p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Three reasons regulation is slow. Without data, lawmakers cannot prove which feature does harm, and the platforms hold the data. Their own experiments, A/B tests, run unseen. And the causal link is still debated. On the right, four options from the sources. The archive idea comes from tobacco: settlements with the tobacco industry made internal documents public; nothing similar exists in the Meta settlement. About 1 minute.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.08; bottom: -12rem; left: 30rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-6); opacity: 0.1; top: -9rem; right: 14rem"></div>
+  </section>
+
+  <!-- ============ 18. TAKE A SIDE ============ -->
+  <section class="slide" id="s-side" data-accent="var(--accent-8)" data-archetype="take-a-side">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Take a side &middot; 3 min</span>
+          <h2 data-field="motion"></h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-side" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body side-grid" data-activity="take-a-side">
+        <div class="side-cols">
+          <div class="side-col" style="--col: var(--accent-4); --col-on: var(--dark-ink)" data-side="for"><div class="side-head"><h3>For</h3></div></div>
+          <div class="side-col" style="--col: var(--accent-1)" data-side="against"><div class="side-head"><h3>Against</h3></div></div>
+        </div>
+        <div class="side-right">
+          <div class="side-do"><span class="label">Vote in the chat</span><p>F for &middot; A against &middot; U unsure</p></div>
+          <div class="side-round" data-round="before"><span class="label">Vote 1 &middot; Before</span></div>
+          <div class="tally" data-tally="round1"></div>
+          <div class="side-round" data-round="after"><span class="label">Vote 2 &middot; After</span><span class="rec">Outline = vote 1</span></div>
+          <div class="tally" data-tally="round2"></div>
+          <div class="side-actions"><button class="btn" type="button" data-action="next-arg">Next argument</button><span class="pred-status side-status"></span></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">A position question: no answer is right, and none is shown. First vote: F, A or U in the chat; tally with keys 1 to 3. Then reveal the arguments with r, alternating sides, and give each ten seconds. After the sixth, the keys record the second vote; the outline bar shows the first vote behind the second, so the room sees any shift. Ask one person who changed their mind to say why in the chat. About 3 minutes.</aside>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-6); opacity: 0.1; bottom: -7rem; left: 34rem; transform: rotate(30deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; top: -8rem; left: 30rem"></div>
+  </section>
+
+  <!-- ============ 19. CLOSE ============ -->
+  <section class="slide" id="s-close" data-accent="var(--accent-4)" data-archetype="close-bridge">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 close-grid">
+        <div>
+          <header class="s-head">
+            <span class="eyebrow">Close</span>
+            <h2>What you can now do</h2>
+          </header>
+          <ul class="close-list">
+            <li><span class="pip" style="--pip: var(--accent-1)"></span>Explain how four psychological effects capture attention.</li>
+            <li><span class="pip" style="--pip: var(--accent-6)"></span>Identify the platform feature that uses each effect.</li>
+            <li><span class="pip" style="--pip: var(--accent-4)"></span>Explain why more of your time earns a free app money.</li>
+            <li><span class="pip" style="--pip: var(--accent-8)"></span>Evaluate whether governments should ban addictive design for under-18s.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="bridge-card">
+            <h3>To go further</h3>
+            <p>Montag, Lachmann, Herrlich and Zweig (2019). Addictive features of social media/messenger platforms and freemium games. <em>Int. J. Environ. Res. Public Health</em>.</p>
+            <p>Amirthalingam and Khera (2024). Understanding social media addiction: a deep dive. <em>Cureus</em>.</p>
+            <p>Johns Hopkins Bloomberg School of Public Health (2026). How the $17 billion Meta settlement could reshape mental health research and policy.</p>
+          </div>
+          <div class="close-block"><p>One lens explains the feature, one explains the incentive, one decides what happens next.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Read the four outcomes back. Psychology explains why the features work; economics explains why platforms build them; politics decides what to do about them. That is the PEP combination. Presenter: export the responses from the Responses menu if you want to keep the chat tallies. About 30 seconds.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--accent-1); opacity: 0.12; bottom: -14rem; left: 30rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-2); opacity: 0.1; top: -9rem; left: 50rem"></div>
+  </section>
+
+  <!-- ============ 20. EXIT TICKET ============ -->
+  <section class="slide" id="s-exit" data-accent="var(--accent-1)" data-archetype="exit-ticket">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Exit ticket &middot; 1 min</span>
+          <h2>Before you leave the call</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-exit" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body exit-body" data-activity="exit-ticket">
+        <div class="grid g-3 exit-grid"></div>
+        <div class="exit-foot"><span class="label">Type your answers in the chat</span><span class="micro">Number each answer 1, 2 or 3.</span></div>
+      </div>
+    </div>
+    <aside class="notes">Individual and silent for one minute; answers go in the chat, numbered. Read a few aloud without names. The first prompt shows whether people can link a feature to its effect; the third shows where the debate landed. Thank everyone for joining.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.08; bottom: -10rem; right: 10rem; transform: rotate(28deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-6); opacity: 0.1; top: -7rem; left: 38rem"></div>
+  </section>
+
+  <!-- Print-only exit-ticket sheets: four A6 cards per A4 page -->
+  <div class="exit-sheets" aria-hidden="true"></div>
+
+  <div class="blackout" id="blackout"></div>
+  <div class="mini-timer" id="mini-timer" aria-live="off"></div>
+
+  <div class="deck-chrome" id="chrome">
+    <button class="nav-btn ghost" type="button" id="prev-btn" aria-label="Previous slide">Prev</button>
+    <span class="nav-info" id="nav-info"></span>
+    <button class="nav-btn" type="button" id="next-btn" aria-label="Next slide">Next</button>
+    <div style="position: relative">
+      <button class="nav-btn ghost" type="button" id="resp-btn" aria-haspopup="true" aria-expanded="false">Responses</button>
+      <div class="resp-menu" id="resp-menu">
+        <button class="btn" type="button" id="export-btn">Export JSON</button>
+        <button class="btn" type="button" id="import-btn">Import JSON</button>
+        <label class="sr-only" for="import-file">Import responses file</label>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+        <button class="btn ghost" type="button" id="reset-btn">Reset</button>
+        <p class="resp-note" id="resp-note"></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ==================================================================
+   ACTIVITIES: all activity content for this deck.
+   Edit the text in quotes freely. Keep the structure (brackets,
+   commas, true/false) as it is. Each entry is keyed by the id of
+   its slide. minutes sets the timer (0 hides it).
+   Predict slides: keep exactly one option with correct: true.
+   Annotated models: each part has a name, a line of text, and a box
+   on the phone drawing given as fractions (x and y from the top left,
+   w and h as width and height).
+   ================================================================== */
+const ACTIVITIES = {
+
+  // Slide 2. Hook. The room types estimates in the chat; the presenter enters up to eight.
+  's-estimate': {
+    pattern: 'estimate',
+    minutes: 1,
+    prompt: "German smartphone users, mostly aged 15 to 35: what share of their daily smartphone use went on WhatsApp and Facebook?",
+    unit: "Answer as a percentage of daily smartphone use, from 0 to 100.",
+    min: 0,
+    max: 100,
+    scale: 'linear',
+    truth: 30,
+    truthLabel: 'About 30%',
+    answer: "About 30% of daily smartphone use went on WhatsApp and Facebook. Facebook is a Meta platform.",
+    source: "Montag et al. (2015), cited in Montag, Lachmann, Herrlich and Zweig (2019), International Journal of Environmental Research and Public Health."
+  },
+
+  // Slide 5. Effect 1. Intermittent reinforcement.
+  's-pred-reinforce': {
+    pattern: 'predict',
+    minutes: 0.5,
+    effect: "When a reward arrives unpredictably, we keep checking, because the next try might be the one that pays. Slot machines are built on this principle.",
+    effectSource: "Montag et al. (2019), citing Harrigan and Dixon (2009); Amirthalingam and Khera (2024).",
+    question: "Which feature uses this effect?",
+    options: [
+      { text: "Read receipts that show a message was seen", correct: false,
+        why: "Read receipts create pressure to reply: that is effect 4.",
+        misconception: "Any social feature works as a reward" },
+      { text: "An endless feed that never reaches the bottom", correct: true,
+        why: "Something rewarding turns up only now and then, and there is no natural point to stop." },
+      { text: "A reminder after an hour in the app", correct: false,
+        why: "A reminder is a brake on use.",
+        misconception: "Every feature in the app is designed to keep you in it" },
+      { text: "A search bar for finding friends", correct: false,
+        why: "Search returns what you ask for, every time.",
+        misconception: "Frequent use means a feature uses reinforcement" }
+    ],
+    outcome: "B. Now and then the feed turns up something funny or interesting. That unpredictable payoff is intermittent conditioning, the slot machine principle.",
+    source: "Montag et al. (2019), section 3.1; Amirthalingam and Khera (2024).",
+    followUp: "Where else have you met a reward you could not predict?"
+  },
+
+  // Slide 6. The endless feed.
+  's-feed': {
+    pattern: 'annotated-model',
+    parts: [
+      { name: 'No bottom', text: "New posts keep loading, so the feed never reaches a natural stopping point.",
+        box: { x: 0.02, y: 0.87, w: 0.96, h: 0.125 } },
+      { name: 'Random payoff', text: "Most posts are ordinary. Now and then one is funny or interesting, and that keeps you scrolling.",
+        box: { x: 0.02, y: 0.335, w: 0.96, h: 0.29 } },
+      { name: 'Autoplay', text: "When one video ends the next begins, so there is no moment to decide to stop.",
+        box: { x: 0.02, y: 0.615, w: 0.96, h: 0.27 } }
+    ]
+  },
+
+  // Slide 7. Effect 2. Social reward.
+  's-pred-reward': {
+    pattern: 'predict',
+    minutes: 0.5,
+    effect: "Positive feedback from other people is processed as a reward: brain areas involved in processing rewards respond to it.",
+    effectSource: "Montag et al. (2019), section 3.5.",
+    question: "Which feature uses this effect?",
+    options: [
+      { text: "Autoplay that starts the next video", correct: false,
+        why: "Autoplay removes stopping points but carries no approval.",
+        misconception: "Anything enjoyable counts as a social reward" },
+      { text: "Read receipts that show a message was seen", correct: false,
+        why: "Read receipts signal an expectation to reply: pressure.",
+        misconception: "Any signal from another person is a reward" },
+      { text: "The Like button under every post", correct: true,
+        why: "A Like is positive social feedback from another person." },
+      { text: "A two-hour daily limit on use", correct: false,
+        why: "A limit restricts use. It rewards nothing.",
+        misconception: "Every feature in the app is designed to keep you in it" }
+    ],
+    outcome: "C. A Like is positive feedback from another person. In adolescents, their photos shown with many Likes produced more activity in a brain reward area.",
+    source: "Sherman et al. (2016), cited in Montag et al. (2019), section 3.5.",
+    followUp: "How does it feel when a post gets fewer Likes than you hoped?"
+  },
+
+  // Slide 8. The Like button.
+  's-like': {
+    pattern: 'annotated-model',
+    parts: [
+      { name: 'The Like button', text: "One tap gives another person positive feedback. It was co-developed by Justin Rosenstein, a former Facebook worker.",
+        box: { x: 0.02, y: 0.635, w: 0.4, h: 0.1 } },
+      { name: 'The count', text: "Photos shown with many Likes produced stronger activity in the brain's reward area than with few.",
+        box: { x: 0.02, y: 0.73, w: 0.96, h: 0.1 } },
+      { name: 'The alert', text: "Notifications about new Likes create a sense of urgency that pulls you back to check.",
+        box: { x: 0.02, y: 0.02, w: 0.96, h: 0.1 } }
+    ]
+  },
+
+  // Slide 9. Effect 3. Social comparison.
+  's-pred-compare': {
+    pattern: 'predict',
+    minutes: 0.5,
+    effect: "We judge ourselves by comparing ourselves with other people: their looks, their lives, their success. When the comparison goes badly, self-esteem can fall.",
+    effectSource: "Montag et al. (2019), citing Vogel et al. (2014); Amirthalingam and Khera (2024).",
+    question: "Which feature uses this effect?",
+    options: [
+      { text: "A feed of other people's best photos", correct: true,
+        why: "Carefully chosen photos and idealised lives invite comparison, which can bring feelings of inadequacy." },
+      { text: "Autoplay that starts the next video", correct: false,
+        why: "Autoplay keeps you watching without setting you against anyone.",
+        misconception: "Any feature that holds attention works through comparison" },
+      { text: "No notifications during school hours", correct: false,
+        why: "This settlement measure only limits interruptions.",
+        misconception: "Every feature in the app is designed to keep you in it" },
+      { text: "A search bar for finding friends", correct: false,
+        why: "Search finds people without ranking you against them.",
+        misconception: "Seeing other people is the same as comparing yourself with them" }
+    ],
+    outcome: "A. Carefully chosen photos and idealised lives invite unfavourable comparisons and feelings of inadequacy, perhaps most on platforms such as Instagram.",
+    source: "Chou and Edge (2012), in Amirthalingam and Khera (2024); Montag et al. (2019).",
+    followUp: "Whose highlights do you compare your own days with?"
+  },
+
+  // Slide 10. The curated feed.
+  's-curated': {
+    pattern: 'annotated-model',
+    parts: [
+      { name: 'Curated photos', text: "Carefully chosen pictures of idealised lives make comparison easy, and rarely fair.",
+        box: { x: 0.03, y: 0.21, w: 0.94, h: 0.54 } },
+      { name: 'Visible counts', text: "Likes and follower numbers show how others are perceived, so you can rank yourself against them.",
+        box: { x: 0.03, y: 0.1, w: 0.94, h: 0.1 } },
+      { name: 'Cosmetic filters', text: "Filters change how faces look. The 2026 settlement bans them for young users.",
+        box: { x: 0.1, y: 0.775, w: 0.8, h: 0.13 } }
+    ]
+  },
+
+  // Slide 11. Effect 4. Social pressure and defaults.
+  's-pred-pressure': {
+    pattern: 'predict',
+    minutes: 0.5,
+    effect: "We feel pressure to meet what others expect of us, such as a quick reply. And most people never change a default setting: whatever comes switched on usually stays on.",
+    effectSource: "Montag et al. (2019), section 3.3.",
+    question: "Which feature uses these effects?",
+    options: [
+      { text: "An endless feed that never reaches the bottom", correct: false,
+        why: "The endless feed uses unpredictable rewards: effect 1.",
+        misconception: "Every hook works through the same effect" },
+      { text: "Autoplay that starts the next video", correct: false,
+        why: "Autoplay places no expectation from another person on you.",
+        misconception: "Any default setting creates social pressure" },
+      { text: "A daily reminder to take a break", correct: false,
+        why: "A break reminder pushes against use.",
+        misconception: "Every feature in the app is designed to keep you in it" },
+      { text: "Read receipts, switched on by default", correct: true,
+        why: "Both people know when a message has been read, so both expect a fast reply, and few switch it off." }
+    ],
+    outcome: "D. The ticks change colour once a message is read, so both sides expect a fast answer. It is on by default, and most users do not know they can switch it off.",
+    source: "Montag et al. (2019), section 3.3.",
+    followUp: "Have you ever replied faster because they could see you had read it?"
+  },
+
+  // Slide 12. Read receipts.
+  's-ticks': {
+    pattern: 'annotated-model',
+    parts: [
+      { name: 'Delivered', text: "Two grey ticks: the message has reached the other person's phone.",
+        box: { x: 0.6, y: 0.33, w: 0.38, h: 0.07 } },
+      { name: 'Read', text: "The ticks change colour once it is read. Now both of you expect a fast reply.",
+        box: { x: 0.6, y: 0.61, w: 0.38, h: 0.07 } },
+      { name: 'On by default', text: "The function comes switched on, and most users do not know they can turn it off.",
+        box: { x: 0.02, y: 0.765, w: 0.96, h: 0.17 } }
+    ]
+  },
+
+  // Slide 14. The chain reveals one link at a time. No editable content here: edit the slide markup.
+
+  // Slide 18. Take a side. A position prompt: no correct answer is ever shown.
+  // Arguments are revealed alternately: for 1, against 1, for 2, and so on.
+  's-side': {
+    pattern: 'take-a-side',
+    minutes: 3,
+    motion: "Governments should ban addictive design features for under-18s.",
+    options: ['For', 'Against', 'Unsure'],
+    for: [
+      { text: "Features are designed to prolong use, and every extra minute earns money.",
+        source: "Montag et al. 2019" },
+      { text: "Teens are highly attuned to approval; executive function is still developing.",
+        source: "Mendelson, Johns Hopkins 2026" },
+      { text: "Parents cannot do it alone, and teens can switch platforms to dodge limits.",
+        source: "Thrul and Mendelson, Johns Hopkins 2026" }
+    ],
+    against: [
+      { text: "Whether social media causes poor mental health is still debated.",
+        source: "Thrul, Johns Hopkins 2026" },
+      { text: "Social media also offers connection, affirmation and educational content.",
+        source: "Mendelson, Johns Hopkins 2026" },
+      { text: "Education, parental limits and therapy already help without a ban.",
+        source: "Amirthalingam and Khera 2024" }
+    ]
+  },
+
+  // Slide 20. Exit ticket prompts. The same prompts print on the A6 cards.
+  's-exit': {
+    pattern: 'exit-ticket',
+    minutes: 1,
+    prompts: [
+      "One feature you will now notice, and the effect behind it.",
+      "One question you still have about attention and platforms.",
+      "Your answer to the motion now, for or against, in one sentence."
+    ]
+  }
+};
+
+/* ==================================================================
+   Deck logic below. No content to edit past this point.
+   ================================================================== */
+(function () {
+  'use strict';
+
+  var DECK_ID = '2026-10-pep-meta-session';
+  var STORE_KEY = 'slides:standalone:' + DECK_ID + ':v1';
+  var OPTION_COLOURS = ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-5)', 'var(--accent-8)'];
+  var PART_COLOURS = ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-2)'];
+  var ON_ACCENT = { '1': '#fff', '2': '#fff', '3': '#fff', '4': 'var(--dark-ink)', '5': '#fff', '6': '#fff', '7': 'var(--dark-ink)', '8': '#fff' };
+  var LETTERS = 'ABCDEFGHI';
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+  var revealFns = {};
+  var numberFns = {};
+  var worstFns = {};
+
+  if (/[?&]instructor\b/.test(location.search)) document.body.classList.add('instructor');
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function accentNum(v) { var m = /accent-(\d)/.exec(v || ''); return m ? m[1] : '1'; }
+  function onFor(colour) { return ON_ACCENT[accentNum(colour)]; }
+
+  /* ---------- Response store ---------- */
+
+  var storageOK = true;
+  var state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+  try {
+    var raw = window.localStorage.getItem(STORE_KEY);
+    if (raw) {
+      var parsed = JSON.parse(raw);
+      if (parsed && parsed.activities) state = parsed;
+    }
+    window.localStorage.setItem(STORE_KEY + ':probe', '1');
+    window.localStorage.removeItem(STORE_KEY + ':probe');
+  } catch (err) {
+    storageOK = false;
+  }
+  function act(id) {
+    if (!state.activities[id]) state.activities[id] = {};
+    return state.activities[id];
+  }
+  function save() {
+    state.savedAt = new Date().toISOString();
+    if (!storageOK) return;
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+    catch (err) { storageOK = false; updateRespNote(); }
+  }
+
+  /* ---------- Slide accents and numbers ---------- */
+
+  slides.forEach(function (s, i) {
+    var accent = s.getAttribute('data-accent') || 'var(--accent-1)';
+    s.style.setProperty('--slide-accent', accent);
+    s.style.setProperty('--on-accent', onFor(accent));
+    var no = s.querySelector('.slide-no');
+    if (no) no.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  });
+
+  /* ---------- Fill data-field text ---------- */
+
+  Object.keys(ACTIVITIES).forEach(function (id) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    s.querySelectorAll('[data-field]').forEach(function (f) {
+      var v = ACTIVITIES[id][f.getAttribute('data-field')];
+      if (v !== undefined) f.textContent = v;
+    });
+  });
+
+  /* ---------- Timer ---------- */
+
+  var timers = {};
+  var runningTimer = null;
+  var miniTimer = document.getElementById('mini-timer');
+  function fmt(sec) { sec = Math.max(0, Math.ceil(sec)); return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); }
+  document.querySelectorAll('[data-timer]').forEach(function (plate) {
+    var id = plate.getAttribute('data-timer');
+    var mins = (ACTIVITIES[id] && ACTIVITIES[id].minutes) || 0;
+    if (!mins) { plate.style.display = 'none'; return; }
+    var t = { plate: plate, id: id, total: Math.round(mins * 60), left: Math.round(mins * 60), handle: null, ends: 0 };
+    var digits = plate.querySelector('.timer-digits');
+    var label = plate.querySelector('.timer-label');
+    t.draw = function () {
+      var expired = t.left <= 0;
+      digits.textContent = expired ? 'TIME' : fmt(t.left);
+      label.textContent = expired ? 'Time is up' : (t.handle ? 'Running' : (t.left < t.total ? 'Paused' : 'Timer'));
+      plate.classList.toggle('running', !!t.handle);
+      plate.classList.toggle('expired', expired);
+      if (runningTimer === t && slides[current].id !== t.id && t.handle) { miniTimer.textContent = fmt(t.left); miniTimer.classList.add('on'); }
+      else if (runningTimer === t || !runningTimer) miniTimer.classList.remove('on');
+    };
+    t.toggle = function () {
+      if (t.handle) { clearInterval(t.handle); t.handle = null; runningTimer = null; t.draw(); return; }
+      if (t.left <= 0) return;
+      if (runningTimer && runningTimer !== t) runningTimer.toggle();
+      runningTimer = t;
+      t.ends = Date.now() + t.left * 1000;
+      t.handle = setInterval(function () {
+        t.left = (t.ends - Date.now()) / 1000;
+        if (t.left <= 0) { t.left = 0; clearInterval(t.handle); t.handle = null; runningTimer = null; }
+        t.draw();
+      }, 250);
+      t.draw();
+    };
+    t.reset = function () { if (t.handle) { clearInterval(t.handle); t.handle = null; runningTimer = null; } t.left = t.total; t.draw(); };
+    t.expire = function () { if (t.handle) { clearInterval(t.handle); t.handle = null; runningTimer = null; } t.left = 0; t.draw(); };
+    plate.addEventListener('click', t.toggle);
+    timers[id] = t;
+    t.draw();
+  });
+
+  /* ---------- Tally ---------- */
+
+  function makeTally(container, slideId, key, labels, opts) {
+    opts = opts || {};
+    var store = act(slideId);
+    if (!store[key] || store[key].length !== labels.length) store[key] = labels.map(function () { return 0; });
+    var counts = store[key];
+    container.innerHTML = '';
+    var rows = [];
+    labels.forEach(function (label, i) {
+      var colour = (opts.colours || OPTION_COLOURS)[i % 4];
+      var row = el('div', 'tally-row' + (opts.withText ? ' with-text' : ''));
+      row.style.setProperty('--row-color', colour);
+      row.style.setProperty('--row-on', onFor(colour));
+      var letter = opts.letters ? opts.letters[i] : LETTERS[i];
+      var inputId = slideId + '-' + key + '-' + i;
+      row.innerHTML =
+        '<span class="tally-letter" aria-hidden="true">' + esc(letter) + '</span>' +
+        (opts.withText ? '<span class="tally-text">' + esc(label) + '</span>' : '') +
+        '<span class="tally-controls">' +
+          '<button class="tally-step" type="button" data-d="-1" aria-label="Remove one from ' + esc(label) + '">&minus;</button>' +
+          '<label class="sr-only" for="' + inputId + '">Count for ' + esc(label) + '</label>' +
+          '<input class="tally-count" id="' + inputId + '" type="number" min="0" max="999" inputmode="numeric">' +
+          '<button class="tally-step" type="button" data-d="1" aria-label="Add one to ' + esc(label) + '">+</button>' +
+        '</span>' +
+        '<span class="tally-bar-wrap">' +
+          (opts.withText ? '' : '<span class="tally-text" style="min-width: 8rem">' + esc(label) + '</span>') +
+          '<span class="tally-track">' + (opts.ghost ? '<span class="tally-ghost"></span>' : '') + '<span class="tally-bar"></span></span><span class="tally-pct">0%</span>' +
+        '</span>';
+      container.appendChild(row);
+      rows.push(row);
+      var input = row.querySelector('.tally-count');
+      input.addEventListener('input', function () {
+        var v = parseInt(input.value, 10);
+        counts[i] = isNaN(v) ? 0 : Math.max(0, Math.min(999, v));
+        draw(true); save();
+      });
+      row.querySelectorAll('.tally-step').forEach(function (b) {
+        b.addEventListener('click', function () { api.step(i, parseInt(b.getAttribute('data-d'), 10)); });
+      });
+    });
+    var totalLine = el('div', 'tally-total');
+    container.appendChild(totalLine);
+    function draw(skipInputs) {
+      var sum = counts.reduce(function (a, b) { return a + b; }, 0);
+      rows.forEach(function (row, i) {
+        var pct = sum ? Math.round(counts[i] / sum * 100) : 0;
+        row.querySelector('.tally-bar').style.width = pct + '%';
+        row.querySelector('.tally-pct').textContent = pct + '%';
+        if (!skipInputs) row.querySelector('.tally-count').value = counts[i];
+      });
+      totalLine.textContent = 'Total: ' + sum;
+      if (opts.onChange) opts.onChange(counts);
+    }
+    var api = {
+      rows: rows, counts: counts,
+      step: function (i, d) {
+        if (api.locked || i < 0 || i >= counts.length) return;
+        counts[i] = Math.max(0, Math.min(999, counts[i] + d));
+        draw(); save();
+      },
+      fill: function (v) { counts.forEach(function (c, i) { counts[i] = v; }); draw(); save(); },
+      ghost: function (src) {
+        var sum = src.reduce(function (a, b) { return a + b; }, 0);
+        rows.forEach(function (row, i) { var g = row.querySelector('.tally-ghost'); if (g) g.style.width = (sum ? Math.round(src[i] / sum * 100) : 0) + '%'; });
+      },
+      lock: function (on) {
+        api.locked = on;
+        container.classList.toggle('locked', on);
+        rows.forEach(function (r) { r.querySelectorAll('button, input').forEach(function (c) { c.disabled = on; }); });
+      },
+      locked: false
+    };
+    draw();
+    return api;
+  }
+
+  /* ---------- Session maps ---------- */
+
+  var MAP = [
+    { name: 'Start', min: 3, label: '3 min', act: true },
+    { name: 'Psychology', min: 8, label: '8 min', act: true },
+    { name: 'Economics', min: 2, label: '2 min', act: true },
+    { name: 'Politics', min: 5, label: '5 min', act: true },
+    { name: 'Close', min: 1.5, label: '1 min', act: true }
+  ];
+  document.querySelectorAll('.slide[data-archetype="session-map"]').forEach(function (s) {
+    var band = s.querySelector('.map-band');
+    var cur = parseInt(s.getAttribute('data-current'), 10) || 1;
+    band.style.gridTemplateColumns = MAP.map(function (m) { return 'minmax(12.6rem, ' + m.min + 'fr)'; }).join(' ');
+    MAP.forEach(function (m, i) {
+      var n = i + 1;
+      var seg = el('div', 'map-seg ' + (n < cur ? 'done' : (n === cur ? 'current' : 'upcoming')));
+      seg.innerHTML = (m.act ? '<span class="seg-act" aria-hidden="true"></span>' : '') +
+        '<span class="seg-name">' + esc(m.name) + '</span><span class="seg-min">' + esc(m.label) + '</span>';
+      if (n === cur) seg.setAttribute('aria-current', 'step');
+      band.appendChild(seg);
+    });
+  });
+
+  /* ---------- Slide 2: estimate ---------- */
+
+  (function () {
+    var id = 's-estimate', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var store = act(id);
+    if (!store.estimates || store.estimates.length !== 8) store.estimates = [null, null, null, null, null, null, null, null];
+    var entry = s.querySelector('.est-entry');
+    var scale = s.querySelector('.est-scale');
+    var median = s.querySelector('.est-median');
+    var truth = s.querySelector('.est-truth');
+    var result = s.querySelector('.est-result');
+    var btn = s.querySelector('[data-action="reveal"]');
+    function pos(v) {
+      var lo = A.min, hi = A.max;
+      if (A.scale === 'log') { lo = Math.log10(Math.max(lo, 1e-9)); hi = Math.log10(hi); v = Math.log10(Math.max(v, 1e-9)); }
+      return Math.max(0, Math.min(1, (v - lo) / (hi - lo))) * 100;
+    }
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (f) {
+      var v = A.min + f * (A.max - A.min);
+      var tick = el('span', 'est-tick', String(Math.round(v)));
+      tick.style.left = pos(v) + '%';
+      scale.appendChild(tick);
+    });
+    var inputs = store.estimates.map(function (v, i) {
+      var lab = el('label', 'sr-only', 'Estimate ' + (i + 1));
+      var inp = el('input', 'est-input');
+      inp.type = 'number'; inp.min = A.min; inp.max = A.max; inp.inputMode = 'decimal';
+      inp.id = id + '-est-' + i; lab.htmlFor = inp.id;
+      if (v !== null) inp.value = v;
+      inp.addEventListener('input', function () {
+        var n = parseFloat(inp.value);
+        store.estimates[i] = isNaN(n) ? null : Math.max(A.min, Math.min(A.max, n));
+        draw(); save();
+      });
+      entry.appendChild(lab); entry.appendChild(inp);
+      return inp;
+    });
+    var pips = [];
+    function draw() {
+      pips.forEach(function (p) { p.remove(); });
+      pips = [];
+      var vals = store.estimates.filter(function (v) { return v !== null; });
+      var stack = {};
+      vals.forEach(function (v) {
+        var key = Math.round(pos(v));
+        var k = stack[key] = (stack[key] || 0) + 1;
+        var pip = el('span', 'est-pip');
+        pip.style.left = pos(v) + '%';
+        pip.style.top = (4 - (k - 1) * 1.1) + 'rem';
+        scale.appendChild(pip);
+        pips.push(pip);
+      });
+      if (vals.length) {
+        var sorted = vals.slice().sort(function (a, b) { return a - b; });
+        var mid = Math.floor(sorted.length / 2);
+        var m = sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+        median.style.left = pos(m) + '%';
+        median.querySelector('span').textContent = 'Median ' + (Math.round(m * 10) / 10);
+        median.classList.add('on');
+      } else median.classList.remove('on');
+    }
+    truth.style.left = pos(A.truth) + '%';
+    truth.querySelector('.est-truth-label').textContent = A.truthLabel;
+    s.querySelector('.est-answer').textContent = A.answer;
+    s.querySelector('.est-source').textContent = 'Source: ' + A.source;
+    function reveal() {
+      truth.classList.add('visible'); result.classList.add('visible');
+      btn.disabled = true; store.revealed = true; save();
+    }
+    btn.addEventListener('click', reveal);
+    if (store.revealed) reveal();
+    draw();
+    revealFns[id] = reveal;
+    worstFns[id] = function () {
+      inputs.forEach(function (inp, i) { inp.value = i % 2 ? A.max : A.min; inp.dispatchEvent(new Event('input')); });
+      reveal();
+      if (timers[id]) timers[id].expire();
+    };
+  })();
+
+  /* ---------- Predict and reveal (slides 5, 7, 9, 11) ---------- */
+
+  function predict(id) {
+    var A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var body = s.querySelector('.s-body');
+    body.innerHTML =
+      '<div class="pred-left">' +
+        '<div class="effect-card"><span class="card-name">The effect</span><p>' + esc(A.effect) + '</p><p class="micro">' + esc(A.effectSource) + '</p></div>' +
+        '<p class="pred-question">' + esc(A.question) + '</p>' +
+        '<p class="pred-ask">Type A, B, C or D in the chat</p>' +
+        '<div class="pred-outcome" aria-live="polite"><span class="card-name" style="color: var(--text)">The answer</span><p>' + esc(A.outcome) +
+          '</p><p class="micro">Source: ' + esc(A.source) + '</p><div class="pred-whys"></div><p class="follow">' + esc(A.followUp) + '</p></div>' +
+      '</div>' +
+      '<div class="pred-right">' +
+        '<div class="tally" data-tally="round1"></div>' +
+        '<div class="pred-actions">' +
+          '<button class="btn" type="button" data-action="lock">Lock predictions</button>' +
+          '<button class="btn ghost" type="button" data-action="reveal" disabled>Reveal answer</button>' +
+          '<span class="pred-status"></span>' +
+        '</div>' +
+      '</div>';
+    var store = act(id);
+    var tally = makeTally(body.querySelector('[data-tally="round1"]'), id, 'round1', A.options.map(function (o) { return o.text; }), { withText: true });
+    var whys = body.querySelector('.pred-whys');
+    var answer = 0;
+    A.options.forEach(function (o, i) {
+      if (o.correct) answer = i;
+      else whys.appendChild(el('p', null, '<strong>' + LETTERS[i] + '</strong>' + esc(o.why)));
+    });
+    tally.rows[answer].classList.add('key-answer');
+    var lockBtn = body.querySelector('[data-action="lock"]');
+    var revBtn = body.querySelector('[data-action="reveal"]');
+    var status = body.querySelector('.pred-status');
+    function lock() {
+      tally.lock(true);
+      lockBtn.disabled = true;
+      revBtn.disabled = false;
+      status.textContent = 'Predictions locked';
+      store.locked = true; save();
+    }
+    function reveal() {
+      if (!store.locked) lock();
+      body.querySelector('.pred-outcome').classList.add('visible');
+      tally.rows[answer].classList.add('is-answer');
+      revBtn.disabled = true;
+      status.textContent = 'Answer shown';
+      store.revealed = true; save();
+    }
+    lockBtn.addEventListener('click', lock);
+    revBtn.addEventListener('click', reveal);
+    if (store.locked) lock();
+    if (store.revealed) reveal();
+    revealFns[id] = function () { if (!store.locked) lock(); else reveal(); };
+    worstFns[id] = function () {
+      if (!store.locked) tally.fill(999);
+      reveal();
+      if (timers[id]) timers[id].expire();
+    };
+  }
+  ['s-pred-reinforce', 's-pred-reward', 's-pred-compare', 's-pred-pressure'].forEach(predict);
+
+  /* ---------- Annotated models (slides 6, 8, 10, 12) ---------- */
+
+  function annotate(id) {
+    var A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var layer = s.querySelector('.ai-layer');
+    var legend = s.querySelector('.ai-legend');
+    var parts = A.parts.map(function (p, i) {
+      var colour = PART_COLOURS[i % PART_COLOURS.length];
+      var vars = '--part-color: ' + colour + '; --part-on: ' + onFor(colour) + '; --x: ' + p.box.x + '; --y: ' + p.box.y + '; --w: ' + p.box.w + '; --h: ' + p.box.h + ';';
+      var region = el('div', 'ai-region');
+      region.setAttribute('style', vars);
+      region.setAttribute('aria-hidden', 'true');
+      layer.appendChild(region);
+      var bracket = el('div', 'ai-bracket');
+      bracket.setAttribute('style', vars);
+      bracket.setAttribute('aria-hidden', 'true');
+      layer.appendChild(bracket);
+      var mark = el('button', 'ai-mark', String(i + 1));
+      mark.type = 'button';
+      mark.setAttribute('style', vars);
+      mark.setAttribute('aria-label', 'Part ' + (i + 1) + ': ' + p.name);
+      mark.addEventListener('click', function () { select(i); });
+      layer.appendChild(mark);
+      var item = el('button', 'ai-item');
+      item.type = 'button';
+      item.setAttribute('style', vars);
+      item.setAttribute('aria-pressed', 'false');
+      item.innerHTML = '<span class="num">' + (i + 1) + '</span><span class="txt"><strong>' + esc(p.name) + '</strong>' + esc(p.text) + '</span>';
+      item.addEventListener('click', function () { select(i); });
+      legend.appendChild(item);
+      return { region: region, mark: mark, item: item };
+    });
+    var sel = -1;
+    function select(i) {
+      sel = (sel === i) ? -1 : i;
+      parts.forEach(function (p, j) {
+        var on = j === sel;
+        p.region.classList.toggle('selected', on);
+        p.mark.classList.toggle('selected', on);
+        p.item.classList.toggle('selected', on);
+        p.item.setAttribute('aria-pressed', String(on));
+      });
+    }
+    revealFns[id] = function () { select(sel + 1 >= parts.length ? 0 : sel + 1); };
+    numberFns[id] = function (n) { if (parts[n]) select(n); };
+    worstFns[id] = function () { sel = -1; select(parts.length - 1); };
+  }
+  ['s-feed', 's-like', 's-curated', 's-ticks'].forEach(annotate);
+
+  /* ---------- Slide 14: chain, one link at a time ---------- */
+
+  (function () {
+    var id = 's-chain';
+    var s = document.getElementById(id);
+    var nodes = s.querySelectorAll('.chain-node');
+    var links = s.querySelectorAll('.chain-link');
+    var btn = s.querySelector('[data-action="next-link"]');
+    var shown = 1;
+    function draw() {
+      nodes.forEach(function (n, i) { n.classList.toggle('pending', i >= shown); });
+      links.forEach(function (l, i) { l.classList.toggle('pending', i >= shown - 1); });
+      btn.disabled = shown >= nodes.length;
+    }
+    function next() { if (shown < nodes.length) { shown++; draw(); } }
+    btn.addEventListener('click', next);
+    draw();
+    revealFns[id] = next;
+    worstFns[id] = function () { shown = nodes.length; draw(); };
+  })();
+
+  /* ---------- Slide 18: take a side ---------- */
+
+  (function () {
+    var id = 's-side', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var store = act(id);
+    var colours = ['var(--accent-4)', 'var(--accent-1)', 'var(--accent-5)'];
+    var letters = A.options.map(function (o) { return o.charAt(0).toUpperCase(); });
+    var before = makeTally(s.querySelector('[data-tally="round1"]'), id, 'round1', A.options, { colours: colours, letters: letters });
+    var after = makeTally(s.querySelector('[data-tally="round2"]'), id, 'round2', A.options, {
+      colours: colours, letters: letters, ghost: true
+    });
+    function syncGhost() { after.ghost(before.counts); }
+    s.querySelector('[data-tally="round1"]').addEventListener('input', syncGhost);
+    s.querySelector('[data-tally="round1"]').addEventListener('click', syncGhost);
+    var order = [];
+    var cols = { 'for': s.querySelector('[data-side="for"]'), against: s.querySelector('[data-side="against"]') };
+    for (var i = 0; i < Math.max(A['for'].length, A.against.length); i++) {
+      ['for', 'against'].forEach(function (side) {
+        var a = A[side][i];
+        if (!a) return;
+        var card = el('div', 'arg reveal-anim', '<p>' + esc(a.text) + '</p><p class="micro">' + esc(a.source) + '</p>');
+        cols[side].appendChild(card);
+        order.push(card);
+      });
+    }
+    var btn = s.querySelector('[data-action="next-arg"]');
+    var rounds = s.querySelectorAll('.side-round');
+    if (typeof store.shown !== 'number') store.shown = 0;
+    var tallies = s.querySelectorAll('.side-right .tally');
+    var sideStatus = s.querySelector('.side-status');
+    function draw() {
+      order.forEach(function (c, i) { c.classList.toggle('visible', i < store.shown); });
+      btn.disabled = store.shown >= order.length;
+      var afterActive = store.shown >= order.length;
+      rounds[0].classList.toggle('off', afterActive);
+      tallies[0].classList.toggle('off', afterActive);
+      rounds[1].classList.toggle('off', !afterActive);
+      tallies[1].classList.toggle('off', !afterActive);
+      sideStatus.textContent = afterActive ? 'Vote 2 now' : store.shown + ' of ' + order.length;
+      syncGhost();
+    }
+    function next() { if (store.shown < order.length) { store.shown++; save(); draw(); } }
+    btn.addEventListener('click', next);
+    draw();
+    revealFns[id] = next;
+    numberFns[id] = function (n, minus) {
+      var t = store.shown >= order.length ? after : before;
+      t.step(n, minus ? -1 : 1);
+      syncGhost();
+    };
+    worstFns[id] = function () {
+      before.fill(999); after.fill(999);
+      store.shown = order.length; save(); draw();
+      if (timers[id]) timers[id].expire();
+    };
+  })();
+
+  /* ---------- Slide 20: exit ticket and print sheets ---------- */
+
+  (function () {
+    var id = 's-exit', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var grid = s.querySelector('.exit-grid');
+    var colours = ['var(--accent-6)', 'var(--accent-4)', 'var(--accent-8)'];
+    var names = ['Notice', 'Ask', 'Decide'];
+    A.prompts.forEach(function (p, i) {
+      var c = el('div', 'exit-card');
+      c.style.setProperty('--card-color', colours[i % 3]);
+      c.innerHTML = '<span class="card-name">' + (i + 1) + ' &middot; ' + names[i % 3] + '</span><p>' + esc(p) + '</p><div class="lines"></div>';
+      grid.appendChild(c);
+    });
+    var sheets = document.querySelector('.exit-sheets');
+    var pageEl = el('div', 'exit-page');
+    for (var k = 0; k < 4; k++) {
+      var card = el('div', 'a6');
+      var html = '<div class="a6-title">Exit ticket &middot; The Attention Trap</div>';
+      A.prompts.forEach(function (p) { html += '<div class="a6-q">' + esc(p) + '</div><div class="a6-lines"></div>'; });
+      card.innerHTML = html;
+      pageEl.appendChild(card);
+    }
+    sheets.appendChild(pageEl);
+    worstFns[id] = function () { if (timers[id]) timers[id].expire(); };
+  })();
+
+  /* ---------- Navigation ---------- */
+
+  function show(n, fromHash) {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides.forEach(function (s) { s.classList.remove('active'); });
+    slides[n].classList.add('active');
+    current = n;
+    var accent = slides[n].getAttribute('data-accent') || 'var(--accent-1)';
+    document.documentElement.style.setProperty('--slide-accent', accent);
+    var prog = document.getElementById('progress');
+    prog.style.width = ((n + 1) / total * 100) + '%';
+    prog.style.background = accent;
+    document.getElementById('nav-info').textContent = String(n + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.getElementById('prev-btn').disabled = n === 0;
+    document.getElementById('next-btn').disabled = n === total - 1;
+    if (runningTimer) runningTimer.draw();
+    if (!fromHash) {
+      try { history.replaceState(null, '', '#' + (n + 1)); } catch (err) { location.hash = String(n + 1); }
+    }
+    window.scrollTo(0, 0);
+  }
+  function go(d) { show(current + d); }
+  function fromHash() {
+    var m = /^#(\d+)$/.exec(location.hash);
+    return m ? parseInt(m[1], 10) - 1 : 0;
+  }
+  window.addEventListener('hashchange', function () { var n = fromHash(); if (n !== current) show(n, true); });
+  document.getElementById('prev-btn').addEventListener('click', function () { go(-1); });
+  document.getElementById('next-btn').addEventListener('click', function () { go(1); });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+    else if (document.exitFullscreen) document.exitFullscreen();
+  }
+
+  /* ---------- Responses menu ---------- */
+
+  var respBtn = document.getElementById('resp-btn');
+  var respMenu = document.getElementById('resp-menu');
+  function updateRespNote() {
+    var note = document.getElementById('resp-note');
+    if (storageOK) { note.textContent = 'Responses save automatically in this browser.'; note.classList.remove('warn'); }
+    else { note.textContent = 'Storage is unavailable: responses will not persist after this page closes. Export before closing.'; note.classList.add('warn'); }
+  }
+  updateRespNote();
+  function closeMenu() { respMenu.classList.remove('open'); respBtn.setAttribute('aria-expanded', 'false'); }
+  respBtn.addEventListener('click', function () {
+    var open = !respMenu.classList.contains('open');
+    respMenu.classList.toggle('open', open);
+    respBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.getElementById('export-btn').addEventListener('click', function () {
+    state.savedAt = new Date().toISOString();
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'standalone-' + DECK_ID + '-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  var fileInput = document.getElementById('import-file');
+  document.getElementById('import-btn').addEventListener('click', function () { fileInput.click(); });
+  fileInput.addEventListener('change', function () {
+    var f = fileInput.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var data = JSON.parse(reader.result);
+        if (!data || !data.activities) throw new Error('No activities');
+        if (!window.confirm('Replace the current responses with the imported file?')) return;
+        state = data; save(); location.reload();
+      } catch (err) { window.alert('That file could not be read as responses for this deck.'); }
+    };
+    reader.readAsText(f);
+    fileInput.value = '';
+  });
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!window.confirm('Clear all recorded responses for this deck? This cannot be undone.')) return;
+    state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+    try { window.localStorage.removeItem(STORE_KEY); } catch (err) { /* storage unavailable */ }
+    location.reload();
+  });
+
+  /* ---------- Keyboard ---------- */
+
+  var blackout = document.getElementById('blackout');
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    var typing = t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+    if (typing && e.key !== 'Escape') return;
+    if (t.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    if (blackout.classList.contains('on')) { e.preventDefault(); blackout.classList.remove('on'); return; }
+
+    var id = slides[current].id;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); go(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(total - 1); }
+    else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+    else if (k === 'b' || k === 'B' || k === '.') { e.preventDefault(); blackout.classList.add('on'); }
+    else if (k === 'Escape') { closeMenu(); if (typing) t.blur(); }
+    else if (k === 'r' || k === 'R') { if (revealFns[id]) { e.preventDefault(); revealFns[id](); } }
+    else if (k === 't' || k === 'T') {
+      if (timers[id]) { e.preventDefault(); if (e.shiftKey) timers[id].reset(); else timers[id].toggle(); }
+    }
+    else if (/^Digit[1-9]$/.test(e.code)) {
+      var n = parseInt(e.code.slice(5), 10) - 1;
+      if (numberFns[id]) { e.preventDefault(); numberFns[id](n, e.shiftKey); return; }
+      var rows = slides[current].querySelectorAll('.tally-row');
+      if (rows[n]) {
+        e.preventDefault();
+        var btns = rows[n].querySelectorAll('.tally-step');
+        var b = e.shiftKey ? btns[0] : btns[1];
+        if (!b.disabled) b.click();
+      }
+    }
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#resp-menu') && e.target !== respBtn) closeMenu();
+  });
+
+  /* ---------- Idle-hiding chrome ---------- */
+
+  (function () {
+    var chrome = document.getElementById('chrome');
+    var h;
+    function wake() {
+      chrome.classList.remove('idle');
+      clearTimeout(h);
+      h = setTimeout(function () { if (!respMenu.classList.contains('open')) chrome.classList.add('idle'); }, 2500);
+    }
+    ['mousemove', 'keydown', 'touchstart', 'click'].forEach(function (evt) { document.addEventListener(evt, wake); });
+    wake();
+  })();
+
+  /* ---------- Test hooks for tests/verify-deck.mjs ---------- */
+
+  window.DECK = {
+    show: show,
+    current: function () { return current; },
+    reveal: function (id) { if (revealFns[id]) revealFns[id](); },
+    storageOK: function () { return storageOK; },
+    state: function () { return state; },
+    worst: function (id) { if (worstFns[id]) worstFns[id](); },
+    selectPart: function (id, n) { if (numberFns[id]) numberFns[id](n); }
+  };
+
+  show(fromHash(), true);
+})();
+</script>
+</body>
+</html>
