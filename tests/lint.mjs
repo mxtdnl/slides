@@ -73,7 +73,11 @@ for (const file of files) {
     if (!/^(0|0px|0rem|50%)$/.test(v)) fail(file, `border-radius value "${v}"`);
   });
 
-  // 5. Decks are linked from index.html and listed in CLAUDE.md Files
+  // 5. Favicon: the two <link rel="icon"> tags match index.html exactly
+  const icons = (html) => (html.match(/<link\b[^>]*rel=["']icon["'][^>]*>/gi) || []).join('\n');
+  if (!icons(src) || icons(src) !== icons(indexHtml)) fail(file, 'favicon <link rel="icon"> tags missing or different from index.html');
+
+  // 6. Decks are linked from index.html and listed in CLAUDE.md Files
   const isDeck = /^(courses\/[^/]+|standalone)\/[^/]+\.html$/.test(file);
   if (isDeck) {
     if (!indexHtml.includes(`href="${file}"`)) fail(file, 'not linked from index.html');
@@ -87,7 +91,7 @@ for (const file of files) {
   }
 }
 
-// 6. Every course folder has a COURSE.md
+// 7. Every course folder has a COURSE.md
 const coursesDir = join(ROOT, 'courses');
 if (existsSync(coursesDir)) {
   for (const name of readdirSync(coursesDir)) {
