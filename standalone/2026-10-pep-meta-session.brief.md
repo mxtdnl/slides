@@ -16,7 +16,7 @@
 
 ## Content
 - Frameworks and exact terms: Attached PDFs
-- Sources approved for citation on slides: All references in attached PDFs
+- Sources approved for citation on slides: All references in attached PDFs (Montag, Lachmann, Herrlich and Zweig, 2019; Amirthalingam and Khera, 2024); the case: "How the $17 Billion Meta Settlement Could Reshape Mental Health Research and Policy in the Digital Age", Public Health On Call Q&A with Johannes Thrul and Tamar Mendelson, Johns Hopkins Bloomberg School of Public Health, 16 September 2026
 - Facts or examples that must not be used: None
 
 ## Voice
