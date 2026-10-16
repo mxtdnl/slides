@@ -488,6 +488,17 @@ p { font-size: 1.85rem; }
 .side-actions { display: flex; gap: 1rem; align-items: center; margin-top: 0.4rem; }
 .side-actions .btn { white-space: nowrap; }
 
+/* ---------- Poll ---------- */
+
+.poll-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.6rem; height: 100%; }
+.poll-options { display: flex; flex-direction: column; gap: 1.8rem; justify-content: center; }
+.poll-opt { display: grid; grid-template-columns: 7rem 1fr; background: var(--bg-card); border: 0.2rem solid var(--border); min-height: 12rem; }
+.poll-letter { background: var(--opt); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 4rem; font-weight: 800; }
+.poll-text { padding: 1.6rem 2rem; display: flex; flex-direction: column; justify-content: center; gap: 0.5rem; }
+.poll-text .label { color: var(--label); }
+.poll-text p { font-size: 2rem; font-weight: 700; line-height: 1.3; }
+.poll-side { display: flex; flex-direction: column; justify-content: center; gap: 2rem; }
+
 /* ---------- Close and bridge ---------- */
 
 .close-grid { align-items: center; height: 100%; }
@@ -547,7 +558,7 @@ p { font-size: 1.85rem; }
   .hero > div { min-width: 0; }
   .s-head.is-activity { grid-template-columns: 1fr; row-gap: 1.2rem; }
   .timer { justify-self: start; }
-  .g-2, .g-3, .g-7-5, .g-5-7, .ai-portrait, .side-grid, .side-cols, .fact-strip { grid-template-columns: 1fr; }
+  .g-2, .g-3, .g-7-5, .g-5-7, .ai-portrait, .side-grid, .poll-grid, .side-cols, .fact-strip { grid-template-columns: 1fr; }
   .hero-mark { display: none; }
   .chain { grid-template-columns: 1fr; }
   .chain-links { display: none; }
@@ -561,7 +572,7 @@ p { font-size: 1.85rem; }
   .pred-outcome.visible { display: flex; }
   .tally-row.with-text { grid-template-columns: 44px 1fr; }
   .tally-row.with-text .tally-controls { grid-column: 2 / -1; }
-  .outcome-list, .lag-rows, .panel-card, .fill, .hero, .close-grid, .side-grid { height: auto; }
+  .outcome-list, .lag-rows, .panel-card, .fill, .hero, .close-grid, .side-grid, .poll-grid { height: auto; }
 }
 
 /* ---------- Print: one slide per A4 page, light palette on paper ---------- */
@@ -591,13 +602,13 @@ p { font-size: 1.85rem; }
   .pred-actions, .side-actions, .chain-note .btn, .est-entry, .tally-track, .tally-pct { display: none !important; }
   .rail, .s-head::before, .act-tag, .tally-letter, .map-seg, .outcome-num, .chain-node, .dir-band, .card, .effect-card,
   .ai-item, .ai-item .num, .ai-mark, .ai-bracket, .phone, .phone *, .fact, .case-card, .lag-num, .panel-card, .side-head,
-  .arg, .bridge-card, .close-block, .exit-card, .est-axis, .est-truth, .est-pip, .pep-tags span, .pred-outcome {
+  .arg, .bridge-card, .close-block, .exit-card, .poll-letter, .est-axis, .est-truth, .est-pip, .pep-tags span, .pred-outcome {
     print-color-adjust: exact; -webkit-print-color-adjust: exact;
   }
   .s-head { margin-bottom: 1.2rem; }
   h2 { font-size: 3rem; }
   .grid { gap: 1.8rem; }
-  .hero, .fill, .close-grid, .outcome-list, .ai-portrait, .lag-rows, .panel-card, .side-grid { height: auto; }
+  .hero, .fill, .close-grid, .outcome-list, .ai-portrait, .lag-rows, .panel-card, .side-grid, .poll-grid { height: auto; }
   .outcome-list { gap: 2rem; }
   .map-seg, .map-seg.current, .chain-node { min-height: 0; }
   .chain { grid-template-columns: 1fr 1fr; }
@@ -1187,7 +1198,32 @@ p { font-size: 1.85rem; }
     <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-2); opacity: 0.1; top: -9rem; left: 50rem"></div>
   </section>
 
-  <!-- ============ 20. EXIT TICKET ============ -->
+  <!-- ============ 20. POLL: WHAT NEXT ============ -->
+  <section class="slide" id="s-poll" data-accent="var(--accent-6)" data-archetype="claim-tally">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Poll &middot; 30 sec</span>
+          <h2>How would you like to explore this further?</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-poll" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body poll-grid" data-activity="claim-tally">
+        <div class="poll-options"></div>
+        <div class="poll-side">
+          <div class="side-do"><span class="label">Vote in the chat</span><p>Type A or B.</p></div>
+          <div class="tally" data-tally="round1"></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">A preference poll: there is no right answer, and the room sees only the split. Ask everyone to type A or B in the chat and tally with keys 1 and 2. A puts them in the role of governments and courts regulating social media companies; B puts them in the role of the companies competing against one another. Note the split for planning what comes next. About 30 seconds.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.08; bottom: -11rem; left: 32rem; transform: rotate(24deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.12; top: -9rem; left: 44rem"></div>
+  </section>
+
+  <!-- ============ 21. EXIT TICKET ============ -->
   <section class="slide" id="s-exit" data-accent="var(--accent-1)" data-archetype="exit-ticket">
     <div class="rail"></div>
     <div class="slide-no"></div>
@@ -1442,7 +1478,17 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 20. Exit ticket prompts. The same prompts print on the A6 cards.
+  // Slide 20. Poll on how to explore the topic further. A preference: no answer is ever shown.
+  's-poll': {
+    pattern: 'claim-tally',
+    minutes: 0.5,
+    options: [
+      { label: 'The regulators', text: "Take on the role of the government and the courts in regulating social media companies" },
+      { label: 'The companies', text: "Take on the role of social media companies competing against one another" }
+    ]
+  },
+
+  // Slide 21. Exit ticket prompts. The same prompts print on the A6 cards.
   's-exit': {
     pattern: 'exit-ticket',
     minutes: 1,
@@ -1949,7 +1995,24 @@ const ACTIVITIES = {
     };
   })();
 
-  /* ---------- Slide 20: exit ticket and print sheets ---------- */
+  /* ---------- Slide 20: poll ---------- */
+
+  (function () {
+    var id = 's-poll', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var colours = ['var(--accent-1)', 'var(--accent-6)'];
+    var list = s.querySelector('.poll-options');
+    A.options.forEach(function (o, i) {
+      var row = el('div', 'poll-opt');
+      row.style.setProperty('--opt', colours[i % 2]);
+      row.innerHTML = '<span class="poll-letter" aria-hidden="true">' + LETTERS[i] + '</span><div class="poll-text"><span class="label">' + LETTERS[i] + ' &middot; ' + esc(o.label) + '</span><p>' + esc(o.text) + '</p></div>';
+      list.appendChild(row);
+    });
+    var tally = makeTally(s.querySelector('[data-tally="round1"]'), id, 'round1', A.options.map(function (o) { return o.label; }), { colours: colours });
+    worstFns[id] = function () { tally.fill(999); if (timers[id]) timers[id].expire(); };
+  })();
+
+  /* ---------- Slide 21: exit ticket and print sheets ---------- */
 
   (function () {
     var id = 's-exit', A = ACTIVITIES[id];

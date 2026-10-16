@@ -258,7 +258,7 @@ else {
   const after = await page.evaluate(() => window.DECK.state().activities);
   const hookId = slides[hook].id, boardId = board >= 0 ? slides[board].id : null;
   const boardOK = (st) => !boardId || (st[boardId] && st[boardId].entries.length === 1);
-  const okReload = after[hookId] && after[hookId].round1.join(',').startsWith('2,1,0') && boardOK(after);
+  const okReload = after[hookId] && after[hookId].round1.slice(0, 2).join(',') === '2,1' && after[hookId].round1.slice(2).every((v) => v === 0) && boardOK(after);
   log(`Reload keeps tally${boardId ? ' and board' : ''}: ${okReload ? 'yes' : 'NO'}`);
   if (!okReload) fail('PERSISTENCE', 'tally or board did not survive a reload');
 
