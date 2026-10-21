@@ -766,7 +766,7 @@ p { font-size: 1.85rem; }
       </header>
       <div class="s-body">
         <div class="map-band"></div>
-        <div class="map-next"><span class="label">Now</span><p>Psychology: four effects, and the features built on them.</p></div>
+        <div class="map-next"><span class="label">Now</span><p>Psychology: let's examine four core effects</p></div>
       </div>
     </div>
     <aside class="notes">The running order. Psychology takes most of the time: four effects, each with a question and then a look at the feature that uses it. Then a short look at the money, and then the politics: the settlement and a debate. About 15 seconds.</aside>
@@ -832,7 +832,7 @@ p { font-size: 1.85rem; }
       <header class="s-head is-activity">
         <div>
           <span class="act-tag">Effect 2 &middot; Predict and reveal &middot; 1 min</span>
-          <h2>Social reward</h2>
+          <h2>Reward processing</h2>
         </div>
         <button class="timer" type="button" data-timer="s-pred-reward" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
       </header>
@@ -884,7 +884,7 @@ p { font-size: 1.85rem; }
       <header class="s-head is-activity">
         <div>
           <span class="act-tag">Effect 3 &middot; Predict and reveal &middot; 1 min</span>
-          <h2>Social comparison</h2>
+          <h2>Social comparison theory</h2>
         </div>
         <button class="timer" type="button" data-timer="s-pred-compare" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
       </header>
@@ -937,7 +937,7 @@ p { font-size: 1.85rem; }
       <header class="s-head is-activity">
         <div>
           <span class="act-tag">Effect 4 &middot; Predict and reveal &middot; 1 min</span>
-          <h2>Social pressure and defaults</h2>
+          <h2>Social pressure; response to defaults</h2>
         </div>
         <button class="timer" type="button" data-timer="s-pred-pressure" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
       </header>
@@ -1328,11 +1328,11 @@ const ACTIVITIES = {
   's-feed': {
     pattern: 'annotated-model',
     parts: [
-      { name: 'No bottom', text: "New posts keep loading, so the feed never reaches a natural stopping point.",
+      { name: 'No bottom', text: "New posts keep loading, so the feed never reaches a natural stopping point avoiding 'temporal barriers'.",
         box: { x: 0.02, y: 0.87, w: 0.96, h: 0.125 } },
-      { name: 'Random payoff', text: "Most posts are ordinary. Now and then one is funny or interesting, and that keeps you scrolling.",
+      { name: 'Random payoff', text: "Most posts are ordinary. Now and then one is funny or interesting, and that keeps you scrolling. This is the variation in stimulus that results in reward.",
         box: { x: 0.02, y: 0.335, w: 0.96, h: 0.29 } },
-      { name: 'Autoplay', text: "When one video ends the next begins, so there is no moment to decide to stop.",
+      { name: 'Autoplay', text: "When one video/story ends on a timer, the next begins, so there is no moment to decide to stop.",
         box: { x: 0.02, y: 0.615, w: 0.96, h: 0.27 } }
     ]
   },
@@ -1341,7 +1341,7 @@ const ACTIVITIES = {
   's-pred-reward': {
     pattern: 'predict',
     minutes: 0.5,
-    effect: "Positive feedback from other people is processed as a reward: brain areas involved in processing rewards respond to it.",
+    effect: "Various systems of the brain push us to act in reward-seeking manners. Positive feedback from other people is processed as a reward: brain areas involved in processing rewards respond to it.",
     effectSource: "Montag et al. (2019), section 3.5.",
     question: "Which feature uses this effect?",
     options: [
@@ -1366,11 +1366,11 @@ const ACTIVITIES = {
   's-like': {
     pattern: 'annotated-model',
     parts: [
-      { name: 'The Like button', text: "One tap gives another person positive feedback. It was co-developed by Justin Rosenstein, a former Facebook worker.",
+      { name: 'The Like button', text: "One tap gives another person positive feedback and a social reward. It was co-developed by Justin Rosenstein, a former Facebook worker.",
         box: { x: 0.02, y: 0.635, w: 0.4, h: 0.1 } },
-      { name: 'The count', text: "Photos shown with many Likes produced stronger activity in the brain's reward area than with few.",
+      { name: 'The count', text: "Photos shown with many Likes (and given earlier) produced stronger activity in the brain's reward system (mesolimbic and mesocortical pathways) than with few.",
         box: { x: 0.02, y: 0.73, w: 0.96, h: 0.1 } },
-      { name: 'The alert', text: "Notifications about new Likes create a sense of urgency that pulls you back to check.",
+      { name: 'The alert', text: "Notifications about new Likes create a sense of urgency that pulls you back to check and build a conditioned response to potential reward.",
         box: { x: 0.02, y: 0.02, w: 0.96, h: 0.1 } }
     ]
   },
@@ -1379,18 +1379,18 @@ const ACTIVITIES = {
   's-pred-compare': {
     pattern: 'predict',
     minutes: 0.5,
-    effect: "We judge ourselves by comparing ourselves with other people: their looks, their lives, their success. When the comparison goes badly, self-esteem can fall.",
+    effect: "We use social information and comparisons to assess ourselves; paying more attention to information about social indicators displayed by others in comparison to ourselves",
     effectSource: "Montag et al. (2019), citing Vogel et al. (2014); Amirthalingam and Khera (2024).",
     question: "Which feature uses this effect?",
     options: [
-      { text: "A feed of other people's best photos", correct: true,
+      { text: "A feed of other people's selected photos", correct: true,
         why: "Carefully chosen photos and idealised lives invite comparison, which can bring feelings of inadequacy." },
       { text: "Autoplay that starts the next video", correct: false,
         why: "Autoplay keeps you watching without setting you against anyone.",
         misconception: "Any feature that holds attention works through comparison" },
-      { text: "No notifications during school hours", correct: false,
-        why: "This settlement measure only limits interruptions.",
-        misconception: "Every feature in the app is designed to keep you in it" },
+      { text: "Displayed follower and following counts", correct: false,
+        why: "A context-dependent factor",
+        misconception: "Perceptions of following/follower counts influence comparison" },
       { text: "A search bar for finding friends", correct: false,
         why: "Search finds people without ranking you against them.",
         misconception: "Seeing other people is the same as comparing yourself with them" }
@@ -1404,7 +1404,7 @@ const ACTIVITIES = {
   's-curated': {
     pattern: 'annotated-model',
     parts: [
-      { name: 'Curated photos', text: "Carefully chosen pictures of idealised lives make comparison easy, and rarely fair.",
+      { name: 'Curated photos', text: "Carefully chosen pictures of idealised lives make comparison easy, and rarely fair, with often harsh self-criticism compared to careful curation",
         box: { x: 0.03, y: 0.21, w: 0.94, h: 0.54 } },
       { name: 'Visible counts', text: "Likes and follower numbers show how others are perceived, so you can rank yourself against them.",
         box: { x: 0.03, y: 0.1, w: 0.94, h: 0.1 } },
@@ -1417,7 +1417,7 @@ const ACTIVITIES = {
   's-pred-pressure': {
     pattern: 'predict',
     minutes: 0.5,
-    effect: "We feel pressure to meet what others expect of us, such as a quick reply. And most people never change a default setting: whatever comes switched on usually stays on.",
+    effect: "We feel pressure to meet what we perceive others to expect of us. And most people never change a default setting: whatever comes switched on usually stays on.",
     effectSource: "Montag et al. (2019), section 3.3.",
     question: "Which feature uses these effects?",
     options: [
@@ -1444,7 +1444,7 @@ const ACTIVITIES = {
     parts: [
       { name: 'Delivered', text: "Two grey ticks: the message has reached the other person's phone.",
         box: { x: 0.6, y: 0.33, w: 0.38, h: 0.07 } },
-      { name: 'Read', text: "The ticks change colour once it is read. Now both of you expect a fast reply.",
+      { name: 'Read', text: "The ticks change colour once it is read. Now both of you expect a fast reply. Our perception of the relationship is altered by our perception here",
         box: { x: 0.6, y: 0.61, w: 0.38, h: 0.07 } },
       { name: 'On by default', text: "The function comes switched on, and most users do not know they can turn it off.",
         box: { x: 0.02, y: 0.765, w: 0.96, h: 0.17 } }
