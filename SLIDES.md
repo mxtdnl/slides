@@ -195,7 +195,7 @@ Twenty-five patterns in four families. Choose the archetype from the idea the sl
 | 22 | Case vignette | Evidence | A concrete case to reason about | specified | `standalone/2026-10-pep-meta-session.html` slide 16 (fact strip with three cards, no discussion questions) |
 | 23 | Worked example | Evidence | A solution shown step by step | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 19 |
 | 24 | Claim and correction | Evidence | A common misconception set against the evidence | specified | |
-| 25 | Annotated image | Evidence | A screenshot or supplied illustration whose parts need naming | specified | `standalone/2026-10-frontier-briefing.html` slides 7, 13, 14 (portrait), 12 (landscape), 15 (strip) |
+| 25 | Annotated image | Evidence | A screenshot or supplied illustration whose parts need naming | specified | `standalone/2026-10-feed-briefing.html` slides 7, 13, 14 (portrait), 12 (landscape), 15 (strip) |
 
 ### Framing
 
