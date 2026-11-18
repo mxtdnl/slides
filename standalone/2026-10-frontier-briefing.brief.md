@@ -2,7 +2,7 @@
 
 ## Occasion
 - Event, host and date: class session that runs the FRONTIER simulation; shown before play, after the room has arrived and before anyone joins; date not supplied (file dated 2026-10 as assumed first delivery)
-- Format and length: about a 10-minute briefing (Part 1), followed by the session itself (35 to 60 minutes of quarters) and a 20 to 30 minute debrief run from the app's results screen; the deck's Part 2 (five debrief slides on the tragedy of the commons) is shown only after the results screen
+- Format and length: about a 10-minute briefing (Part 1), followed by the session itself (35 to 60 minutes of quarters) and a 20 to 30 minute debrief run from the app's results screen; the deck's Part 2 (six debrief slides on the tragedy of the commons, written for a room with no prior knowledge of the idea, opening with two illustrated slides that use round illustrative numbers rather than FRONTIER's parameters) is shown only after the results screen
 - Room and audience size: not supplied
 - Accent colour for this deck: `--accent-4` (gold)
 - Theme: dark

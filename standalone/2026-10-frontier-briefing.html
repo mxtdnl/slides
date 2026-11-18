@@ -366,6 +366,62 @@ p { font-size: 1.85rem; }
 .safety-card .label { display: block; color: var(--label); margin-bottom: 0.4rem; }
 .safety-card p { font-size: 1.75rem; line-height: 1.4; }
 
+/* ---------- Annotated model: the shared pool ---------- */
+
+.pool-grid { height: 100%; align-items: stretch; }
+.pool-col { display: flex; flex-direction: column; min-height: 0; }
+.pool-model { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.pool-label { color: var(--label); margin-bottom: 0.6rem; }
+.pool-tank { position: relative; height: 9rem; border: 0.4rem solid var(--accent-4); background: var(--bg-surface); flex-shrink: 0; }
+.pool-fill { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--level, 1) * 100%); background: var(--accent-4); transition: height 0.6s ease; }
+.pool-firms { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.6rem; }
+.pool-firm { --unit: 1.4rem; display: flex; flex-direction: column; align-items: center; }
+.pool-pipe { width: calc(var(--take, 1) * 0.8rem); height: 3.6rem; background: var(--firm); transition: width 0.3s ease; }
+.pool-name { width: 100%; background: var(--firm); color: #fff; text-align: center; padding: 0.8rem 0.4rem; font-size: 1.5rem; font-weight: 800; line-height: 1.2; }
+.pool-earn-label { align-self: flex-start; margin-top: 1.2rem; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.pool-earn { position: relative; align-self: stretch; height: 2.6rem; margin-top: 0.5rem; }
+.pool-ghost { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--start) * var(--unit)); border: 0.2rem dashed var(--text-muted); }
+.pool-bar { position: absolute; left: 0; top: 0.4rem; bottom: 0.4rem; width: calc(var(--earn) * var(--unit)); background: var(--firm); transition: width 0.6s ease; }
+.pool-num { align-self: flex-start; margin-top: 0.4rem; font-size: 2.8rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.pool-caption { margin-top: 1rem; }
+.pool-side { display: flex; flex-direction: column; justify-content: center; gap: 1.2rem; align-items: flex-start; }
+.pool-steps { display: flex; flex-direction: column; gap: 0.9rem; align-self: stretch; }
+.pool-step {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.4rem; align-items: start;
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.7rem solid var(--border); padding: 0.9rem 1.3rem;
+  visibility: hidden; opacity: 0; transform: translateY(0.4rem);
+  transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+.pool-step.visible { visibility: visible; opacity: 1; transform: none; }
+.pool-step.current { border-color: var(--text); border-left-color: var(--slide-accent); background: var(--bg-elevated); }
+.pool-step .num { width: 3.4rem; height: 3.4rem; display: flex; align-items: center; justify-content: center; background: var(--slide-accent); color: #fff; font-size: 1.6rem; font-weight: 800; }
+.pool-step h3 { font-size: 1.5rem; margin-bottom: 0.3rem; }
+.pool-step p { font-size: 1.45rem; line-height: 1.35; }
+
+/* ---------- Worked illustration: the arithmetic ---------- */
+
+.math-body { display: flex; flex-direction: column; }
+.math-intro { font-size: 1.85rem; line-height: 1.45; max-width: 84rem; }
+.math-intro strong { color: var(--label); }
+.math-rows { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.4rem; }
+.math-row {
+  display: grid; grid-template-columns: 17rem minmax(0, 1fr) minmax(0, 1.4fr) 18rem; gap: 2rem; align-items: center;
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--row-color); padding: 0.9rem 1.8rem;
+}
+.math-case { font-size: 1.85rem; font-weight: 800; line-height: 1.25; }
+.math-group .label { display: block; color: var(--text-muted); margin-bottom: 0.5rem; }
+.math-blocks { display: flex; gap: 0.5rem; }
+.math-block { width: 3.6rem; height: 3.6rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; }
+.math-block.gain { background: var(--accent-4); color: var(--dark-ink); }
+.math-block.cost { background: var(--accent-2); color: #fff; }
+.math-note { margin-top: 0.5rem; font-size: 1.3rem; line-height: 1.3; color: var(--text-muted); }
+.math-net { border: 0.3rem solid var(--text); padding: 0.5rem 1rem; text-align: center; }
+.math-net .label { display: block; color: var(--text-muted); }
+.math-net strong { display: block; font-size: 3.4rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.math-verdict { display: block; font-size: 1.3rem; font-weight: 700; line-height: 1.3; }
+.math-foot { margin-top: 1.2rem; display: flex; align-items: center; gap: 2.4rem; }
+.math-take { flex: 1; background: var(--accent-1); color: #fff; padding: 1rem 2rem; font-size: 2rem; font-weight: 800; line-height: 1.3; }
+
 /* ---------- Section divider ---------- */
 
 .slide.divider { background: var(--slide-accent); }
@@ -439,6 +495,10 @@ p { font-size: 1.85rem; }
   .card-grid { grid-template-rows: none; height: auto; }
   .hero-mark { display: none; }
   .slide.divider { min-height: 100vh; }
+  .math-row { grid-template-columns: 1fr; }
+  .math-foot { flex-direction: column; align-items: flex-start; }
+  .pool-firms { gap: 0.8rem; }
+  .pool-firm { --unit: 0.9rem; }
   .divider-num { font-size: 24rem; }
   .chain { grid-template-columns: 1fr; }
   .chain-links { display: none; }
@@ -474,7 +534,7 @@ p { font-size: 1.85rem; }
   .slide { position: relative; display: block !important; page-break-after: always; break-after: page; animation: none; overflow: hidden; }
   .slide-inner { height: auto; padding: 2.4rem 3rem 2rem 5rem; }
   .progress-track, .deck-chrome, .deco, .hero-mark, .blackout, .cmp-foot .btn, .divider-num { display: none !important; }
-  .rail, .s-head::before, .map-seg, .outcome-num, .num-head, .seq-block, .slide.divider, .def-card, .safety-control, .safety-card, .sr-fill, .sr-mark,
+  .rail, .s-head::before, .map-seg, .outcome-num, .num-head, .seq-block, .slide.divider, .def-card, .safety-control, .pool-tank, .pool-fill, .pool-pipe, .pool-name, .pool-bar, .pool-step .num, .math-row, .math-block, .math-take, .safety-card, .sr-fill, .sr-mark,
   .cmp-table thead th, .chain-node, .dir-band, .card, .act-card, .bridge-card, .next-block, .ai-wrap img,
   .ai-mark, .ai-bracket, .ai-item, .ai-item .num, .ai-step-cap, .ai-step-cap .num, .ai-region {
     print-color-adjust: exact; -webkit-print-color-adjust: exact;
@@ -490,7 +550,9 @@ p { font-size: 1.85rem; }
   .card-grid { height: auto; }
   .cmp-table tbody tr td span { opacity: 1 !important; }
   .cmp-table tbody tr td { background: var(--bg-card) !important; }
-  .reveal-anim { opacity: 1; transform: none; visibility: visible; }
+  .reveal-anim, .pool-step { opacity: 1; transform: none; visibility: visible; }
+  .pool-grid, .pool-model { height: auto; }
+  .math-foot .btn, .pool-side .btn { display: none !important; }
   .ai-step .ai-wrap, .strip-body .ai-step .ai-wrap { width: auto; height: 30rem; }
   /* Instructor print (?instructor): speaker notes beneath each slide */
   body.instructor .notes {
@@ -823,7 +885,55 @@ p { font-size: 1.85rem; }
     <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 10rem; left: 0; transform: rotate(-4deg)"></div>
   </section>
 
-  <!-- ============ 13. DEFINITION: THE TRAGEDY OF THE COMMONS ============ -->
+  <!-- ============ 13. ANNOTATED MODEL: THE SHARED POOL ============ -->
+  <section class="slide" id="s-pool" data-accent="var(--accent-1)" data-archetype="annotated-model">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">The idea in one picture</span>
+        <h2>Every firm earns from the same pool</h2>
+      </header>
+      <div class="s-body grid g-7-5 pool-grid" data-activity="reveal">
+        <div class="pool-col">
+          <div class="pool-model" role="img"></div>
+          <p class="micro pool-caption">In FRONTIER, the pool is public trust and taking more is a faster pace. Dashed outline: what each firm earned at the start. Round numbers, for illustration.</p>
+        </div>
+        <div class="pool-side">
+          <div class="pool-steps"></div>
+          <button class="btn" type="button" data-action="next-step">Next step</button>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">This slide assumes nobody has met the idea. Step 1: point to the pool at the top and the four firms beneath it. Each pipe is what a firm takes; each bar is what it earns. Before step 2, ask: if you ran Your firm, would you take more? Press r. Your firm gains, and the cost is spread over all four. Before step 3, ask: what will the other firms do now? Press r. Every firm takes more, the pool drains, and every firm, yours included, earns less than at the start. That is the tragedy of the commons. About 3 minutes.</aside>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.1; bottom: -10rem; right: 30rem"></div>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; top: -8rem; right: 10rem; transform: rotate(24deg)"></div>
+  </section>
+
+  <!-- ============ 14. WORKED ILLUSTRATION: THE ARITHMETIC ============ -->
+  <section class="slide" id="s-math" data-accent="var(--accent-3)" data-archetype="split-panel">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">The idea in numbers</span>
+        <h2>Taking more pays alone and loses together</h2>
+      </header>
+      <div class="s-body math-body" data-activity="reveal">
+        <p class="math-intro">Round numbers: taking more earns a firm <strong>2 extra</strong> and drains <strong>4</strong> from a pool that <strong>4 firms</strong> share.</p>
+        <div class="math-rows"></div>
+        <div class="math-foot">
+          <p class="math-take reveal-anim">What pays each firm alone leaves every firm worse off together.</p>
+          <button class="btn" type="button" data-action="next-step">Next step</button>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">The same story in numbers. Read the top line slowly: you keep all of your gain, but the 4 drained from the pool is split four ways, so you bear 1. Press r for the first row: alone, taking more leaves you 1 ahead, so it looks like the smart move. Press r for the second row: every firm reasons the same way, so you also absorb a share of every other firm's drain, and you end 2 behind. Press r for the takeaway. Ask: so why would any firm hold back on its own? Then move to the definition. About 3 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-8); opacity: 0.1; top: -11rem; right: 24rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; bottom: -8rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 15. DEFINITION: THE TRAGEDY OF THE COMMONS ============ -->
   <section class="slide" id="s-commons" data-accent="var(--accent-6)" data-archetype="definition">
     <div class="rail"></div>
     <div class="slide-no"></div>
@@ -853,7 +963,7 @@ p { font-size: 1.85rem; }
     <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-2); opacity: 0.1; bottom: -10rem; right: -6rem"></div>
   </section>
 
-  <!-- ============ 14. CHAIN: HOW IT PLAYED OUT ============ -->
+  <!-- ============ 16. CHAIN: HOW IT PLAYED OUT ============ -->
   <section class="slide" id="s-externality" data-accent="var(--accent-4)" data-archetype="chain">
     <div class="rail"></div>
     <div class="slide-no"></div>
@@ -883,7 +993,7 @@ p { font-size: 1.85rem; }
     <div class="deco" style="width: 60rem; height: 1rem; background: var(--accent-1); opacity: 0.12; bottom: 5rem; left: 12rem; transform: rotate(-3deg)"></div>
   </section>
 
-  <!-- ============ 15. COMPARISON MATRIX: WHO GAINS, WHO PAYS ============ -->
+  <!-- ============ 17. COMPARISON MATRIX: WHO GAINS, WHO PAYS ============ -->
   <section class="slide" id="s-gains" data-accent="var(--accent-8)" data-archetype="comparison-matrix">
     <div class="rail"></div>
     <div class="slide-no"></div>
@@ -912,44 +1022,6 @@ p { font-size: 1.85rem; }
     <aside class="notes">Before each row, ask the room to call out the answer for each column, then press r. The first row is why racing felt right: the gain went to your own firm. The second row is the commons: the cost went to every firm. The third row is how the NET CONTRIBUTION panel scored it. PUBLISH and SHARE are the only moves that paid the market. Ask: compare your share of the damage with your share of the value. Is that outcome fair, and who should pay? About 3 minutes.</aside>
     <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-4); opacity: 0.1; top: -9rem; right: 14rem; transform: rotate(16deg)"></div>
     <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-3); opacity: 0.1; bottom: -8rem; left: 24rem"></div>
-  </section>
-
-  <!-- ============ 16. NUMBERED CARDS: GOVERNING THE COMMONS ============ -->
-  <section class="slide" id="s-govern" data-accent="var(--accent-3)" data-archetype="numbered-cards">
-    <div class="rail"></div>
-    <div class="slide-no"></div>
-    <div class="slide-inner">
-      <header class="s-head">
-        <span class="eyebrow">Governing the commons &middot; Ostrom (1990)</span>
-        <h2>A pact holds when breaches are seen and cost something</h2>
-      </header>
-      <div class="s-body grid g-3 num-cards">
-        <div class="num-card" style="--card-color: var(--accent-2)">
-          <div class="num-head"><span class="num-big" aria-hidden="true">1</span><h3>Voluntary</h3></div>
-          <div class="num-body">
-            <p>Any member can leave a pact at any time, and LOBBY waives a fine in the quarter a breach is found.</p>
-            <p class="ask">Why pacts break under pressure</p>
-          </div>
-        </div>
-        <div class="num-card" style="--card-color: var(--accent-4); --card-on: var(--dark-ink)">
-          <div class="num-head"><span class="num-big" aria-hidden="true">2</span><h3>Monitoring</h3></div>
-          <div class="num-body">
-            <p>An audit checks a pact&rsquo;s members and publishes the breaches it finds. Breaches no audit finds stay hidden until the results.</p>
-            <p class="ask">In FRONTIER: audits and the BREACH flag</p>
-          </div>
-        </div>
-        <div class="num-card" style="--card-color: var(--accent-1)">
-          <div class="num-head"><span class="num-big" aria-hidden="true">3</span><h3>Graduated sanctions</h3></div>
-          <div class="num-body">
-            <p>Each breach an audit finds brings a larger fine than the last. The third expels the firm from the pact.</p>
-            <p class="ask">In FRONTIER: rising fines, then expulsion</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <aside class="notes">Monitoring and graduated sanctions are two of Ostrom's design principles for governing a commons. Read the first card as the problem: a pact anyone can leave, with a card that waives its fine, binds nobody when the race is close. The other two cards are what the market had to make a pact hold. Point to the PACT RECORD panel, which now shows breaches no audit found. Ask: which pacts held and which broke? Was the difference monitoring, sanctions or trust? Would disclosure of every firm's pace and safety from quarter 1 have changed your decisions? About 3 minutes.</aside>
-    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-6); opacity: 0.1; top: -11rem; right: 18rem"></div>
-    <div class="deco" style="width: 70rem; height: 1rem; background: var(--accent-8); opacity: 0.12; bottom: 2.4rem; left: 8rem; transform: rotate(-2deg)"></div>
   </section>
 
   <div class="blackout" id="blackout"></div>
@@ -1003,7 +1075,37 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 15. Who gains and who pays, revealed one row at a time.
+  // Slide 13. The shared pool, in three steps. Each step sets how full the
+  // pool is (level, 0 to 1), how much each firm takes (take: 1 or 2, drawn as
+  // the pipe's thickness) and what each firm earns (earn, drawn as the bar).
+  // Firms are listed in the same order as in "firms".
+  's-pool': {
+    pattern: 'reveal',
+    poolLabel: 'Shared pool',
+    firms: ['Your firm', 'Firm B', 'Firm C', 'Firm D'],
+    steps: [
+      { title: 'The pool feeds every firm', level: 1, take: [1, 1, 1, 1], earn: [6, 6, 6, 6],
+        text: "Four firms earn from one shared pool. Each takes the same and earns 6." },
+      { title: 'One firm takes more', level: 0.83, take: [2, 1, 1, 1], earn: [7, 5, 5, 5],
+        text: "Your firm takes more and earns 7. The pool shrinks, so the other three earn 5." },
+      { title: 'Every firm takes more', level: 0.33, take: [2, 2, 2, 2], earn: [4, 4, 4, 4],
+        text: "The others copy you. The pool shrinks fast: every firm earns 4, less than at the start." }
+    ]
+  },
+
+  // Slide 14. The arithmetic, revealed one row at a time, then the takeaway.
+  // gain and cost are the number of +1 and -1 squares drawn in each row.
+  's-math': {
+    pattern: 'reveal',
+    cases: [
+      { label: 'Only your firm takes more', gain: 2, cost: 1, net: '+1', verdict: 'Worth it for you',
+        gainNote: 'Your extra earnings', costNote: 'Your 4 drained, shared by 4 firms' },
+      { label: 'All four firms take more', gain: 2, cost: 4, net: '−2', verdict: 'Every firm is worse off',
+        gainNote: 'Your extra earnings', costNote: "1 from each firm's 4 drained" }
+    ]
+  },
+
+  // Slide 17. Who gains and who pays, revealed one row at a time.
   // Each row gives one cell per column: faster pace, low safety spend, RUSH, PUBLISH or SHARE.
   's-gains': {
     pattern: 'reveal',
@@ -1112,7 +1214,7 @@ const STRIP_IMAGES = {
     });
   });
 
-  /* ---------- Comparison matrices with row reveal (slides 6 and 15) ---------- */
+  /* ---------- Comparison matrices with row reveal (slides 6 and 17) ---------- */
 
   ['s-pace', 's-gains'].forEach(function (id) {
     var A = ACTIVITIES[id];
@@ -1148,6 +1250,87 @@ const STRIP_IMAGES = {
     revealFns[id] = next;
     worstFns[id] = function () { for (var i = 0; i < rows.length; i++) next(); };
   });
+
+  /* ---------- Shared pool model (slide 13) ---------- */
+
+  (function () {
+    var id = 's-pool', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var model = s.querySelector('.pool-model');
+    var list = s.querySelector('.pool-steps');
+    var btn = s.querySelector('[data-action="next-step"]');
+    var COLOURS = ['var(--accent-2)', 'var(--accent-8)', 'var(--accent-6)', 'var(--accent-5)'];
+    model.innerHTML = '<span class="label pool-label">' + esc(A.poolLabel) + '</span>' +
+      '<div class="pool-tank"><div class="pool-fill"></div></div><div class="pool-firms"></div>';
+    var firmsEl = model.querySelector('.pool-firms');
+    var firms = A.firms.map(function (name, i) {
+      var f = el('div', 'pool-firm');
+      f.style.setProperty('--firm', COLOURS[i % COLOURS.length]);
+      f.style.setProperty('--start', A.steps[0].earn[i]);
+      f.innerHTML = '<div class="pool-pipe"></div><div class="pool-name">' + esc(name) + '</div>' +
+        '<span class="pool-earn-label">Earns</span>' +
+        '<div class="pool-earn"><span class="pool-ghost"></span><span class="pool-bar"></span></div>' +
+        '<span class="pool-num"></span>';
+      firmsEl.appendChild(f);
+      return f;
+    });
+    var cards = A.steps.map(function (st, i) {
+      var c = el('div', 'pool-step', '<span class="num">' + (i + 1) + '</span><div><h3>' + esc(st.title) + '</h3><p>' + esc(st.text) + '</p></div>');
+      list.appendChild(c);
+      return c;
+    });
+    var step = 0;
+    function draw() {
+      var st = A.steps[step];
+      model.style.setProperty('--level', st.level);
+      firms.forEach(function (f, i) {
+        f.style.setProperty('--take', st.take[i]);
+        f.style.setProperty('--earn', st.earn[i]);
+        f.querySelector('.pool-num').textContent = st.earn[i];
+      });
+      model.setAttribute('aria-label', A.poolLabel + '. Step ' + (step + 1) + ': ' + st.title + '. ' + st.text);
+      cards.forEach(function (c, i) { c.classList.toggle('visible', i <= step); c.classList.toggle('current', i === step); });
+      btn.disabled = step >= A.steps.length - 1;
+    }
+    function next() { if (step < A.steps.length - 1) { step++; draw(); } }
+    btn.addEventListener('click', next);
+    revealFns[id] = next;
+    worstFns[id] = function () { step = A.steps.length - 1; draw(); };
+    draw();
+  })();
+
+  /* ---------- The arithmetic (slide 14) ---------- */
+
+  (function () {
+    var id = 's-math', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var rowsEl = s.querySelector('.math-rows');
+    var btn = s.querySelector('[data-action="next-step"]');
+    function blocks(n, cls, sign) {
+      var h = '';
+      for (var k = 0; k < n; k++) h += '<span class="math-block ' + cls + '">' + sign + '1</span>';
+      return h;
+    }
+    var rows = A.cases.map(function (c, i) {
+      var r = el('div', 'math-row reveal-anim');
+      r.style.setProperty('--row-color', i ? 'var(--accent-2)' : 'var(--accent-4)');
+      r.innerHTML = '<div class="math-case">' + esc(c.label) + '</div>' +
+        '<div class="math-group"><span class="label">You gain</span><div class="math-blocks">' + blocks(c.gain, 'gain', '+') + '</div><p class="math-note">' + esc(c.gainNote) + '</p></div>' +
+        '<div class="math-group"><span class="label">You lose</span><div class="math-blocks">' + blocks(c.cost, 'cost', '&minus;') + '</div><p class="math-note">' + esc(c.costNote) + '</p></div>' +
+        '<div class="math-net"><span class="label">You end up</span><strong>' + esc(c.net) + '</strong><span class="math-verdict">' + esc(c.verdict) + '</span></div>';
+      rowsEl.appendChild(r);
+      return r;
+    });
+    var items = rows.concat([s.querySelector('.math-take')]);
+    var shown = 0;
+    function next() {
+      if (shown < items.length) { items[shown].classList.add('visible'); shown++; }
+      btn.disabled = shown >= items.length;
+    }
+    btn.addEventListener('click', next);
+    revealFns[id] = next;
+    worstFns[id] = function () { while (shown < items.length) next(); };
+  })();
 
   /* ---------- Navigation ---------- */
 
