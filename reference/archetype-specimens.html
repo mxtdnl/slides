@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Archetype specimens</title>
+<link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAh0lEQVR42mP8dH8fAymAUUteIsBSgEjVG45/YGIgFXy6v09LXuL/r08EkZa8xKf7+7DYcDJCDY8F2J2ERw9OP+DSg8/TWPXg02C+4hYJGrCqxqkBl2rsGvCoZmBgYPx0f19W9A0iY3naUg1GzMR32LMKzrbd3kaUH2y3t2EqhQAWrKLIlqABAJ2vSokh8+ajAAAAAElFTkSuQmCC">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAADuUlEQVR42rVWS2hcVRj+vvOYO8lk7sykadJSCUoRQV1IQNClEKUrBetKS0UIWIwPpFaU2lXQjVpBQS0Ugq4E1yI+6KIboWAXkRZ8hKD1EZN0XplkZu499/wuhqRJmzuZNPHnrg7nfN/9/3O+7/9Zn7sgIvh/gqQBYIwBsLcsJAAkSWJEpFpbFvHWKO4RugCx86QayPWZRmP1uRNnluu1R8dK1uxBHiRih+8uV/JhYfrTKSMitXqjVq2vNEzGErsvFBHFUqnWPbSImHVabQzh/K7xFaCN4Vq5DclCmIc4lyBfLAK7vwipVBthmC+EeZKszn7fjuKlxeuvnX7//Gefl4aHJYrI26EREWYylYWFiWePv/f2yaH9+4KMNSSLhTCOYufZny/25QaRjbCJQADCe0CgdHcG6Ew7HznPQiEsFsJWq2UAOOeccwQS50RicfGmDAh4zyAHQFrLUDqtjCJCxcQ5rmF2rgQkO4i8NQDqjGvUfjs7uTo7w+wgtYVP2DU2Yqpeaktjyj98NXPyyB/Tb7lGndkSRMQnPT6qnq7P5IoArn1xdubV8YVvpmECBqH4ZFtlql5fiE8A2uJQdH3+1w8mr7z5eP2niwyKsEF3DrWzd5g42owNB+tXL109ffTnd55p/T0HZbtwqNt0A1J8IlEbso32zc6AtfHtpmtWwvseHj32RmHsMSBC1EK6MHsloNIA4tpSdmT0zompA0eOw/RJu0oqdJW96dGC3UpNfHLoyRcPPfWyHbwD8bK0a+wu7F4JSHGu9OD4wSdODNzzEHxTWhVq0wv6zQSyFpu2xLHOFe4+dQ7Uvlmm0lB6yzYuIrjl+EYCWmtJSys3lZWwkATeqWw/0lsSRUBrrd1oVjcIvLhyeUm0kngru5btO4WI0GYq5SUvbhOBiGhj2ivJ00ePWWvFSxpWJ/3UbiGgYhzHRkEb09lsOnZsVHC4NFGptAwo6X+qtALgvU/VH+CUlEpZowLAA1zvySwWQ2tyxrCLtbSbbQBBX9BlpHBOcgN6PUvW5y50elFzNRFJFY2L3eDB/VPvngNw5tTz5X8WjTVpbY1EX7/uQN2YKgZCw1QrFWYybNYPX1uEgCvV0khOIseUUU0An8imDLqNjiI0Oq6tXJ78MJ6dB2lGh8Y+fiWzL5TYpaW8vqw2Lm35QcQOZP/99sflK7/f+9EL93/yUuOXv+a/vmRzAURST+3MiwTUhFZwCUhqRd2rz5sefJRutT38yAN/fnlx5vXzIHJ3HRgZH3OrbfYwLv8HK727sdCf3mMAAAAASUVORK5CYII=">
+<style>
+/* ============================================================
+   ARCHETYPE SPECIMENS: PROJECTION DECK
+   Reference deck for slide archetypes 26 to 45 (SLIDES.md
+   section 6), each drawn with the house geometry. Light theme.
+   Sample content only: never copy its text into a teaching deck.
+   A fixed 16:9 stage. The root font-size IS the slide unit:
+   1rem = 1% of stage width, so every dimension is in rem.
+   SVG figures use a viewBox of 10 units per rem.
+   ============================================================ */
+
+html { font-size: min(1vw, 1.7778vh); }
+
+:root {
+  --bg: #F2DFBE;
+  --bg-card: #FFFAF2;
+  --bg-deep: #E8D2A8;
+  --text: #2A1F18;
+  --text-muted: #6A5A48;
+  --border: #D8C8A8;
+  --accent-1: #5C3A96;
+  --accent-2: #B52838;
+  --accent-3: #C85218;
+  --accent-4: #D4A020;
+  --accent-5: #7A5828;
+  --accent-6: #B83068;
+  --accent-7: #CC6830;
+  --accent-8: #7E58A8;
+  --accent-4-ink: #7A5410;
+  --accent-7-ink: #9E4718;
+  --slide-accent: var(--accent-1);
+  --slide-ink: var(--accent-1);
+  --on-accent: #fff;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--text);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.85rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+button, input { font-family: inherit; color: inherit; }
+button { cursor: pointer; }
+
+.deck { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+.stage { position: relative; width: 100rem; height: 56.25rem; background: var(--bg); overflow: hidden; }
+
+*:focus-visible { outline: 0.3rem solid var(--accent-1); outline-offset: 0.2rem; }
+
+/* ---------- Chrome ---------- */
+
+.progress-track { position: absolute; top: 0; left: 0; right: 0; height: 0.7rem; background: var(--bg-deep); z-index: 60; }
+.progress-fill { height: 100%; width: 0; background: var(--slide-accent); transition: width 0.4s ease, background-color 0.2s ease; }
+
+.deck-chrome {
+  position: absolute; bottom: 1.5rem; right: 2.4rem;
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card); border: 0.2rem solid var(--border);
+  z-index: 60; opacity: 1; transition: opacity 0.3s ease;
+}
+.deck-chrome.idle { opacity: 0; pointer-events: none; }
+.nav-btn, .btn {
+  background: var(--accent-1); color: #fff; border: 0.2rem solid transparent;
+  min-width: 4.4rem; height: 2.8rem; padding: 0 1.4rem;
+  font-weight: 700; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.nav-btn:hover:not(:disabled), .btn:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-0.2rem); }
+.nav-btn:disabled, .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.ghost, .nav-btn.ghost { background: transparent; color: var(--text); border-color: var(--text); }
+.btn.ghost:hover:not(:disabled), .nav-btn.ghost:hover:not(:disabled) { background: var(--text); color: var(--bg-card); }
+.nav-info { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); padding: 0 0.4rem; font-variant-numeric: tabular-nums; }
+
+.blackout { position: absolute; inset: 0; background: var(--text); z-index: 100; display: none; }
+.blackout.on { display: block; }
+
+/* ---------- Slide frame ---------- */
+
+.slide { position: absolute; inset: 0; display: none; }
+.slide.active { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(0.4rem); } to { opacity: 1; transform: none; } }
+
+.rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1.9rem; background: var(--slide-accent); z-index: 4; }
+.slide-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 3.8rem 5.5rem 4.6rem 7rem;
+  display: flex; flex-direction: column;
+}
+.slide-no {
+  position: absolute; top: 2.4rem; right: 5.5rem; z-index: 5;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2em; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.notes { display: none; }
+
+.s-head { flex-shrink: 0; margin-bottom: 2rem; }
+.s-head::before { content: ''; display: block; width: 13rem; height: 0.9rem; background: var(--slide-accent); margin-bottom: 1.2rem; }
+
+.eyebrow {
+  display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 0.7rem; color: var(--slide-ink);
+}
+h1 { font-size: 7rem; font-weight: 800; line-height: 0.94; letter-spacing: -0.01em; text-wrap: balance; }
+h2 { font-size: 3.8rem; font-weight: 800; line-height: 1.02; letter-spacing: -0.005em; text-wrap: balance; }
+h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
+.s-body { flex: 1; min-height: 0; position: relative; }
+p { font-size: 1.85rem; }
+.small { font-size: 1.55rem; }
+.micro { font-size: 1.25rem; color: var(--text-muted); line-height: 1.4; }
+.lede { font-size: 2.1rem; line-height: 1.4; color: var(--text-muted); }
+.label { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+
+.grid { display: grid; gap: 2.6rem; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.g-4 { grid-template-columns: repeat(4, 1fr); }
+.g-7-5 { grid-template-columns: 7fr 5fr; }
+.g-5-7 { grid-template-columns: 5fr 7fr; }
+.fill { height: 100%; }
+
+.card { background: var(--bg-card); border: 0.2rem solid var(--border); padding: 1.8rem 2rem; position: relative; }
+.card-name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--card-ink, var(--card-color, var(--slide-ink))); margin-bottom: 0.5rem; }
+.pip { display: inline-block; width: 1.2rem; height: 1.2rem; background: var(--pip, var(--slide-accent)); flex-shrink: 0; }
+
+/* The specimen strip: archetype name and use, plus the step button */
+.spec-strip {
+  position: absolute; left: 7rem; bottom: 1.3rem; z-index: 5;
+  display: flex; align-items: center; gap: 1.2rem; max-width: 62rem;
+}
+.spec-text { font-size: 1.25rem; line-height: 1.3; color: var(--text-muted); }
+.spec-text b { color: var(--text); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.step-btn { flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+/* SVG text takes its colour from `color`, so contrast checks read it */
+svg text { fill: currentColor; font-family: inherit; }
+
+/* ---------- Decorative geometry ---------- */
+
+.deco { position: absolute; z-index: 1; pointer-events: none; }
+.deco.circle { border-radius: 50%; }
+.deco.ring { border-radius: 50%; background: transparent !important; border-style: solid; }
+.deco.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+/* ---------- Title poster ---------- */
+
+.hero { align-items: center; height: 100%; }
+.hero h1 { margin: 0.6rem 0 2.6rem; }
+.hero .lede { max-width: 50rem; }
+.hero .micro { margin-top: 2rem; max-width: 46rem; }
+.hero-mark { position: relative; height: 44rem; }
+.hero-mark > div { position: absolute; }
+.hm-circle { width: 21rem; height: 21rem; border-radius: 50%; background: var(--accent-4); top: 1rem; left: 11rem; }
+.hm-tri { width: 11rem; height: 11rem; background: var(--accent-6); clip-path: polygon(0 0, 100% 50%, 0 100%); top: 6rem; left: 0; }
+.hm-square { width: 13rem; height: 13rem; background: var(--accent-2); top: 27rem; left: 1rem; transform: rotate(14deg); }
+.hm-ring { width: 13rem; height: 13rem; border-radius: 50%; border: 1.5rem solid var(--accent-1); top: 26rem; left: 20rem; }
+.hm-bar { width: 33rem; height: 1.4rem; background: var(--accent-8); top: 42rem; left: 0; transform: rotate(-4deg); }
+.hm-iso { display: grid; grid-template-columns: repeat(5, 1.6rem); gap: 0.5rem; top: 19rem; left: 24rem; }
+.hm-iso span { width: 1.6rem; height: 1.6rem; border: 0.25rem solid var(--text); }
+.hm-iso span.on { background: var(--text); }
+.hm-line { height: 1rem; width: 16rem; background: var(--accent-3); top: 22.5rem; left: 2rem; }
+.hm-stop { width: 2.6rem; height: 2.6rem; background: var(--bg-card); border: 0.45rem solid var(--text); top: 21.7rem; }
+
+/* ---------- 26. Typographic poster ---------- */
+
+.typo-word { display: flex; gap: 0.8rem; width: max-content; margin-top: 0.4rem; }
+.typo-l {
+  width: 9rem; height: 13.6rem; display: flex; align-items: flex-end; justify-content: center;
+  font-size: 12rem; font-weight: 800; line-height: 0.8; padding-bottom: 1.2rem; overflow: hidden;
+  background: var(--f); color: var(--on, #fff);
+}
+.typo-l:nth-child(even) { transform: translateY(2.4rem); }
+.typo-gloss { display: grid; grid-template-columns: 50rem 1fr; gap: 2.6rem; margin-top: 5.2rem; align-items: stretch; }
+.typo-def { background: var(--accent-1); color: #fff; padding: 2rem 2.4rem; }
+.typo-def .syll { font-size: 2.4rem; font-weight: 800; }
+.typo-def .pos { font-size: 1.85rem; font-style: italic; margin-left: 0.8rem; }
+.typo-def p { font-size: 2.1rem; line-height: 1.35; margin-top: 0.6rem; }
+.typo-side { border-left: 0.9rem solid var(--accent-4); }
+.typo-side p { font-size: 1.6rem; }
+.typo-side .card-name { --card-ink: var(--accent-4-ink); }
+.typo-side p + .card-name { margin-top: 1rem; }
+
+/* ---------- 27. Specimen plate ---------- */
+
+.plate { height: 100%; border: 0.3rem solid var(--text); padding: 0.8rem; background: var(--bg-card); }
+.plate-in { position: relative; height: 100%; border: 0.2rem solid var(--border); overflow: hidden; }
+.plate-cat { position: absolute; top: 1.2rem; left: 1.6rem; right: 1.6rem; display: flex; justify-content: space-between; }
+.plate-cat span { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+.pl-buffer { position: absolute; right: 3rem; width: 8.4rem; top: 4.6rem; bottom: 6rem; background: var(--accent-4); opacity: 0.85; }
+.pl-date { position: absolute; right: 3rem; width: 1.5rem; top: 3.6rem; bottom: 5.4rem; background: var(--accent-2); }
+.pl-task { position: absolute; width: 3.8rem; height: 3.8rem; background: var(--accent-1); }
+.pl-ruler { position: absolute; left: 3rem; right: 3rem; bottom: 5.4rem; height: 0.4rem; background: var(--text); }
+.pl-days { position: absolute; left: 3rem; right: 3rem; bottom: 2.2rem; display: grid; grid-template-columns: repeat(5, 1fr); }
+.pl-days span { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.16em; text-align: center; border-left: 0.3rem solid var(--text); padding-top: 0.6rem; margin-top: -1.2rem; }
+.pl-days span:last-child { border-right: 0.3rem solid var(--text); }
+.pl-mark {
+  position: absolute; width: 2.8rem; height: 2.8rem; background: var(--text); color: var(--bg-card);
+  font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+}
+.cat-card { height: 100%; display: flex; flex-direction: column; border-top: 0.9rem solid var(--accent-4); }
+.cat-row { display: grid; grid-template-columns: 13rem 1fr; gap: 1rem; padding: 0.55rem 0; border-bottom: 0.2rem solid var(--border); align-items: baseline; }
+.cat-row dt { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-4-ink); }
+.cat-row dd { font-size: 1.55rem; }
+.cat-key { margin-top: 1.4rem; display: flex; flex-direction: column; gap: 0.9rem; }
+.cat-key li { list-style: none; display: grid; grid-template-columns: 2.8rem 1fr; gap: 1rem; align-items: start; font-size: 1.45rem; line-height: 1.3; }
+.cat-key .n { width: 2.8rem; height: 2.8rem; background: var(--text); color: var(--bg-card); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+.cat-key b { display: block; font-size: 1.3rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* ---------- 28. Triptych ---------- */
+
+.trip { height: 100%; }
+.trip-panel { display: flex; flex-direction: column; background: var(--bg-card); border: 0.2rem solid var(--border); transition: opacity 0.3s ease, transform 0.3s ease; }
+.trip-panel.waiting { opacity: 0.35; }
+.trip-panel.waiting .trip-grid span { background: transparent; }
+.trip-grid { display: grid; grid-template-columns: repeat(5, 3.6rem); gap: 0.9rem; justify-content: center; padding: 2.4rem 0 2.2rem; }
+.trip-grid span { width: 3.6rem; height: 3.6rem; border: 0.3rem solid var(--text-muted); transition: background-color 0.3s ease, border-color 0.3s ease; }
+.trip-grid span.on { background: var(--accent-6); border-color: var(--accent-6); }
+.trip-cap { margin-top: auto; min-height: 10rem; background: var(--cap); color: var(--cap-on, #fff); padding: 1.3rem 1.6rem; }
+.trip-cap h3 { font-size: 1.8rem; }
+.trip-cap p { font-size: 1.45rem; line-height: 1.35; margin-top: 0.3rem; }
+
+/* ---------- 29. Isotype array ---------- */
+
+.iso { grid-template-columns: 34rem 1fr; gap: 5rem; height: 100%; align-items: start; }
+.iso-grid { display: grid; grid-template-columns: repeat(10, 2.7rem); gap: 0.6rem; }
+.iso-grid span { width: 2.7rem; height: 2.7rem; border: 0.3rem solid var(--text-muted); transition: background-color 0.3s ease, border-color 0.3s ease; }
+.iso-grid span.on { background: var(--accent-1); border-color: var(--accent-1); }
+.iso-big { font-size: 17rem; font-weight: 800; line-height: 0.8; color: var(--accent-1); font-variant-numeric: tabular-nums; }
+.iso-of { margin-top: 1.4rem; }
+.iso-key { margin-top: 2.6rem; display: flex; flex-direction: column; gap: 0.9rem; }
+.iso-key div { display: flex; align-items: center; gap: 1rem; font-size: 1.55rem; }
+.iso-key i { width: 2.2rem; height: 2.2rem; border: 0.3rem solid var(--text-muted); }
+.iso-key i.on { background: var(--accent-1); border-color: var(--accent-1); }
+.iso-src { margin-top: 2.6rem; }
+
+/* ---------- 30. Proportional field ---------- */
+
+.field { display: grid; grid-template-columns: 25fr 35fr; gap: 0.9rem; padding: 0.9rem; background: var(--text); height: 30rem; }
+.field-right { display: grid; grid-template-rows: 20fr 15fr; gap: 0.9rem; }
+.field-bottom { display: grid; grid-template-columns: 10fr 5fr; gap: 0.9rem; }
+.fcell { background: var(--f); color: var(--on, #fff); padding: 1.6rem 1.8rem; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+.fcell .v { font-size: 4.4rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.fcell .v small { font-size: 2rem; font-weight: 800; letter-spacing: 0.08em; }
+.fcell.sm .v { font-size: 3.2rem; }
+.field-src { margin-top: 1.2rem; }
+
+/* ---------- 31. Scale comparison ---------- */
+
+.scale-wrap { position: absolute; inset: 0; }
+.sq { position: absolute; bottom: 4.4rem; }
+.sq-shape { background: var(--f); }
+.sq-label { position: absolute; bottom: calc(100% + 0.8rem); left: 0; white-space: nowrap; }
+.sq-label .label { display: block; color: var(--text-muted); }
+.sq-label .val { font-size: 2.6rem; font-weight: 800; line-height: 1.1; }
+.sq-big .sq-shape { position: relative; }
+.sq-big .sq-label { position: static; padding: 2rem; color: #fff; background: var(--accent-8); }
+.sq-big .sq-label .label { color: #fff; }
+.scale-base { position: absolute; left: 0; right: 0; bottom: 4rem; height: 0.4rem; background: var(--text); }
+.scale-note { position: absolute; left: 29rem; top: 3rem; width: 27rem; border-left: 0.9rem solid var(--accent-4); }
+.scale-note p { font-size: 1.6rem; line-height: 1.4; }
+.scale-src { position: absolute; left: 0; bottom: 0; }
+
+/* ---------- 32. Orbit ---------- */
+
+.orbit-grid { grid-template-columns: 34rem 1fr; gap: 4rem; height: 100%; }
+.orbit { position: relative; width: 34rem; height: 34rem; }
+.orbit-ring { position: absolute; left: 50%; top: 50%; border-radius: 50%; border: 0.6rem solid var(--ring); transform: translate(-50%, -50%); }
+.orbit-core {
+  position: absolute; left: 50%; top: 50%; width: 9rem; height: 9rem; border-radius: 50%; background: var(--accent-2);
+  transform: translate(-50%, -50%); color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.orb-sat {
+  position: absolute; transform: translate(-50%, -50%); z-index: 2;
+  background: var(--bg-card); border: 0.2rem solid var(--text); border-top: 0.6rem solid var(--ring);
+  padding: 0.4rem 1rem; font-size: 1.35rem; font-weight: 700; white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.orb-sat:hover { transform: translate(-50%, calc(-50% - 0.2rem)); }
+.orb-sat.selected { background: var(--ring); color: var(--ring-on, #fff); }
+.orbit-side { display: flex; flex-direction: column; gap: 2rem; }
+.orbit-legend { display: flex; flex-direction: column; gap: 0.9rem; }
+.orbit-legend div { display: grid; grid-template-columns: 3.2rem 14rem 1fr; align-items: center; gap: 1rem; font-size: 1.5rem; }
+.orbit-legend i { width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 0.6rem solid var(--ring); }
+.orbit-legend b { font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.detail { min-height: 12rem; border-left: 0.9rem solid var(--detail-color, var(--border)); transition: border-color 0.2s ease; }
+.detail .placeholder { color: var(--text-muted); font-size: 1.55rem; }
+.detail h3 { margin-bottom: 0.4rem; }
+.detail p { font-size: 1.7rem; line-height: 1.4; }
+
+/* ---------- 33. Overlap ---------- */
+
+.ovl-grid { grid-template-columns: 50rem 1fr; gap: 3rem; height: 100%; }
+.ovl-svg { width: 50rem; height: 34rem; display: block; }
+.ovl-ring { fill: none; stroke-width: 12; }
+.ovl-lens { fill: var(--accent-6); opacity: 0.14; }
+.ovl-core { fill: var(--accent-5); opacity: 0; transition: opacity 0.4s ease; }
+.slide[data-step="1"] .ovl-core { opacity: 1; }
+.ovl-name { font-size: 15px; font-weight: 700; letter-spacing: 0.16em; color: var(--text); }
+.ovl-num { font-size: 20px; font-weight: 800; color: var(--text); }
+.ovl-fig { position: relative; width: 50rem; height: 34rem; }
+.ovl-chip {
+  position: absolute; left: 25rem; top: 16.4rem; transform: translate(-50%, -50%); width: 3.4rem; height: 3.4rem;
+  background: var(--bg-card); border: 0.3rem solid var(--text); color: var(--text);
+  display: flex; align-items: center; justify-content: center; font-size: 1.7rem; font-weight: 800;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.slide[data-step="1"] .ovl-chip { opacity: 1; }
+.ovl-list { display: flex; flex-direction: column; gap: 1.2rem; justify-content: center; }
+.ovl-item { display: grid; grid-template-columns: 3.2rem 1fr; gap: 1.2rem; align-items: start; }
+.ovl-item .n { width: 3.2rem; height: 3.2rem; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; background: var(--n-bg); color: var(--n-on, var(--text)); }
+.ovl-item b { display: block; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.ovl-item span { font-size: 1.55rem; line-height: 1.35; }
+.ovl-item.core { transition: opacity 0.4s ease; }
+.slide:not([data-step="1"]) .ovl-item.core { opacity: 0; }
+
+/* ---------- 34. Iceberg ---------- */
+
+.ice { position: absolute; inset: 0; }
+/* Water and waterline sit at slide level so they bleed off the frame: top = body top (14.43rem) + 9rem */
+.ice-water { position: absolute; z-index: 1; pointer-events: none; left: 0; right: 0; top: 23.43rem; bottom: 0; background: rgba(92, 58, 150, 0.10); }
+.ice-line { position: absolute; z-index: 1; pointer-events: none; left: 0; right: 0; top: 23.43rem; height: 0.6rem; background: var(--accent-1); }
+.ice-tip { position: absolute; left: 41rem; top: 0.6rem; width: 18rem; height: 8.6rem; background: var(--accent-8); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.ice-see { position: absolute; left: 62rem; top: 1.2rem; }
+.ice-see .label { color: var(--text-muted); display: block; }
+.ice-see h3 { font-size: 2.4rem; text-transform: none; letter-spacing: 0; }
+.ice-below { position: absolute; left: 0; top: 10.6rem; }
+.ice-below .label { color: var(--accent-1); }
+.ice-band {
+  position: absolute; height: 6.6rem; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 2rem; font-weight: 800; background: var(--f);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.ice-band.hidden { opacity: 0; transform: translateY(0.6rem); }
+.ice-src { position: absolute; left: 0; bottom: 0; }
+
+/* ---------- 35. Strata ---------- */
+
+.strata-grid { grid-template-columns: 52rem 1fr; gap: 3.4rem; height: 100%; }
+.strata { display: flex; flex-direction: column-reverse; justify-content: flex-start; gap: 0.6rem; height: 100%; }
+.stratum {
+  background: var(--f); color: var(--on, #fff); display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; font-weight: 800; transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.stratum span { font-size: 2rem; }
+.stratum em { font-style: normal; font-size: 1.3rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; }
+.stratum.hidden, .strata-note.hidden { opacity: 0; transform: translateY(-0.6rem); }
+.strata-side { display: flex; flex-direction: column-reverse; gap: 0.6rem; }
+.strata-note { display: flex; flex-direction: column; justify-content: center; border-left: 0.6rem solid var(--f); padding-left: 1.4rem; transition: opacity 0.4s ease, transform 0.4s ease; }
+.strata-note p { font-size: 1.5rem; line-height: 1.3; }
+
+/* ---------- 36. Funnel ---------- */
+
+.funnel { display: grid; grid-template-columns: 15rem 1fr 11rem; row-gap: 1.6rem; column-gap: 2rem; align-items: center; }
+.fn-name { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-align: right; }
+.fn-track { display: flex; justify-content: center; height: 6.2rem; }
+.fn-bar {
+  width: 0; height: 100%; background: var(--bg-deep); color: var(--text); display: flex; align-items: center; justify-content: center;
+  font-size: 2.4rem; font-weight: 800; font-variant-numeric: tabular-nums; overflow: hidden; white-space: nowrap;
+  transition: width 0.6s ease;
+}
+.fn-bar.key { background: var(--accent-6); color: #fff; }
+.fn-drop { font-size: 2rem; font-weight: 800; color: var(--accent-2); font-variant-numeric: tabular-nums; transition: opacity 0.3s ease; }
+.fn-drop small { display: block; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.14em; color: var(--text-muted); }
+.slide[data-step="0"] .fn-drop { opacity: 0; }
+.fn-src { margin-top: 1.8rem; }
+
+/* ---------- 37. Zoom ---------- */
+
+.zoom-grid { grid-template-columns: 34rem 1fr; gap: 4rem; height: 100%; }
+.zoom-view { position: relative; width: 34rem; height: 34rem; overflow: hidden; border: 0.4rem solid var(--text); background: var(--bg-card); }
+.zoom-inner { position: absolute; left: 0; top: 0; width: 34rem; height: 34rem; transform-origin: 0 0; transition: transform 0.7s ease; }
+.zlev { position: absolute; background: var(--f); }
+.zlev-label {
+  position: absolute; left: 0; top: 0; padding: 0.4em 0.6em; color: var(--on, #fff);
+  font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; line-height: 1.2;
+  transition: font-size 0.7s ease, opacity 0.3s ease;
+}
+.zlev-label.off { opacity: 0; }
+.zperson { position: absolute; left: 50%; top: 58%; width: 44%; height: 44%; border-radius: 50%; background: var(--accent-5); transform: translate(-50%, -50%); }
+.zoom-list { display: flex; flex-direction: column; gap: 1rem; }
+.zrow { display: grid; grid-template-columns: 1.6rem 1fr; gap: 1.4rem; align-items: start; padding: 1.1rem 1.4rem; border: 0.2rem solid var(--border); background: var(--bg-card); transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+.zrow i { width: 1.6rem; height: 1.6rem; background: var(--f); margin-top: 0.4rem; }
+.zrow b { display: block; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.zrow span { font-size: 1.55rem; line-height: 1.35; }
+.zrow.current { background: var(--text); color: var(--bg-card); border-color: var(--text); }
+
+/* ---------- 38. Balance ---------- */
+
+.bal { position: absolute; inset: 0; }
+.bal-base { position: absolute; left: 22rem; right: 22rem; bottom: 4.6rem; height: 1.2rem; background: var(--text); }
+.bal-fulcrum { position: absolute; left: calc(50% - 5.5rem); bottom: 5.8rem; width: 11rem; height: 9rem; background: var(--accent-4); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.bal-beam { position: absolute; left: calc(50% - 38rem); width: 76rem; bottom: 14.8rem; height: 1.2rem; background: var(--text); transform-origin: 50% 50%; transition: transform 0.7s ease; }
+.bal-side { position: absolute; bottom: 100%; width: 24rem; display: flex; flex-direction: column-reverse; gap: 0.5rem; padding-bottom: 0.5rem; }
+.bal-side.left { left: 0; }
+.bal-side.right { right: 0; }
+.bal-block {
+  height: 5rem; display: flex; align-items: center; padding: 0 1.6rem; color: #fff; background: var(--f);
+  font-size: 1.7rem; font-weight: 800; transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.bal-block.heavy { height: 7rem; }
+.bal-block.hidden { opacity: 0; transform: translateY(-1rem); }
+.bal-end { position: absolute; top: calc(100% + 0.8rem); background: var(--bg); padding: 0 0.3rem; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.bal-end.left { left: 0; }
+.bal-end.right { right: 0; }
+.bal-src { position: absolute; left: 0; bottom: 0; }
+
+/* ---------- 39. Tipping point ---------- */
+
+.tip-svg { width: 87.5rem; height: 24rem; display: block; }
+.tip-ground { fill: var(--accent-5); }
+.tip-crest { stroke: var(--bg-card); stroke-width: 4; stroke-dasharray: 10 8; }
+.tip-ball { fill: var(--accent-2); }
+.tip-label { font-size: 14px; font-weight: 700; letter-spacing: 0.18em; color: var(--text); }
+.tip-steps { margin-top: 1.8rem; gap: 1.4rem; }
+.tip-step { background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.6rem solid var(--accent-8); padding: 1.1rem 1.4rem; transition: background-color 0.2s ease, color 0.2s ease; }
+.tip-step b { display: block; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.tip-step span { font-size: 1.45rem; line-height: 1.3; }
+.tip-step.current { background: var(--accent-8); color: #fff; }
+
+/* ---------- 40. Route map ---------- */
+
+.rt-svg { width: 87.5rem; height: 28.4rem; display: block; }
+.rt-line { fill: none; stroke-width: 14; stroke-linecap: square; stroke-linejoin: miter; }
+.rt-st rect { fill: var(--bg-card); stroke: var(--text); stroke-width: 4; transition: fill 0.2s ease; }
+.rt-st circle { fill: var(--bg-card); stroke: var(--text); stroke-width: 6; transition: fill 0.2s ease; }
+.rt-st text { font-size: 14px; font-weight: 700; color: var(--text); }
+.rt-st.lit rect, .rt-st.lit circle { fill: var(--accent-3); }
+.rt-st.lit text { font-weight: 800; color: var(--accent-7-ink); }
+.rt-legend { display: flex; gap: 2.2rem; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+.rt-legend div { display: flex; align-items: center; gap: 0.8rem; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.rt-legend i { display: inline-block; width: 4rem; height: 1.2rem; background: var(--f); }
+.rt-legend i.ring { width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 0.5rem solid var(--text); background: var(--bg-card); }
+.rt-legend i.lit { width: 2.2rem; height: 2.2rem; background: var(--accent-3); border: 0.35rem solid var(--text); }
+.rt-now { margin-left: auto; }
+.rt-now b { color: var(--accent-7-ink); font-weight: 800; }
+
+/* ---------- 41. Constellation ---------- */
+
+.con-grid { grid-template-columns: 49.5rem 1fr; gap: 3rem; height: 100%; }
+.con-svg { width: 49.5rem; height: 34rem; display: block; }
+.con-tie { stroke: var(--text-muted); stroke-width: 4; transition: stroke 0.2s ease, stroke-width 0.2s ease, opacity 0.2s ease; }
+.con-tie.lit { stroke: var(--text); stroke-width: 9; }
+.con-tie.dim { opacity: 0.18; }
+.con-node circle { fill: var(--f); stroke: var(--bg); stroke-width: 6; cursor: pointer; transition: opacity 0.2s ease; }
+.con-node.dim circle { opacity: 0.3; }
+.con-node text { font-size: 14px; font-weight: 700; color: var(--text); pointer-events: none; }
+.con-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+.con-btn {
+  display: flex; align-items: center; gap: 0.8rem; text-align: left; background: var(--bg-card);
+  border: 0.2rem solid var(--border); padding: 0.6rem 0.9rem; font-size: 1.35rem; font-weight: 700;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.con-btn i { width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--f); flex-shrink: 0; }
+.con-btn:hover { border-color: var(--f); }
+.con-btn.selected { border-color: var(--text); background: var(--bg-deep); }
+.con-side { display: flex; flex-direction: column; gap: 1.6rem; }
+.con-side .detail { min-height: 13rem; }
+
+/* ---------- 42. Branching tree ---------- */
+
+.tree { position: relative; width: 87.5rem; height: 34rem; }
+.tree-svg { position: absolute; inset: 0; width: 87.5rem; height: 34rem; }
+.tree-edge { stroke: var(--border); stroke-width: 6; transition: stroke 0.3s ease; }
+.tree-edge.lit { stroke: var(--accent-6); stroke-width: 10; }
+.tnode {
+  position: absolute; width: 24rem; min-height: 6.4rem; transform: translateX(-50%);
+  background: var(--bg-card); border: 0.3rem dashed var(--border); color: var(--text-muted);
+  padding: 0.9rem 1.4rem; font-size: 1.55rem; line-height: 1.3; display: flex; flex-direction: column; justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.tnode b { font-size: 1.2rem; letter-spacing: 0.16em; text-transform: uppercase; display: block; }
+.tnode.q { font-weight: 700; }
+.tnode.on { border: 0.3rem solid var(--text); color: var(--text); }
+.tnode.end { background: var(--accent-6); border: 0.3rem solid var(--accent-6); color: #fff; }
+.slide[data-step="0"] .tnode { border-style: solid; border-color: var(--text); color: var(--text); }
+.tbranch {
+  position: absolute; transform: translate(-50%, -50%); background: var(--bg); padding: 0.2rem 0.8rem;
+  font-size: 1.3rem; font-weight: 800; letter-spacing: 0.16em; color: var(--text);
+}
+.tbranch.lit { background: var(--accent-6); color: #fff; }
+
+/* ---------- 43. Exploded view ---------- */
+
+.exp-grid { grid-template-columns: 49.5rem 1fr; gap: 3rem; height: 100%; }
+.exp { position: relative; width: 49.5rem; height: 34rem; }
+.exp-part {
+  position: absolute; background: var(--f); color: var(--on, #fff); padding: 0.8rem 1rem;
+  font-size: 1.4rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  outline: 0.25rem solid var(--text); outline-offset: -0.125rem;
+  transition: transform 0.7s ease;
+}
+.exp-part .n {
+  position: absolute; left: 0.8rem; bottom: 0.8rem; width: 2.8rem; height: 2.8rem; background: var(--bg-card); color: var(--text);
+  display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: opacity 0.3s ease;
+}
+.slide[data-step="0"] .exp-part .n { opacity: 0; }
+.slide[data-step="1"] .exp-part { transform: translate(var(--dx), var(--dy)); }
+.exp-list { display: flex; flex-direction: column; justify-content: center; gap: 1.4rem; }
+.exp-item { display: grid; grid-template-columns: 3.2rem 1fr; gap: 1.2rem; align-items: start; transition: opacity 0.4s ease, transform 0.4s ease; }
+.exp-item .n { width: 3.2rem; height: 3.2rem; background: var(--f); color: var(--on, #fff); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; }
+.exp-item b { display: block; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.exp-item span { font-size: 1.6rem; line-height: 1.35; }
+.slide[data-step="0"] .exp-item { opacity: 0; transform: translateY(0.6rem); }
+.exp-hint { font-size: 1.55rem; color: var(--text-muted); }
+.slide[data-step="1"] .exp-hint { display: none; }
+
+/* ---------- 44. Lens ---------- */
+
+.lens-grid { grid-template-columns: 49.5rem 1fr; gap: 3rem; height: 100%; }
+.lens-scene { position: relative; width: 49.5rem; height: 34rem; background: var(--bg-card); border: 0.2rem solid var(--border); overflow: hidden; }
+.lens-svg { position: absolute; inset: 0; width: 49.5rem; height: 34rem; }
+.lens-flow { stroke-width: 6; stroke: var(--border); transition: stroke 0.3s ease; }
+.lens-part {
+  position: absolute; background: var(--bg-deep); border: 0.3rem solid var(--text); color: var(--text);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: 1.35rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.2; padding: 0.4rem;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.lens-part.circle { border-radius: 50%; }
+.lens-part.dim { background: var(--bg-card); border-color: var(--border); color: var(--text-muted); }
+.lens-part.hot { background: var(--lens); border-color: var(--text); color: var(--lens-on, #fff); }
+.lens-people-label { position: absolute; left: 2rem; right: 2rem; bottom: 1.6rem; text-align: center; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); transition: color 0.3s ease; }
+.lens-side { display: flex; flex-direction: column; gap: 1.4rem; }
+.lens-btns { display: flex; flex-direction: column; gap: 0.8rem; }
+.lens-btn {
+  display: grid; grid-template-columns: 2.8rem 1fr; gap: 1rem; align-items: center; text-align: left;
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--lens);
+  padding: 0.7rem 1.2rem; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.lens-btn .k { width: 2.8rem; height: 2.8rem; background: var(--text); color: var(--bg-card); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.lens-btn.selected { background: var(--lens); color: var(--lens-on, #fff); }
+.lens-side .detail { min-height: 12rem; }
+
+/* ---------- 45. Before and after ---------- */
+
+.ba { position: relative; width: 85rem; height: 26rem; border: 0.3rem solid var(--text); --p: 100%; }
+.ba-layer { position: absolute; inset: 0; background: var(--bg-card); overflow: hidden; }
+.ba-after { clip-path: inset(0 0 0 var(--p)); transition: clip-path 0.6s ease; }
+.ba-tag { position: absolute; top: 1rem; padding: 0.3rem 1rem; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+.ba-before .ba-tag { left: 1rem; background: var(--text); color: var(--bg-card); }
+.ba-after .ba-tag { right: 1rem; background: var(--accent-5); color: #fff; }
+.desk { position: absolute; width: 4.4rem; height: 3rem; background: var(--f, var(--accent-5)); }
+.lectern { position: absolute; background: var(--text); }
+.ba-div { position: absolute; top: -0.3rem; bottom: -0.3rem; left: var(--p); width: 0.8rem; margin-left: -0.4rem; background: var(--text); transition: left 0.6s ease; z-index: 3; }
+.ba-div::after { content: ''; position: absolute; top: 50%; left: 50%; width: 2.6rem; height: 2.6rem; background: var(--accent-4); border: 0.4rem solid var(--text); transform: translate(-50%, -50%) rotate(45deg); }
+.ba-mark { position: absolute; width: 3rem; height: 3rem; background: var(--accent-2); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; z-index: 2; }
+.ba-foot { display: grid; grid-template-columns: 26rem 1fr 1fr; gap: 2.4rem; margin-top: 1.6rem; align-items: start; }
+.ba-range label { display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.ba-range input { width: 100%; height: 2.8rem; accent-color: var(--accent-5); }
+.ba-diff { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; align-items: start; font-size: 1.5rem; line-height: 1.35; }
+.ba-diff .n { width: 3rem; height: 3rem; background: var(--accent-2); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; }
+.ba-diff b { display: block; font-size: 1.3rem; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ---------- Register (close) ---------- */
+
+.reg { grid-template-columns: repeat(4, 1fr); gap: 0.9rem 1.4rem; }
+.reg-item { display: grid; grid-template-columns: 3.6rem 1fr; align-items: center; gap: 1rem; background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.7rem solid var(--f); padding: 0.6rem 1rem; }
+.reg-item .no { font-size: 1.8rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.reg-item .nm { font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+.reg-foot { display: flex; gap: 3rem; margin-top: 1.8rem; align-items: center; flex-wrap: wrap; }
+.reg-foot div { display: flex; align-items: center; gap: 0.8rem; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.reg-next { margin-top: 1.6rem; background: var(--accent-1); color: #fff; padding: 1.1rem 1.8rem; font-size: 1.55rem; }
+.reg-next b { letter-spacing: 0.16em; font-size: 1.3rem; text-transform: uppercase; margin-right: 1.4rem; }
+.reg-link { cursor: pointer; transition: transform 0.15s ease, border-color 0.2s ease; text-align: left; font: inherit; color: inherit; text-decoration: none; }
+.reg-link:hover { transform: translateY(-0.2rem); }
+
+/* ---------- Motion preference ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Narrow and portrait: a scrolling document ---------- */
+
+@media screen and (max-width: 860px), screen and (max-aspect-ratio: 1/1) {
+  html { font-size: max(3.1vw, 9px); }
+  body { overflow: auto; background: var(--bg); }
+  .deck { position: static; display: block; }
+  .stage { width: 100%; height: auto; min-height: 100vh; padding-bottom: 9rem; overflow: hidden; }
+  .slide { position: relative; }
+  .slide-inner { height: auto; padding: 5rem 2.5rem 3rem 4.4rem; }
+  .slide-no { top: 2rem; right: 2.5rem; }
+  .progress-track { position: fixed; }
+  .deck-chrome {
+    position: fixed; bottom: 0; left: 0; right: 0; justify-content: space-between;
+    border-width: 0.4rem 0 0; border-color: var(--accent-1); padding: 1rem 0.9rem;
+  }
+  .deck-chrome.idle { opacity: 1; pointer-events: auto; }
+  .nav-btn, .btn { min-height: 44px; min-width: 44px; font-size: 1.4rem; }
+  .slide button, .slide input { min-height: 44px; min-width: 44px; }
+  .nav-info { white-space: nowrap; font-size: 1.3rem; }
+  .spec-strip { position: relative; left: auto; bottom: auto; z-index: 2; max-width: none; padding: 0 2.5rem 3rem 4.4rem; flex-wrap: wrap; }
+  .slide-inner { padding-bottom: 3rem; }
+  h1 { font-size: 5.2rem; }
+  h2 { font-size: 3.4rem; }
+  .g-2, .g-3, .g-4, .g-7-5, .g-5-7, .iso, .orbit-grid, .ovl-grid, .strata-grid, .zoom-grid, .con-grid, .exp-grid, .lens-grid, .typo-gloss, .ba-foot { grid-template-columns: 1fr; }
+  .reg { grid-template-columns: 1fr 1fr; }
+  .hero-mark { display: none; }
+  .s-body { overflow-x: auto; overflow-y: hidden; }
+  .scale-wrap, .ice, .bal { position: relative; width: 87.5rem; height: 34rem; }
+  .ice-water { display: none; }
+  .ice-line { left: 0; right: 0; top: auto; display: none; }
+  .ovl-fig { width: 50rem; }
+  .s-body.fixed-h { min-height: 36rem; }
+  .field { height: 40rem; }
+  .strata { height: 34rem; }
+  .stratum em { display: none; }
+  .funnel { grid-template-columns: 9rem 1fr 7rem; }
+}
+
+/* ---------- Print: one slide per A4 landscape page, as projected ---------- */
+
+@page { size: A4 landscape; margin: 0; }
+
+@media print {
+  html { font-size: 2.97mm; }
+  body { background: #fff; overflow: visible; }
+  .deck { position: static; display: block; }
+  .stage { width: 100rem; height: auto; background: none; overflow: visible; }
+  .slide { position: relative; display: block !important; width: 100rem; height: 56.25rem; overflow: hidden; background: var(--bg); page-break-after: always; break-after: page; animation: none; }
+  .progress-track, .deck-chrome, .blackout, .step-btn { display: none !important; }
+  * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  body.instructor .notes { display: block; position: absolute; left: 7rem; right: 5.5rem; bottom: 0.4rem; z-index: 6; font-size: 1.1rem; background: #fff; border: 0.2rem solid var(--text); padding: 0.6rem 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<div class="stage" id="stage">
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ============ TITLE POSTER ============ -->
+  <section class="slide" id="s-title" data-accent="var(--accent-1)" data-archetype="title-poster">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="grid g-7-5 hero">
+        <div>
+          <span class="eyebrow">Slide archetypes · Specimen deck · November 2026</span>
+          <h1>Pictures built<br>from geometry</h1>
+          <p class="lede">Twenty archetypes, numbered 26 to 45. Each one draws its meaning with the house shapes: squares, circles, triangles and bars.</p>
+          <p class="micro">Sample content throughout. Figures labelled PLACEHOLDER are illustrative and come from no source. Press r, or the step button, on any slide that builds.</p>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <div class="hm-circle"></div>
+          <div class="hm-tri"></div>
+          <div class="hm-line"></div>
+          <div class="hm-stop" style="left: 2rem"></div>
+          <div class="hm-stop" style="left: 15.4rem"></div>
+          <div class="hm-iso"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span><span></span></div>
+          <div class="hm-square"></div>
+          <div class="hm-ring"></div>
+          <div class="hm-bar"></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">The reference deck for archetypes 26 to 45 in SLIDES.md section 6: one slide per archetype, each built with sample content so the composition can be judged at projection scale. Nothing here is drawn from a course or a source.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-8); opacity: 0.08; top: -12rem; left: 30rem; transform: rotate(22deg)"></div>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-3); opacity: 0.08; bottom: -12rem; left: 4rem"></div>
+  </section>
+
+  <!-- ============ 26. TYPOGRAPHIC POSTER ============ -->
+  <section class="slide" id="s-typo" data-accent="var(--accent-2)" data-archetype="typographic-poster">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 26 · Framing · Today's key term</span>
+      </header>
+      <div class="s-body">
+        <div class="typo-word" role="img" aria-label="incentive">
+          <span class="typo-l" style="--f: var(--accent-1)">i</span>
+          <span class="typo-l" style="--f: var(--accent-4); --on: var(--text)">n</span>
+          <span class="typo-l" style="--f: var(--accent-2)">c</span>
+          <span class="typo-l" style="--f: var(--accent-7); --on: var(--text)">e</span>
+          <span class="typo-l" style="--f: var(--accent-6)">n</span>
+          <span class="typo-l" style="--f: var(--accent-5)">t</span>
+          <span class="typo-l" style="--f: var(--accent-8)">i</span>
+          <span class="typo-l" style="--f: var(--accent-3)">v</span>
+          <span class="typo-l" style="--f: var(--accent-4); --on: var(--text)">e</span>
+        </div>
+        <div class="typo-gloss">
+          <div class="typo-def">
+            <span class="syll">in·cen·tive</span><span class="pos">noun</span>
+            <p>Anything that changes what a choice costs or pays.</p>
+          </div>
+          <div class="card typo-side">
+            <div class="card-name">See also</div>
+            <p>motive · reward · price</p>
+            <div class="card-name">Opposite</div>
+            <p>disincentive</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><span class="spec-text"><b>Typographic poster</b> · Use when launching the one term a section turns on. One word, set lower case after Herbert Bayer, in solid letter blocks.</span></div>
+    <aside class="notes">Say the word, then let it sit. The gloss gives the working definition; the definition archetype can follow if the boundary needs fixing.</aside>
+    <div class="deco circle" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.09; bottom: -13rem; right: 8rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-1); opacity: 0.07; top: -5rem; right: 20rem; transform: rotate(30deg)"></div>
+  </section>
+
+  <!-- ============ 27. SPECIMEN PLATE ============ -->
+  <section class="slide" id="s-specimen" data-accent="var(--accent-4)" data-archetype="specimen-plate">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 27 · Exposition · One artefact, inspected</span>
+        <h2>A deadline, catalogued</h2>
+      </header>
+      <div class="s-body">
+        <div class="grid g-7-5 fill">
+          <div class="plate">
+            <div class="plate-in" role="img" aria-label="A working week drawn as a ruler from Monday to Friday. Purple task squares bunch together towards a red bar marking the deadline at the end of Friday, with a gold buffer band before it.">
+              <div class="plate-cat"><span>Cat. 27-A</span><span>Plate 27</span></div>
+              <div class="pl-buffer"></div>
+              <div class="pl-date"></div>
+              <div class="pl-task" style="left: 4rem; top: 15rem"></div>
+              <div class="pl-task" style="left: 11rem; top: 11rem"></div>
+              <div class="pl-task" style="left: 17rem; top: 16.4rem"></div>
+              <div class="pl-task" style="left: 22rem; top: 9.6rem"></div>
+              <div class="pl-task" style="left: 25.6rem; top: 14.2rem"></div>
+              <div class="pl-task" style="left: 28.4rem; top: 18.6rem"></div>
+              <div class="pl-task" style="left: 30.6rem; top: 10.4rem"></div>
+              <div class="pl-ruler"></div>
+              <div class="pl-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div>
+              <div class="pl-mark" style="right: 5.2rem; top: 3.6rem">1</div>
+              <div class="pl-mark" style="right: 7.2rem; top: 7.6rem">2</div>
+              <div class="pl-mark" style="left: 6.2rem; top: 10.6rem">3</div>
+            </div>
+          </div>
+          <div class="card cat-card">
+            <dl>
+              <div class="cat-row"><dt>Catalogue no.</dt><dd>27-A</dd></div>
+              <div class="cat-row"><dt>Class</dt><dd>Constraint</dd></div>
+              <div class="cat-row"><dt>Acts on</dt><dd>Time</dd></div>
+              <div class="cat-row"><dt>Fails when</dt><dd>Moved without notice</dd></div>
+              <div class="cat-row"><dt>See also</dt><dd>Milestone, buffer</dd></div>
+            </dl>
+            <ul class="cat-key">
+              <li><span class="n">1</span><span><b>Fixed date</b>The point the work is judged against</span></li>
+              <li><span class="n">2</span><span><b>Buffer</b>Slack held in reserve before it</span></li>
+              <li><span class="n">3</span><span><b>Tasks in flight</b>They bunch as the date nears</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><span class="spec-text"><b>Specimen plate</b> · Use when one artefact (a metric, a policy, a model) deserves close inspection, presented like a museum plate.</span></div>
+    <aside class="notes">Treat the concept as an object on a plate. Walk the numbered parts in order, then read the catalogue line that says when it fails.</aside>
+    <div class="deco ring" style="width: 22rem; height: 22rem; border-width: 2rem; border-color: var(--accent-2); opacity: 0.08; top: -8rem; right: -6rem"></div>
+    <div class="deco" style="width: 40rem; height: 1.6rem; background: var(--accent-1); opacity: 0.08; bottom: 2rem; left: 30rem; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 28. TRIPTYCH ============ -->
+  <section class="slide" id="s-triptych" data-accent="var(--accent-6)" data-archetype="triptych" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 28 · Exposition · A story in three beats</span>
+        <h2>How a new habit spreads through a group</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid g-3 trip">
+          <div class="trip-panel" data-panel="0">
+            <div class="trip-grid" aria-hidden="true"></div>
+            <div class="trip-cap" style="--cap: var(--accent-1)"><h3>1 · One member changes</h3><p>A single, visible change.</p></div>
+          </div>
+          <div class="trip-panel" data-panel="1">
+            <div class="trip-grid" aria-hidden="true"></div>
+            <div class="trip-cap" style="--cap: var(--accent-6)"><h3>2 · Neighbours copy</h3><p>The change travels along contact.</p></div>
+          </div>
+          <div class="trip-panel" data-panel="2">
+            <div class="trip-grid" aria-hidden="true"></div>
+            <div class="trip-cap" style="--cap: var(--accent-4); --cap-on: var(--text)"><h3>3 · The default shifts</h3><p>Holding out now takes effort.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-triptych">Step</button><span class="spec-text"><b>Triptych</b> · Use when a narrative has three beats. The same scene changes state across three panels.</span></div>
+    <aside class="notes">Show panel one, then ask the room what happens next before each reveal. Sample scenario only.</aside>
+    <div class="deco circle" style="width: 28rem; height: 28rem; background: var(--accent-4); opacity: 0.08; top: -14rem; right: 10rem"></div>
+    <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.07; bottom: -8rem; left: -4rem; transform: rotate(18deg)"></div>
+  </section>
+
+  <!-- ============ 29. ISOTYPE ARRAY ============ -->
+  <section class="slide" id="s-isotype" data-accent="var(--accent-1)" data-archetype="isotype-array" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 29 · Evidence · A proportion made countable</span>
+        <h2>Three in every ten chose the first option</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid iso">
+          <div class="iso-grid" role="img" aria-label="One hundred squares in ten rows; the first thirty are filled purple."></div>
+          <div>
+            <div class="iso-big" id="iso-count">30</div>
+            <h3 class="iso-of">of every 100 respondents</h3>
+            <div class="iso-key">
+              <div><i class="on"></i>Chose the first option</div>
+              <div><i></i>Chose another option</div>
+            </div>
+            <p class="micro iso-src">PLACEHOLDER: illustrative values, from no study. One square is one respondent.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-isotype">Step</button><span class="spec-text"><b>Isotype array</b> · Use when a proportion should be countable, after Otto Neurath's picture statistics, with squares in place of pictograms.</span></div>
+    <aside class="notes">Ask for a guess first, then fill the squares. Counting units lands harder than a percentage.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.09; bottom: -10rem; right: -6rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-2); opacity: 0.07; top: -6rem; right: 26rem"></div>
+  </section>
+
+  <!-- ============ 30. PROPORTIONAL FIELD ============ -->
+  <section class="slide" id="s-field" data-accent="var(--accent-3)" data-archetype="proportional-field">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 30 · Evidence · Part to whole</span>
+        <h2>Most of the hour goes to the activity</h2>
+      </header>
+      <div class="s-body">
+        <div class="field" role="img" aria-label="A rectangle divided by area: activity 25 minutes, input 20, discussion 10, close 5.">
+          <div class="fcell" style="--f: var(--accent-3)"><h3>Activity</h3><span class="v">25 <small>min</small></span></div>
+          <div class="field-right">
+            <div class="fcell" style="--f: var(--accent-1)"><h3>Input</h3><span class="v">20 <small>min</small></span></div>
+            <div class="field-bottom">
+              <div class="fcell" style="--f: var(--accent-4); --on: var(--text)"><h3>Discussion</h3><span class="v">10 <small>min</small></span></div>
+              <div class="fcell sm" style="--f: var(--accent-2)"><h3>Close</h3><span class="v">5 <small>min</small></span></div>
+            </div>
+          </div>
+        </div>
+        <p class="micro field-src">PLACEHOLDER: illustrative minutes for a 60-minute seminar. Each area is proportional to its minutes.</p>
+      </div>
+    </div>
+    <div class="spec-strip"><span class="spec-text"><b>Proportional field</b> · Use for part to whole with three to seven parts. A De Stijl frame cut into areas, gutters in ink.</span></div>
+    <aside class="notes">Point to the largest field first. The composition only works if areas are true to the numbers, so the grid fractions are set from the data.</aside>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.08; top: -9rem; right: 6rem"></div>
+  </section>
+
+  <!-- ============ 31. SCALE COMPARISON ============ -->
+  <section class="slide" id="s-scale" data-accent="var(--accent-8)" data-archetype="scale-comparison">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 31 · Evidence · Magnitudes far apart</span>
+        <h2>The largest budget is a hundred times the smallest</h2>
+      </header>
+      <div class="s-body fixed-h">
+        <div class="scale-wrap" role="img" aria-label="Three squares drawn with true area ratios of 1 to 10 to 100.">
+          <div class="sq" style="left: 0"><div class="sq-shape" style="--f: var(--accent-2); width: 3rem; height: 3rem"></div><div class="sq-label"><span class="label">Project A</span><span class="val">1 unit</span></div></div>
+          <div class="sq" style="left: 10rem"><div class="sq-shape" style="--f: var(--accent-4); width: 9.49rem; height: 9.49rem"></div><div class="sq-label"><span class="label">Project B</span><span class="val">10 units</span></div></div>
+          <div class="sq sq-big" style="left: 57rem"><div class="sq-shape" style="--f: var(--accent-8); width: 30rem; height: 30rem"><div class="sq-label"><span class="label">Project C</span><span class="val">100 units</span></div></div></div>
+          <div class="scale-base"></div>
+          <div class="card scale-note"><div class="card-name" style="--card-ink: var(--accent-4-ink)">Read the areas</div><p>Ten times the area is about three times the side. A hundred times the area is ten times the side.</p></div>
+          <p class="micro scale-src">PLACEHOLDER: illustrative values. Areas are drawn to scale.</p>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><span class="spec-text"><b>Scale comparison</b> · Use when magnitudes are too far apart to grasp as numbers. Squares with true area ratios on one baseline.</span></div>
+    <aside class="notes">Read the small square aloud, then the large one. The note explains why the large square looks smaller than a hundred times: we read sides, not areas.</aside>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-3); opacity: 0.07; top: -10rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 32. ORBIT ============ -->
+  <section class="slide" id="s-orbit" data-accent="var(--accent-2)" data-archetype="orbit">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 32 · Relations · Distance from a core</span>
+        <h2>Who a first-year student sees, and how often</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid orbit-grid">
+          <div class="orbit" id="orbit">
+            <div class="orbit-ring" style="--ring: var(--accent-1); width: 31rem; height: 31rem"></div>
+            <div class="orbit-ring" style="--ring: var(--accent-6); width: 23rem; height: 23rem"></div>
+            <div class="orbit-ring" style="--ring: var(--accent-4); width: 15rem; height: 15rem"></div>
+            <div class="orbit-core">Student</div>
+          </div>
+          <div class="orbit-side">
+            <div class="orbit-legend">
+              <div style="--ring: var(--accent-4)"><i></i><b>Inner ring</b>Daily contact</div>
+              <div style="--ring: var(--accent-6)"><i></i><b>Middle ring</b>Weekly contact</div>
+              <div style="--ring: var(--accent-1)"><i></i><b>Outer ring</b>Occasional contact</div>
+            </div>
+            <div class="card detail" id="orbit-detail" aria-live="polite"><p class="placeholder">Select a person or service on the rings, or press 1 to 7.</p></div>
+            <p class="micro">Sample content. Ring distance shows how often, not how much it matters.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><span class="spec-text"><b>Orbit</b> · Use for centrality or closeness to a core concept. Satellites sit on concentric rings by distance.</span></div>
+    <aside class="notes">Ask the room to place one satellite before showing the rings. Selecting a satellite fills the panel.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-8); opacity: 0.08; bottom: -9rem; right: -5rem; transform: rotate(28deg)"></div>
+    <div class="deco" style="width: 38rem; height: 1.6rem; background: var(--accent-4); opacity: 0.1; top: 9rem; right: -6rem; transform: rotate(-6deg)"></div>
+  </section>
+
+  <!-- ============ 33. OVERLAP ============ -->
+  <section class="slide" id="s-overlap" data-accent="var(--accent-5)" data-archetype="overlap" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 33 · Relations · Shared ground</span>
+        <h2>Where the three disciplines meet</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid ovl-grid">
+          <div class="ovl-fig">
+          <svg class="ovl-svg" viewBox="0 0 500 340" role="img" aria-label="Three overlapping rings for psychology, economics and politics. Each pair overlaps in a numbered region; the centre, where all three overlap, fills brown.">
+            <defs>
+              <clipPath id="ovl-cA"><circle cx="190" cy="120" r="100"/></clipPath>
+              <clipPath id="ovl-cB"><circle cx="310" cy="120" r="100"/></clipPath>
+              <clipPath id="ovl-cAB" clip-path="url(#ovl-cA)"><circle cx="310" cy="120" r="100"/></clipPath>
+            </defs>
+            <circle class="ovl-lens" cx="310" cy="120" r="100" clip-path="url(#ovl-cA)"/>
+            <circle class="ovl-lens" cx="250" cy="224" r="100" clip-path="url(#ovl-cA)"/>
+            <circle class="ovl-lens" cx="250" cy="224" r="100" clip-path="url(#ovl-cB)"/>
+            <circle class="ovl-core" cx="250" cy="224" r="100" clip-path="url(#ovl-cAB)"/>
+            <circle class="ovl-ring" cx="190" cy="120" r="100" style="stroke: var(--accent-1)"/>
+            <circle class="ovl-ring" cx="310" cy="120" r="100" style="stroke: var(--accent-2)"/>
+            <circle class="ovl-ring" cx="250" cy="224" r="100" style="stroke: var(--accent-4)"/>
+            <text class="ovl-name" x="2" y="34">PSYCHOLOGY</text>
+            <text class="ovl-name" x="498" y="34" text-anchor="end">ECONOMICS</text>
+            <text class="ovl-name" x="378" y="326">POLITICS</text>
+            <text class="ovl-num" x="250" y="92" text-anchor="middle">1</text>
+            <text class="ovl-num" x="186" y="212" text-anchor="middle">2</text>
+            <text class="ovl-num" x="314" y="212" text-anchor="middle">3</text>
+          </svg>
+            <span class="ovl-chip" aria-hidden="true">C</span>
+          </div>
+          <div class="ovl-list">
+            <div class="ovl-item"><span class="n" style="--n-bg: rgba(184, 48, 104, 0.16)">1</span><span><b>Psychology and economics</b>Behavioural economics</span></div>
+            <div class="ovl-item"><span class="n" style="--n-bg: rgba(184, 48, 104, 0.16)">2</span><span><b>Psychology and politics</b>Political psychology</span></div>
+            <div class="ovl-item"><span class="n" style="--n-bg: rgba(184, 48, 104, 0.16)">3</span><span><b>Economics and politics</b>Political economy</span></div>
+            <div class="ovl-item core"><span class="n" style="--n-bg: var(--accent-5); --n-on: #fff">C</span><span><b>All three</b>How people decide, alone and together</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-overlap">Step</button><span class="spec-text"><b>Overlap</b> · Use when two or three concepts share ground. The shared centre is a solid fill cut with clip-path, never a blend.</span></div>
+    <aside class="notes">Name the pairwise overlaps first; reveal the centre last and ask what all three have in common.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-3); opacity: 0.08; bottom: -8rem; right: -4rem; transform: rotate(20deg)"></div>
+  </section>
+
+  <!-- ============ 34. ICEBERG ============ -->
+  <section class="slide" id="s-iceberg" data-accent="var(--accent-1)" data-archetype="iceberg" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 34 · Relations · Surface and depth</span>
+        <h2>Missed deadlines sit on larger causes</h2>
+      </header>
+      <div class="s-body fixed-h" data-reveal>
+        <div class="ice" role="img" aria-label="A small purple triangle above a waterline, with three widening bands beneath it.">
+          <div class="ice-tip"></div>
+          <div class="ice-see"><span class="label">What we see</span><h3>Missed deadlines</h3></div>
+          <div class="ice-below"><span class="label">What lies beneath</span></div>
+          <div class="ice-band" style="--f: var(--accent-8); top: 11rem; left: 32rem; width: 36rem; clip-path: polygon(16.67% 0, 83.33% 0, 100% 100%, 0 100%)">Unclear priorities</div>
+          <div class="ice-band" style="--f: var(--accent-2); top: 18.2rem; left: 25rem; width: 50rem; clip-path: polygon(13% 0, 87% 0, 100% 100%, 0 100%)">Workload peaks at once</div>
+          <div class="ice-band" style="--f: var(--accent-5); top: 25.4rem; left: 18rem; width: 64rem; clip-path: polygon(10.16% 0, 89.84% 0, 100% 100%, 0 100%)">Starting late becomes a habit</div>
+          <p class="micro ice-src">Sample causes for illustration.</p>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-iceberg">Step</button><span class="spec-text"><b>Iceberg</b> · Use to set surface behaviour against underlying causes. Strata reveal one at a time beneath the line.</span></div>
+    <aside class="notes">Start with the tip only. Before each band, ask what might sit underneath.</aside>
+    <div class="ice-water" aria-hidden="true"></div>
+    <div class="ice-line" aria-hidden="true"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-4); opacity: 0.12; top: -7rem; right: 14rem"></div>
+  </section>
+
+  <!-- ============ 35. STRATA ============ -->
+  <section class="slide" id="s-strata" data-accent="var(--accent-7)" data-archetype="strata" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 35 · Relations · Layers that rest on layers</span>
+        <h2>What a good discussion rests on</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid strata-grid fill">
+          <div class="strata" aria-label="Four layers built upward">
+            <div class="stratum" data-layer="0" style="--f: var(--accent-5); flex: 9; width: 100%"><span>Prepared reading</span><em>Foundation</em></div>
+            <div class="stratum" data-layer="1" style="--f: var(--accent-4); --on: var(--text); flex: 7.5; width: 82%"><span>A clear question</span><em>Layer 2</em></div>
+            <div class="stratum" data-layer="2" style="--f: var(--accent-2); flex: 6.5; width: 64%"><span>Ground rules</span><em>Layer 3</em></div>
+            <div class="stratum" data-layer="3" style="--f: var(--accent-7); --on: var(--text); flex: 5.5; width: 46%"><span>Good discussion</span></div>
+          </div>
+          <div class="strata-side">
+            <div class="strata-note" data-layer="0" style="--f: var(--accent-5); flex: 9"><p>Everyone has read the same thing, so the room shares a starting point.</p></div>
+            <div class="strata-note" data-layer="1" style="--f: var(--accent-4); flex: 7.5"><p>One question narrow enough to argue about.</p></div>
+            <div class="strata-note" data-layer="2" style="--f: var(--accent-2); flex: 6.5"><p>Turns, time limits and how to disagree.</p></div>
+            <div class="strata-note" data-layer="3" style="--f: var(--accent-7); flex: 5.5"><p>What the room sees, if the layers hold.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-strata">Step</button><span class="spec-text"><b>Strata</b> · Use when layers rest on one another. Builds upward from the foundation; vertical dependency, not a sequence.</span></div>
+    <aside class="notes">Build from the bottom. At each layer ask: what happens to everything above if this one is missing?</aside>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-1); opacity: 0.07; top: -10rem; right: 4rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-6); opacity: 0.08; bottom: -5rem; right: 30rem; transform: rotate(40deg)"></div>
+  </section>
+
+  <!-- ============ 36. FUNNEL ============ -->
+  <section class="slide" id="s-funnel" data-accent="var(--accent-6)" data-archetype="funnel" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 36 · Evidence · Attrition by stage</span>
+        <h2>One in five invited students finished the survey</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="funnel" id="funnel"></div>
+        <p class="micro fn-src">PLACEHOLDER: illustrative counts. Bar widths are proportional to the number remaining at each stage.</p>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-funnel">Step</button><span class="spec-text"><b>Funnel</b> · Use for attrition or selection across stages. Centred bars narrow by count; losses sit in the gutter.</span></div>
+    <aside class="notes">Ask where the biggest loss happens before revealing. The claim is about the last bar, so only that bar is in colour.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.09; top: -10rem; right: -6rem; transform: rotate(24deg)"></div>
+    <div class="deco circle" style="width: 14rem; height: 14rem; background: var(--accent-1); opacity: 0.07; bottom: -5rem; left: 10rem"></div>
+  </section>
+
+  <!-- ============ 37. ZOOM ============ -->
+  <section class="slide" id="s-zoom" data-accent="var(--accent-4)" data-archetype="zoom" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 37 · Relations · Levels of analysis</span>
+        <h2>One problem, four levels</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid zoom-grid">
+          <div class="zoom-view" role="img" aria-label="Nested squares: a person inside a team inside an organisation inside a sector. Each step zooms out one level.">
+            <div class="zoom-inner" id="zoom-inner"></div>
+          </div>
+          <div class="zoom-list" id="zoom-list"></div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-zoom">Step</button><span class="spec-text"><b>Zoom</b> · Use for levels of analysis. Each step pulls back one level; the previous level stays visible inside it.</span></div>
+    <aside class="notes">Start on the person. Each step zooms out: ask what the new level explains that the last could not.</aside>
+    <div class="deco circle" style="width: 26rem; height: 26rem; background: var(--accent-2); opacity: 0.07; bottom: -12rem; right: 6rem"></div>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.07; top: -6rem; right: 30rem; transform: rotate(14deg)"></div>
+  </section>
+
+  <!-- ============ 38. BALANCE ============ -->
+  <section class="slide" id="s-balance" data-accent="var(--accent-2)" data-archetype="balance" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 38 · Relations · A trade-off</span>
+        <h2>Group or individual assessment?</h2>
+      </header>
+      <div class="s-body fixed-h" data-reveal>
+        <div class="bal" role="img" aria-label="A beam balanced on a gold triangle, with considerations stacked on each end. The beam tilts toward the heavier side.">
+          <div class="bal-base"></div>
+          <div class="bal-fulcrum"></div>
+          <div class="bal-beam" id="bal-beam">
+            <div class="bal-side left" id="bal-left"></div>
+            <div class="bal-side right" id="bal-right"></div>
+            <span class="bal-end left">Group</span>
+            <span class="bal-end right">Individual</span>
+          </div>
+          <p class="micro bal-src">The tilt is the presenter's argued judgement, set in the deck, not a measurement.</p>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-balance">Step</button><span class="spec-text"><b>Balance</b> · Use for a trade-off. Considerations land on each end in turn and the beam tilts.</span></div>
+    <aside class="notes">Add one consideration at a time, alternating sides. Ask the room which way it will tip before the last block.</aside>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-8); opacity: 0.08; top: -9rem; right: 10rem"></div>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.1; bottom: -7rem; left: -3rem; transform: rotate(30deg)"></div>
+  </section>
+
+  <!-- ============ 39. TIPPING POINT ============ -->
+  <section class="slide" id="s-tipping" data-accent="var(--accent-8)" data-archetype="tipping-point" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 39 · Relations · Thresholds</span>
+        <h2>A small push can move the whole system</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <svg class="tip-svg" id="tip-svg" viewBox="0 0 875 240" role="img" aria-label="A landscape with two basins separated by a crest. A red ball rests in the left basin and is pushed over the crest into the deeper right basin.">
+          <path class="tip-ground" id="tip-ground" d=""/>
+          <line class="tip-crest" id="tip-crest" x1="0" y1="0" x2="0" y2="240"/>
+          <circle class="tip-ball" id="tip-ball" r="22" cx="0" cy="0"/>
+          <text class="tip-label" id="tip-l-a" text-anchor="middle" y="112">STATUS QUO</text>
+          <text class="tip-label" id="tip-l-c" text-anchor="middle" y="44">THRESHOLD</text>
+          <text class="tip-label" id="tip-l-b" text-anchor="middle" y="128">NEW STATE</text>
+        </svg>
+        <div class="grid g-4 tip-steps" id="tip-steps"></div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-tipping">Step</button><span class="spec-text"><b>Tipping point</b> · Use for thresholds, path dependence and lock-in. The ball is pushed over a crest into a second basin.</span></div>
+    <aside class="notes">Pause the ball at the crest and ask what happens next. The right basin is deeper: getting back costs more than getting there.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.09; top: -9rem; right: -4rem; transform: rotate(22deg)"></div>
+  </section>
+
+  <!-- ============ 40. ROUTE MAP ============ -->
+  <section class="slide" id="s-route" data-accent="var(--accent-3)" data-archetype="route-map" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 40 · Relations · Connected themes</span>
+        <h2>The course as three connected lines</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <svg class="rt-svg" viewBox="0 0 875 300" role="img" aria-label="A transit-style map of three lines: theory in purple, methods in red, practice in gold. They meet at three interchanges: evidence, analysis and projects.">
+          <polyline class="rt-line" style="stroke: var(--accent-1)" points="20,70 290,70 450,230 855,230"/>
+          <polyline class="rt-line" style="stroke: var(--accent-2)" points="20,230 290,230 450,70 590,70 670,150 855,150"/>
+          <polyline class="rt-line" style="stroke: var(--accent-4)" points="670,18 670,288"/>
+          <g id="rt-stations"></g>
+        </svg>
+        <div class="rt-legend">
+          <div><i style="--f: var(--accent-1)"></i>Theory</div>
+          <div><i style="--f: var(--accent-2)"></i>Methods</div>
+          <div><i style="--f: var(--accent-4)"></i>Practice</div>
+          <div><i class="ring"></i>Interchange</div>
+          <div class="rt-now" aria-live="polite"><i class="lit"></i><span id="rt-now"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-route">Step</button><span class="spec-text"><b>Route map</b> · Use for a course or field as connected themes. Reprise it each session with the current station lit.</span></div>
+    <aside class="notes">Show it in week one, then light the current station each session. Interchanges are where two lines share a concept.</aside>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.07; top: -9rem; right: 18rem"></div>
+  </section>
+
+  <!-- ============ 41. CONSTELLATION ============ -->
+  <section class="slide" id="s-constellation" data-accent="var(--accent-1)" data-archetype="constellation">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 41 · Relations · A network of ties</span>
+        <h2>Who works with whom across the programme</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid con-grid">
+          <svg class="con-svg" id="con-svg" viewBox="0 0 495 340" role="img" aria-label="Seven circles joined by lines, showing who works with whom."></svg>
+          <div class="con-side">
+            <div class="con-list" id="con-list"></div>
+            <div class="card detail" id="con-detail" aria-live="polite"><p class="placeholder">Select a node, or press 1 to 7, to light its ties.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><span class="spec-text"><b>Constellation</b> · Use for undirected ties among five to nine actors. Select a node to light its ties and dim the rest.</span></div>
+    <aside class="notes">Sample network. Ask which node would hurt most if removed, then select it.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-7); opacity: 0.08; bottom: -10rem; right: -6rem; transform: rotate(18deg)"></div>
+    <div class="deco ring" style="width: 16rem; height: 16rem; border-width: 1.6rem; border-color: var(--accent-4); opacity: 0.12; top: -6rem; right: 34rem"></div>
+  </section>
+
+  <!-- ============ 42. BRANCHING TREE ============ -->
+  <section class="slide" id="s-tree" data-accent="var(--accent-6)" data-archetype="branching-tree" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 42 · Relations · Conditional choices</span>
+        <h2>Choosing a method for a research question</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="tree">
+          <svg class="tree-svg" viewBox="0 0 875 340" aria-hidden="true">
+            <line class="tree-edge" data-edge="0" x1="400" y1="76" x2="140" y2="126"/>
+            <line class="tree-edge" data-edge="1" x1="400" y1="76" x2="620" y2="126"/>
+            <line class="tree-edge" data-edge="2" x1="620" y1="202" x2="480" y2="252"/>
+            <line class="tree-edge" data-edge="3" x1="620" y1="202" x2="740" y2="252"/>
+          </svg>
+          <div class="tnode q" data-node="0" style="left: 40rem; top: 0"><b>Question</b>Does suitable data already exist?</div>
+          <div class="tnode" data-node="1" style="left: 14rem; top: 12.6rem"><b>Method</b>Analyse the existing data</div>
+          <div class="tnode q" data-node="2" style="left: 62rem; top: 12.6rem"><b>Question</b>Can you reach the people involved?</div>
+          <div class="tnode" data-node="3" style="left: 48rem; top: 25.2rem"><b>Method</b>Survey or interview them</div>
+          <div class="tnode" data-node="4" style="left: 74rem; top: 25.2rem"><b>Rethink</b>Narrow or reframe the question</div>
+          <span class="tbranch" data-edge="0" style="left: 27rem; top: 10.1rem">YES</span>
+          <span class="tbranch" data-edge="1" style="left: 51rem; top: 10.1rem">NO</span>
+          <span class="tbranch" data-edge="2" style="left: 55rem; top: 22.7rem">YES</span>
+          <span class="tbranch" data-edge="3" style="left: 68rem; top: 22.7rem">NO</span>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-tree">Step</button><span class="spec-text"><b>Branching tree</b> · Use for conditional logic. The path taken lights step by step; untaken branches go quiet.</span></div>
+    <aside class="notes">Walk one case through the tree. At each question, ask the room to answer before you light the branch.</aside>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-4); opacity: 0.09; bottom: -12rem; left: -6rem"></div>
+  </section>
+
+  <!-- ============ 43. EXPLODED VIEW ============ -->
+  <section class="slide" id="s-exploded" data-accent="var(--accent-4)" data-archetype="exploded-view" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 43 · Relations · Whole into parts</span>
+        <h2>What an assessment brief contains</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid exp-grid">
+          <div class="exp" role="img" aria-label="A solid square made of four blocks: task, criteria, format and deadline. On reveal the blocks separate.">
+            <div class="exp-part" style="--f: var(--accent-1); left: 13.75rem; top: 6rem; width: 12rem; height: 22rem; --dx: -9rem; --dy: 0rem">Task<span class="n">1</span></div>
+            <div class="exp-part" style="--f: var(--accent-2); left: 25.75rem; top: 6rem; width: 10rem; height: 8rem; --dx: 8rem; --dy: -5rem">Criteria<span class="n">2</span></div>
+            <div class="exp-part" style="--f: var(--accent-4); --on: var(--text); left: 25.75rem; top: 14rem; width: 10rem; height: 7rem; --dx: 11rem; --dy: 0rem">Format<span class="n">3</span></div>
+            <div class="exp-part" style="--f: var(--accent-5); left: 25.75rem; top: 21rem; width: 10rem; height: 7rem; --dx: 8rem; --dy: 5rem">Deadline<span class="n">4</span></div>
+          </div>
+          <div class="exp-list">
+            <p class="exp-hint">One block, four parts. Step to separate them.</p>
+            <div class="exp-item"><span class="n" style="--f: var(--accent-1)">1</span><span><b>Task</b>What to produce, in one sentence</span></div>
+            <div class="exp-item"><span class="n" style="--f: var(--accent-2)">2</span><span><b>Criteria</b>How the work will be judged</span></div>
+            <div class="exp-item"><span class="n" style="--f: var(--accent-4); --on: var(--text)">3</span><span><b>Format</b>Length, file type and structure</span></div>
+            <div class="exp-item"><span class="n" style="--f: var(--accent-5)">4</span><span><b>Deadline</b>Date, time and where to submit</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-exploded">Step</button><span class="spec-text"><b>Exploded view</b> · Use to decompose a whole into components. Step again to reassemble, for a synthesis.</span></div>
+    <aside class="notes">Show the whole first and ask what it is made of. Separate, then reassemble at the end of the section as a synthesis.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.07; top: -8rem; right: 10rem; transform: rotate(34deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.07; bottom: -6rem; right: -4rem"></div>
+  </section>
+
+  <!-- ============ 44. LENS ============ -->
+  <section class="slide" id="s-lens" data-accent="var(--accent-2)" data-archetype="lens" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 44 · Evidence · One case, several theories</span>
+        <h2>The same scene through three lenses</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="grid lens-grid">
+          <div class="lens-scene" role="img" aria-label="An institution block, a resource circle and five people squares, joined by lines. Each lens highlights different parts.">
+            <svg class="lens-svg" viewBox="0 0 495 340" aria-hidden="true">
+              <line class="lens-flow rule" x1="140" y1="120" x2="60" y2="220"/>
+              <line class="lens-flow rule" x1="140" y1="120" x2="155" y2="220"/>
+              <line class="lens-flow rule" x1="140" y1="120" x2="250" y2="220"/>
+              <line class="lens-flow rule" x1="140" y1="120" x2="345" y2="220"/>
+              <line class="lens-flow rule" x1="140" y1="120" x2="440" y2="220"/>
+              <line class="lens-flow res" x1="390" y1="140" x2="155" y2="220"/>
+              <line class="lens-flow res" x1="390" y1="140" x2="250" y2="220"/>
+              <line class="lens-flow res" x1="390" y1="140" x2="345" y2="220"/>
+              <line class="lens-flow res" x1="390" y1="140" x2="440" y2="220"/>
+            </svg>
+            <div class="lens-part" data-part="block" style="left: 3rem; top: 3rem; width: 22rem; height: 9rem"></div>
+            <div class="lens-part circle" data-part="circle" style="left: 33rem; top: 2rem; width: 12rem; height: 12rem"></div>
+            <div class="lens-part" data-part="people" style="left: 3rem; top: 22rem; width: 6rem; height: 6rem"></div>
+            <div class="lens-part" data-part="people" style="left: 12.5rem; top: 22rem; width: 6rem; height: 6rem"></div>
+            <div class="lens-part" data-part="people" style="left: 22rem; top: 22rem; width: 6rem; height: 6rem"></div>
+            <div class="lens-part" data-part="people" style="left: 31.5rem; top: 22rem; width: 6rem; height: 6rem"></div>
+            <div class="lens-part" data-part="people" style="left: 41rem; top: 22rem; width: 6rem; height: 6rem"></div>
+            <div class="lens-people-label" id="lens-people-label"></div>
+          </div>
+          <div class="lens-side">
+            <div class="lens-btns" id="lens-btns"></div>
+            <div class="card detail" id="lens-detail" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-lens">Step</button><span class="spec-text"><b>Lens</b> · Use when one case is read through several theories. Each lens recolours and relabels the same scene.</span></div>
+    <aside class="notes">Keep the scene fixed and change only the lens: press 1 to 3, or step through. Ask what each lens makes invisible.</aside>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.09; top: -10rem; right: 4rem"></div>
+    <div class="deco" style="width: 36rem; height: 1.6rem; background: var(--accent-1); opacity: 0.08; bottom: 3rem; right: -6rem; transform: rotate(-5deg)"></div>
+  </section>
+
+  <!-- ============ 45. BEFORE AND AFTER ============ -->
+  <section class="slide" id="s-before-after" data-accent="var(--accent-5)" data-archetype="before-after" data-step="0">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">No. 45 · Evidence · An intervention</span>
+        <h2>The same room, rearranged for group work</h2>
+      </header>
+      <div class="s-body" data-reveal>
+        <div class="ba" id="ba" role="img" aria-label="A room plan. Before: desks in four rows facing a lectern. After: desks in six clusters of four, lectern moved to the side wall.">
+          <div class="ba-layer ba-before" id="ba-before"><span class="ba-tag">Before</span></div>
+          <div class="ba-layer ba-after" id="ba-after"><span class="ba-tag">After</span></div>
+          <div class="ba-div" aria-hidden="true"></div>
+        </div>
+        <div class="ba-foot">
+          <div class="ba-range"><label for="ba-range">Divider position</label><input type="range" id="ba-range" min="0" max="100" step="1" value="100"></div>
+          <div class="ba-diff"><span class="n">1</span><span><b>Rows become clusters</b>Six tables of four face each other</span></div>
+          <div class="ba-diff"><span class="n">2</span><span><b>The lectern moves</b>The front of the room disappears</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="spec-strip"><button class="btn ghost step-btn" type="button" data-target="s-before-after">Step</button><span class="spec-text"><b>Before and after</b> · Use when an intervention changes a system. One scene in two states, split by a divider.</span></div>
+    <aside class="notes">Show the before state in full and ask what should change. Step the divider to half, then to the full after state.</aside>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.07; top: -9rem; right: 14rem"></div>
+  </section>
+
+  <!-- ============ REGISTER ============ -->
+  <section class="slide" id="s-register" data-accent="var(--accent-1)" data-archetype="register">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Register · SLIDES.md section 6</span>
+        <h2>Twenty archetypes, numbered 26 to 45</h2>
+      </header>
+      <div class="s-body">
+        <div class="grid reg" id="reg"></div>
+        <div class="reg-foot">
+          <div><span class="pip" style="--pip: var(--accent-1)"></span>Framing</div>
+          <div><span class="pip" style="--pip: var(--accent-4)"></span>Exposition</div>
+          <div><span class="pip" style="--pip: var(--accent-2)"></span>Relations</div>
+          <div><span class="pip" style="--pip: var(--accent-5)"></span>Evidence</div>
+        </div>
+        <p class="reg-next"><b>Status</b>Specified in SLIDES.md section 6. This deck is the reference until a teaching deck builds each one.</p>
+      </div>
+    </div>
+    <aside class="notes">Select any card to go to its specimen.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.09; bottom: -12rem; right: -6rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-2); opacity: 0.07; top: -8rem; right: 30rem"></div>
+  </section>
+
+  <div class="blackout" id="blackout"></div>
+
+  <div class="deck-chrome" id="chrome">
+    <button class="nav-btn ghost" type="button" id="prev-btn" aria-label="Previous slide">Prev</button>
+    <span class="nav-info" id="nav-info"></span>
+    <button class="nav-btn" type="button" id="next-btn" aria-label="Next slide">Next</button>
+  </div>
+</div>
+</div>
+<script>
+/* ============================================================
+   EDITABLE CONTENT
+   Everything the illustrated slides draw or say lives here,
+   keyed by slide id. Edit text and numbers freely; keep the
+   shape of each entry. Figures are illustrative placeholders.
+   ============================================================ */
+var ACTIVITIES = {
+
+  /* 28. Triptych: which of the 25 squares (0 to 24, row by row) are filled in each panel */
+  's-triptych': {
+    panels: [
+      [12],
+      [6, 7, 11, 12, 13, 17],
+      [1, 2, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 22, 23]
+    ]
+  },
+
+  /* 29. Isotype array: total squares and how many are highlighted (PLACEHOLDER values) */
+  's-isotype': { total: 100, highlight: 30 },
+
+  /* 32. Orbit: rings from the centre outward; ring is 0, 1 or 2; angle in degrees, 0 = right, -90 = top */
+  's-orbit': {
+    rings: [
+      { r: 7.5, accent: 'var(--accent-4)', on: 'var(--text)', label: 'Daily' },
+      { r: 11.5, accent: 'var(--accent-6)', on: '#fff', label: 'Weekly' },
+      { r: 15.5, accent: 'var(--accent-1)', on: '#fff', label: 'Occasional' }
+    ],
+    satellites: [
+      { name: 'Peers', ring: 0, angle: -90, detail: 'Study alongside and compare notes.' },
+      { name: 'Flatmates', ring: 0, angle: 90, detail: 'Share daily routines outside class.' },
+      { name: 'Tutor', ring: 1, angle: -20, detail: 'Sets the work and returns feedback.' },
+      { name: 'Coach', ring: 1, angle: 200, detail: 'Helps plan goals and study habits.' },
+      { name: 'Library', ring: 2, angle: -135, detail: 'Visited for sources and quiet study.' },
+      { name: 'Family', ring: 2, angle: 45, detail: 'Called for support from a distance.' },
+      { name: 'Careers', ring: 2, angle: 110, detail: 'Consulted when applications open.' }
+    ]
+  },
+
+  /* 36. Funnel: stages and counts (PLACEHOLDER values) */
+  's-funnel': {
+    stages: [
+      { name: 'Invited', n: 200 },
+      { name: 'Opened', n: 120 },
+      { name: 'Started', n: 70 },
+      { name: 'Finished', n: 40 }
+    ]
+  },
+
+  /* 37. Zoom: levels from the innermost outward; x, y and size are fractions of the outer square */
+  's-zoom': {
+    levels: [
+      { name: 'Person', fill: 'var(--bg-card)', on: 'var(--text)', x: 0.16, y: 0.50, s: 0.20, question: 'What does this student intend, and why?' },
+      { name: 'Team', fill: 'var(--accent-2)', on: '#fff', x: 0.12, y: 0.40, s: 0.36, question: 'How does the group share the work?' },
+      { name: 'Organisation', fill: 'var(--accent-4)', on: 'var(--text)', x: 0.08, y: 0.32, s: 0.60, question: 'What does the timetable reward?' },
+      { name: 'Sector', fill: 'var(--accent-1)', on: '#fff', x: 0, y: 0, s: 1, question: 'What do funders and league tables count?' }
+    ]
+  },
+
+  /* 38. Balance: blocks in reveal order; weight is the presenter's argued judgement */
+  's-balance': {
+    degPerWeight: 3,
+    maxDeg: 8,
+    blocks: [
+      { side: 'left', label: 'Shared workload', weight: 2, accent: 'var(--accent-1)' },
+      { side: 'right', label: 'Individual credit', weight: 1, accent: 'var(--accent-2)' },
+      { side: 'left', label: 'Peer learning', weight: 1, accent: 'var(--accent-8)' },
+      { side: 'right', label: 'No free-riding', weight: 1, accent: 'var(--accent-6)' }
+    ]
+  },
+
+  /* 39. Tipping point: one caption per step */
+  's-tipping': {
+    steps: [
+      { title: '1 · Status quo', text: 'The system rests in its basin.' },
+      { title: '2 · A push', text: 'Below the threshold, it rolls back.' },
+      { title: '3 · Threshold', text: 'At the crest, a nudge decides it.' },
+      { title: '4 · New state', text: 'A deeper basin: harder to leave.' }
+    ]
+  },
+
+  /* 40. Route map: stations (x, y in map units; label side) and the order sessions light them */
+  's-route': {
+    stations: [
+      { id: 'questions', name: 'Questions', x: 100, y: 70, label: 'above' },
+      { id: 'concepts', name: 'Concepts', x: 210, y: 70, label: 'above' },
+      { id: 'interviews', name: 'Interviews', x: 520, y: 70, label: 'above' },
+      { id: 'sampling', name: 'Sampling', x: 100, y: 230, label: 'below' },
+      { id: 'measures', name: 'Measures', x: 210, y: 230, label: 'below' },
+      { id: 'models', name: 'Models', x: 540, y: 230, label: 'below' },
+      { id: 'critique', name: 'Critique', x: 815, y: 230, label: 'below' },
+      { id: 'reporting', name: 'Reporting', x: 815, y: 150, label: 'below' },
+      { id: 'briefing', name: 'Briefing', x: 670, y: 40, label: 'right' },
+      { id: 'placement', name: 'Placement', x: 670, y: 272, label: 'right' },
+      { id: 'evidence', name: 'Evidence', x: 370, y: 150, label: 'left', interchange: true },
+      { id: 'analysis', name: 'Analysis', x: 670, y: 150, label: 'right-above', interchange: true },
+      { id: 'projects', name: 'Projects', x: 670, y: 230, label: 'right-above', interchange: true }
+    ],
+    order: ['questions', 'sampling', 'concepts', 'measures', 'evidence', 'interviews', 'models',
+            'analysis', 'briefing', 'projects', 'reporting', 'placement', 'critique']
+  },
+
+  /* 41. Constellation: nodes (x, y, r in map units) and ties between node numbers */
+  's-constellation': {
+    nodes: [
+      { name: 'Students', x: 240, y: 175, r: 46, accent: 'var(--accent-1)', label: 'right' },
+      { name: 'Tutors', x: 100, y: 96, r: 34, accent: 'var(--accent-2)', label: 'left' },
+      { name: 'Programme team', x: 385, y: 92, r: 40, accent: 'var(--accent-4)', label: 'above' },
+      { name: 'Employers', x: 420, y: 262, r: 30, accent: 'var(--accent-6)', label: 'below' },
+      { name: 'Alumni', x: 255, y: 288, r: 24, accent: 'var(--accent-5)', label: 'below' },
+      { name: 'Library', x: 75, y: 262, r: 28, accent: 'var(--accent-7)', label: 'below' },
+      { name: 'Student union', x: 240, y: 38, r: 22, accent: 'var(--accent-8)', label: 'left' }
+    ],
+    ties: [[0, 1], [0, 2], [0, 5], [0, 4], [0, 6], [1, 2], [2, 3], [3, 4], [1, 5], [2, 6]]
+  },
+
+  /* 44. Lens: what each lens highlights, the labels it gives, and its caption */
+  's-lens': {
+    none: { block: 'Institution', circle: 'Resource', people: 'People', caption: 'Choose a lens: press 1 to 3, or step through.' },
+    lenses: [
+      { name: 'Psychology', accent: 'var(--accent-1)', on: '#fff', hot: ['people'], flows: null,
+        block: 'Institution', circle: 'Resource', people: 'Choosers: habit, attention, bias',
+        caption: 'Asks what goes on inside each chooser.' },
+      { name: 'Economics', accent: 'var(--accent-4)', on: 'var(--text)', hot: ['circle'], flows: 'res',
+        block: 'Institution', circle: 'Scarce resource', people: 'Buyers and sellers',
+        caption: 'Asks how scarcity and prices set the trade-offs.' },
+      { name: 'Politics', accent: 'var(--accent-2)', on: '#fff', hot: ['block'], flows: 'rule',
+        block: 'Rule-maker', circle: 'Resource', people: 'Citizens and voters',
+        caption: 'Asks who makes the rules, and whom they favour.' }
+    ]
+  },
+
+  /* 45. Before and after: divider positions in per cent, stepped in order */
+  's-before-after': { positions: [100, 50, 0] },
+
+  /* Register: the twenty proposals */
+  's-register': {
+    families: { Framing: 'var(--accent-1)', Exposition: 'var(--accent-4)', Relations: 'var(--accent-2)', Evidence: 'var(--accent-5)' },
+    items: [
+      [26, 'Typographic poster', 'Framing', 's-typo'],
+      [27, 'Specimen plate', 'Exposition', 's-specimen'],
+      [28, 'Triptych', 'Exposition', 's-triptych'],
+      [29, 'Isotype array', 'Evidence', 's-isotype'],
+      [30, 'Proportional field', 'Evidence', 's-field'],
+      [31, 'Scale comparison', 'Evidence', 's-scale'],
+      [32, 'Orbit', 'Relations', 's-orbit'],
+      [33, 'Overlap', 'Relations', 's-overlap'],
+      [34, 'Iceberg', 'Relations', 's-iceberg'],
+      [35, 'Strata', 'Relations', 's-strata'],
+      [36, 'Funnel', 'Evidence', 's-funnel'],
+      [37, 'Zoom', 'Relations', 's-zoom'],
+      [38, 'Balance', 'Relations', 's-balance'],
+      [39, 'Tipping point', 'Relations', 's-tipping'],
+      [40, 'Route map', 'Relations', 's-route'],
+      [41, 'Constellation', 'Relations', 's-constellation'],
+      [42, 'Branching tree', 'Relations', 's-tree'],
+      [43, 'Exploded view', 'Relations', 's-exploded'],
+      [44, 'Lens', 'Evidence', 's-lens'],
+      [45, 'Before and after', 'Evidence', 's-before-after']
+    ]
+  }
+};
+
+/* ============================================================
+   LOGIC: no editing needed below this line
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var ON_ACCENT = { '1': '#fff', '2': '#fff', '3': '#fff', '4': 'var(--text)', '5': '#fff', '6': '#fff', '7': 'var(--text)', '8': '#fff' };
+  var INK = { '1': 'var(--accent-1)', '2': 'var(--accent-2)', '3': 'var(--accent-7-ink)', '4': 'var(--accent-4-ink)', '5': 'var(--accent-5)', '6': 'var(--text)', '7': 'var(--accent-7-ink)', '8': 'var(--text)' };
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+  var revealFns = {};
+  var numberFns = {};
+  var worstFns = {};
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function svgEl(tag, attrs) { var e = document.createElementNS(SVGNS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function accentNum(v) { var m = /accent-(\d)/.exec(v || ''); return m ? m[1] : '1'; }
+
+  /* ---------- Slide accents and numbering ---------- */
+
+  slides.forEach(function (s, i) {
+    var accent = s.getAttribute('data-accent') || 'var(--accent-1)';
+    var n = accentNum(accent);
+    s.style.setProperty('--slide-accent', accent);
+    s.style.setProperty('--slide-ink', INK[n]);
+    s.style.setProperty('--on-accent', ON_ACCENT[n]);
+    var no = s.querySelector('.slide-no');
+    if (no) no.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  });
+
+  /* ---------- Stepped slides ---------- */
+  // A stepped slide keeps its step in data-step; r or its step button advances,
+  // and the step after the last returns to the start so the build can be replayed.
+
+  var steppers = {};
+  function stepper(id, max, render) {
+    var s = $(id);
+    steppers[id] = { max: max, render: render, step: 0 };
+    function set(n) {
+      var st = steppers[id];
+      st.step = n;
+      s.setAttribute('data-step', String(n));
+      if (render) render(n);
+      var btn = s.querySelector('.step-btn');
+      if (btn) {
+        btn.textContent = 'Step ' + n + ' / ' + max;
+        btn.setAttribute('aria-label', 'Advance the build: step ' + n + ' of ' + max + '. Shortcut r.');
+      }
+    }
+    steppers[id].set = set;
+    revealFns[id] = function () { var st = steppers[id]; set(st.step >= st.max ? 0 : st.step + 1); };
+    worstFns[id] = worstFns[id] || function () { set(max); };
+    set(0);
+  }
+  document.querySelectorAll('.step-btn').forEach(function (b) {
+    b.addEventListener('click', function () { var id = b.getAttribute('data-target'); if (revealFns[id]) revealFns[id](); });
+  });
+
+  /* ---------- 28. Triptych ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-triptych'];
+    var panels = $('s-triptych').querySelectorAll('.trip-panel');
+    panels.forEach(function (p, i) {
+      var g = p.querySelector('.trip-grid');
+      for (var k = 0; k < 25; k++) {
+        var c = el('span');
+        if (cfg.panels[i].indexOf(k) >= 0) c.className = 'on';
+        g.appendChild(c);
+      }
+    });
+    stepper('s-triptych', 2, function (n) {
+      panels.forEach(function (p, i) { p.classList.toggle('waiting', i > n); });
+    });
+  })();
+
+  /* ---------- 29. Isotype array ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-isotype'];
+    var g = $('s-isotype').querySelector('.iso-grid');
+    var cells = [];
+    for (var k = 0; k < cfg.total; k++) { var c = el('span'); c.style.transitionDelay = (k < cfg.highlight ? k * 40 : 0) + 'ms'; g.appendChild(c); cells.push(c); }
+    stepper('s-isotype', 1, function (n) {
+      cells.forEach(function (c, k) { c.classList.toggle('on', n === 1 && k < cfg.highlight); });
+      $('iso-count').textContent = n === 1 ? String(cfg.highlight) : '?';
+    });
+  })();
+
+  /* ---------- 32. Orbit ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-orbit'];
+    var orbit = $('orbit');
+    var detail = $('orbit-detail');
+    var btns = [];
+    cfg.satellites.forEach(function (sat, i) {
+      var ring = cfg.rings[sat.ring];
+      var a = sat.angle * Math.PI / 180;
+      var b = el('button', 'orb-sat', sat.name);
+      b.type = 'button';
+      b.style.left = (17 + ring.r * Math.cos(a)) + 'rem';
+      b.style.top = (17 + ring.r * Math.sin(a)) + 'rem';
+      b.style.setProperty('--ring', ring.accent);
+      b.style.setProperty('--ring-on', ring.on);
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', function () { select(i); });
+      orbit.appendChild(b);
+      btns.push(b);
+    });
+    function select(i) {
+      var sat = cfg.satellites[i]; if (!sat) return;
+      var ring = cfg.rings[sat.ring];
+      btns.forEach(function (b, k) { b.classList.toggle('selected', k === i); b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+      detail.style.setProperty('--detail-color', ring.accent);
+      detail.innerHTML = '';
+      detail.appendChild(el('div', 'card-name', ring.label + ' contact'));
+      detail.appendChild(el('h3', null, sat.name));
+      detail.appendChild(el('p', null, sat.detail));
+      var ink = INK[accentNum(ring.accent)];
+      detail.querySelector('.card-name').style.color = ink;
+    }
+    numberFns['s-orbit'] = select;
+    worstFns['s-orbit'] = function () {
+      var best = 0; cfg.satellites.forEach(function (s, k) { if (s.detail.length > cfg.satellites[best].detail.length) best = k; }); select(best);
+    };
+  })();
+
+  /* ---------- 33. Overlap, 34. Iceberg, 35. Strata, 42. Tree, 43. Exploded ---------- */
+
+  stepper('s-overlap', 1);
+
+  (function () {
+    var bands = $('s-iceberg').querySelectorAll('.ice-band');
+    stepper('s-iceberg', bands.length, function (n) {
+      bands.forEach(function (b, i) { b.classList.toggle('hidden', i >= n); });
+    });
+  })();
+
+  (function () {
+    var layers = $('s-strata').querySelectorAll('[data-layer]');
+    stepper('s-strata', 3, function (n) {
+      layers.forEach(function (l) { l.classList.toggle('hidden', parseInt(l.getAttribute('data-layer'), 10) > n); });
+    });
+  })();
+
+  (function () {
+    var s = $('s-tree');
+    var path = [{ nodes: [], edges: [] }, { nodes: [0, 2], edges: [1] }, { nodes: [0, 2], edges: [1, 2], end: 3 }];
+    stepper('s-tree', 2, function (n) {
+      var p = path[n];
+      s.querySelectorAll('.tnode').forEach(function (t) {
+        var k = parseInt(t.getAttribute('data-node'), 10);
+        t.classList.toggle('on', p.nodes.indexOf(k) >= 0);
+        t.classList.toggle('end', p.end === k);
+      });
+      s.querySelectorAll('[data-edge]').forEach(function (e) {
+        e.classList.toggle('lit', p.edges.indexOf(parseInt(e.getAttribute('data-edge'), 10)) >= 0);
+      });
+    });
+  })();
+
+  stepper('s-exploded', 1);
+
+  /* ---------- 36. Funnel ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-funnel'];
+    var f = $('funnel');
+    var max = cfg.stages[0].n;
+    cfg.stages.forEach(function (st, i) {
+      f.appendChild(el('div', 'fn-name', st.name));
+      var track = el('div', 'fn-track');
+      var bar = el('div', 'fn-bar' + (i === cfg.stages.length - 1 ? ' key' : ''), String(st.n));
+      bar.setAttribute('data-w', String(st.n / max * 100));
+      track.appendChild(bar);
+      f.appendChild(track);
+      var drop = el('div', 'fn-drop');
+      if (i > 0) { drop.textContent = '−' + (cfg.stages[i - 1].n - st.n); drop.appendChild(el('small', null, 'Lost')); }
+      f.appendChild(drop);
+    });
+    stepper('s-funnel', 1);
+    f.querySelectorAll('.fn-bar').forEach(function (b) { b.style.width = b.getAttribute('data-w') + '%'; });
+  })();
+
+  /* ---------- 37. Zoom ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-zoom'];
+    var inner = $('zoom-inner');
+    var list = $('zoom-list');
+    var SIDE = 34;
+    var divs = [], labels = [], rows = [];
+    cfg.levels.slice().reverse().forEach(function (lv) {
+      var d = el('div', 'zlev');
+      d.style.left = (lv.x * SIDE) + 'rem'; d.style.top = (lv.y * SIDE) + 'rem';
+      d.style.width = d.style.height = (lv.s * SIDE) + 'rem';
+      d.style.setProperty('--f', lv.fill); d.style.setProperty('--on', lv.on);
+      if (lv.fill === 'var(--bg-card)') d.style.outline = (0.3 / 1) + 'rem solid var(--text)';
+      var lab = el('span', 'zlev-label', lv.name);
+      d.appendChild(lab);
+      if (lv.name === cfg.levels[0].name) d.appendChild(el('div', 'zperson'));
+      inner.appendChild(d);
+      divs.unshift(d); labels.unshift(lab);
+    });
+    cfg.levels.forEach(function (lv) {
+      var r = el('div', 'zrow');
+      var pip = el('i'); pip.style.setProperty('--f', lv.fill);
+      if (lv.fill === 'var(--bg-card)') pip.style.border = '0.2rem solid var(--text)';
+      var t = el('span'); t.appendChild(el('b', null, lv.name)); t.appendChild(document.createTextNode(lv.question));
+      r.appendChild(pip); r.appendChild(t);
+      list.appendChild(r); rows.push(r);
+    });
+    stepper('s-zoom', cfg.levels.length - 1, function (n) {
+      var lv = cfg.levels[n];
+      var k = 1 / lv.s;
+      inner.style.transform = 'scale(' + k + ') translate(' + (-lv.x * SIDE) + 'rem, ' + (-lv.y * SIDE) + 'rem)';
+      cfg.levels.forEach(function (l, i) {
+        labels[i].style.fontSize = (1.5 / k) + 'rem';
+        labels[i].classList.toggle('off', l.s * k * SIDE < 9);
+      });
+      rows.forEach(function (r, i) { r.classList.toggle('current', i === n); });
+    });
+  })();
+
+  /* ---------- 38. Balance ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-balance'];
+    var beam = $('bal-beam');
+    var blocks = cfg.blocks.map(function (b) {
+      var d = el('div', 'bal-block' + (b.weight >= 2 ? ' heavy' : ''), b.label);
+      d.style.setProperty('--f', b.accent);
+      $(b.side === 'left' ? 'bal-left' : 'bal-right').appendChild(d);
+      return d;
+    });
+    stepper('s-balance', blocks.length, function (n) {
+      var L = 0, R = 0;
+      cfg.blocks.forEach(function (b, i) {
+        var on = i < n;
+        blocks[i].classList.toggle('hidden', !on);
+        if (on) { if (b.side === 'left') L += b.weight; else R += b.weight; }
+      });
+      var deg = Math.max(-cfg.maxDeg, Math.min(cfg.maxDeg, (R - L) * cfg.degPerWeight));
+      beam.style.transform = 'rotate(' + deg + 'deg)';
+    });
+  })();
+
+  /* ---------- 39. Tipping point ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-tipping'];
+    var W = 875, X0 = -1.45, X1 = 1.5, FTOP = 0.65, FSPAN = 1.98, YTOP = 60, YSPAN = 170;
+    function f(x) { return x * x * x * x - 2 * x * x - 0.3 * x; }
+    function df(x) { return 4 * x * x * x - 4 * x - 0.3; }
+    function sx(x) { return (x - X0) / (X1 - X0) * W; }
+    function sy(v) { return YTOP + (FTOP - v) / FSPAN * YSPAN; }
+    function root(a, b) { for (var i = 0; i < 60; i++) { var m = (a + b) / 2; if ((df(a) < 0) === (df(m) < 0)) a = m; else b = m; } return (a + b) / 2; }
+    var basinA = root(-1.5, -0.5), crest = root(-0.5, 0.5), basinB = root(0.5, 1.5);
+    var d = 'M 0 240';
+    for (var i = 0; i <= 160; i++) { var x = X0 + (X1 - X0) * i / 160; d += ' L ' + sx(x).toFixed(1) + ' ' + sy(f(x)).toFixed(1); }
+    d += ' L ' + W + ' 240 Z';
+    $('tip-ground').setAttribute('d', d);
+    var cr = $('tip-crest');
+    cr.setAttribute('x1', sx(crest)); cr.setAttribute('x2', sx(crest)); cr.setAttribute('y1', sy(f(crest)) + 8);
+    $('tip-l-a').setAttribute('x', sx(basinA));
+    $('tip-l-c').setAttribute('x', sx(crest));
+    $('tip-l-b').setAttribute('x', sx(basinB));
+    var ball = $('tip-ball');
+    var R = 22;
+    function place(x) {
+      var m = (-df(x) * YSPAN / FSPAN) / (W / (X1 - X0));
+      var len = Math.sqrt(1 + m * m);
+      ball.setAttribute('cx', (sx(x) + R * m / len).toFixed(1));
+      ball.setAttribute('cy', (sy(f(x)) - R / len).toFixed(1));
+    }
+    var targets = [basinA, basinA + 0.55 * (crest - basinA), crest, basinB];
+    var pos = basinA, anim = null;
+    function moveTo(x) {
+      if (anim) cancelAnimationFrame(anim);
+      if (reduced) { pos = x; place(x); return; }
+      var from = pos, t0 = null, dur = 800;
+      function tick(ts) {
+        if (t0 === null) t0 = ts;
+        var t = Math.min(1, (ts - t0) / dur);
+        var e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        pos = from + (x - from) * e; place(pos);
+        if (t < 1) anim = requestAnimationFrame(tick); else anim = null;
+      }
+      anim = requestAnimationFrame(tick);
+    }
+    place(basinA);
+    var strip = $('tip-steps');
+    var cards = cfg.steps.map(function (st) {
+      var c = el('div', 'tip-step'); c.appendChild(el('b', null, st.title)); c.appendChild(el('span', null, st.text)); strip.appendChild(c); return c;
+    });
+    stepper('s-tipping', cfg.steps.length - 1, function (n) {
+      cards.forEach(function (c, i) { c.classList.toggle('current', i === n); });
+      moveTo(targets[n]);
+    });
+    worstFns['s-tipping'] = function () { steppers['s-tipping'].set(3); if (anim) cancelAnimationFrame(anim); anim = null; pos = basinB; place(basinB); };
+  })();
+
+  /* ---------- 40. Route map ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-route'];
+    var g = $('rt-stations');
+    var byId = {};
+    cfg.stations.forEach(function (st) {
+      var grp = svgEl('g', { 'class': 'rt-st' });
+      if (st.interchange) grp.appendChild(svgEl('circle', { cx: st.x, cy: st.y, r: 17 }));
+      else grp.appendChild(svgEl('rect', { x: st.x - 11, y: st.y - 11, width: 22, height: 22 }));
+      var tx = st.x, ty = st.y, anchor = 'middle';
+      if (st.label === 'above') ty = st.y - 24;
+      else if (st.label === 'below') ty = st.y + 38;
+      else if (st.label === 'right') { tx = st.x + 22; ty = st.y + 6; anchor = 'start'; }
+      else if (st.label === 'right-above') { tx = st.x + 24; ty = st.y - 16; anchor = 'start'; }
+      else if (st.label === 'left') { tx = st.x - 30; ty = st.y + 6; anchor = 'end'; }
+      var t = svgEl('text', { x: tx, y: ty, 'text-anchor': anchor });
+      t.textContent = st.name;
+      grp.appendChild(t);
+      g.appendChild(grp);
+      byId[st.id] = { g: grp, st: st };
+    });
+    stepper('s-route', cfg.order.length - 1, function (n) {
+      var id = cfg.order[n];
+      Object.keys(byId).forEach(function (k) { byId[k].g.classList.toggle('lit', k === id); });
+      var now = $('rt-now');
+      now.textContent = 'This session: ';
+      now.appendChild(el('b', null, byId[id].st.name));
+      now.setAttribute('aria-label', 'This session: ' + byId[id].st.name);
+    });
+  })();
+
+  /* ---------- 41. Constellation ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-constellation'];
+    var svg = $('con-svg');
+    var list = $('con-list');
+    var detail = $('con-detail');
+    var ties = cfg.ties.map(function (t) {
+      var a = cfg.nodes[t[0]], b = cfg.nodes[t[1]];
+      var l = svgEl('line', { 'class': 'con-tie', x1: a.x, y1: a.y, x2: b.x, y2: b.y });
+      svg.appendChild(l);
+      return l;
+    });
+    var groups = [], btns = [];
+    cfg.nodes.forEach(function (nd, i) {
+      var g = svgEl('g', { 'class': 'con-node' });
+      g.style.setProperty('--f', nd.accent);
+      g.appendChild(svgEl('circle', { cx: nd.x, cy: nd.y, r: nd.r }));
+      var lx = nd.x, ly = nd.y + nd.r + 18, la = 'middle';
+      if (nd.label === 'above') ly = nd.y - nd.r - 10;
+      else if (nd.label === 'left') { lx = nd.x - nd.r - 10; ly = nd.y + 5; la = 'end'; }
+      else if (nd.label === 'right') { lx = nd.x + nd.r + 10; ly = nd.y + 5; la = 'start'; }
+      var t = svgEl('text', { x: lx, y: ly, 'text-anchor': la, 'paint-order': 'stroke', stroke: '#F2DFBE', 'stroke-width': 6, 'stroke-linejoin': 'round' });
+      t.textContent = nd.name;
+      g.appendChild(t);
+      g.addEventListener('click', function () { select(i); });
+      svg.appendChild(g);
+      groups.push(g);
+      var b = el('button', 'con-btn'); b.type = 'button';
+      b.style.setProperty('--f', nd.accent);
+      b.appendChild(el('i')); b.appendChild(document.createTextNode((i + 1) + ' · ' + nd.name));
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', function () { select(i); });
+      list.appendChild(b); btns.push(b);
+    });
+    function select(i) {
+      if (!cfg.nodes[i]) return;
+      var linked = [];
+      cfg.ties.forEach(function (t, k) {
+        var on = t[0] === i || t[1] === i;
+        ties[k].classList.toggle('lit', on); ties[k].classList.toggle('dim', !on);
+        if (on) linked.push(t[0] === i ? t[1] : t[0]);
+      });
+      groups.forEach(function (g, k) { g.classList.toggle('dim', k !== i && linked.indexOf(k) < 0); });
+      btns.forEach(function (b, k) { b.classList.toggle('selected', k === i); b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+      detail.innerHTML = '';
+      detail.style.setProperty('--detail-color', cfg.nodes[i].accent);
+      detail.appendChild(el('div', 'card-name', linked.length + ' ties'));
+      detail.querySelector('.card-name').style.color = INK[accentNum(cfg.nodes[i].accent)];
+      detail.appendChild(el('h3', null, cfg.nodes[i].name));
+      detail.appendChild(el('p', null, 'Works with ' + linked.map(function (k) { return cfg.nodes[k].name.toLowerCase(); }).join(', ') + '.'));
+    }
+    numberFns['s-constellation'] = select;
+    worstFns['s-constellation'] = function () { select(0); };
+  })();
+
+  /* ---------- 44. Lens ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-lens'];
+    var s = $('s-lens');
+    var parts = s.querySelectorAll('.lens-part');
+    var flows = s.querySelectorAll('.lens-flow');
+    var label = $('lens-people-label');
+    var detail = $('lens-detail');
+    var btns = cfg.lenses.map(function (ln, i) {
+      var b = el('button', 'lens-btn'); b.type = 'button';
+      b.style.setProperty('--lens', ln.accent); b.style.setProperty('--lens-on', ln.on);
+      b.appendChild(el('span', 'k', String(i + 1))); b.appendChild(el('span', null, ln.name));
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', function () { steppers['s-lens'].set(i + 1); });
+      $('lens-btns').appendChild(b);
+      return b;
+    });
+    stepper('s-lens', cfg.lenses.length, function (n) {
+      var ln = n > 0 ? cfg.lenses[n - 1] : null;
+      var txt = ln || cfg.none;
+      parts.forEach(function (p) {
+        var kind = p.getAttribute('data-part');
+        p.style.setProperty('--lens', ln ? ln.accent : 'transparent');
+        p.style.setProperty('--lens-on', ln ? ln.on : 'var(--text)');
+        p.classList.toggle('hot', !!ln && ln.hot.indexOf(kind) >= 0);
+        p.classList.toggle('dim', !!ln && ln.hot.indexOf(kind) < 0);
+        if (kind !== 'people') p.textContent = txt[kind];
+      });
+      flows.forEach(function (fl) {
+        var on = ln && ln.flows && fl.classList.contains(ln.flows);
+        fl.style.stroke = on ? ln.accent : '';
+      });
+      label.textContent = txt.people;
+      btns.forEach(function (b, i) { b.classList.toggle('selected', i === n - 1); b.setAttribute('aria-pressed', i === n - 1 ? 'true' : 'false'); });
+      detail.innerHTML = '';
+      detail.style.setProperty('--detail-color', ln ? ln.accent : 'var(--border)');
+      if (ln) {
+        var nm = el('div', 'card-name', ln.name + ' lens'); nm.style.color = INK[accentNum(ln.accent)];
+        detail.appendChild(nm);
+        detail.appendChild(el('p', null, ln.caption));
+      } else detail.appendChild(el('p', 'placeholder', txt.caption));
+    });
+    numberFns['s-lens'] = function (i) { if (cfg.lenses[i]) steppers['s-lens'].set(i + 1); };
+    worstFns['s-lens'] = function () {
+      var best = 0; cfg.lenses.forEach(function (l, k) { if (l.caption.length > cfg.lenses[best].caption.length) best = k; }); steppers['s-lens'].set(best + 1);
+    };
+  })();
+
+  /* ---------- 45. Before and after ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-before-after'];
+    var ba = $('ba'), before = $('ba-before'), after = $('ba-after'), range = $('ba-range');
+    function box(parent, cls, x, y, w, h, fill) {
+      var d = el('div', cls);
+      d.style.left = x + 'rem'; d.style.top = y + 'rem';
+      if (w) d.style.width = w + 'rem';
+      if (h) d.style.height = h + 'rem';
+      if (fill) d.style.setProperty('--f', fill);
+      parent.appendChild(d);
+      return d;
+    }
+    box(before, 'lectern', 37.75, 1.6, 12, 2.4);
+    [11.5, 23.5, 35.5, 47.5, 59.5, 71.5].forEach(function (x) {
+      [7, 11.6, 16.2, 20.8].forEach(function (y) { box(before, 'desk', x, y); });
+    });
+    box(after, 'lectern', 2.4, 8.4, 2.4, 10);
+    var fills = ['var(--accent-1)', 'var(--accent-4)', 'var(--accent-2)', 'var(--accent-6)', 'var(--accent-8)', 'var(--accent-3)'];
+    var k = 0;
+    [4.6, 15.4].forEach(function (y) {
+      [18, 40, 62].forEach(function (x) {
+        var c = fills[k++];
+        box(after, 'desk', x, y, null, null, c); box(after, 'desk', x + 4.8, y, null, null, c);
+        box(after, 'desk', x, y + 3.4, null, null, c); box(after, 'desk', x + 4.8, y + 3.4, null, null, c);
+      });
+    });
+    var m1 = box(after, 'ba-mark', 14.2, 4.6); m1.textContent = '1';
+    var m2 = box(after, 'ba-mark', 5.8, 8.4); m2.textContent = '2';
+    function setP(p) { ba.style.setProperty('--p', p + '%'); range.value = String(p); }
+    range.addEventListener('input', function () { setP(parseInt(range.value, 10)); });
+    stepper('s-before-after', cfg.positions.length - 1, function (n) { setP(cfg.positions[n]); });
+  })();
+
+  /* ---------- Register ---------- */
+
+  (function () {
+    var cfg = ACTIVITIES['s-register'];
+    var reg = $('reg');
+    cfg.items.forEach(function (it) {
+      var b = el('a', 'reg-item reg-link');
+      b.href = '#' + (slides.indexOf($(it[3])) + 1);
+      b.style.setProperty('--f', cfg.families[it[2]]);
+      b.appendChild(el('span', 'no', String(it[0])));
+      b.appendChild(el('span', 'nm', it[1]));
+      b.setAttribute('aria-label', 'Go to ' + it[0] + ', ' + it[1] + ' (' + it[2] + ')');
+      reg.appendChild(b);
+    });
+  })();
+
+  /* ---------- Navigation ---------- */
+
+  function show(n, fromHash) {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides.forEach(function (s) { s.classList.remove('active'); });
+    slides[n].classList.add('active');
+    current = n;
+    var accent = slides[n].getAttribute('data-accent') || 'var(--accent-1)';
+    document.documentElement.style.setProperty('--slide-accent', accent);
+    var prog = $('progress');
+    prog.style.width = ((n + 1) / total * 100) + '%';
+    prog.style.background = accent;
+    $('nav-info').textContent = String(n + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    $('prev-btn').disabled = n === 0;
+    $('next-btn').disabled = n === total - 1;
+    if (!fromHash) {
+      try { history.replaceState(null, '', '#' + (n + 1)); } catch (err) { /* hash cannot be written in this frame */ }
+    }
+    window.scrollTo(0, 0);
+  }
+  function go(d) { show(current + d); }
+  function fromHash() {
+    var m = /^#(\d+)$/.exec(location.hash);
+    return m ? parseInt(m[1], 10) - 1 : 0;
+  }
+  window.addEventListener('hashchange', function () { var n = fromHash(); if (n !== current) show(n, true); });
+  $('prev-btn').addEventListener('click', function () { go(-1); });
+  $('next-btn').addEventListener('click', function () { go(1); });
+
+  function toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function () {}); }
+      else if (document.exitFullscreen) document.exitFullscreen();
+    } catch (err) { /* full screen is not available here */ }
+  }
+
+  /* ---------- Keyboard ---------- */
+
+  var blackout = $('blackout');
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    var typing = t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+    if (typing && e.key !== 'Escape') return;
+    if (t.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    if (blackout.classList.contains('on')) { e.preventDefault(); blackout.classList.remove('on'); return; }
+
+    var id = slides[current].id;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); go(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(total - 1); }
+    else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+    else if (k === 'b' || k === 'B' || k === '.') { e.preventDefault(); blackout.classList.add('on'); }
+    else if (k === 'Escape') { if (typing) t.blur(); }
+    else if (k === 'r' || k === 'R') { if (revealFns[id]) { e.preventDefault(); revealFns[id](); } }
+    else if (/^Digit[1-9]$/.test(e.code) && numberFns[id]) { e.preventDefault(); numberFns[id](parseInt(e.code.slice(5), 10) - 1); }
+  });
+
+  /* ---------- Idle-hiding chrome ---------- */
+
+  (function () {
+    var chrome = $('chrome');
+    var h;
+    function wake() {
+      chrome.classList.remove('idle');
+      clearTimeout(h);
+      h = setTimeout(function () { chrome.classList.add('idle'); }, 2500);
+    }
+    ['mousemove', 'keydown', 'touchstart', 'click'].forEach(function (evt) { document.addEventListener(evt, wake); });
+    wake();
+  })();
+
+  /* ---------- Print: every build shown complete ---------- */
+
+  if (/[?&]instructor\b/.test(location.search)) document.body.classList.add('instructor');
+  window.addEventListener('beforeprint', function () { Object.keys(worstFns).forEach(function (id) { worstFns[id](); }); });
+
+  /* ---------- Test hooks for tests/verify-deck.mjs ---------- */
+
+  window.DECK = {
+    show: show,
+    current: function () { return current; },
+    reveal: function (id) { if (revealFns[id]) revealFns[id](); },
+    hasStore: false,
+    worst: function (id) { if (worstFns[id]) worstFns[id](); },
+    selectPart: function (id, n) { if (numberFns[id]) numberFns[id](n); }
+  };
+
+  show(fromHash(), true);
+})();
+</script>
+</body>
+</html>

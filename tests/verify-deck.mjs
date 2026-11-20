@@ -70,8 +70,22 @@ async function measureFit(page) {
     let mb = -Infinity, mr = -Infinity;
     const body = s.querySelector('.s-body') || inner;
     const measured = body === inner ? [...body.querySelectorAll('*')] : [body, ...body.querySelectorAll('*')];
+    // Clip each box by any ancestor inside the slide that hides its overflow (a zoom viewport,
+    // a cropped plate): content clipped there is not visible, so it cannot overflow the frame.
+    const clipped = (el) => {
+      const r = el.getBoundingClientRect();
+      let bottom = r.bottom, right = r.right;
+      for (let p = el.parentElement; p && p !== inner; p = p.parentElement) {
+        const pc = getComputedStyle(p);
+        if (pc.overflowX !== 'visible' || pc.overflowY !== 'visible') {
+          const pr = p.getBoundingClientRect();
+          bottom = Math.min(bottom, pr.bottom); right = Math.min(right, pr.right);
+        }
+      }
+      return { bottom, right, width: r.width, height: r.height };
+    };
     measured.forEach((el) => {
-      const b = el.getBoundingClientRect();
+      const b = clipped(el);
       if (b.height > 0 && b.width > 0 && getComputedStyle(el).display !== 'none') {
         if (b.bottom > mb) mb = b.bottom;
         if (b.right > mr) mr = b.right;
