@@ -1,0 +1,2935 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Behaviour change</title>
+<link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAh0lEQVR42mP8dH8fAymAUUteIsBSgEjVG45/YGIgFXy6v09LXuL/r08EkZa8xKf7+7DYcDJCDY8F2J2ERw9OP+DSg8/TWPXg02C+4hYJGrCqxqkBl2rsGvCoZmBgYPx0f19W9A0iY3naUg1GzMR32LMKzrbd3kaUH2y3t2EqhQAWrKLIlqABAJ2vSokh8+ajAAAAAElFTkSuQmCC">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAADuUlEQVR42rVWS2hcVRj+vvOYO8lk7sykadJSCUoRQV1IQNClEKUrBetKS0UIWIwPpFaU2lXQjVpBQS0Ugq4E1yI+6KIboWAXkRZ8hKD1EZN0XplkZu499/wuhqRJmzuZNPHnrg7nfN/9/3O+7/9Zn7sgIvh/gqQBYIwBsLcsJAAkSWJEpFpbFvHWKO4RugCx86QayPWZRmP1uRNnluu1R8dK1uxBHiRih+8uV/JhYfrTKSMitXqjVq2vNEzGErsvFBHFUqnWPbSImHVabQzh/K7xFaCN4Vq5DclCmIc4lyBfLAK7vwipVBthmC+EeZKszn7fjuKlxeuvnX7//Gefl4aHJYrI26EREWYylYWFiWePv/f2yaH9+4KMNSSLhTCOYufZny/25QaRjbCJQADCe0CgdHcG6Ew7HznPQiEsFsJWq2UAOOeccwQS50RicfGmDAh4zyAHQFrLUDqtjCJCxcQ5rmF2rgQkO4i8NQDqjGvUfjs7uTo7w+wgtYVP2DU2Yqpeaktjyj98NXPyyB/Tb7lGndkSRMQnPT6qnq7P5IoArn1xdubV8YVvpmECBqH4ZFtlql5fiE8A2uJQdH3+1w8mr7z5eP2niwyKsEF3DrWzd5g42owNB+tXL109ffTnd55p/T0HZbtwqNt0A1J8IlEbso32zc6AtfHtpmtWwvseHj32RmHsMSBC1EK6MHsloNIA4tpSdmT0zompA0eOw/RJu0oqdJW96dGC3UpNfHLoyRcPPfWyHbwD8bK0a+wu7F4JSHGu9OD4wSdODNzzEHxTWhVq0wv6zQSyFpu2xLHOFe4+dQ7Uvlmm0lB6yzYuIrjl+EYCWmtJSys3lZWwkATeqWw/0lsSRUBrrd1oVjcIvLhyeUm0kngru5btO4WI0GYq5SUvbhOBiGhj2ivJ00ePWWvFSxpWJ/3UbiGgYhzHRkEb09lsOnZsVHC4NFGptAwo6X+qtALgvU/VH+CUlEpZowLAA1zvySwWQ2tyxrCLtbSbbQBBX9BlpHBOcgN6PUvW5y50elFzNRFJFY2L3eDB/VPvngNw5tTz5X8WjTVpbY1EX7/uQN2YKgZCw1QrFWYybNYPX1uEgCvV0khOIseUUU0An8imDLqNjiI0Oq6tXJ78MJ6dB2lGh8Y+fiWzL5TYpaW8vqw2Lm35QcQOZP/99sflK7/f+9EL93/yUuOXv+a/vmRzAURST+3MiwTUhFZwCUhqRd2rz5sefJRutT38yAN/fnlx5vXzIHJ3HRgZH3OrbfYwLv8HK727sdCf3mMAAAAASUVORK5CYII=">
+<style>
+/* ============================================================
+   BEHAVIOUR CHANGE: PROJECTION DECK
+   Coaching 1, Workshop 3, November 2026. Dark theme.
+   A fixed 16:9 stage. The root font-size IS the slide unit:
+   1rem = 1% of stage width, so every dimension is in rem.
+   Deck colour mapping (B = COM):
+     capability  = --accent-2 red (sub-components: red, burnt orange)
+     opportunity = --accent-4 gold (sub-components: gold, orange)
+     motivation  = --accent-6 magenta (sub-components: magenta, lighter purple)
+     behaviour   = --accent-1 purple, the deck accent
+   In the dark theme, accents carry fills, rails, rules and borders.
+   Text is --text, --text-muted or gold (--accent-4) only.
+   ============================================================ */
+
+html { font-size: min(1vw, 1.7778vh); }
+
+:root {
+  --bg: #1A1510;
+  --bg-card: #2E241C;
+  --bg-surface: #241C14;
+  --bg-elevated: #382E24;
+  --text: #F2DFBE;
+  --text-muted: #A89878;
+  --text-dim: #6A5A48;
+  --border: #3A3228;
+  --accent-1: #5C3A96;
+  --accent-2: #B52838;
+  --accent-3: #C85218;
+  --accent-4: #D4A020;
+  --accent-5: #7A5828;
+  --accent-6: #B83068;
+  --accent-7: #CC6830;
+  --accent-8: #7E58A8;
+  --accent-4-ink: #7A5410;
+  --accent-7-ink: #9E4718;
+  --correct: #2A8A4A;
+  --correct-bg: rgba(42,138,74,0.15);
+  --incorrect: #C83838;
+  --incorrect-bg: rgba(200,56,56,0.12);
+  --ambiguous: #D4A020;
+  --ambiguous-bg: rgba(212,160,32,0.12);
+  --dark-ink: #2A1F18;          /* text on gold and orange fills */
+  --label: var(--accent-4);     /* the only accent readable as text on dark surfaces */
+  --cap: var(--accent-2);
+  --cap-2: var(--accent-3);
+  --opp: var(--accent-4);
+  --opp-2: var(--accent-7);
+  --mot: var(--accent-6);
+  --mot-2: var(--accent-8);
+  --beh: var(--accent-1);
+  --slide-accent: var(--accent-1);
+  --on-accent: #fff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.85rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+button, input, select { font-family: inherit; color: inherit; }
+button { cursor: pointer; }
+
+.deck { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+.stage { position: relative; width: 100rem; height: 56.25rem; background: var(--bg); overflow: hidden; }
+
+*:focus-visible { outline: 0.3rem solid var(--accent-4); outline-offset: 0.2rem; }
+
+/* ---------- Chrome ---------- */
+
+.progress-track { position: absolute; top: 0; left: 0; right: 0; height: 0.7rem; background: var(--bg-surface); z-index: 60; }
+.progress-fill { height: 100%; width: 0; background: var(--slide-accent); transition: width 0.4s ease, background-color 0.2s ease; }
+
+.deck-chrome {
+  position: absolute; bottom: 1.5rem; right: 2.4rem;
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-card); border: 0.2rem solid var(--border);
+  z-index: 60; opacity: 1; transition: opacity 0.3s ease;
+}
+.deck-chrome.idle { opacity: 0; pointer-events: none; }
+.nav-btn, .btn {
+  background: var(--accent-1); color: #fff; border: 0.2rem solid transparent; white-space: nowrap; flex-shrink: 0;
+  min-width: 4.4rem; height: 2.8rem; padding: 0 1.4rem;
+  font-weight: 700; font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+.nav-btn:hover:not(:disabled), .btn:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-0.2rem); }
+.nav-btn:disabled, .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.ghost, .nav-btn.ghost { background: transparent; color: var(--text); border-color: var(--text); }
+.btn.ghost:hover:not(:disabled), .nav-btn.ghost:hover:not(:disabled) { background: var(--text); color: var(--bg-card); }
+.nav-info { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); padding: 0 0.4rem; font-variant-numeric: tabular-nums; }
+
+.resp-menu {
+  position: absolute; right: 0; bottom: calc(100% + 0.6rem);
+  background: var(--bg-card); border: 0.2rem solid var(--text);
+  padding: 1rem; display: none; flex-direction: column; gap: 0.7rem; min-width: 22rem;
+}
+.resp-menu.open { display: flex; }
+.resp-menu .btn { width: 100%; }
+.resp-note { font-size: 1.1rem; color: var(--text-muted); line-height: 1.35; }
+.resp-note.warn { color: var(--text); font-weight: 700; border-left: 0.4rem solid var(--incorrect); padding-left: 0.6rem; }
+
+/* A running timer stays visible when the presenter leaves its slide */
+.mini-timer {
+  position: absolute; bottom: 1.5rem; left: 3rem; z-index: 61; display: none;
+  background: var(--bg-card); border: 0.2rem solid var(--text); padding: 0.4rem 1rem;
+  font-size: 1.3rem; font-weight: 800; letter-spacing: 0.1em; font-variant-numeric: tabular-nums;
+}
+.mini-timer.on { display: block; }
+
+.blackout { position: absolute; inset: 0; background: var(--bg); z-index: 100; display: none; }
+.blackout.on { display: block; }
+
+/* ---------- Slide frame ---------- */
+
+.slide { position: absolute; inset: 0; display: none; }
+.slide.active { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(0.4rem); } to { opacity: 1; transform: none; } }
+
+.rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1.9rem; background: var(--slide-accent); z-index: 4; }
+.slide-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 3.8rem 5.5rem 4.6rem 7rem;
+  display: flex; flex-direction: column;
+}
+.slide-no {
+  position: absolute; top: 2.4rem; right: 5.5rem; z-index: 5;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.2em; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.notes { display: none; }
+
+.s-head { flex-shrink: 0; margin-bottom: 2rem; }
+.s-head::before { content: ''; display: block; width: 13rem; height: 0.9rem; background: var(--slide-accent); margin-bottom: 1.2rem; }
+.s-head.is-activity { display: grid; grid-template-columns: 1fr auto; column-gap: 3rem; align-items: end; }
+.s-head.is-activity::before { grid-column: 1 / -1; }
+
+.eyebrow {
+  display: block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 0.7rem; color: var(--label);
+}
+.act-tag {
+  display: inline-block; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--slide-accent); color: var(--on-accent); padding: 0.35rem 1rem; margin-bottom: 0.9rem;
+}
+h1 { font-size: 7rem; font-weight: 800; line-height: 0.94; letter-spacing: -0.01em; }
+h2 { font-size: 3.8rem; font-weight: 800; line-height: 1.02; letter-spacing: -0.005em; }
+h3 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
+.s-body { flex: 1; min-height: 0; position: relative; }
+p { font-size: 1.85rem; }
+.small { font-size: 1.55rem; }
+.micro { font-size: 1.25rem; color: var(--text-muted); line-height: 1.4; }
+.lede { font-size: 2.1rem; line-height: 1.4; color: var(--text-muted); }
+.quiet { color: var(--text-muted); }
+.label { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+
+.grid { display: grid; gap: 2.6rem; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-7-5 { grid-template-columns: 7fr 5fr; }
+.g-5-7 { grid-template-columns: 5fr 7fr; }
+.fill { height: 100%; }
+
+.card { background: var(--bg-card); border: 0.2rem solid var(--border); padding: 1.8rem 2rem; position: relative; }
+.card-name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 0.6rem; }
+.pip { display: inline-block; width: 1.2rem; height: 1.2rem; background: var(--pip, var(--slide-accent)); flex-shrink: 0; }
+.chip {
+  display: inline-block; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.2rem 0.7rem; background: var(--chip, var(--slide-accent)); color: var(--chip-on, #fff); line-height: 1.4;
+}
+.chip.c { --chip: var(--cap); }
+.chip.o { --chip: var(--opp); --chip-on: var(--dark-ink); }
+.chip.m { --chip: var(--mot); }
+
+.reveal-anim { opacity: 0; transform: translateY(0.4rem); transition: opacity 0.3s ease, transform 0.3s ease; visibility: hidden; }
+.reveal-anim.visible { opacity: 1; transform: none; visibility: visible; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Decorative geometry ---------- */
+
+.deco { position: absolute; z-index: 1; pointer-events: none; }
+.deco.circle { border-radius: 50%; }
+.deco.ring { border-radius: 50%; background: transparent !important; border-style: solid; }
+.deco.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+/* ---------- Timer ---------- */
+
+.timer {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.1rem;
+  min-width: 13rem; padding: 0.6rem 1.4rem; background: var(--bg-card); border: 0.25rem solid var(--text);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.timer-digits { font-size: 3.2rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.timer-label { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+.timer.running { border-color: var(--slide-accent); }
+.timer.expired { background: var(--slide-accent); border-color: var(--slide-accent); color: var(--on-accent); }
+.timer.expired .timer-label { color: var(--on-accent); }
+
+/* ---------- 1. Title poster ---------- */
+
+.hero { align-items: center; height: 100%; }
+.hero h1 { margin: 0.6rem 0 2.6rem; }
+.hero .lede { max-width: 50rem; }
+.hero .lede strong { color: var(--text); font-weight: 800; }
+.hero-mark { position: relative; height: 44rem; }
+.hero-mark > div { position: absolute; display: flex; align-items: center; justify-content: center; font-weight: 800; line-height: 1; }
+.hm-c { width: 14rem; height: 14rem; background: var(--cap); color: #fff; top: 2rem; left: 1.5rem; transform: rotate(12deg); font-size: 7.4rem; }
+.hm-c span { transform: rotate(-12deg); }
+.hm-o { width: 16rem; height: 16rem; border-radius: 50%; background: var(--opp); color: var(--dark-ink); top: 0.5rem; left: 18.5rem; font-size: 7.4rem; }
+.hm-m { width: 16rem; height: 14rem; background: var(--mot); color: #fff; clip-path: polygon(50% 0, 100% 100%, 0 100%); top: 20.5rem; left: 0.5rem; font-size: 6rem; align-items: flex-end !important; padding-bottom: 1.4rem; }
+.hm-b { width: 16rem; height: 16rem; border-radius: 50%; border: 1.5rem solid var(--beh); color: var(--text); top: 19.5rem; left: 18.5rem; font-size: 7.4rem; }
+.hm-bar { width: 34rem; height: 1.4rem; background: var(--accent-5); top: 39.5rem; left: 0.5rem; transform: rotate(-4deg); }
+.hm-tri { width: 6rem; height: 6rem; background: var(--accent-8); clip-path: polygon(0 0, 100% 50%, 0 100%); top: 36.5rem; left: 27rem; }
+
+/* ---------- Outcomes ---------- */
+
+.outcome-list { display: flex; flex-direction: column; justify-content: space-between; height: 100%; gap: 1.4rem; }
+.outcome-row { display: flex; align-items: center; gap: 2rem; }
+.outcome-num {
+  width: 5.4rem; height: 5.4rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: var(--row-on, #fff); font-size: 2.8rem; font-weight: 800;
+}
+.outcome-row p { font-size: 1.85rem; line-height: 1.35; }
+.outcome-row strong { font-weight: 800; color: var(--label); }
+.outcomes-left h2 { margin-bottom: 2rem; }
+
+/* ---------- Session map ---------- */
+
+.map-band { display: grid; gap: 0.8rem; align-items: end; }
+.map-seg {
+  position: relative; min-height: 15rem; padding: 1.4rem 1.4rem 1.2rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-card); border-top: 0.6rem solid var(--slide-accent);
+  transition: background-color 0.2s ease, min-height 0.2s ease;
+}
+.map-seg.upcoming { background: color-mix(in srgb, var(--slide-accent) 14%, var(--bg-card)); border-top-color: transparent; }
+.map-seg.done { background: var(--bg-surface); }
+.map-seg.current { background: var(--slide-accent); color: var(--on-accent); min-height: 17rem; border-top-color: var(--slide-accent); }
+.map-seg .seg-name { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
+.map-seg .seg-min { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.map-seg .seg-act {
+  position: absolute; bottom: 1.3rem; right: 1.2rem; width: 1.8rem; height: 1.6rem;
+  background: currentColor; clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.map-next { margin-top: 3.4rem; display: grid; grid-template-columns: auto 1fr; gap: 2.4rem; align-items: start; }
+.map-next .label { padding: 0.5rem 1.1rem; background: var(--text); color: var(--bg); margin-top: 0.8rem; }
+.map-next p { font-size: 2.6rem; font-weight: 800; line-height: 1.2; max-width: 64rem; }
+
+/* ---------- Section divider ---------- */
+
+.slide.divider { background: var(--slide-accent); }
+.slide.divider .slide-inner { justify-content: center; color: #fff; }
+.slide.divider .eyebrow { color: #fff; }
+.slide.divider h1 { color: #fff; margin: 1rem 0 2.2rem; max-width: 70rem; }
+.slide.divider h3 { color: #fff; max-width: 64rem; }
+.slide.divider .slide-no { color: #fff; }
+.divider-num {
+  position: absolute; right: -3rem; bottom: -12rem; font-size: 40rem; font-weight: 800; line-height: 1;
+  color: var(--bg); opacity: 0.15; z-index: 1; pointer-events: none;
+}
+
+/* ---------- Statement ---------- */
+
+.stmt-body { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 2rem; }
+.stmt-text { font-size: 5rem; font-weight: 800; line-height: 1.05; max-width: 60rem; }
+.stmt-text em { font-style: normal; color: var(--label); }
+.stmt-attr { margin-top: 2.4rem; max-width: 58rem; }
+.stmt-block {
+  position: absolute; top: -1rem; bottom: -1rem; right: 0; width: 25rem; z-index: 1;
+  background: var(--slide-accent); color: var(--on-accent);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  font-weight: 800; line-height: 0.95; font-size: 9rem;
+}
+.stmt-block span:nth-child(2) { font-size: 6rem; margin: 1rem 0; }
+#s-statement .slide-no { color: var(--dark-ink); background: var(--slide-accent); padding: 0 0.3rem; }
+
+/* ---------- Claim tally and room read ---------- */
+
+.claim-card { background: var(--slide-accent); color: #fff; padding: 3rem 3.2rem; display: flex; flex-direction: column; justify-content: space-between; }
+.claim-card .label { color: #fff; }
+.claim-card .claim-text { font-size: 3.2rem; font-weight: 800; line-height: 1.18; margin: 1.6rem 0; }
+.claim-card .micro { color: #fff; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.read-intro { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.2rem; }
+.claim-follow { margin-top: 2rem; min-height: 9rem; background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--text); padding: 1.4rem 1.8rem; }
+.claim-follow p { font-size: 1.55rem; }
+
+/* Room read: a show of hands recorded by eye, never counted.
+   Each option takes a level: none, few, some or most. */
+.tally { display: flex; flex-direction: column; gap: 1rem; }
+.tally-row { display: grid; grid-template-columns: 3.4rem 1fr auto; gap: 1rem; align-items: center; }
+.tally-row.with-text { grid-template-columns: 3.4rem 1fr; row-gap: 0.4rem; }
+.tally-row.with-text .read-segs { grid-column: 2; }
+.tally-letter {
+  width: 3.4rem; height: 3.4rem; display: flex; align-items: center; justify-content: center;
+  background: var(--row-color); color: var(--row-on, #fff); font-size: 1.6rem; font-weight: 800;
+}
+.tally-text { font-size: 1.45rem; line-height: 1.3; font-weight: 700; }
+.read-segs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; align-items: center; min-width: 18rem; }
+.read-seg {
+  height: 3rem; background: var(--bg-elevated); border: 0.2rem solid var(--border); color: var(--text);
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.read-seg:hover:not(:disabled) { border-color: var(--row-color); }
+.read-seg.on { background: var(--row-color); border-color: var(--row-color); color: var(--row-on, #fff); }
+.read-seg:disabled { cursor: not-allowed; }
+.read-word { display: none; }
+.tally-row.inline { grid-template-columns: 3.4rem 1fr 17rem; }
+.tally-row.inline .read-segs { min-width: 0; }
+.tally.locked .read-seg:not(.on) { opacity: 0.55; }
+.tally-row.is-answer .tally-letter { outline: 0.4rem solid var(--correct); outline-offset: 0.2rem; }
+.tally-foot { font-size: 1.25rem; color: var(--text-muted); line-height: 1.35; }
+
+/* ---------- Annotated model: B = COM ---------- */
+
+.model-col { display: flex; flex-direction: column; min-height: 0; }
+.model-wrap { position: relative; width: 100%; aspect-ratio: 500 / 330; margin: 1rem 0 0 1.8rem; max-width: calc(100% - 3.6rem); }
+.model-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.model-svg .arrow { stroke: var(--text-muted); stroke-width: 5; fill: none; transition: opacity 0.3s ease, stroke 0.2s ease; }
+.model-svg .arrow.lit { stroke: var(--accent-4); }
+.model-svg .arrow.dim { opacity: 0.25; }
+.model-svg marker path { fill: context-stroke; }
+.m-node {
+  position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+  background: var(--node-color); color: var(--node-on, #fff); transition: opacity 0.3s ease, outline-color 0.2s ease;
+  outline: 0.4rem solid transparent; outline-offset: 0.3rem;
+}
+.m-node .n-name { font-size: 1.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.1; }
+.m-node .n-sub { font-size: 1.25rem; font-weight: 700; margin-top: 0.3rem; }
+.m-node.dim { opacity: 0.3; }
+.m-node.lit { outline-color: var(--text); }
+.m-spot {
+  position: absolute; width: 3.6rem; height: 3.6rem; transform: translate(-50%, -50%);
+  background: var(--text); color: var(--bg); border: none; font-size: 1.7rem; font-weight: 800; z-index: 3;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+.m-spot:hover { transform: translate(-50%, calc(-50% - 0.2rem)); }
+.m-spot.selected { background: var(--accent-4); color: var(--dark-ink); }
+.part-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.part-btn {
+  display: grid; grid-template-columns: 3.2rem 1fr; gap: 1.2rem; align-items: center; text-align: left;
+  background: var(--bg-card); border: 0.25rem solid var(--border); padding: 0.2rem 0.6rem; font-size: 1.45rem; font-weight: 700;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+.part-btn .num { width: 2.8rem; height: 2.8rem; background: var(--text); color: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.part-btn:hover { transform: translateY(-0.2rem); border-color: var(--accent-4); }
+.part-btn.selected { border-color: var(--accent-4); background: var(--bg-elevated); }
+.part-btn.selected .num { background: var(--accent-4); color: var(--dark-ink); }
+.detail-panel {
+  margin-top: 1rem; min-height: 13rem; background: var(--bg-card); border: 0.2rem solid var(--border);
+  border-left: 0.9rem solid var(--detail-color, var(--border)); padding: 1.4rem 1.8rem;
+}
+.detail-panel p { font-size: 1.45rem; line-height: 1.4; }
+.detail-panel p + p { margin-top: 0.7rem; }
+.detail-panel .placeholder-line { color: var(--text-muted); }
+.detail-panel .src { font-size: 1.25rem; color: var(--text-muted); }
+
+/* ---------- Comparison matrix ---------- */
+
+.cmp-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.cmp-table th, .cmp-table td { border: 0.2rem solid var(--border); padding: 0.8rem 1.4rem; text-align: left; vertical-align: middle; }
+.cmp-table thead th { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-color: var(--bg); background: var(--head-color, var(--text)); color: var(--head-on, #fff); }
+.cmp-table thead th.cmp-crit { background: var(--text); color: var(--bg); }
+.cmp-table tbody th { font-size: 1.5rem; font-weight: 800; background: var(--bg-card); border-left: 0.9rem solid var(--row-color, var(--border)); }
+.cmp-table tbody td { font-size: 1.45rem; background: var(--bg-card); line-height: 1.3; }
+.cmp-table tbody tr td span { transition: opacity 0.3s ease; }
+.cmp-table tbody tr:not(.revealed) td span { opacity: 0; }
+.cmp-table tbody tr:not(.revealed) td { background: var(--bg-surface); }
+.cmp-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 1.4rem; gap: 2rem; }
+.cmp-banner { margin-top: 1.4rem; min-height: 6.4rem; background: var(--text); color: var(--bg); padding: 1.2rem 1.8rem; font-size: 1.6rem; font-weight: 700; line-height: 1.4; }
+.cmp-banner .label { display: block; color: var(--bg); margin-bottom: 0.3rem; }
+
+/* ---------- Check (single-select + confidence) ---------- */
+
+.q-goal { font-size: 1.55rem; margin-bottom: 1rem; line-height: 1.4; }
+.q-goal strong { font-weight: 800; color: var(--label); }
+.q-options { display: flex; flex-direction: column; gap: 0.8rem; }
+.q-opt {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 0 1.2rem; align-items: start; text-align: left;
+  background: var(--bg-card); border: 0.25rem solid var(--border); padding: 0.55rem 1.2rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+.q-opt:hover:not(:disabled) { border-color: var(--row-color); transform: translateY(-0.2rem); box-shadow: 0 0.4rem 1.2rem rgba(0,0,0,0.3); }
+.q-opt:disabled { cursor: default; }
+.q-letter { grid-row: span 2; width: 3.4rem; height: 3.4rem; display: flex; align-items: center; justify-content: center; background: var(--row-color); color: var(--row-on, #fff); font-weight: 800; font-size: 1.6rem; }
+.q-text { font-size: 1.5rem; line-height: 1.3; font-weight: 700; }
+.q-why { grid-column: 2; font-size: 1.25rem; line-height: 1.35; min-height: 1.7rem; visibility: hidden; margin-top: 0.2rem; color: var(--text); }
+.q-opt.show-why .q-why { visibility: visible; }
+.q-opt.correct { border-color: var(--correct); background: color-mix(in srgb, var(--correct) 15%, var(--bg-card)); }
+.q-opt.incorrect { border-color: var(--incorrect); background: color-mix(in srgb, var(--incorrect) 12%, var(--bg-card)); }
+.q-verdict { font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; font-size: 1.15rem; margin-right: 0.6rem; }
+.check-grid { grid-template-columns: 2fr 1fr; }
+.check-side h3 { font-size: 1.4rem; letter-spacing: 0.14em; margin-bottom: 0.9rem; }
+.check-side .pick-note { font-size: 1.25rem; line-height: 1.3; color: var(--text-muted); }
+.check-side .read-segs { min-width: 0; }
+.check-side .tally-row { grid-template-columns: 3.4rem 1fr; }
+.check-side .tally-row .tally-text { display: none; }
+.check-side .tally { gap: 0.7rem; }
+.conf-banner {
+  margin-top: 1.2rem; min-height: 6.2rem; padding: 1rem 1.4rem; border-left: 0.8rem solid var(--ambiguous);
+  background: color-mix(in srgb, var(--ambiguous) 12%, var(--bg-card)); color: var(--text); font-size: 1.35rem; font-weight: 700; line-height: 1.35;
+  visibility: hidden;
+}
+.conf-banner.visible { visibility: visible; }
+.check-actions { display: flex; gap: 1rem; margin-top: 1.4rem; align-items: center; }
+
+/* ---------- Numbered cards ---------- */
+
+.num-cards { height: 100%; }
+.num-card { display: flex; flex-direction: column; background: var(--bg-card); border: 0.2rem solid var(--border); }
+.num-head { background: var(--card-color); color: var(--card-on, #fff); padding: 1.2rem 1.8rem 1.3rem; position: relative; overflow: hidden; min-height: 7rem; display: flex; align-items: flex-end; }
+.num-head .num-big { position: absolute; right: 1rem; top: -2.4rem; font-size: 11rem; font-weight: 800; line-height: 1; opacity: 0.25; }
+.num-head h3 { position: relative; font-size: 2.2rem; letter-spacing: 0.06em; }
+.num-body { padding: 1.4rem 1.8rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 1.2rem; }
+.num-body .def { font-size: 1.45rem; line-height: 1.42; }
+.num-body .ask { border-top: 0.4rem solid var(--card-color); padding-top: 1rem; }
+.num-body .ask .label { display: block; color: var(--label); margin-bottom: 0.4rem; }
+.num-body .ask p { font-size: 1.6rem; font-weight: 800; line-height: 1.28; }
+
+/* ---------- Card grid: six components ---------- */
+
+.six-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto 1fr 1fr; gap: 1.2rem 2rem; height: 100%; }
+.six-col-head { padding: 0.7rem 1.2rem; background: var(--card-color); color: var(--card-on, #fff); font-size: 1.5rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.six-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--card-color); padding: 1.4rem 1.8rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.six-card .card-name { margin-bottom: 0; font-size: 1.45rem; }
+.six-card p { font-size: 1.5rem; line-height: 1.42; }
+
+/* ---------- Sort ---------- */
+
+.sort-wrap { display: flex; flex-direction: column; height: 100%; }
+.sort-tray { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem 1.2rem; }
+.sort-item {
+  display: grid; grid-template-columns: 2.8rem 1fr auto; gap: 1rem; align-items: center; text-align: left;
+  min-height: 4.9rem; padding: 0.4rem 0.8rem; background: var(--bg-card); border: 0.25rem solid var(--border);
+  border-left: 0.9rem solid var(--border); font-size: 1.32rem; line-height: 1.3; font-weight: 700;
+  transition: border-color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+}
+.sort-item:hover:not(:disabled) { transform: translateY(-0.2rem); }
+.sort-item .num { width: 2.8rem; height: 2.8rem; background: var(--text); color: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4rem; }
+.sort-item .bin-tag { visibility: hidden; }
+.sort-item.placed { border-left-color: var(--bin-color); }
+.sort-item.placed .bin-tag { visibility: visible; }
+.sort-item.selected { border-color: var(--accent-4); background: var(--bg-elevated); }
+.sort-item.correct { border-color: var(--correct); border-left-color: var(--bin-color); background: color-mix(in srgb, var(--correct) 15%, var(--bg-card)); }
+.sort-item.incorrect { border-color: var(--incorrect); border-left-color: var(--bin-color); background: color-mix(in srgb, var(--incorrect) 12%, var(--bg-card)); }
+.sort-bins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1.2rem; }
+.sort-bin {
+  display: flex; flex-direction: column; text-align: left; background: var(--bg-card); border: 0.25rem solid var(--bin-color); padding: 0;
+  transition: transform 0.15s ease;
+}
+.sort-bin:hover { transform: translateY(-0.2rem); }
+.sort-bin .bin-head { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 1.2rem; background: var(--bin-color); color: var(--bin-on, #fff); font-size: 1.5rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.sort-bin .bin-key { font-size: 1.2rem; letter-spacing: 0.1em; }
+.sort-bin .bin-tokens { display: flex; flex-wrap: nowrap; gap: 0.3rem; padding: 0.6rem 0.8rem; min-height: 3.8rem; align-content: flex-start; }
+.bin-token { width: 2.5rem; height: 2.5rem; display: flex; align-items: center; justify-content: center; background: var(--text); color: var(--bg); font-size: 1.4rem; font-weight: 800; }
+.sort-foot { display: grid; grid-template-columns: auto 1fr; gap: 1.4rem; align-items: center; margin-top: 1rem; }
+.sort-why { min-height: 4.2rem; font-size: 1.35rem; line-height: 1.35; padding: 0.7rem 1.2rem; background: var(--bg-card); border-left: 0.7rem solid var(--why-color, var(--border)); }
+.sort-why.quiet-line { color: var(--text-muted); }
+
+/* ---------- Peer instruction ---------- */
+
+.pi-grid { grid-template-columns: 7fr 5fr; gap: 2.4rem; }
+.pi-grid .q-opt { padding: 0.5rem 1.1rem; }
+.pi-read { display: flex; flex-direction: column; gap: 0.8rem; }
+.pi-cols { display: grid; grid-template-columns: 3.4rem 1fr 1fr; gap: 0.9rem; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.pi-row { display: grid; grid-template-columns: 3.4rem 1fr 1fr; gap: 0.9rem; align-items: center; }
+.pi-row .read-segs { grid-template-columns: repeat(3, 1fr); min-width: 0; }
+.pi-r1 .read-seg.on { background: var(--bg-elevated); border-color: var(--text); color: var(--text); }
+.pi-done .pi-r1 .read-seg.on { background: transparent; border-color: var(--row-color); border-width: 0.3rem; }
+.pi-row.is-answer .tally-letter { outline: 0.4rem solid var(--correct); outline-offset: 0.2rem; }
+.pi-status { min-height: 6.4rem; padding: 1rem 1.4rem; background: var(--bg-card); border-left: 0.8rem solid var(--status-color, var(--border)); }
+.pi-status .label { display: block; color: var(--text-muted); font-size: 1.15rem; }
+.pi-status .act-now { font-size: 1.8rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.pi-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+/* ---------- Select-detail: nine intervention functions ---------- */
+
+.fn-left { display: flex; flex-direction: column; min-height: 0; }
+.fn-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); gap: 1rem; }
+.fn-card {
+  display: flex; flex-direction: column; justify-content: space-between; text-align: left; gap: 0.6rem;
+  background: var(--bg-card); border: 0.25rem solid var(--border); padding: 0 1.2rem 1rem;
+  transition: border-color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+}
+.fn-card:hover { transform: translateY(-0.2rem); border-color: var(--text-muted); }
+.fn-card.selected { border-color: var(--accent-4); background: var(--bg-elevated); }
+.fn-stripe { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; margin: 0 -1.2rem; height: 0.9rem; }
+.fn-stripe span { background: var(--bg-surface); }
+.fn-stripe span.on.c { background: var(--cap); }
+.fn-stripe span.on.o { background: var(--opp); }
+.fn-stripe span.on.m { background: var(--mot); }
+.fn-name { display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; font-size: 1.55rem; font-weight: 800; line-height: 1.15; }
+.fn-name .num { width: 2.6rem; height: 2.6rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--text); color: var(--bg); font-size: 1.4rem; }
+.fn-card.selected .fn-name .num { background: var(--accent-4); color: var(--dark-ink); }
+.fn-legend { display: flex; gap: 1.6rem; align-items: center; margin-top: 1rem; font-size: 1.25rem; color: var(--text-muted); }
+.fn-src { margin-top: 0.5rem; }
+.fn-legend span { display: inline-flex; align-items: center; gap: 0.6rem; }
+.fn-detail { margin-top: 0; min-height: 0; height: 100%; display: flex; flex-direction: column; gap: 0.2rem; }
+.fn-detail .reach { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem; }
+.fn-policy { margin-top: 1rem; }
+
+/* ---------- Predict and reveal ---------- */
+
+.pred-left { position: relative; height: 100%; }
+.pred-situation p { font-size: 1.55rem; line-height: 1.45; }
+.pred-question { font-size: 2rem; font-weight: 800; line-height: 1.25; margin-top: 1.4rem; }
+.pred-waiting { margin-top: 1.4rem; color: var(--text-muted); font-size: 1.4rem; }
+.pred-outcome {
+  position: absolute; inset: 0; background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--correct);
+  padding: 1.5rem 1.8rem; visibility: hidden; opacity: 0; transition: opacity 0.3s ease;
+}
+.pred-outcome.visible { visibility: visible; opacity: 1; }
+.pred-outcome p { font-size: 1.4rem; line-height: 1.4; }
+.pred-outcome p + p { margin-top: 0.8rem; }
+.pred-outcome .follow { font-weight: 800; }
+.pred-actions { display: flex; gap: 1rem; margin-top: 1.4rem; align-items: center; }
+.pred-status { white-space: nowrap; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.pred-right .tally { gap: 0.7rem; }
+.hook-echo { margin-top: 1.4rem; min-height: 7rem; padding: 1.2rem 1.6rem; background: var(--bg-card); border-left: 0.8rem solid var(--accent-5); }
+.hook-echo p { font-size: 1.4rem; line-height: 1.4; }
+.hook-echo .label { display: block; color: var(--label); margin-bottom: 0.4rem; }
+.pred-right .tally-text { font-size: 1.4rem; }
+
+/* ---------- Spot the flaw ---------- */
+
+.flaw-case { background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.9rem solid var(--slide-accent); padding: 1.8rem 2.2rem; }
+.flaw-passage { font-size: 1.62rem; line-height: 1.65; }
+.flaw-grid { grid-template-columns: 8fr 4fr; }
+.flaw-seg {
+  cursor: pointer; padding: 0 0.1rem; border-bottom: 0.2rem dotted var(--text-muted);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.flaw-seg:hover { background: var(--bg-elevated); }
+.flaw-seg.selected { background: var(--bg-elevated); border-bottom: 0.25rem solid var(--accent-4); }
+.flaw-seg.correct { background: color-mix(in srgb, var(--correct) 15%, var(--bg-card)); border-bottom: 0.3rem solid var(--correct); }
+.flaw-seg.incorrect { background: color-mix(in srgb, var(--incorrect) 12%, var(--bg-card)); border-bottom: 0.3rem solid var(--incorrect); }
+.flaw-seg.ambiguous { background: color-mix(in srgb, var(--ambiguous) 12%, var(--bg-card)); border-bottom: 0.3rem solid var(--ambiguous); }
+.flaw-seg .seg-no { display: none; font-size: 1.1rem; font-weight: 800; background: var(--text); color: var(--bg); padding: 0 0.4rem; margin-right: 0.3rem; vertical-align: 0.2em; }
+.flaw-case.checked .seg-no { display: inline; }
+.flaw-actions { display: flex; gap: 1rem; align-items: center; margin-top: 1.4rem; }
+.flaw-score { font-size: 1.6rem; font-weight: 800; }
+.flaw-legend { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.4rem; }
+.flaw-legend div { display: flex; gap: 0.8rem; align-items: center; font-size: 1.3rem; }
+.flaw-legend .sw { width: 2.4rem; height: 1.4rem; border-bottom: 0.3rem solid; }
+.sw.found { background: color-mix(in srgb, var(--correct) 15%, var(--bg-card)); border-color: var(--correct); }
+.sw.missed { background: color-mix(in srgb, var(--ambiguous) 12%, var(--bg-card)); border-color: var(--ambiguous); }
+.sw.wrong { background: color-mix(in srgb, var(--incorrect) 12%, var(--bg-card)); border-color: var(--incorrect); }
+.flaw-detail { min-height: 16rem; margin-top: 0; }
+.flaw-why-list { display: none; }
+
+/* ---------- Worked example ---------- */
+
+.steps { display: flex; flex-direction: column; gap: 0.7rem; }
+.step {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.2rem; align-items: center;
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.7rem solid var(--step-color); padding: 0.6rem 1.2rem;
+  opacity: 0.001; transform: translateY(0.4rem); transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.2s ease;
+}
+.step.visible { opacity: 1; transform: none; }
+.step.current { border-color: var(--step-color); background: var(--bg-elevated); }
+.step .num { width: 3.4rem; height: 3.4rem; background: var(--step-color); color: var(--step-on, #fff); font-weight: 800; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; }
+.step p { font-size: 1.42rem; line-height: 1.3; }
+.step p strong { font-weight: 800; color: var(--label); }
+.step-why { display: none; }
+.worked-case { font-size: 1.4rem; line-height: 1.4; margin-bottom: 1rem; color: var(--text-muted); }
+.worked-case strong { color: var(--label); }
+.why-panel { background: var(--text); color: var(--bg); padding: 2rem 2.2rem; min-height: 22rem; }
+.why-panel .label { color: var(--bg); margin-bottom: 1rem; display: block; }
+.why-panel p { font-size: 1.7rem; line-height: 1.45; }
+.worked-actions { display: flex; gap: 1rem; align-items: center; margin-top: 1.4rem; }
+
+/* ---------- Think, pair, share ---------- */
+
+.tps-prompt { font-size: 2.4rem; font-weight: 800; line-height: 1.25; max-width: 84rem; }
+.tps-band { display: grid; gap: 0.8rem; align-items: end; margin-top: 1.8rem; }
+.tps-phase {
+  text-align: left; border: none; padding: 1rem 1.4rem; min-height: 8.6rem; display: flex; flex-direction: column; justify-content: space-between;
+  background: color-mix(in srgb, var(--phase-color) 18%, var(--bg-card)); border-top: 0.6rem solid var(--phase-color);
+  transition: min-height 0.2s ease, background-color 0.2s ease;
+}
+.tps-phase.current { background: var(--phase-color); color: var(--phase-on, #fff); min-height: 10.4rem; }
+.tps-phase .ph-name { font-size: 1.8rem; font-weight: 800; letter-spacing: 0.1em; }
+.tps-phase .ph-text { font-size: 1.4rem; line-height: 1.35; }
+.tps-template { margin-top: 1.8rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.3rem 2.4rem; }
+.tpl-line { display: flex; flex-direction: column; gap: 0.5rem; }
+.tpl-line .tpl-q { font-size: 1.3rem; line-height: 1.3; color: var(--text); }
+.tpl-line .tpl-rule { border-bottom: 0.25rem solid var(--text); height: 1.8rem; }
+.tpl-line .chip { align-self: flex-start; font-size: 1.2rem; }
+.chip.b { --chip: var(--beh); }
+.chip.t { --chip: var(--text); --chip-on: var(--bg); }
+
+/* ---------- Live board ---------- */
+
+.board-wrap { display: flex; flex-direction: column; height: 100%; }
+.board { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: min-content; gap: 1.2rem; align-content: start; }
+.board-empty { grid-column: 1 / -1; color: var(--text-muted); font-size: 1.55rem; padding: 2rem; border: 0.25rem dashed var(--border); text-align: center; }
+.board-card {
+  background: var(--bg-card); border: 0.2rem solid var(--border); border-top: 0.6rem solid var(--card-color); padding: 1rem 1.2rem;
+  text-align: left; font-size: 1.5rem; line-height: 1.35; display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+.board-card:hover { transform: translateY(-0.2rem); }
+.board-card.selected { border-color: var(--card-color); outline: 0.3rem solid var(--accent-4); }
+.board.dense { gap: 0.9rem; }
+.board.dense .board-card { font-size: 1.3rem; padding: 0.6rem 1rem; gap: 0.2rem; }
+.board-input { display: grid; grid-template-columns: 1fr 18rem auto auto; gap: 0.8rem; margin-top: 1rem; align-items: stretch; }
+.board-input input, .board-input select {
+  height: 3.6rem; border: 0.25rem solid var(--text); background: var(--bg-card); padding: 0 1rem; font-size: 1.4rem;
+}
+.board-input input::placeholder { color: var(--text-muted); opacity: 1; }
+.board-input input:focus, .board-input select:focus { border-color: var(--accent-4); }
+.board-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem; gap: 1rem; min-height: 2.8rem; }
+.board-bar .micro { flex: 1; }
+.board-pager { display: flex; gap: 0.6rem; align-items: center; }
+
+/* ---------- Close and bridge ---------- */
+
+.close-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+.close-list li { list-style: none; display: grid; grid-template-columns: 1.6rem 1fr; gap: 1.4rem; align-items: start; font-size: 1.75rem; line-height: 1.35; }
+.close-list .pip { width: 1.6rem; height: 1.6rem; margin-top: 0.5rem; }
+.close-hook { margin-top: 2.4rem; }
+.close-hook strong { color: var(--label); }
+.close-grid { align-items: center; height: 100%; }
+.bridge-card { background: var(--bg-card); border: 0.3rem solid var(--text); padding: 1.8rem 2rem; }
+.bridge-card h3 { font-size: 1.5rem; letter-spacing: 0.16em; margin-bottom: 1rem; color: var(--label); }
+.bridge-card p { font-size: 1.5rem; line-height: 1.45; }
+.bridge-card p + p { margin-top: 0.8rem; }
+.src-block { background: var(--slide-accent); color: var(--on-accent); padding: 1.6rem 2rem; margin-top: 1.8rem; }
+.src-block h3 { font-size: 1.4rem; letter-spacing: 0.16em; margin-bottom: 0.8rem; }
+.src-block p { font-size: 1.35rem; line-height: 1.45; }
+
+/* ---------- Exit ticket ---------- */
+
+.exit-body { display: flex; flex-direction: column; }
+.exit-grid { flex: 1; min-height: 0; }
+.exit-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--card-color); padding: 2rem 2.2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.exit-card .card-name { font-size: 1.3rem; }
+.exit-card p { font-size: 1.85rem; line-height: 1.35; font-weight: 700; }
+.exit-card .lines { flex: 1; background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 3.1rem, var(--border) 3.1rem, var(--border) 3.3rem); min-height: 8rem; }
+.exit-foot { margin-top: 1.6rem; display: flex; justify-content: space-between; align-items: center; }
+.exit-sheets { display: none; }
+.sort-key { display: none; }
+
+/* ---------- Motion preference ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Narrow and portrait: a scrolling document ---------- */
+
+@media screen and (max-width: 860px), screen and (max-aspect-ratio: 1/1) {
+  html { font-size: max(3.1vw, 9px); }
+  body { overflow: auto; background: var(--bg); }
+  .deck { position: static; display: block; }
+  .stage { width: 100%; height: auto; min-height: 100vh; padding-bottom: 9rem; overflow: hidden; }
+  .slide { position: static; }
+  .slide.divider { min-height: 100vh; }
+  .slide-inner { height: auto; padding: 5rem 2.5rem 3rem 4.4rem; }
+  .slide-no { top: 2rem; right: 2.5rem; }
+  .progress-track { position: fixed; }
+  .mini-timer { position: fixed; bottom: 7rem; left: 1rem; }
+  .deck-chrome {
+    position: fixed; bottom: 0; left: 0; right: 0; justify-content: space-between;
+    border-width: 0.4rem 0 0; border-color: var(--accent-1); padding: 1rem 0.9rem;
+  }
+  .deck-chrome.idle { opacity: 1; pointer-events: auto; }
+  .nav-btn, .btn { min-height: 44px; font-size: 1.4rem; }
+  .deck-chrome .nav-btn { padding: 0 0.8rem; letter-spacing: 0.04em; font-size: 1.2rem; flex-shrink: 0; min-width: 44px; }
+  .deck-chrome { gap: 0.6rem; }
+  .nav-info { white-space: nowrap; font-size: 1.3rem; }
+  .s-head.is-activity { grid-template-columns: 1fr; row-gap: 1rem; }
+  .timer { justify-self: start; min-height: 44px; }
+  .read-seg, .q-letter, .m-spot, .part-btn, .q-opt, .board-card, .tps-phase, .board-input input, .board-input select,
+  .sort-item, .sort-bin, .fn-card { min-height: 44px; min-width: 44px; }
+  .read-segs { min-width: 0; grid-template-columns: repeat(3, 1fr) 5rem; }
+  h1 { font-size: 5.2rem; }
+  h2 { font-size: 3.4rem; }
+  .g-2, .g-3, .g-7-5, .g-5-7, .check-grid, .pi-grid, .flaw-grid, .tps-template, .board-input, .sort-tray, .sort-bins, .six-grid, .fn-grid { grid-template-columns: 1fr; }
+  .six-grid, .fn-grid { grid-template-rows: none; height: auto; }
+  .six-col-head { display: none; }
+  .hero-mark { display: none; }
+  .stmt-block { display: none; }
+  .stmt-text { font-size: 4rem; }
+  .map-band { grid-template-columns: 1fr !important; }
+  .map-seg, .map-seg.current { min-height: 0; }
+  .tps-band { grid-template-columns: 1fr !important; }
+  .board { grid-template-columns: 1fr 1fr; }
+  .divider-num { font-size: 24rem; }
+  .cmp-table { table-layout: auto; }
+  .cmp-table th, .cmp-table td { padding: 0.6rem 0.7rem; }
+  .cmp-table thead th { letter-spacing: 0.04em; font-size: 1.2rem; }
+  .model-wrap { aspect-ratio: auto; height: 60rem; }
+  .pred-left { height: auto; }
+  .pred-outcome { position: static; display: none; }
+  .pred-outcome.visible { display: block; margin-top: 1.4rem; }
+  .pi-cols, .pi-row { grid-template-columns: 44px 1fr 1fr; }
+  .fn-detail { height: auto; min-height: 13rem; }
+}
+
+/* ---------- Print: one slide per A4 page ---------- */
+
+@page { size: A4 portrait; margin: 10mm; }
+
+@media print {
+  /* Print on light surfaces to save ink */
+  :root {
+    --bg: #fff;
+    --bg-card: #FFFAF2;
+    --bg-surface: #E8D2A8;
+    --bg-elevated: #F2DFBE;
+    --text: #2A1F18;
+    --text-muted: #6A5A48;
+    --border: #D8C8A8;
+    --label: var(--accent-4-ink);
+  }
+  html { font-size: 8.6pt; }
+  body { background: #fff; overflow: visible; }
+  .deck { position: static; display: block; }
+  .stage { width: auto; height: auto; background: #fff; overflow: visible; }
+  .slide { position: relative; display: block !important; page-break-after: always; break-after: page; animation: none; overflow: hidden; }
+  .slide.divider { background: var(--slide-accent); }
+  .slide-inner { height: auto; padding: 2.4rem 3rem 2rem 5rem; }
+  .progress-track, .deck-chrome, .mini-timer, .deco, .hero-mark, .blackout, .timer, .board-input, .board-bar,
+  .check-actions, .pred-actions, .flaw-actions, .worked-actions, .cmp-foot .btn, .board-pager, .pi-actions, .sort-foot .btn,
+  .divider-num, .flaw-legend, .pred-waiting, .stmt-block { display: none !important; }
+  .rail, .s-head::before, .act-tag, .tally-letter, .q-letter, .claim-card, .map-seg, .slide.divider, .outcome-num,
+  .num-head, .step .num, .why-panel, .src-block, .m-node, .m-spot, .part-btn .num, .tps-phase, .chip, .six-col-head, .six-card,
+  .cmp-table thead th, .cmp-table tbody th, .cmp-banner, .board-card, .exit-card, .card, .sort-item, .sort-bin, .bin-head, .fn-card,
+  .fn-stripe span, .read-seg, .q-opt, .detail-panel, .flaw-case, .num-card, .pred-outcome, .bridge-card {
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+  .s-head { margin-bottom: 1.2rem; }
+  h2 { font-size: 3rem; }
+  .grid { gap: 1.8rem; }
+  .slide[data-archetype="predict"] .s-body, .slide[data-archetype="spot-the-flaw"] .s-body,
+  .slide[data-archetype="worked-example"] .s-body, .slide[data-archetype="annotated-model"] .s-body,
+  .slide[data-archetype="peer-instruction"] .s-body, .slide[data-archetype="select-detail"] .s-body { grid-template-columns: 1fr; }
+  .pred-left { height: auto; }
+  .reveal-anim { opacity: 1; transform: none; visibility: visible; }
+  .step { opacity: 1; transform: none; }
+  body.instructor .step-why { display: block; font-size: 1.3rem; color: var(--text-muted); }
+  .cmp-table tbody tr td span { opacity: 1 !important; }
+  .cmp-table tbody tr td { background: var(--bg-card) !important; }
+  .detail-panel:not(.fn-detail), .flaw-detail, .why-panel, .conf-banner, .sort-why { display: none !important; }
+  .fn-detail { display: none !important; }
+  .fn-grid { height: auto; grid-template-rows: none; }
+  .outcome-list, .num-cards, .exit-grid, .hero, .fill, .six-grid, .sort-wrap, .board-wrap { height: auto; }
+  .exit-card .lines { display: none; }
+  .map-seg, .map-seg.current { min-height: 0; }
+  .model-wrap { max-width: 50rem; }
+  .m-node .n-name { font-size: 1.45rem; letter-spacing: 0.04em; }
+  .m-node .n-sub { font-size: 1.1rem; }
+  .m-spot { width: 2.8rem; height: 2.8rem; font-size: 1.3rem; }
+  .part-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
+  .sort-item { min-height: 0; font-size: 1.2rem; padding: 0.2rem 0.6rem; }
+  .sort-tray { gap: 0.4rem 0.8rem; }
+  .sort-bins, .sort-foot, .pi-status, .pi-cols, .read-intro { display: none !important; }
+  .pred-outcome p, .pred-situation p, .hook-echo p { font-size: 1.25rem; }
+  .hook-echo { min-height: 0; }
+  .cmp-table th, .cmp-table td { padding: 0.5rem 1rem; }
+  .fn-grid { gap: 0.6rem; }
+  .fn-card { padding-bottom: 0.6rem; }
+  .stmt-body { padding-top: 4rem; }
+
+  /* Student print (default): questions and options only */
+  body:not(.instructor) .q-why, body:not(.instructor) .check-side, body:not(.instructor) .pred-outcome,
+  body:not(.instructor) .claim-follow, body:not(.instructor) .flaw-why-list, body:not(.instructor) .flaw-score,
+  body:not(.instructor) .board-wrap .board, body:not(.instructor) .tally, body:not(.instructor) .pi-read,
+  body:not(.instructor) .read-intro, body:not(.instructor) .sort-item .bin-tag, body:not(.instructor) .cmp-banner,
+  body:not(.instructor) .sort-key { display: none !important; }
+  body:not(.instructor) .q-opt, body:not(.instructor) .flaw-seg, body:not(.instructor) .sort-item { background: var(--bg-card) !important; border-color: var(--border) !important; }
+
+  /* Instructor print: answers, why, room reads, notes */
+  body.instructor .q-why { visibility: visible; }
+  body.instructor .q-opt.key-correct { border-color: var(--correct); }
+  body.instructor .pred-outcome { position: static; visibility: visible; opacity: 1; margin-top: 1.4rem; }
+  body.instructor .flaw-why-list, body.instructor .sort-key { display: block; margin-top: 1rem; font-size: 1.25rem; line-height: 1.35; }
+  body.instructor .flaw-why-list li, body.instructor .sort-key li { margin-left: 2rem; margin-top: 0.4rem; }
+  body.instructor .notes {
+    display: block; position: relative; z-index: 2; margin: 0 3rem 2rem 5rem; padding: 1.4rem 1.8rem;
+    border: 0.2rem solid var(--text); font-size: 1.25rem; line-height: 1.4; background: var(--bg-card); color: var(--text);
+  }
+  body.instructor .notes::before { content: 'SPEAKER NOTES'; display: block; font-weight: 700; letter-spacing: 0.16em; font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+  .exit-sheets { display: block; }
+  .exit-page { page-break-after: always; break-after: page; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 270mm; background: #fff; color: #2A1F18; }
+  .a6 { border: 1px dashed #6A5A48; padding: 6mm; display: flex; flex-direction: column; gap: 3mm; font-size: 10pt; }
+  .a6 .a6-title { font-weight: 800; font-size: 11pt; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1mm solid var(--accent-1); padding-bottom: 2mm; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .a6 .a6-q { font-weight: 700; }
+  .a6 .a6-lines { flex: 1; border-bottom: 1px solid #D8C8A8; min-height: 14mm; }
+}
+</style>
+</head>
+<body class="theme-dark">
+
+<div class="deck">
+<div class="stage" id="stage">
+
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- ============ 1. TITLE POSTER ============ -->
+  <section class="slide" id="s-title" data-accent="var(--accent-1)" data-archetype="title-poster">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 hero">
+        <div>
+          <span class="eyebrow">Coaching 1 &middot; Workshop 3 &middot; November 2026</span>
+          <h1>Behaviour<br>change</h1>
+          <p class="lede"><strong>B&nbsp;=&nbsp;COM.</strong> Say it aloud and it sounds like <strong>become</strong>. A behaviour becomes possible when capability, opportunity and motivation are in place, and it changes when one of them changes.</p>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <div class="hm-bar"></div>
+          <div class="hm-c"><span>C</span></div>
+          <div class="hm-o">O</div>
+          <div class="hm-m">M</div>
+          <div class="hm-b">B</div>
+          <div class="hm-tri"></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Welcome. Workshop 2 gave everyone goals and indicators; today asks why the planned behaviour happens or fails to happen. Introduce B&nbsp;=&nbsp;COM as our shorthand for the COM-B model of Michie, van Stralen and West (2011): behaviour on one side, capability, opportunity and motivation on the other. Say the pun once: B&nbsp;=&nbsp;COM, become. Promise that by the end everyone will have diagnosed one of their own behaviours and chosen where to intervene. About 1 minute.</aside>
+    <div class="deco circle" style="width: 34rem; height: 34rem; background: var(--accent-8); opacity: 0.1; bottom: -16rem; left: -10rem"></div>
+    <div class="deco" style="width: 80rem; height: 1rem; background: var(--accent-4); opacity: 0.12; bottom: 8rem; left: 4rem; transform: rotate(-2deg)"></div>
+  </section>
+
+  <!-- ============ 2. OUTCOMES ============ -->
+  <section class="slide" id="s-outcomes" data-accent="var(--accent-2)" data-archetype="outcomes">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-5-7 fill">
+        <div class="outcomes-left" style="align-self: center">
+          <header class="s-head">
+            <span class="eyebrow">Outcomes</span>
+            <h2>By the end of this session</h2>
+          </header>
+          <p class="small quiet">An activity checks each outcome. The fourth you start today on a behaviour of your own.</p>
+        </div>
+        <div class="outcome-list">
+          <div class="outcome-row" style="--row-color: var(--accent-1)"><div class="outcome-num">1</div><p><strong>Explain</strong> how capability, opportunity and motivation interact to produce a behaviour.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-6)"><div class="outcome-num">2</div><p><strong>Classify</strong> a barrier to a behaviour as capability, opportunity or motivation.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-4); --row-on: var(--dark-ink)"><div class="outcome-num">3</div><p><strong>Match</strong> an intervention to the source of behaviour it can change.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-5)"><div class="outcome-num">4</div><p><strong>Diagnose</strong> one of your own behaviours and choose where to intervene.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Read the four verbs aloud: explain, classify, match, diagnose. Tell the room where each is checked: the feedback check in Part 1, the sort and the peer instruction question in Part 2, the case, the flawed plan and the matching check in Part 3, and their own diagnosis in Part 4. About 1 minute.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-4); opacity: 0.09; top: -12rem; left: 20rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-6); opacity: 0.1; bottom: -9rem; left: 4rem"></div>
+  </section>
+
+  <!-- ============ 3. SESSION MAP ============ -->
+  <section class="slide" id="s-map-1" data-accent="var(--accent-6)" data-archetype="session-map" data-current="1">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map</span>
+        <h2>Today's session</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-band"></div>
+        <div class="map-next"><span class="label">Now</span><p>A claim about why people fail to follow through on their plans.</p></div>
+      </div>
+    </div>
+    <aside class="notes">Walk the band left to right. The triangles mark segments where the room does something. Parts 2 and 3 are the core: the three sources of behaviour, then how to intervene at the right one. Part 4 is where they apply it to themselves. About 1 minute.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-4); opacity: 0.12; bottom: 12rem; left: 10rem; transform: rotate(-3deg)"></div>
+    <div class="deco circle" style="width: 24rem; height: 24rem; background: var(--accent-1); opacity: 0.12; top: -10rem; right: -6rem"></div>
+  </section>
+
+  <!-- ============ 4. HOOK: CLAIM TALLY ============ -->
+  <section class="slide" id="s-hook" data-accent="var(--accent-5)" data-archetype="claim-tally">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Claim tally &middot; Hands up &middot; 3 min</span>
+          <h2>Do you agree with this claim?</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-hook" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid g-2" data-activity="claim-tally">
+        <div class="claim-card">
+          <span class="label">A claim</span>
+          <p class="claim-text" data-field="claim"></p>
+          <span class="micro">Hands up for one option</span>
+        </div>
+        <div>
+          <p class="read-intro">Room read: the presenter judges the hands by eye</p>
+          <div class="tally" data-tally="round1"></div>
+          <div class="claim-follow reveal-anim"><p data-field="followUp"></p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">A position prompt: no answer is shown here. Read the claim, then hands up for agree, disagree, unsure. No counting: set each option to few, some or most by eye (keys 1 to 3 step up; Shift steps down). Press r for the follow-up line. Many rooms agree: wanting it more feels like the obvious fix. Do not argue now. The claim returns at the GP case in Part 3, where the people involved did want the behaviour and still did not do it.</aside>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-3); opacity: 0.1; bottom: -5rem; left: 36rem; transform: rotate(32deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-8); opacity: 0.1; top: -9rem; left: 34rem"></div>
+  </section>
+
+  <!-- ============ 5. SECTION DIVIDER: PART 1 ============ -->
+  <section class="slide divider" id="s-part-1" data-accent="var(--accent-1)" data-archetype="section-divider">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <span class="eyebrow">Part 1</span>
+      <h1>Behaviour is an output</h1>
+      <h3>Why does a behaviour happen, or fail to happen?</h3>
+    </div>
+    <div class="divider-num" aria-hidden="true">1</div>
+    <aside class="notes">Part 1 introduces B&nbsp;=&nbsp;COM as a system: what goes in, what comes out, and how the output feeds back. About 13 minutes, ending with a check.</aside>
+    <div class="deco circle" style="width: 30rem; height: 30rem; background: var(--bg); opacity: 0.12; top: -12rem; left: 48rem"></div>
+    <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 10rem; left: 0; transform: rotate(-4deg)"></div>
+  </section>
+
+  <!-- ============ 6. STATEMENT ============ -->
+  <section class="slide" id="s-statement" data-accent="var(--accent-4)" data-archetype="statement">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="stmt-block" aria-hidden="true"><span>B</span><span>=</span><span>COM</span></div>
+    <div class="slide-inner">
+      <div class="s-body stmt-body">
+        <p class="stmt-text">Behaviour is the output of a system. <em>To change the output, change what goes in.</em></p>
+        <p class="micro stmt-attr">After Michie, van Stralen and West (2011): capability, opportunity and motivation interact to generate behaviour.</p>
+      </div>
+    </div>
+    <aside class="notes">Let the sentence sit. Most attempts at change aim straight at the behaviour: try harder, do more. This model asks what produces the behaviour in the first place. The three inputs are capability, opportunity and motivation. Ask: "When you last failed to do something you planned, which input was missing?" Take one or two answers, but do not sort them yet; that is Part 2. About 1 minute.</aside>
+    <div class="deco circle" style="width: 26rem; height: 26rem; background: var(--accent-6); opacity: 0.1; top: -10rem; left: 30rem"></div>
+    <div class="deco" style="width: 18rem; height: 18rem; background: var(--accent-1); opacity: 0.12; bottom: -8rem; left: -4rem; transform: rotate(24deg)"></div>
+  </section>
+
+  <!-- ============ 7. ANNOTATED MODEL ============ -->
+  <section class="slide" id="s-model" data-accent="var(--accent-1)" data-archetype="annotated-model">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">The model</span>
+        <h2>Three sources interact to produce behaviour</h2>
+      </header>
+      <div class="s-body grid g-7-5" data-activity="select-detail">
+        <div class="model-col"><div class="model-wrap">
+          <svg class="model-svg" viewBox="0 0 500 330" aria-hidden="true">
+            <defs>
+              <marker id="mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#A89878"></path></marker>
+              <marker id="mk-lit" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#D4A020"></path></marker>
+            </defs>
+            <line class="arrow" data-arrow="cm" data-two="0" x1="85" y1="84" x2="85" y2="119"></line>
+            <line class="arrow" data-arrow="om" data-two="0" x1="85" y1="246" x2="85" y2="211"></line>
+            <line class="arrow" data-arrow="cb" data-two="1" x1="180" y1="50" x2="322" y2="128"></line>
+            <line class="arrow" data-arrow="mb" data-two="1" x1="180" y1="165" x2="320" y2="165"></line>
+            <line class="arrow" data-arrow="ob" data-two="1" x1="180" y1="280" x2="322" y2="202"></line>
+          </svg>
+          <div class="m-node" data-node="c" style="left: 0; top: 0; width: 34%; height: 24.24%; --node-color: var(--cap)"><span class="n-name">Capability</span><span class="n-sub">Physical &middot; Psychological</span></div>
+          <div class="m-node" data-node="m" style="left: 0; top: 37.88%; width: 34%; height: 24.24%; --node-color: var(--mot)"><span class="n-name">Motivation</span><span class="n-sub">Reflective &middot; Automatic</span></div>
+          <div class="m-node" data-node="o" style="left: 0; top: 75.76%; width: 34%; height: 24.24%; --node-color: var(--opp); --node-on: var(--dark-ink)"><span class="n-name">Opportunity</span><span class="n-sub">Physical &middot; Social</span></div>
+          <div class="m-node" data-node="b" style="left: 66%; top: 37.88%; width: 34%; height: 24.24%; --node-color: var(--beh)"><span class="n-name">Behaviour</span><span class="n-sub">The output</span></div>
+          <button class="m-spot" type="button" data-part="0" style="left: 0; top: 0" aria-label="Part 1: three sources">1</button>
+          <button class="m-spot" type="button" data-part="1" style="left: 26%; top: 31%" aria-label="Part 2: capability and opportunity shape motivation">2</button>
+          <button class="m-spot" type="button" data-part="2" style="left: 50%; top: 41%" aria-label="Part 3: together they produce behaviour">3</button>
+          <button class="m-spot" type="button" data-part="3" style="left: 100%; top: 37.88%" aria-label="Part 4: behaviour feeds back">4</button>
+          <button class="m-spot" type="button" data-part="4" style="left: 60%; top: 92%" aria-label="Part 5: a system rather than a sum">5</button>
+        </div><p class="micro" style="margin-top: 1.6rem">Layout after Figure 1 of Michie, van Stralen and West (2011). Single heads show influence one way; double heads, both ways.</p></div>
+        <div>
+          <div class="part-list"></div>
+          <div class="detail-panel" aria-live="polite"><p class="placeholder-line">Select a number on the model, or press r to step through.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Step through with r. The layout follows Figure 1 of Michie et al. (2011): single-headed arrows from capability and opportunity into motivation, double-headed arrows between each source and behaviour. Stress part 4, the double heads: doing a behaviour changes the sources. Part 5 is what B&nbsp;=&nbsp;COM must not hide: the "=" is shorthand rather than arithmetic, and changing one source can amplify or cancel a change elsewhere. Ask: "Which arrow do people usually forget?" Usually the return arrows. About 5 minutes.</aside>
+    <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-6); opacity: 0.08; bottom: -14rem; right: -8rem; transform: rotate(40deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.1; top: -7rem; right: 30rem"></div>
+  </section>
+
+  <!-- ============ 8. COMPARISON MATRIX: ORIGINS ============ -->
+  <section class="slide" id="s-origins" data-accent="var(--accent-5)" data-archetype="comparison-matrix">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Where it comes from</span>
+        <h2>Two traditions, the same three conditions</h2>
+      </header>
+      <div class="s-body" data-activity="reveal">
+        <table class="cmp-table">
+          <thead><tr>
+            <th class="cmp-crit" scope="col">B&nbsp;=&nbsp;COM</th>
+            <th scope="col" style="--head-color: var(--accent-8)">Theorists, 1991</th>
+            <th scope="col" style="--head-color: var(--accent-2)">US criminal law</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="cmp-banner reveal-anim"><span class="label">What Michie et al. added</span><span data-field="added"></span></div>
+        <div class="cmp-foot">
+          <p class="micro">Predict each row before it is revealed. Source: Michie, van Stralen and West (2011), drawing on Fishbein et al. (2001).</p>
+          <button class="btn" type="button" data-action="reveal-row">Reveal next row</button>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Before each row, ask: "What would a prosecutor have to prove?" The room often finds means, opportunity and motive unprompted. The 1991 consensus meeting of behavioural theorists named skills, a strong intention, and no environmental constraints as necessary and sufficient for a volitional behaviour. Michie et al. took the agreement between two very different traditions as support for the three conditions. The fourth reveal shows what they added: automatic processes such as habits, and causal links between the sources. About 3 minutes.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-8); opacity: 0.1; top: -9rem; right: 14rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-3); opacity: 0.1; bottom: -8rem; left: 24rem"></div>
+  </section>
+
+  <!-- ============ 9. CHECK WITH CONFIDENCE: FEEDBACK ============ -->
+  <section class="slide" id="s-check-feedback" data-accent="var(--accent-2)" data-archetype="single-select">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Check &middot; Confidence &middot; 3 min</span>
+          <h2 data-field="stem"></h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-check-feedback" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid check-grid" data-activity="single-select">
+        <div>
+          <p class="q-goal" data-field="context"></p>
+          <div class="q-options"></div>
+        </div>
+        <div class="check-side">
+          <h3>How sure?</h3>
+          <div class="tally" data-tally="confidence"></div>
+          <div class="conf-banner" role="status"></div>
+          <div class="check-actions"><button class="btn" type="button" data-action="reveal">Reveal all</button><span class="pick-note">Click the letter most of the room holds up.</span></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Individual first: everyone picks silently, then HOLD UP A LETTER. Before any reveal, hands up for LOW, MEDIUM, HIGH and set each by eye (keys 1 to 3). Then click the letter most of the room held up. A wrong pick shows its reasoning briefly, then clears. If HIGH was the biggest group and the popular letter was wrong, a banner appears: ask why that answer felt right. D is the usual trap: it treats behaviour as an end point. Press r to show every option's reasoning.</aside>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-6); opacity: 0.1; bottom: -9rem; left: 20rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-4); opacity: 0.1; top: -6rem; left: 50rem; transform: rotate(30deg)"></div>
+  </section>
+
+  <!-- ============ 10. SESSION MAP: PART 2 ============ -->
+  <section class="slide" id="s-map-2" data-accent="var(--accent-8)" data-archetype="session-map" data-current="3">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map &middot; Part 2</span>
+        <h2>Three sources of behaviour</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-next" style="margin: 0 0 3.4rem"><span class="label">Now</span><p>What exactly are capability, opportunity and motivation, and how do you tell them apart?</p></div>
+        <div class="map-band"></div>
+      </div>
+    </div>
+    <aside class="notes">Part 2 defines each source, splits it into two components, and then the room sorts real-sounding barriers. About 22 minutes, with a sort in pairs and a peer instruction question.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-2); opacity: 0.1; bottom: -10rem; right: 20rem; transform: rotate(22deg)"></div>
+    <div class="deco circle" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.08; top: -12rem; right: -8rem"></div>
+  </section>
+
+  <!-- ============ 11. NUMBERED CARDS: C, O, M ============ -->
+  <section class="slide" id="s-three" data-accent="var(--accent-5)" data-archetype="numbered-cards">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Definitions and core questions</span>
+        <h2>Each source asks its own question</h2>
+      </header>
+      <div class="s-body grid g-3 num-cards">
+        <div class="num-card" style="--card-color: var(--cap)">
+          <div class="num-head"><span class="num-big">C</span><h3>Capability</h3></div>
+          <div class="num-body">
+            <p class="def">"The individual's psychological and physical capacity to engage in the activity concerned. It includes having the necessary knowledge and skills."</p>
+            <div class="ask"><span class="label">Core question</span><p>What does the person need to know or be able to do to achieve the behaviour desired?</p></div>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--opp); --card-on: var(--dark-ink)">
+          <div class="num-head"><span class="num-big">O</span><h3>Opportunity</h3></div>
+          <div class="num-body">
+            <p class="def">"All the factors that lie outside the individual that make the behaviour possible or prompt it."</p>
+            <div class="ask"><span class="label">Core question</span><p>How can the environment be modified to achieve the behaviour desired?</p></div>
+          </div>
+        </div>
+        <div class="num-card" style="--card-color: var(--mot)">
+          <div class="num-head"><span class="num-big">M</span><h3>Motivation</h3></div>
+          <div class="num-body">
+            <p class="def">"All those brain processes that energize and direct behaviour, not just goals and conscious decision-making."</p>
+            <div class="ask"><span class="label">Core question</span><p>How can the person's plans, habits and feelings be shifted to achieve the behaviour desired?</p></div>
+          </div>
+        </div>
+      </div>
+      <p class="micro" style="margin-top: 1.2rem">Definitions quoted from Michie, van Stralen and West (2011). Core questions are this session's working prompts.</p>
+    </div>
+    <aside class="notes">Read each definition, then the core question beneath it. The questions are what the room will use for the rest of the session, including on their own behaviour. Point out the reach of the motivation definition: it covers habits and emotions as well as conscious choices. And opportunity lies wholly outside the person, which is why its question is about modifying the environment rather than the person. About 4 minutes.</aside>
+    <div class="deco" style="width: 70rem; height: 1.2rem; background: var(--accent-4); opacity: 0.12; top: 13rem; left: 20rem; transform: rotate(-2deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-1); opacity: 0.12; bottom: -10rem; right: -5rem"></div>
+  </section>
+
+  <!-- ============ 12. CARD GRID: SIX COMPONENTS ============ -->
+  <section class="slide" id="s-six" data-accent="var(--accent-3)" data-archetype="card-grid">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Six components</span>
+        <h2>Each source splits in two</h2>
+      </header>
+      <div class="s-body six-grid">
+        <div class="six-col-head" style="--card-color: var(--cap)">Capability</div>
+        <div class="six-col-head" style="--card-color: var(--opp); --card-on: var(--dark-ink)">Opportunity</div>
+        <div class="six-col-head" style="--card-color: var(--mot)">Motivation</div>
+        <div class="six-card" style="--card-color: var(--cap)"><span class="card-name">Physical capability</span><p>Physical capacity and skill: the body can carry out the behaviour.</p></div>
+        <div class="six-card" style="--card-color: var(--opp)"><span class="card-name">Physical opportunity</span><p>Opportunity afforded by the environment: the time, place and things the behaviour needs.</p></div>
+        <div class="six-card" style="--card-color: var(--mot)"><span class="card-name">Reflective motivation</span><p>Processes involving evaluations and plans: what you judge worth doing and intend to do.</p></div>
+        <div class="six-card" style="--card-color: var(--cap-2)"><span class="card-name">Psychological capability</span><p>The capacity to engage in the necessary thought processes: comprehension and reasoning.</p></div>
+        <div class="six-card" style="--card-color: var(--opp-2)"><span class="card-name">Social opportunity</span><p>Opportunity afforded by the cultural milieu, which shapes the way we think about things.</p></div>
+        <div class="six-card" style="--card-color: var(--mot-2)"><span class="card-name">Automatic motivation</span><p>Emotions and impulses that arise from associative learning and innate dispositions, including habits.</p></div>
+      </div>
+      <p class="micro" style="margin-top: 1.2rem">Source: Michie, van Stralen and West (2011). The examples of time, place and things are this session's gloss.</p>
+    </div>
+    <aside class="notes">Work down each column. The distinction that matters most for coaching is in the motivation column: reflective motivation is what you decide; automatic motivation is what pulls you before you decide. Many failed plans have a sound reflective side and a losing automatic side. Ask for one example of social opportunity from student life: who you live with, what your course treats as normal. About 4 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.1; bottom: -11rem; left: 30rem; transform: rotate(18deg)"></div>
+    <div class="deco ring" style="width: 20rem; height: 20rem; border-width: 2rem; border-color: var(--accent-4); opacity: 0.1; top: -10rem; right: 12rem"></div>
+  </section>
+
+  <!-- ============ 13. SORT ============ -->
+  <section class="slide" id="s-sort" data-accent="var(--accent-1)" data-archetype="sort">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Sort &middot; Pairs &middot; 8 min</span>
+          <h2>Capability, opportunity or motivation?</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-sort" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body" data-activity="sort">
+        <div class="sort-wrap">
+          <div class="sort-tray"></div>
+          <div class="sort-bins"></div>
+          <div class="sort-foot">
+            <button class="btn" type="button" data-action="check">Check</button>
+            <p class="sort-why quiet-line" aria-live="polite">Select a barrier (or press its number), then select a source (or press C, O or M).</p>
+          </div>
+          <ol class="sort-key"></ol>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">FICTIONAL CASES: nine things students might say. Pairs, three minutes: DISCUSS WITH YOUR NEIGHBOUR and decide a source for each. Then take calls from the room: press the barrier's number, then C, O or M. Press Check (or r), then click any barrier for its reasoning. Expect debate on 4 and 7: both feel like "not wanting to", yet both are automatic motivation. Use the core questions to settle disputes. About 8 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-6); opacity: 0.08; bottom: -14rem; right: 20rem; transform: rotate(34deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; top: -9rem; left: 44rem"></div>
+  </section>
+
+  <!-- ============ 14. PEER INSTRUCTION ============ -->
+  <section class="slide" id="s-pi" data-accent="var(--accent-4)" data-archetype="peer-instruction">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Peer instruction &middot; 6 min</span>
+          <h2 data-field="stem"></h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-pi" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid pi-grid" data-activity="peer-instruction">
+        <div>
+          <p class="q-goal" data-field="context"></p>
+          <div class="q-options"></div>
+        </div>
+        <div class="pi-read">
+          <div class="pi-cols"><span></span><span>Round 1</span><span>Round 2</span></div>
+          <div class="pi-rows"></div>
+          <div class="pi-status" aria-live="polite"><span class="label">Next</span><span class="act-now">Hold up a letter</span></div>
+          <div class="pi-actions">
+            <button class="btn" type="button" data-action="lock1">Lock round 1</button>
+            <button class="btn ghost" type="button" data-action="reveal" disabled>Reveal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Round 1: individual, HOLD UP A LETTER. Set each letter to few, some or most by eye (keys 1 to 4). The round 1 read shows in neutral grey so it does not herd the room. Press Lock round 1: the panel says what to do next. If it says CONVINCE YOUR NEIGHBOUR, start the 2 minute timer, then take round 2 (keys now set round 2). Press r to reveal. The answer surprises many rooms: habits can carry a behaviour with no plan behind it, which is why coaching cannot rely on intentions alone.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.1; bottom: -12rem; left: 12rem; transform: rotate(28deg)"></div>
+    <div class="deco circle" style="width: 14rem; height: 14rem; background: var(--accent-6); opacity: 0.1; top: -7rem; left: 50rem"></div>
+  </section>
+
+  <!-- ============ 15. SESSION MAP: PART 3 ============ -->
+  <section class="slide" id="s-map-3" data-accent="var(--accent-2)" data-archetype="session-map" data-current="4">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map &middot; Part 3</span>
+        <h2>Intervening at the right point</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-next" style="margin: 0 0 3.4rem"><span class="label">Now</span><p>Which interventions reach which source, and what happens when they are mismatched?</p></div>
+        <div class="map-band"></div>
+      </div>
+    </div>
+    <aside class="notes">Part 3 is the second key point of the session: changing a behaviour means intervening at the source that is failing, rather than pushing on the behaviour itself. About 24 minutes, with a real case, a flawed plan and a check.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-4); opacity: 0.09; bottom: -12rem; left: 30rem; transform: rotate(14deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-6); opacity: 0.1; top: -9rem; right: 4rem"></div>
+  </section>
+
+  <!-- ============ 16. SELECT-DETAIL: INTERVENTION FUNCTIONS ============ -->
+  <section class="slide" id="s-functions" data-accent="var(--accent-5)" data-archetype="select-detail">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">The behaviour change wheel</span>
+        <h2>Nine ways to intervene</h2>
+      </header>
+      <div class="s-body grid g-7-5" data-activity="select-detail">
+        <div class="fn-left">
+          <div class="fn-grid"></div>
+          <div class="fn-legend"><span>Stripe shows the sources it reaches:</span><span><i class="pip" style="--pip: var(--cap)"></i>C</span><span><i class="pip" style="--pip: var(--opp)"></i>O</span><span><i class="pip" style="--pip: var(--mot)"></i>M</span></div>
+          <p class="micro fn-src" data-field="policy"></p>
+        </div>
+        <div class="fn-side">
+          <div class="detail-panel fn-detail" aria-live="polite"><p class="placeholder-line">Select a function, or press its number.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Michie et al. place these nine intervention functions in a ring around B&nbsp;=&nbsp;COM, and around them seven policy categories, such as guidelines, fiscal measures and legislation, through which organisations and governments deliver them. Allude to the policy ring only; the coaching level is the nine functions. Select a few in turn and read the stripe: education reaches capability and motivation but not opportunity; restriction reaches only opportunity; enablement reaches everything. About 5 minutes.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.1; bottom: -10rem; right: 30rem; transform: rotate(18deg)"></div>
+    <div class="deco ring" style="width: 20rem; height: 20rem; border-width: 2rem; border-color: var(--accent-6); opacity: 0.1; top: -9rem; right: 6rem"></div>
+  </section>
+
+  <!-- ============ 17. COMPARISON MATRIX: LEVERS ============ -->
+  <section class="slide" id="s-levers" data-accent="var(--accent-6)" data-archetype="comparison-matrix">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Matching</span>
+        <h2>A lever aimed at the wrong source misses</h2>
+      </header>
+      <div class="s-body" data-activity="reveal">
+        <table class="cmp-table">
+          <colgroup><col style="width: 19%"><col style="width: 23%"><col style="width: 33%"><col style="width: 25%"></colgroup>
+          <thead><tr>
+            <th class="cmp-crit" scope="col">Source</th>
+            <th scope="col" style="--head-color: var(--accent-1)">When it is missing</th>
+            <th scope="col" style="--head-color: var(--accent-5)">Functions reaching it</th>
+            <th scope="col" style="--head-color: var(--accent-2)">A lever that misses</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="cmp-foot">
+          <p class="micro">Predict each row first. Functions from Table 2 of Michie, van Stralen and West (2011); the last column is this session's reading of it.</p>
+          <button class="btn" type="button" data-action="reveal-row">Reveal next row</button>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Before each row, ask the room for a lever that would miss. The table makes the second key point concrete: a reward cannot teach a skill, and knowing more does not free up time. Point to the last row: automatic motivation is reached by the most functions, but not by education, which is where most well-meant advice sits. About 4 minutes.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-4); opacity: 0.1; top: -9rem; right: 14rem; transform: rotate(16deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.12; bottom: -8rem; left: 24rem"></div>
+  </section>
+
+  <!-- ============ 18. PREDICT AND REVEAL: THE GP CASE ============ -->
+  <section class="slide" id="s-predict-gp" data-accent="var(--accent-1)" data-archetype="predict">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Predict and reveal &middot; 6 min</span>
+          <h2>Where does the problem lie?</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-predict-gp" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid g-5-7" data-activity="predict">
+        <div class="pred-left">
+          <div class="pred-situation"><p data-field="situation"></p></div>
+          <p class="pred-question" data-field="question"></p>
+          <p class="pred-waiting">Lock predictions, then reveal the analysis.</p>
+          <div class="pred-outcome" aria-live="polite"><div class="pred-body"></div></div>
+        </div>
+        <div class="pred-right">
+          <p class="read-intro">Room read: hands up for each letter</p>
+          <div class="tally" data-tally="round1"></div>
+          <div class="pred-actions">
+            <button class="btn" type="button" data-action="lock">Lock predictions</button>
+            <button class="btn ghost" type="button" data-action="reveal" disabled>Reveal analysis</button>
+            <span class="pred-status"></span>
+          </div>
+          <div class="hook-echo reveal-anim" aria-live="polite"><span class="label">Back to the opening claim</span><p class="echo-text"></p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">A real case from the paper. DISCUSS WITH YOUR NEIGHBOUR for one minute, then hands for A to D, set by eye. B is the tempting answer, because concern accounted for significant variance in how often advice was given. Lock, then r. The point: a factor that varies between people is not necessarily the one that is failing. These GPs had the skill and broadly wanted to give advice; habit, cues and time worked against them. Then return to the opening claim, shown in the result.</aside>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-5); opacity: 0.12; bottom: -9rem; left: 14rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-4); opacity: 0.1; top: -6rem; left: 44rem; transform: rotate(26deg)"></div>
+  </section>
+
+  <!-- ============ 19. SPOT THE FLAW ============ -->
+  <section class="slide" id="s-flaw" data-accent="var(--accent-4)" data-archetype="spot-the-flaw">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Spot the flaw &middot; 6 min</span>
+          <h2>Find the mismatches in this plan</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-flaw" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid flaw-grid" data-activity="spot-the-flaw">
+        <div>
+          <div class="flaw-case">
+            <div class="card-name">Fictional case &middot; A coach's plan</div>
+            <p class="flaw-passage"></p>
+            <ol class="flaw-why-list"></ol>
+          </div>
+          <div class="flaw-actions">
+            <button class="btn" type="button" data-action="check">Check</button>
+            <span class="flaw-score" aria-live="polite"></span>
+          </div>
+        </div>
+        <div>
+          <div class="detail-panel flaw-detail" aria-live="polite"><p class="placeholder-line">In pairs, find each intervention aimed at the wrong source. Select each part the room calls out, then press Check.</p></div>
+          <div class="flaw-legend">
+            <div><span class="sw found"></span>Flaw found</div>
+            <div><span class="sw missed"></span>Flaw missed</div>
+            <div><span class="sw wrong"></span>Sound part selected as a flaw</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Pairs, three minutes: DISCUSS WITH YOUR NEIGHBOUR. Each observation in the plan is sound; the question is whether each remedy reaches the source the observation points to. Take calls, click each part named, then Check (or r) and click numbered parts for the reasoning. Three flaws: persuasion for an opportunity problem, education for motivation that is already there, and training for a habit. The library room is the one well-matched lever. About 6 minutes.</aside>
+    <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-3); opacity: 0.08; bottom: -12rem; right: 22rem; transform: rotate(34deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.12; top: -8rem; left: 40rem"></div>
+  </section>
+
+  <!-- ============ 20. CHECK WITH CONFIDENCE: MATCHING ============ -->
+  <section class="slide" id="s-check-match" data-accent="var(--accent-2)" data-archetype="single-select">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Check &middot; Confidence &middot; 3 min</span>
+          <h2 data-field="stem"></h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-check-match" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body grid check-grid" data-activity="single-select">
+        <div>
+          <p class="q-goal" data-field="context"></p>
+          <div class="q-options"></div>
+        </div>
+        <div class="check-side">
+          <h3>How sure?</h3>
+          <div class="tally" data-tally="confidence"></div>
+          <div class="conf-banner" role="status"></div>
+          <div class="check-actions"><button class="btn" type="button" data-action="reveal">Reveal all</button><span class="pick-note">Click the letter most of the room holds up.</span></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Individual: diagnose first, then choose. Ask the room to name the failing component before anyone picks a letter: capability and reflective motivation are fine here; social opportunity is missing. Then HOLD UP A LETTER, confidence by eye, click the popular letter. A is the common trap: explanation feels helpful, but this student already knows why starting early matters. Press r for every option's reasoning.</aside>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-8); opacity: 0.1; bottom: -9rem; left: 20rem"></div>
+    <div class="deco" style="width: 14rem; height: 14rem; background: var(--accent-4); opacity: 0.1; top: -6rem; left: 50rem; transform: rotate(30deg)"></div>
+  </section>
+
+  <!-- ============ 21. SESSION MAP: PART 4 ============ -->
+  <section class="slide" id="s-map-4" data-accent="var(--accent-8)" data-archetype="session-map" data-current="5">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Session map &middot; Part 4</span>
+        <h2>Your behaviour</h2>
+      </header>
+      <div class="s-body">
+        <div class="map-next" style="margin: 0 0 3.4rem"><span class="label">Now</span><p>A worked diagnosis, then you diagnose a behaviour of your own and choose where to intervene.</p></div>
+        <div class="map-band"></div>
+      </div>
+    </div>
+    <aside class="notes">Part 4 is where the room produces its own work. Ask everyone to have in mind one behaviour they want to do more often, or less often, before the worked example starts. About 20 minutes.</aside>
+    <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-6); opacity: 0.09; bottom: -12rem; left: 30rem; transform: rotate(14deg)"></div>
+    <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-4); opacity: 0.08; top: -9rem; right: 4rem"></div>
+  </section>
+
+  <!-- ============ 22. WORKED EXAMPLE ============ -->
+  <section class="slide" id="s-worked" data-accent="var(--accent-5)" data-archetype="worked-example">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head">
+        <span class="eyebrow">Worked example &middot; Fictional case</span>
+        <h2>Diagnosing one behaviour in six steps</h2>
+      </header>
+      <div class="s-body grid g-7-5" data-activity="worked">
+        <div>
+          <div class="steps"></div>
+        </div>
+        <div>
+          <div class="why-panel" aria-live="polite"><span class="label">Why this step</span><p class="why-text">Predict the first step before it appears.</p></div>
+          <div class="worked-actions">
+            <button class="btn" type="button" data-action="next-step">Next step</button>
+            <span class="micro">Intervention functions from Table 2 of Michie, van Stralen and West (2011).</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Before each reveal, ask the room to predict the next step; press r to show it. Steps 2 to 4 use the three core questions in turn. At step 5, stress that the target is the component that is failing, which here is the morning habit rather than the student's intentions. At step 6, check the function against Table 2. This is the exact format the room copies on the next slide. About 5 minutes.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-1); opacity: 0.1; bottom: -9rem; left: 18rem; transform: rotate(24deg)"></div>
+    <div class="deco ring" style="width: 18rem; height: 18rem; border-width: 1.8rem; border-color: var(--accent-2); opacity: 0.1; top: -8rem; right: 34rem"></div>
+  </section>
+
+  <!-- ============ 23. THINK, PAIR, SHARE ============ -->
+  <section class="slide" id="s-apply" data-accent="var(--accent-6)" data-archetype="think-pair-share">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Think, pair, share &middot; 10 min</span>
+          <h2>Your turn</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-apply" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body" data-activity="think-pair-share">
+        <p class="tps-prompt" data-field="prompt"></p>
+        <div class="tps-band"></div>
+        <div class="tps-template"></div>
+      </div>
+    </div>
+    <aside class="notes">THINK is individual and silent: they write their behaviour and answer the three core questions on paper, using the six headings. PAIR: swap sheets and check the match: does the chosen function reach the component that is failing? Use the table from Part 3. The timer runs per phase; when it expires the next phase lights, so press t to start it again. SHARE happens on the next slide. Circulate during PAIR and listen for interventions that target motivation by default.</aside>
+    <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.1; bottom: -11rem; right: -4rem"></div>
+    <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-8); opacity: 0.1; bottom: -6rem; left: 26rem; transform: rotate(36deg)"></div>
+  </section>
+
+  <!-- ============ 24. LIVE BOARD ============ -->
+  <section class="slide" id="s-board" data-accent="var(--accent-1)" data-archetype="live-board">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Live board &middot; 4 min</span>
+          <h2>Where the room's behaviours fail</h2>
+        </div>
+      </header>
+      <div class="s-body" data-activity="live-board">
+        <div class="board-wrap">
+          <div class="board" aria-live="polite"></div>
+          <div class="board-input">
+            <label class="sr-only" for="board-text">Diagnosis and intervention</label>
+            <input id="board-text" type="text" maxlength="90" placeholder="Type a diagnosis and intervention, then press Enter">
+            <label class="sr-only" for="board-tag">Source that is failing</label>
+            <select id="board-tag"></select>
+            <button class="btn" type="button" data-action="add">Add</button>
+            <button class="btn ghost" type="button" data-action="cluster">Cluster by source</button>
+          </div>
+          <div class="board-bar">
+            <span class="micro board-count"></span>
+            <button class="btn ghost" type="button" data-action="delete" disabled>Delete selected</button>
+            <div class="board-pager"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Take one diagnosis from several pairs; no names, only the behaviour, the failing source and the intervention. Tag each with the source and press Enter. Before adding, ask the room: does that function reach that source? If not, ask the pair to repair it. Cluster by source at the end: if most cards say motivation, ask whether the room is defaulting to it, as the opening claim did. Export responses from the menu after the session. About 4 minutes.</aside>
+    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-4); opacity: 0.08; top: -9rem; left: 50rem; transform: rotate(20deg)"></div>
+    <div class="deco circle" style="width: 14rem; height: 14rem; background: var(--accent-6); opacity: 0.1; bottom: -8rem; left: -4rem"></div>
+  </section>
+
+  <!-- ============ 25. CLOSE AND BRIDGE ============ -->
+  <section class="slide" id="s-close" data-accent="var(--accent-4)" data-archetype="close-bridge">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <div class="s-body grid g-7-5 close-grid">
+        <div>
+          <header class="s-head">
+            <span class="eyebrow">Close</span>
+            <h2>What we can now do</h2>
+          </header>
+          <ul class="close-list">
+            <li><span class="pip" style="--pip: var(--accent-1)"></span>Explain how capability, opportunity and motivation interact to produce a behaviour.</li>
+            <li><span class="pip" style="--pip: var(--accent-6)"></span>Classify a barrier to a behaviour as capability, opportunity or motivation.</li>
+            <li><span class="pip" style="--pip: var(--accent-4)"></span>Match an intervention to the source of behaviour it can change.</li>
+            <li><span class="pip" style="--pip: var(--accent-5)"></span>Diagnose one of your own behaviours and choose where to intervene.</li>
+          </ul>
+          <p class="small close-hook"><strong>Back to the opening claim:</strong> when a plan fails, is wanting it more the fix?</p>
+        </div>
+        <div>
+          <div class="bridge-card">
+            <h3>To go further</h3>
+            <p>Read the paper behind B&nbsp;=&nbsp;COM: it sets the model inside the behaviour change wheel, with nine intervention functions and seven policy categories.</p>
+          </div>
+          <div class="src-block">
+            <h3>Source</h3>
+            <p>Michie, S., van Stralen, M. M. and West, R. (2011) The behaviour change wheel: a new method for characterising and designing behaviour change interventions. Implementation Science, 6, 42.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Read the four outcomes and ask for a thumbs check on each. Return to the opening claim: sometimes motivation is the gap, but often the person already wants the behaviour, and the gap is a skill, an environment or a habit. Wanting it more cannot fix those. Presenter: export the room's responses from the Responses menu before closing the browser. About 2 minutes.</aside>
+    <div class="deco" style="width: 28rem; height: 28rem; background: var(--accent-1); opacity: 0.1; bottom: -14rem; left: 30rem; transform: rotate(18deg)"></div>
+    <div class="deco circle" style="width: 18rem; height: 18rem; background: var(--accent-6); opacity: 0.1; top: -9rem; left: 50rem"></div>
+  </section>
+
+  <!-- ============ 26. EXIT TICKET ============ -->
+  <section class="slide" id="s-exit" data-accent="var(--accent-2)" data-archetype="exit-ticket">
+    <div class="rail"></div>
+    <div class="slide-no"></div>
+    <div class="slide-inner">
+      <header class="s-head is-activity">
+        <div>
+          <span class="act-tag">Exit ticket &middot; 3 min</span>
+          <h2>Before you leave</h2>
+        </div>
+        <button class="timer" type="button" data-timer="s-exit" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
+      </header>
+      <div class="s-body exit-body" data-activity="exit-ticket">
+        <div class="grid g-3 exit-grid"></div>
+        <div class="exit-foot"><span class="micro">On paper. Hand it in on your way out.</span></div>
+      </div>
+    </div>
+    <aside class="notes">Hand out the printed A6 cards (they print after the slides, four to a page). Individual and silent. Collect them at the door. The first two prompts show whether students can diagnose and match unaided; the confidence ratings tell you which outcome to revisit in 1:1 coaching meetings.</aside>
+    <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.1; bottom: -10rem; right: 10rem; transform: rotate(28deg)"></div>
+    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; top: -7rem; left: 38rem"></div>
+  </section>
+
+  <!-- Print-only exit-ticket sheets: four A6 cards per A4 page -->
+  <div class="exit-sheets" aria-hidden="true"></div>
+
+  <div class="blackout" id="blackout"></div>
+  <div class="mini-timer" id="mini-timer" aria-live="off"></div>
+
+  <div class="deck-chrome" id="chrome">
+    <button class="nav-btn ghost" type="button" id="prev-btn" aria-label="Previous slide">Prev</button>
+    <span class="nav-info" id="nav-info"></span>
+    <button class="nav-btn" type="button" id="next-btn" aria-label="Next slide">Next</button>
+    <div style="position: relative">
+      <button class="nav-btn ghost" type="button" id="resp-btn" aria-haspopup="true" aria-expanded="false">Responses</button>
+      <div class="resp-menu" id="resp-menu">
+        <button class="btn" type="button" id="export-btn">Export JSON</button>
+        <button class="btn" type="button" id="import-btn">Import JSON</button>
+        <label class="sr-only" for="import-file">Import responses file</label>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+        <button class="btn ghost" type="button" id="reset-btn">Reset</button>
+        <p class="resp-note" id="resp-note"></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ==================================================================
+   ACTIVITIES: all activity content for this deck.
+   Edit the text in quotes freely. Keep the structure (brackets,
+   commas, true/false) as it is. Each entry is keyed by the id of
+   its slide. "minutes" sets the slide's timer (0 hides it).
+   Source for every fact: Michie, S., van Stralen, M. M. and West, R.
+   (2011) The behaviour change wheel. Implementation Science, 6, 42.
+   Cases marked FICTIONAL are invented illustrations.
+   ================================================================== */
+const ACTIVITIES = {
+
+  // Slide 4. Hook. A position prompt: no correct answer is ever shown.
+  // The room is read by eye (few, some, most); nothing is counted.
+  's-hook': {
+    pattern: 'claim-tally',
+    minutes: 3,
+    claim: "If you keep not doing something you planned, you just don't want it enough.",
+    options: ['Agree', 'Disagree', 'Unsure'],
+    followUp: "Hold on to the room's answer. Part 3 tests it against a real case."
+  },
+
+  // Slide 7. Parts of the B = COM model. "nodes" and "arrows" say what each part lights up.
+  's-model': {
+    pattern: 'select-detail',
+    parts: [
+      { name: 'Three sources', nodes: ['c', 'o', 'm'], arrows: [],
+        detail: "Capability and motivation lie inside the person; opportunity lies outside. All three have equal status: none comes first. Michie et al. call this the COM-B system." },
+      { name: 'C and O shape motivation', nodes: ['c', 'o', 'm'], arrows: ['cm', 'om'],
+        detail: "Opportunity can influence motivation, as can capability. Being able to do something, and having the chance, changes how much you want to." },
+      { name: 'Together they produce behaviour', nodes: ['c', 'o', 'm', 'b'], arrows: ['cb', 'mb', 'ob'],
+        detail: "Capability, opportunity and motivation interact to generate behaviour. Changing one or more of them is how the behaviour changes." },
+      { name: 'Behaviour feeds back', nodes: ['c', 'o', 'm', 'b'], arrows: ['cb', 'mb', 'ob'], back: true,
+        detail: "The arrows run both ways: enacting a behaviour can alter capability, motivation and opportunity. Doing something once makes the next time different." },
+      { name: 'A system rather than a sum', nodes: ['c', 'o', 'm', 'b'], arrows: ['cm', 'om', 'cb', 'mb', 'ob'],
+        detail: "B\u00a0=\u00a0COM is shorthand. Causal links within the system can reduce or amplify the effect of an intervention by leading to changes elsewhere." }
+    ]
+  },
+
+  // Slide 8. Comparison rows revealed one at a time; the fourth reveal shows the banner.
+  's-origins': {
+    pattern: 'reveal',
+    rows: [
+      { criterion: 'Capability', color: 'var(--cap)', a: 'The skills necessary to perform the behaviour', b: 'Means or capability' },
+      { criterion: 'Opportunity', color: 'var(--opp)', a: 'No environmental constraints that make it impossible', b: 'Opportunity' },
+      { criterion: 'Motivation', color: 'var(--mot)', a: 'A strong intention to perform the behaviour', b: 'Motive' }
+    ],
+    added: "Automatic processes, such as habits, inside motivation, and causal links between the sources, so they work as one interacting system."
+  },
+
+  // Slide 9. Single-select check with a confidence step. Keep exactly one option correct.
+  's-check-feedback': {
+    pattern: 'single-select',
+    minutes: 3,
+    confidence: true,
+    stem: "What can doing a behaviour change?",
+    context: "<strong>Fictional case.</strong> A student starts running before lectures three mornings a week and keeps it up for a month.",
+    options: [
+      { text: "Their capability, opportunity and motivation", correct: true,
+        why: "Enacting a behaviour can alter all three: fitness, a morning habit, a route and a partner." },
+      { text: "Only their motivation: doing it makes them want it more", correct: false,
+        why: "Motivation changes, but so do capability (fitness) and opportunity (a route).",
+        misconception: "Feedback runs only through motivation" },
+      { text: "Only their capability: they become fitter", correct: false,
+        why: "Fitness is one change; habits and opportunities change as well.",
+        misconception: "Practice changes skill and nothing else" },
+      { text: "Nothing in the system: the behaviour is the end point", correct: false,
+        why: "Behaviour feeds back: the double-headed arrows run back to each source.",
+        misconception: "Behaviour is a pure output with no feedback" }
+    ],
+    confidenceLabels: ['Low', 'Medium', 'High'],
+    confidenceBanner: "Confident and wrong: why did that answer feel right?"
+  },
+
+  // Slide 13. Sort. bin is 0 for capability, 1 for opportunity, 2 for motivation.
+  // FICTIONAL barriers. Keep each item short enough for two lines.
+  's-sort': {
+    pattern: 'sort',
+    minutes: 3,
+    bins: [
+      { name: 'Capability', key: 'C', color: 'var(--cap)' },
+      { name: 'Opportunity', key: 'O', color: 'var(--opp)', on: 'var(--dark-ink)' },
+      { name: 'Motivation', key: 'M', color: 'var(--mot)' }
+    ],
+    items: [
+      { text: "No one has ever shown me how to plan a revision week.", bin: 0,
+        why: "Capability (psychological): a missing skill. Planning is a thought process the student has not learned." },
+      { text: "My shifts at work leave me no free evenings.", bin: 1,
+        why: "Opportunity (physical): the time the behaviour needs is not there." },
+      { text: "Nobody on my course starts assignments early.", bin: 1,
+        why: "Opportunity (social): the cultural milieu makes starting early feel unusual." },
+      { text: "I pick up my phone before I have decided to.", bin: 2,
+        why: "Motivation (automatic): an impulse from associative learning, before any decision is made." },
+      { text: "I'm not convinced the reading makes any difference.", bin: 2,
+        why: "Motivation (reflective): an evaluation of whether the behaviour is worth doing." },
+      { text: "I don't understand what the marking criteria ask for.", bin: 0,
+        why: "Capability (psychological): comprehension is missing, so the student cannot aim the work." },
+      { text: "Opening the essay file makes me anxious, so I close it.", bin: 2,
+        why: "Motivation (automatic): an emotional response pulls away from the behaviour." },
+      { text: "The library has closed by the time I get there.", bin: 1,
+        why: "Opportunity (physical): the place the behaviour needs is unavailable." },
+      { text: "A wrist injury makes typing for long painful.", bin: 0,
+        why: "Capability (physical): the body cannot yet carry out the behaviour for long." }
+    ]
+  },
+
+  // Slide 14. Peer instruction. Round 1 is read by eye and shown in grey so it does not herd the room.
+  // discussBand: if the correct option's share of the read is inside this band, the deck says discuss.
+  's-pi': {
+    pattern: 'peer-instruction',
+    minutes: 2,
+    showRound1: false,
+    discussBand: [0.3, 0.7],
+    stem: "Which can a behaviour do without?",
+    context: "Michie et al. split the three sources into six components. Which one is NOT needed for every behaviour?",
+    options: [
+      { text: "Physical opportunity", correct: false,
+        why: "Without the time, place or means the behaviour cannot happen: necessary.",
+        misconception: "Wanting it enough can overcome the environment" },
+      { text: "Psychological capability", correct: false,
+        why: "Some thought process is needed to carry out a behaviour: necessary.",
+        misconception: "Simple behaviours need no psychological capability" },
+      { text: "Reflective motivation", correct: true,
+        why: "\"All, apart from reflective motivation, are necessary for a given behaviour.\" A habit can carry it without a plan." },
+      { text: "Automatic motivation", correct: false,
+        why: "Emotions, impulses and habits are part of every behaviour: necessary.",
+        misconception: "Automatic motivation only matters for bad habits" }
+    ],
+    actions: { low: 'Reteach first', mid: 'Convince your neighbour', high: 'Reveal' }
+  },
+
+  // Slide 16. The nine intervention functions (Table 1) and the components each reaches (Table 2).
+  // reaches uses: CPh, CPs (capability), OPh, OSo (opportunity), MRe, MAu (motivation).
+  's-functions': {
+    pattern: 'select-detail',
+    functions: [
+      { name: 'Education', def: "Increasing knowledge or understanding.", example: "Providing information to promote healthy eating.", reaches: ['CPs', 'MRe'] },
+      { name: 'Persuasion', def: "Using communication to induce positive or negative feelings or stimulate action.", example: "Using imagery to motivate increases in physical activity.", reaches: ['MRe', 'MAu'] },
+      { name: 'Incentivisation', def: "Creating expectation of reward.", example: "Using prize draws to induce attempts to stop smoking.", reaches: ['MRe', 'MAu'] },
+      { name: 'Coercion', def: "Creating expectation of punishment or cost.", example: "Raising the financial cost to reduce excessive alcohol consumption.", reaches: ['MRe', 'MAu'] },
+      { name: 'Training', def: "Imparting skills.", example: "Advanced driver training to increase safe driving.", reaches: ['CPh', 'CPs'] },
+      { name: 'Restriction', def: "Using rules to reduce the opportunity to engage in the target behaviour, or to increase it by reducing the opportunity for competing behaviours.", example: "Prohibiting sales of solvents to people under 18 to reduce use for intoxication.", reaches: ['OPh', 'OSo'] },
+      { name: 'Environmental restructuring', def: "Changing the physical or social context.", example: "Providing on-screen prompts for GPs to ask about smoking behaviour.", reaches: ['MAu', 'OPh', 'OSo'] },
+      { name: 'Modelling', def: "Providing an example for people to aspire to or imitate.", example: "Using TV drama scenes involving safe-sex practices to increase condom use.", reaches: ['MAu'] },
+      { name: 'Enablement', def: "Increasing means or reducing barriers to increase capability (beyond education and training) or opportunity (beyond environmental restructuring).", example: "Behavioural support for smoking cessation.", reaches: ['CPh', 'CPs', 'MAu', 'OPh', 'OSo'] }
+    ],
+    policy: "Around them the wheel adds seven policy categories, such as guidelines and legislation. Source: Michie, van Stralen and West (2011), Tables 1 and 2."
+  },
+
+  // Slide 17. Rows revealed one at a time. "functions" follows Table 2; "misses" is this session's reading.
+  's-levers': {
+    pattern: 'reveal',
+    rows: [
+      { criterion: 'Capability', color: 'var(--cap)', missing: 'The knowledge or skill to do it', functions: 'Education, training, enablement', misses: 'Incentivisation: a reward cannot teach a skill' },
+      { criterion: 'Opportunity', color: 'var(--opp)', missing: 'The time, place or social setting that allows it', functions: 'Restriction, environmental restructuring, enablement', misses: 'Education: knowing more does not create time' },
+      { criterion: 'Reflective motivation', color: 'var(--mot)', missing: 'A judgement that it matters, or a plan', functions: 'Education, persuasion, incentivisation, coercion', misses: 'Training: a skill does not supply a reason' },
+      { criterion: 'Automatic motivation', color: 'var(--mot-2)', missing: 'A habit, cue or feeling that pulls towards it', functions: 'Persuasion, incentivisation, coercion, modelling, enablement, environmental restructuring', misses: 'Education: knowing better does not break a habit' }
+    ]
+  },
+
+  // Slide 18. Predict and reveal. A real case discussed in Michie et al. (2011), page 9.
+  's-predict-gp': {
+    pattern: 'predict',
+    minutes: 1,
+    situation: "GPs give smoking cessation advice less often than recommended. One study found that a single variable, concern that advice would harm the doctor-patient relationship, accounted for significant variance in how often they gave it.",
+    question: "Analysed with B\u00a0=\u00a0COM, where does the problem lie?",
+    options: [
+      { text: "Capability: GPs lack the skills", correct: false },
+      { text: "Reflective motivation: fear for the relationship", correct: false },
+      { text: "Automatic motivation and opportunity", correct: true },
+      { text: "Social opportunity: colleagues disapprove", correct: false }
+    ],
+    outcome: "C. Capability is not at issue and reflective motivation is broadly positive. Automatic motivation works against the behaviour: no emotional reward for giving advice or punishment for not giving it, and few cues to action. Physical opportunity is limited by lack of time; social opportunity somewhat limited.",
+    source: "Michie, van Stralen and West (2011), p. 9, discussing McEwen, West and Preston (2006).",
+    followUp: "These GPs broadly wanted to give the advice. Was wanting it more the fix?"
+  },
+
+  // Slide 19. Spot the flaw. The passage is built from these pieces in order.
+  // Plain strings are ordinary text; objects are selectable segments.
+  's-flaw': {
+    pattern: 'spot-the-flaw',
+    minutes: 3,
+    passage: [
+      "A student plans revision every weekday evening but manages one. ",
+      { text: "They know how to revise, so the coach rules out capability.", flaw: false,
+        why: "Sound. Capability is checked with evidence and ruled out." },
+      " ",
+      { text: "Flatmates watch films every evening in the room where they work,", flaw: false,
+        why: "Sound. An accurate observation: physical and social opportunity are both limited." },
+      " ",
+      { text: "so the coach suggests a motivational video each morning.", flaw: true,
+        why: "Flaw. Persuasion reaches motivation; the barrier here is the room and the flatmates, which is opportunity." },
+      " ",
+      { text: "The student already believes revision matters,", flaw: false,
+        why: "Sound. Reflective motivation is checked and found to be in place." },
+      " ",
+      { text: "so the coach adds a talk on why revision improves grades.", flaw: true,
+        why: "Flaw. Education targets reflective motivation, which is already positive. It adds nothing." },
+      " ",
+      { text: "They also reach for their phone without noticing,", flaw: false,
+        why: "Sound. An accurate observation of automatic motivation." },
+      " ",
+      { text: "so the coach books a revision skills workshop.", flaw: true,
+        why: "Flaw. Training reaches capability, which was ruled out. The barrier is a habit." },
+      " ",
+      { text: "Finally, they book a library room with a classmate.", flaw: false,
+        why: "Sound. Environmental restructuring changes the physical and social context and removes the cues of the shared room." }
+    ]
+  },
+
+  // Slide 20. Single-select check with a confidence step. Keep exactly one option correct.
+  's-check-match': {
+    pattern: 'single-select',
+    minutes: 3,
+    confidence: true,
+    stem: "Which intervention fits?",
+    context: "<strong>Fictional case.</strong> A student can plan and wants to start assignments early, but nobody on their course starts before the final week, so there is no one to work with.",
+    options: [
+      { text: "Education: explain why starting early pays off", correct: false,
+        why: "Education reaches capability and reflective motivation; both are already in place.",
+        misconception: "More information fixes any barrier" },
+      { text: "Training: a workshop on planning", correct: false,
+        why: "Training reaches capability, and the student can already plan.",
+        misconception: "Every failure is a skills gap" },
+      { text: "Persuasion: a video that makes starting early exciting", correct: false,
+        why: "Persuasion reaches motivation; the missing source is social opportunity.",
+        misconception: "Lack of action means lack of motivation" },
+      { text: "Environmental restructuring: a study group that starts in week one", correct: true,
+        why: "Changing the social context supplies the missing social opportunity." }
+    ],
+    confidenceLabels: ['Low', 'Medium', 'High'],
+    confidenceBanner: "Confident and wrong: why did that answer feel right?"
+  },
+
+  // Slide 22. Worked example steps, revealed one at a time. FICTIONAL CASE.
+  's-worked': {
+    pattern: 'reveal',
+    steps: [
+      { level: 'Behaviour', text: "Gym before lectures on Monday, Wednesday and Friday. Managed once in three weeks.", color: 'var(--accent-1)',
+        why: "Name the behaviour precisely: what, when, how often. B\u00a0=\u00a0COM works on a behaviour rather than a wish." },
+      { level: 'Capability', text: "Knows the routine and is fit enough. Ruled out.", color: 'var(--cap)',
+        why: "Core question: what would they need to know or be able to do? Rule a source in or out with evidence." },
+      { level: 'Opportunity', text: "Gym opens at 7, lectures start at 9. No friend goes.", color: 'var(--opp)', on: 'var(--dark-ink)',
+        why: "Core question: how could the environment be modified? Physical opportunity is there; social opportunity is thin." },
+      { level: 'Motivation', text: "Wants to go. Switches off the alarm without thinking.", color: 'var(--mot)',
+        why: "Separate reflective from automatic: the plan is sound, the morning habit is not." },
+      { level: 'Target', text: "Automatic motivation, with some social opportunity.", color: 'var(--accent-5)',
+        why: "Intervene where the system is failing, rather than where it is easiest to talk." },
+      { level: 'Intervention', text: "Environmental restructuring: alarm across the room, kit packed the night before, a gym partner on Mondays.", color: 'var(--accent-8)',
+        why: "Table 2: environmental restructuring reaches automatic motivation and both kinds of opportunity. Education would add little: they already know and want to go." }
+    ]
+  },
+
+  // Slide 23. Think, pair, share. Phase minutes set the band widths and the timer.
+  's-apply': {
+    pattern: 'think-pair-share',
+    prompt: "Pick a behaviour you want to do more, or less. Diagnose it with B\u00a0=\u00a0COM and choose one intervention function.",
+    phases: [
+      { name: 'Think', minutes: 4, text: "On your own: answer the three core questions under the headings below." },
+      { name: 'Pair', minutes: 4, text: "Swap sheets. Does the function reach the source that is failing?" },
+      { name: 'Share', minutes: 2, text: "Next slide: offer one diagnosis to the board." }
+    ],
+    template: [
+      { label: 'Behaviour', kind: 'b', q: "What, when and how often?" },
+      { label: 'Capability', kind: 'c', q: "What do you need to know or be able to do?" },
+      { label: 'Opportunity', kind: 'o', q: "How could the environment be modified?" },
+      { label: 'Motivation', kind: 'm', q: "Which plans, habits or feelings need to shift?" },
+      { label: 'Failing source', kind: 't', q: "Which component is failing?" },
+      { label: 'Intervention', kind: 't', q: "Which function reaches it?" }
+    ]
+  },
+
+  // Slide 24. Live board. The presenter types contributions; no names.
+  // At more than "capacity" cards the text gets smaller; beyond "pageSize" the board pages.
+  's-board': {
+    pattern: 'live-board',
+    tags: ['Capability', 'Opportunity', 'Motivation'],
+    tagColours: ['var(--cap)', 'var(--opp)', 'var(--mot)'],
+    capacity: 4,
+    pageSize: 8,
+    maxLength: 90
+  },
+
+  // Slide 26. Exit ticket prompts. The same prompts print on the A6 cards.
+  's-exit': {
+    pattern: 'exit-ticket',
+    minutes: 3,
+    prompts: [
+      "One behaviour of yours, and the component that is failing it.",
+      "One intervention function you will try, and why it reaches that component.",
+      "Your confidence on each outcome, 1 to 5: explain, classify, match, diagnose."
+    ]
+  }
+};
+
+/* ==================================================================
+   Deck logic below. No content to edit past this point.
+   ================================================================== */
+(function () {
+  'use strict';
+
+  var DECK_ID = '2026-11-behaviour-change';
+  var STORE_KEY = 'slides:standalone:' + DECK_ID + ':v1';
+  var OPTION_COLOURS = ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-5)', 'var(--accent-8)'];
+  var CONF_COLOURS = ['var(--accent-8)', 'var(--accent-5)', 'var(--accent-1)'];
+  var ON_ACCENT = { '1': '#fff', '2': '#fff', '3': '#fff', '4': 'var(--dark-ink)', '5': '#fff', '6': '#fff', '7': 'var(--dark-ink)', '8': '#fff' };
+  var LETTERS = 'ABCDEFGHI';
+  var LEVELS = ['None', 'Few', 'Some', 'Most'];
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+  var revealFns = {};
+  var numberFns = {};
+  var letterFns = {};
+  var worstFns = {};
+  var renderFns = [];
+
+  if (/[?&]instructor\b/.test(location.search)) document.body.classList.add('instructor');
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function accentNum(v) { var m = /accent-(\d)/.exec(v || ''); return m ? m[1] : '1'; }
+  function onFor(colour) {
+    if (/--opp\b|--opp\)|accent-4|accent-7|--opp-2/.test(colour)) return 'var(--dark-ink)';
+    return '#fff';
+  }
+
+  /* ---------- Response store ---------- */
+
+  var storageOK = true;
+  var state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+  try {
+    var raw = window.localStorage.getItem(STORE_KEY);
+    if (raw) {
+      var parsed = JSON.parse(raw);
+      if (parsed && parsed.activities) state = parsed;
+    }
+    window.localStorage.setItem(STORE_KEY + ':probe', '1');
+    window.localStorage.removeItem(STORE_KEY + ':probe');
+  } catch (err) {
+    storageOK = false;
+  }
+  function act(id) {
+    if (!state.activities[id]) state.activities[id] = {};
+    return state.activities[id];
+  }
+  function save() {
+    state.savedAt = new Date().toISOString();
+    if (!storageOK) return;
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+    catch (err) { storageOK = false; updateRespNote(); }
+  }
+
+  /* ---------- Slide accents and numbers ---------- */
+
+  slides.forEach(function (s, i) {
+    var accent = s.getAttribute('data-accent') || 'var(--accent-1)';
+    s.style.setProperty('--slide-accent', accent);
+    s.style.setProperty('--on-accent', ON_ACCENT[accentNum(accent)]);
+    var no = s.querySelector('.slide-no');
+    if (no) no.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  });
+
+  /* ---------- Fill data-field text ---------- */
+
+  Object.keys(ACTIVITIES).forEach(function (id) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    s.querySelectorAll('[data-field]').forEach(function (f) {
+      var v = ACTIVITIES[id][f.getAttribute('data-field')];
+      if (v !== undefined) f.innerHTML = v;
+    });
+  });
+
+  /* ---------- Timer ---------- */
+
+  var timers = {};
+  var runningTimer = null;
+  var miniTimer = document.getElementById('mini-timer');
+  function fmt(sec) { sec = Math.max(0, Math.ceil(sec)); return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); }
+  document.querySelectorAll('[data-timer]').forEach(function (plate) {
+    var id = plate.getAttribute('data-timer');
+    var A = ACTIVITIES[id] || {};
+    var mins = A.minutes || (A.phases ? A.phases[0].minutes : 0);
+    if (!mins) { plate.style.display = 'none'; return; }
+    var t = { plate: plate, id: id, total: Math.round(mins * 60), left: Math.round(mins * 60), handle: null, ends: 0, onExpire: null };
+    var digits = plate.querySelector('.timer-digits');
+    var label = plate.querySelector('.timer-label');
+    t.draw = function () {
+      var expired = t.left <= 0;
+      digits.textContent = expired ? 'TIME' : fmt(t.left);
+      label.textContent = expired ? 'Time is up' : (t.handle ? 'Running' : (t.left < t.total ? 'Paused' : 'Timer'));
+      plate.classList.toggle('running', !!t.handle);
+      plate.classList.toggle('expired', expired);
+      if (runningTimer === t && slides[current].id !== t.id && t.handle) { miniTimer.textContent = fmt(t.left); miniTimer.classList.add('on'); }
+      else if (runningTimer === t || !runningTimer) miniTimer.classList.remove('on');
+    };
+    function stop() { if (t.handle) { clearInterval(t.handle); t.handle = null; runningTimer = null; } }
+    t.toggle = function () {
+      if (t.handle) { stop(); t.draw(); return; }
+      if (t.left <= 0) return;
+      if (runningTimer && runningTimer !== t) runningTimer.toggle();
+      runningTimer = t;
+      t.ends = Date.now() + t.left * 1000;
+      t.handle = setInterval(function () {
+        t.left = (t.ends - Date.now()) / 1000;
+        if (t.left <= 0) { t.left = 0; stop(); t.draw(); if (t.onExpire) t.onExpire(); return; }
+        t.draw();
+      }, 250);
+      t.draw();
+    };
+    t.reset = function () { stop(); t.left = t.total; t.draw(); };
+    t.expire = function () { stop(); t.left = 0; t.draw(); };
+    t.setMinutes = function (m) { stop(); t.total = Math.round(m * 60); t.left = t.total; t.draw(); };
+    plate.addEventListener('click', t.toggle);
+    timers[id] = t;
+    t.draw();
+  });
+
+  /* ---------- Room read: hands judged by eye, never counted ---------- */
+
+  // A row of three segments (few, some, most). Clicking the top lit segment clears it.
+  function makeSegs(parent, label, get, set) {
+    var wrap = el('span', 'read-segs');
+    wrap.setAttribute('role', 'group');
+    wrap.setAttribute('aria-label', 'Room read for ' + label);
+    var btns = [1, 2, 3].map(function (v) {
+      var b = el('button', 'read-seg', LEVELS[v]);
+      b.type = 'button';
+      b.addEventListener('click', function () { set(get() === v ? v - 1 : v); });
+      wrap.appendChild(b);
+      return b;
+    });
+    var word = el('span', 'read-word');
+    wrap.appendChild(word);
+    parent.appendChild(wrap);
+    return {
+      btns: btns, wrap: wrap,
+      draw: function () {
+        var lv = get();
+        btns.forEach(function (b, k) { b.classList.toggle('on', k + 1 <= lv); b.setAttribute('aria-pressed', String(k + 1 <= lv)); });
+        word.textContent = LEVELS[lv];
+      },
+      disable: function (on) { btns.forEach(function (b) { b.disabled = on; }); }
+    };
+  }
+
+  function handRead(container, slideId, key, labels, opts) {
+    opts = opts || {};
+    var store = act(slideId);
+    if (!store[key] || store[key].length !== labels.length) store[key] = labels.map(function () { return 0; });
+    var levels = store[key];
+    container.innerHTML = '';
+    var rows = [], segs = [];
+    labels.forEach(function (label, i) {
+      var colour = (opts.colours || OPTION_COLOURS)[i % 4];
+      var row = el('div', 'tally-row' + (opts.withText ? ' with-text' : '') + (opts.inline ? ' inline' : ''));
+      row.style.setProperty('--row-color', colour);
+      row.style.setProperty('--row-on', onFor(colour));
+      var letter = opts.letters ? opts.letters[i] : LETTERS[i];
+      row.appendChild(el('span', 'tally-letter', esc(letter)));
+      row.lastChild.setAttribute('aria-hidden', 'true');
+      row.appendChild(el('span', 'tally-text', esc(label)));
+      var sg = makeSegs(row, label, function () { return levels[i]; }, function (v) { api.set(i, v); });
+      container.appendChild(row);
+      rows.push(row); segs.push(sg);
+    });
+    function draw() { segs.forEach(function (s) { s.draw(); }); if (opts.onChange) opts.onChange(levels); }
+    var api = {
+      rows: rows, levels: levels, locked: false,
+      set: function (i, v) { if (api.locked || i < 0 || i >= levels.length) return; levels[i] = Math.max(0, Math.min(3, v)); draw(); save(); },
+      step: function (i, d) { if (i >= 0 && i < levels.length) api.set(i, levels[i] + d); },
+      fill: function (v) { var was = api.locked; api.locked = false; for (var i = 0; i < levels.length; i++) levels[i] = v; api.locked = was; draw(); save(); },
+      lock: function (on) { api.locked = on; container.classList.toggle('locked', on); segs.forEach(function (s) { s.disable(on); }); },
+      draw: draw
+    };
+    draw();
+    return api;
+  }
+  function readSummary(labels, levels) {
+    return labels.map(function (l, i) { return l + ': ' + LEVELS[levels[i] || 0].toLowerCase(); }).join(', ');
+  }
+
+  /* ---------- Session maps ---------- */
+
+  var MAP = [
+    { name: 'Opening and hook', min: 6, act: true },
+    { name: 'Part 1: Behaviour is an output', min: 13, act: true },
+    { name: 'Part 2: Three sources', min: 22, act: true },
+    { name: 'Part 3: Intervening at the right point', min: 24, act: true },
+    { name: 'Part 4: Your behaviour', min: 20, act: true },
+    { name: 'Close', min: 5, act: true }
+  ];
+  document.querySelectorAll('.slide[data-archetype="session-map"]').forEach(function (s) {
+    var band = s.querySelector('.map-band');
+    var cur = parseInt(s.getAttribute('data-current'), 10) || 1;
+    band.style.gridTemplateColumns = MAP.map(function (m) { return 'minmax(9rem, ' + m.min + 'fr)'; }).join(' ');
+    MAP.forEach(function (m, i) {
+      var n = i + 1;
+      var seg = el('div', 'map-seg ' + (n < cur ? 'done' : (n === cur ? 'current' : 'upcoming')));
+      seg.innerHTML = (m.act ? '<span class="seg-act" aria-hidden="true"></span>' : '') +
+        '<span class="seg-name">' + esc(m.name) + '</span><span class="seg-min">' + m.min + ' min</span>';
+      if (n === cur) seg.setAttribute('aria-current', 'step');
+      band.appendChild(seg);
+    });
+  });
+
+  /* ---------- Slide 4: claim tally ---------- */
+
+  (function () {
+    var id = 's-hook', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var read = handRead(s.querySelector('[data-tally="round1"]'), id, 'round1', A.options, {
+      colours: ['var(--accent-1)', 'var(--accent-6)', 'var(--accent-8)'],
+      letters: A.options.map(function (o) { return o.charAt(0).toUpperCase(); })
+    });
+    var follow = s.querySelector('.claim-follow');
+    if (act(id).revealed) follow.classList.add('visible');
+    revealFns[id] = function () { follow.classList.add('visible'); act(id).revealed = true; save(); };
+    numberFns[id] = function (n, shift) { read.step(n, shift ? -1 : 1); };
+    worstFns[id] = function () { read.fill(3); revealFns[id](); };
+  })();
+
+  /* ---------- Slide 7: annotated model ---------- */
+
+  (function () {
+    var id = 's-model', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var list = s.querySelector('.part-list');
+    var panel = s.querySelector('.detail-panel');
+    var nodes = s.querySelectorAll('.m-node');
+    var arrows = s.querySelectorAll('.arrow');
+    var spots = s.querySelectorAll('.m-spot');
+    function setMarkers(a, startLit, endLit) {
+      var two = a.getAttribute('data-two') === '1';
+      a.setAttribute('marker-end', 'url(#' + (endLit ? 'mk-lit' : 'mk') + ')');
+      if (two) a.setAttribute('marker-start', 'url(#' + (startLit ? 'mk-lit' : 'mk') + ')');
+    }
+    arrows.forEach(function (a) { setMarkers(a, false, false); });
+    var btns = A.parts.map(function (p, i) {
+      var b = el('button', 'part-btn');
+      b.type = 'button';
+      b.innerHTML = '<span class="num">' + (i + 1) + '</span><span>' + esc(p.name) + '</span>';
+      b.addEventListener('click', function () { select(i); });
+      list.appendChild(b);
+      return b;
+    });
+    var sel = -1;
+    function select(i) {
+      sel = i;
+      var p = A.parts[i];
+      btns.forEach(function (b, j) { b.classList.toggle('selected', j === i); b.setAttribute('aria-pressed', String(j === i)); });
+      spots.forEach(function (b) { b.classList.toggle('selected', parseInt(b.getAttribute('data-part'), 10) === i); });
+      nodes.forEach(function (n) {
+        var on = p.nodes.indexOf(n.getAttribute('data-node')) >= 0;
+        n.classList.toggle('dim', !on); n.classList.toggle('lit', on);
+      });
+      arrows.forEach(function (a) {
+        var on = p.arrows.indexOf(a.getAttribute('data-arrow')) >= 0;
+        a.classList.toggle('lit', on); a.classList.toggle('dim', !on);
+        var two = a.getAttribute('data-two') === '1';
+        if (!on) setMarkers(a, false, false);
+        else if (two && p.back) setMarkers(a, true, false);
+        else if (two && p.arrows.length === 3) setMarkers(a, false, true);
+        else setMarkers(a, true, true);
+      });
+      panel.style.setProperty('--detail-color', 'var(--accent-4)');
+      panel.innerHTML = '<div class="card-name">' + (i + 1) + ' &middot; ' + esc(p.name) + '</div><p>' + esc(p.detail) + '</p>';
+    }
+    spots.forEach(function (b) { b.addEventListener('click', function () { select(parseInt(b.getAttribute('data-part'), 10)); }); });
+    revealFns[id] = function () { select((sel + 1) % A.parts.length); };
+    numberFns[id] = function (n) { if (A.parts[n]) select(n); };
+    worstFns[id] = function () {
+      var best = 0;
+      A.parts.forEach(function (p, k) { if (p.detail.length > A.parts[best].detail.length) best = k; });
+      select(best);
+    };
+  })();
+
+  /* ---------- Comparison matrices with row reveal ---------- */
+
+  function rowReveal(id, cells, banner) {
+    var A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var tbody = s.querySelector('tbody');
+    A.rows.forEach(function (r) {
+      var tr = el('tr');
+      tr.innerHTML = '<th scope="row" style="--row-color: ' + r.color + '">' + esc(r.criterion) + '</th>' +
+        cells.map(function (c) { return '<td><span>' + esc(r[c]) + '</span></td>'; }).join('');
+      tbody.appendChild(tr);
+    });
+    var rows = tbody.querySelectorAll('tr');
+    var btn = s.querySelector('[data-action="reveal-row"]');
+    var bannerEl = banner ? s.querySelector('.cmp-banner') : null;
+    function next() {
+      for (var i = 0; i < rows.length; i++) {
+        if (!rows[i].classList.contains('revealed')) {
+          rows[i].classList.add('revealed');
+          if (i === rows.length - 1 && !bannerEl) btn.disabled = true;
+          return;
+        }
+      }
+      if (bannerEl && !bannerEl.classList.contains('visible')) { bannerEl.classList.add('visible'); btn.disabled = true; }
+    }
+    btn.addEventListener('click', next);
+    revealFns[id] = next;
+    worstFns[id] = function () { for (var k = 0; k < rows.length + 2; k++) next(); };
+  }
+  rowReveal('s-origins', ['a', 'b'], true);
+  rowReveal('s-levers', ['missing', 'functions', 'misses'], false);
+
+  /* ---------- Single-select checks with confidence ---------- */
+
+  function makeCheck(id) {
+    var A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var list = s.querySelector('.q-options');
+    var banner = s.querySelector('.conf-banner');
+    var revealed = false;
+    var clearTimer = null;
+    var opts = A.options.map(function (o, i) {
+      var b = el('button', 'q-opt' + (o.correct ? ' key-correct' : ''));
+      b.type = 'button';
+      b.style.setProperty('--row-color', OPTION_COLOURS[i]);
+      b.innerHTML = '<span class="q-letter">' + LETTERS[i] + '</span><span class="q-text">' + esc(o.text) + '</span>' +
+        '<span class="q-why"><span class="q-verdict">' + (o.correct ? 'Correct' : 'Not this one') + '</span>' + esc(o.why) + '</span>';
+      b.addEventListener('click', function () { pick(i); });
+      list.appendChild(b);
+      return b;
+    });
+    var conf = handRead(s.querySelector('[data-tally="confidence"]'), id, 'confidence', A.confidenceLabels, {
+      colours: CONF_COLOURS, letters: A.confidenceLabels.map(function (l) { return l.charAt(0); }), withText: true
+    });
+    var store = act(id);
+    function pick(i) {
+      if (revealed) return;
+      // The first letter clicked is the room's most popular answer
+      if (store.firstPick === undefined) { store.firstPick = i; save(); }
+      clearTimeout(clearTimer);
+      opts.forEach(function (b) { b.classList.remove('correct', 'incorrect', 'show-why'); b.disabled = false; });
+      if (A.options[i].correct) { reveal(); return; }
+      opts[i].classList.add('incorrect', 'show-why');
+      opts.forEach(function (b) { b.disabled = true; });
+      clearTimer = setTimeout(function () {
+        opts[i].classList.remove('incorrect', 'show-why');
+        opts.forEach(function (b) { b.disabled = false; });
+      }, 2500);
+    }
+    function reveal() {
+      clearTimeout(clearTimer);
+      revealed = true;
+      opts.forEach(function (b, i) {
+        b.disabled = true;
+        b.classList.remove('incorrect');
+        b.classList.add('show-why');
+        b.classList.toggle('correct', !!A.options[i].correct);
+      });
+      // Confident and wrong: High is the largest group by eye and the room's popular answer was incorrect
+      var c = conf.levels;
+      var first = store.firstPick;
+      if (c[2] > 0 && c[2] >= c[0] && c[2] >= c[1] && first !== undefined && !A.options[first].correct) {
+        banner.textContent = A.confidenceBanner;
+        banner.classList.add('visible');
+      }
+      s.querySelector('[data-action="reveal"]').disabled = true;
+      store.revealed = true; save();
+    }
+    s.querySelector('[data-action="reveal"]').addEventListener('click', reveal);
+    revealFns[id] = reveal;
+    numberFns[id] = function (n, shift) { conf.step(n, shift ? -1 : 1); };
+    worstFns[id] = function () {
+      conf.fill(3); reveal();
+      banner.textContent = A.confidenceBanner; banner.classList.add('visible');
+      if (timers[id]) timers[id].expire();
+    };
+  }
+  makeCheck('s-check-feedback');
+  makeCheck('s-check-match');
+
+  /* ---------- Slide 13: sort ---------- */
+
+  (function () {
+    var id = 's-sort', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var tray = s.querySelector('.sort-tray');
+    var binsEl = s.querySelector('.sort-bins');
+    var why = s.querySelector('.sort-why');
+    var checkBtn = s.querySelector('[data-action="check"]');
+    var keyList = s.querySelector('.sort-key');
+    var store = act(id);
+    if (!store.placed || store.placed.length !== A.items.length) store.placed = A.items.map(function () { return -1; });
+    var placed = store.placed;
+    var selected = -1, checked = false;
+    var items = A.items.map(function (it, i) {
+      var b = el('button', 'sort-item');
+      b.type = 'button';
+      b.innerHTML = '<span class="num">' + (i + 1) + '</span><span>' + esc(it.text) + '</span><span class="chip bin-tag"></span>';
+      b.addEventListener('click', function () { if (checked) showWhy(i); else choose(i); });
+      tray.appendChild(b);
+      keyList.appendChild(el('li', '', '<strong>' + esc(A.bins[it.bin].name) + ':</strong> ' + esc(it.why)));
+      return b;
+    });
+    var bins = A.bins.map(function (bn, k) {
+      var b = el('button', 'sort-bin');
+      b.type = 'button';
+      b.style.setProperty('--bin-color', bn.color);
+      if (bn.on) b.style.setProperty('--bin-on', bn.on);
+      b.innerHTML = '<span class="bin-head"><span>' + esc(bn.name) + '</span><span class="bin-key">Key ' + esc(bn.key) + '</span></span><span class="bin-tokens"></span>';
+      b.setAttribute('aria-label', 'Place the selected barrier in ' + bn.name);
+      b.addEventListener('click', function () { place(k); });
+      binsEl.appendChild(b);
+      return b;
+    });
+    function draw() {
+      items.forEach(function (b, i) {
+        var k = placed[i];
+        b.classList.toggle('placed', k >= 0);
+        b.classList.toggle('selected', i === selected);
+        b.setAttribute('aria-pressed', String(i === selected));
+        var tag = b.querySelector('.bin-tag');
+        if (k >= 0) {
+          b.style.setProperty('--bin-color', A.bins[k].color);
+          tag.style.setProperty('--chip', A.bins[k].color);
+          tag.style.setProperty('--chip-on', A.bins[k].on || '#fff');
+          tag.textContent = A.bins[k].key;
+        } else tag.textContent = '';
+      });
+      bins.forEach(function (b, k) {
+        var tok = b.querySelector('.bin-tokens');
+        tok.innerHTML = '';
+        placed.forEach(function (p, i) { if (p === k) tok.appendChild(el('span', 'bin-token', String(i + 1))); });
+      });
+    }
+    function choose(i) { selected = (selected === i) ? -1 : i; draw(); }
+    function place(k) {
+      if (checked || selected < 0) return;
+      placed[selected] = k;
+      selected = -1; save(); draw();
+    }
+    function showWhy(i) {
+      var it = A.items[i];
+      why.classList.remove('quiet-line');
+      why.style.setProperty('--why-color', it.bin === placed[i] ? 'var(--correct)' : 'var(--incorrect)');
+      why.innerHTML = '<strong>' + (i + 1) + '. ' + (placed[i] < 0 ? 'Not placed. ' : (it.bin === placed[i] ? 'Correct. ' : 'Not this one. ')) + '</strong>' + esc(it.why);
+    }
+    function check() {
+      if (checked) return;
+      checked = true;
+      selected = -1; draw();
+      var right = 0;
+      items.forEach(function (b, i) {
+        var ok = placed[i] === A.items[i].bin;
+        if (ok) right++;
+        b.classList.add(ok ? 'correct' : 'incorrect');
+      });
+      checkBtn.style.display = 'none';
+      why.classList.remove('quiet-line');
+      why.style.setProperty('--why-color', 'var(--accent-4)');
+      why.innerHTML = '<strong>' + right + ' of ' + items.length + ' placed in the expected source.</strong> Click a barrier to see why.';
+      store.checked = right; save();
+    }
+    checkBtn.addEventListener('click', check);
+    revealFns[id] = check;
+    numberFns[id] = function (n) { if (!items[n]) return; if (checked) showWhy(n); else choose(n); };
+    letterFns[id] = function (key) {
+      var k = A.bins.map(function (b) { return b.key.toLowerCase(); }).indexOf(key.toLowerCase());
+      if (k < 0) return false;
+      place(k); return true;
+    };
+    worstFns[id] = function () {
+      for (var i = 0; i < placed.length; i++) placed[i] = 0;
+      draw(); check();
+      var best = 0;
+      A.items.forEach(function (it, k) { if (it.why.length > A.items[best].why.length) best = k; });
+      showWhy(best);
+      if (timers[id]) timers[id].expire();
+    };
+    draw();
+  })();
+
+  /* ---------- Slide 14: peer instruction ---------- */
+
+  (function () {
+    var id = 's-pi', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var list = s.querySelector('.q-options');
+    var rowsEl = s.querySelector('.pi-rows');
+    var readEl = s.querySelector('.pi-read');
+    var status = s.querySelector('.pi-status');
+    var lockBtn = s.querySelector('[data-action="lock1"]');
+    var revBtn = s.querySelector('[data-action="reveal"]');
+    var store = act(id);
+    var n = A.options.length;
+    ['round1', 'round2'].forEach(function (k) { if (!store[k] || store[k].length !== n) store[k] = A.options.map(function () { return 0; }); });
+    var answer = 0;
+    var opts = A.options.map(function (o, i) {
+      if (o.correct) answer = i;
+      var d = el('div', 'q-opt' + (o.correct ? ' key-correct' : ''));
+      d.style.setProperty('--row-color', OPTION_COLOURS[i]);
+      d.innerHTML = '<span class="q-letter">' + LETTERS[i] + '</span><span class="q-text">' + esc(o.text) + '</span>' +
+        '<span class="q-why"><span class="q-verdict">' + (o.correct ? 'Correct' : 'Not this one') + '</span>' + esc(o.why) + '</span>';
+      list.appendChild(d);
+      return d;
+    });
+    var r1 = [], r2 = [], rowEls = [];
+    A.options.forEach(function (o, i) {
+      var row = el('div', 'pi-row');
+      row.style.setProperty('--row-color', OPTION_COLOURS[i]);
+      row.style.setProperty('--row-on', '#fff');
+      row.appendChild(el('span', 'tally-letter', LETTERS[i]));
+      var c1 = el('div', 'pi-r1'), c2 = el('div', 'pi-r2');
+      row.appendChild(c1); row.appendChild(c2);
+      r1.push(makeSegs(c1, LETTERS[i] + ', round 1', function () { return store.round1[i]; }, function (v) { setLevel('round1', i, v); }));
+      r2.push(makeSegs(c2, LETTERS[i] + ', round 2', function () { return store.round2[i]; }, function (v) { setLevel('round2', i, v); }));
+      rowsEl.appendChild(row);
+      rowEls.push(row);
+    });
+    function setLevel(key, i, v) {
+      if (key === 'round1' && store.locked1) return;
+      if (key === 'round2' && (!store.locked1 || store.revealed)) return;
+      store[key][i] = Math.max(0, Math.min(3, v));
+      draw(); save();
+    }
+    function share(arr) {
+      var sum = arr.reduce(function (a, b) { return a + b; }, 0);
+      return sum ? arr[answer] / sum : null;
+    }
+    function setStatus(text, colour) {
+      status.style.setProperty('--status-color', colour || 'var(--border)');
+      status.querySelector('.act-now').textContent = text;
+    }
+    function draw() {
+      r1.forEach(function (x) { x.draw(); x.disable(!!store.locked1); });
+      r2.forEach(function (x) { x.draw(); x.disable(!store.locked1 || !!store.revealed); });
+    }
+    function lock1() {
+      if (store.locked1) return;
+      store.locked1 = true;
+      var sh = share(store.round1);
+      if (sh === null) setStatus('Convince your neighbour', 'var(--accent-4)');
+      else if (sh < A.discussBand[0]) setStatus(A.actions.low, 'var(--incorrect)');
+      else if (sh > A.discussBand[1]) setStatus(A.actions.high, 'var(--correct)');
+      else setStatus(A.actions.mid, 'var(--accent-4)');
+      lockBtn.disabled = true; revBtn.disabled = false;
+      draw(); save();
+    }
+    function reveal() {
+      if (!store.locked1) lock1();
+      store.revealed = true;
+      readEl.classList.add('pi-done');
+      rowEls[answer].classList.add('is-answer');
+      opts.forEach(function (d, i) { d.classList.add('show-why'); d.classList.toggle('correct', !!A.options[i].correct); });
+      setStatus('Answer: ' + LETTERS[answer], 'var(--correct)');
+      revBtn.disabled = true;
+      draw(); save();
+    }
+    lockBtn.addEventListener('click', lock1);
+    revBtn.addEventListener('click', reveal);
+    if (store.locked1) { store.locked1 = false; lock1(); }
+    if (store.revealed) reveal();
+    draw();
+    revealFns[id] = function () { if (!store.locked1) lock1(); else reveal(); };
+    numberFns[id] = function (k, shift) {
+      if (k >= n) return;
+      var key = store.locked1 ? 'round2' : 'round1';
+      setLevel(key, k, store[key][k] + (shift ? -1 : 1));
+    };
+    worstFns[id] = function () {
+      for (var i = 0; i < n; i++) { store.round1[i] = 3; store.round2[i] = 3; }
+      lock1(); reveal();
+      if (timers[id]) timers[id].expire();
+    };
+  })();
+
+  /* ---------- Slide 16: intervention functions ---------- */
+
+  (function () {
+    var id = 's-functions', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var grid = s.querySelector('.fn-grid');
+    var panel = s.querySelector('.fn-detail');
+    var NAMES = { CPh: ['c', 'Physical capability'], CPs: ['c', 'Psychological capability'], OPh: ['o', 'Physical opportunity'], OSo: ['o', 'Social opportunity'], MRe: ['m', 'Reflective motivation'], MAu: ['m', 'Automatic motivation'] };
+    var sel = -1;
+    var cards = A.functions.map(function (f, i) {
+      var fam = f.reaches.map(function (r) { return NAMES[r][0]; });
+      var b = el('button', 'fn-card');
+      b.type = 'button';
+      b.innerHTML = '<span class="fn-stripe" aria-hidden="true">' + ['c', 'o', 'm'].map(function (k) { return '<span class="' + k + (fam.indexOf(k) >= 0 ? ' on' : '') + '"></span>'; }).join('') + '</span>' +
+        '<span class="fn-name"><span class="num">' + (i + 1) + '</span><span>' + esc(f.name) + '</span></span>';
+      b.addEventListener('click', function () { select(i); });
+      grid.appendChild(b);
+      return b;
+    });
+    function select(i) {
+      sel = i;
+      var f = A.functions[i];
+      cards.forEach(function (c, j) { c.classList.toggle('selected', j === i); c.setAttribute('aria-pressed', String(j === i)); });
+      panel.style.setProperty('--detail-color', 'var(--accent-4)');
+      panel.innerHTML = '<div class="card-name">' + (i + 1) + ' &middot; ' + esc(f.name) + '</div>' +
+        '<p>' + esc(f.def) + '</p>' +
+        '<p><span class="label" style="color: var(--text-muted)">Example</span> ' + esc(f.example) + '</p>' +
+        '<p class="label" style="margin-top: 0.8rem; color: var(--text-muted)">Reaches</p>' +
+        '<div class="reach">' + f.reaches.map(function (r) { return '<span class="chip ' + NAMES[r][0] + '">' + esc(NAMES[r][1]) + '</span>'; }).join('') + '</div>';
+    }
+    revealFns[id] = function () { select((sel + 1) % A.functions.length); };
+    numberFns[id] = function (n) { if (A.functions[n]) select(n); };
+    worstFns[id] = function () {
+      var best = 0;
+      A.functions.forEach(function (f, k) { var b = A.functions[best]; if ((f.def + f.example).length + f.reaches.length * 30 > (b.def + b.example).length + b.reaches.length * 30) best = k; });
+      select(best);
+    };
+  })();
+
+  /* ---------- Slide 18: predict and reveal ---------- */
+
+  (function () {
+    var id = 's-predict-gp', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var store = act(id);
+    var read = handRead(s.querySelector('[data-tally="round1"]'), id, 'round1', A.options.map(function (o) { return o.text; }), { inline: true });
+    var lockBtn = s.querySelector('[data-action="lock"]');
+    var revBtn = s.querySelector('[data-action="reveal"]');
+    var statusEl = s.querySelector('.pred-status');
+    var body = s.querySelector('.pred-body');
+    var waiting = s.querySelector('.pred-waiting');
+    var answer = 0;
+    A.options.forEach(function (o, i) { if (o.correct) answer = i; });
+    read.rows[answer].classList.add('key-answer');
+    var echoBox = s.querySelector('.hook-echo');
+    function fillBody() {
+      var hook = act('s-hook').round1;
+      var hookA = ACTIVITIES['s-hook'];
+      var said = hook && hook.some(function (v) { return v > 0; }) ? 'The room at the start: ' + readSummary(hookA.options, hook) + '.' : 'The room was not read at the start.';
+      echoBox.querySelector('.echo-text').textContent = '"' + hookA.claim + '" ' + said;
+      body.innerHTML = '<div class="card-name">The analysis</div><p>' + esc(A.outcome) + '</p><p class="micro">Source: ' + esc(A.source) + '</p><p class="follow">' + esc(A.followUp) + '</p>';
+    }
+    fillBody();
+    function lock() {
+      read.lock(true);
+      lockBtn.disabled = true;
+      revBtn.disabled = false;
+      statusEl.textContent = 'Locked';
+      store.locked = true; save();
+    }
+    function reveal() {
+      if (!store.locked) lock();
+      fillBody();
+      waiting.style.visibility = 'hidden';
+      s.querySelector('.pred-outcome').classList.add('visible');
+      echoBox.classList.add('visible');
+      read.rows[answer].classList.add('is-answer');
+      revBtn.disabled = true;
+      store.revealed = true; save();
+    }
+    lockBtn.addEventListener('click', lock);
+    revBtn.addEventListener('click', reveal);
+    if (store.locked) lock();
+    if (store.revealed) reveal();
+    revealFns[id] = function () { if (!store.locked) lock(); else reveal(); };
+    numberFns[id] = function (n, shift) { read.step(n, shift ? -1 : 1); };
+    worstFns[id] = function () { read.fill(3); act('s-hook').round1 = [3, 3, 3]; lock(); reveal(); if (timers[id]) timers[id].expire(); };
+  })();
+
+  /* ---------- Slide 19: spot the flaw ---------- */
+
+  (function () {
+    var id = 's-flaw', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var passage = s.querySelector('.flaw-passage');
+    var whyList = s.querySelector('.flaw-why-list');
+    var caseBox = s.querySelector('.flaw-case');
+    var panel = s.querySelector('.flaw-detail');
+    var score = s.querySelector('.flaw-score');
+    var checkBtn = s.querySelector('[data-action="check"]');
+    var segs = [];
+    var checked = false;
+    A.passage.forEach(function (piece) {
+      if (typeof piece === 'string') { passage.appendChild(document.createTextNode(piece)); return; }
+      var n = segs.length + 1;
+      var b = el('span', 'flaw-seg');
+      b.setAttribute('role', 'button');
+      b.tabIndex = 0;
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); b.click(); }
+      });
+      b.innerHTML = '<span class="seg-no" aria-hidden="true">' + n + '</span>' + esc(piece.text);
+      b.addEventListener('click', function () {
+        if (checked) { show(n - 1); return; }
+        var on = !b.classList.contains('selected');
+        b.classList.toggle('selected', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      passage.appendChild(b);
+      segs.push({ btn: b, data: piece });
+      whyList.appendChild(el('li', '', '<strong>' + (piece.flaw ? 'Flaw' : 'Sound') + ':</strong> ' + esc(piece.why.replace(/^(Flaw|Sound)\.\s*/, ''))));
+    });
+    function show(i) {
+      var sg = segs[i];
+      var colour = sg.btn.classList.contains('correct') ? 'var(--correct)' : (sg.btn.classList.contains('incorrect') ? 'var(--incorrect)' : (sg.btn.classList.contains('ambiguous') ? 'var(--ambiguous)' : 'var(--border)'));
+      panel.style.setProperty('--detail-color', colour);
+      panel.innerHTML = '<div class="card-name">Part ' + (i + 1) + '</div><p>' + esc(sg.data.why) + '</p>';
+    }
+    function check() {
+      if (checked) return;
+      checked = true;
+      var found = 0, flaws = 0;
+      segs.forEach(function (sg) {
+        var sel = sg.btn.classList.contains('selected');
+        sg.btn.classList.remove('selected');
+        if (sg.data.flaw) { flaws++; if (sel) { found++; sg.btn.classList.add('correct'); } else sg.btn.classList.add('ambiguous'); }
+        else if (sel) sg.btn.classList.add('incorrect');
+      });
+      caseBox.classList.add('checked');
+      score.textContent = 'Found ' + found + ' of ' + flaws + ' flaws';
+      checkBtn.style.display = 'none';
+      panel.style.setProperty('--detail-color', 'var(--accent-4)');
+      panel.innerHTML = '<div class="card-name">Checked</div><p>Click a numbered part to see why it is a flaw or sound.</p>';
+      act(id).checked = { found: found, flaws: flaws }; save();
+    }
+    checkBtn.addEventListener('click', check);
+    revealFns[id] = check;
+    worstFns[id] = function () {
+      segs.forEach(function (sg) { sg.btn.classList.add('selected'); });
+      check();
+      var best = 0;
+      segs.forEach(function (sg, i) { if (sg.data.why.length > segs[best].data.why.length) best = i; });
+      show(best);
+      if (timers[id]) timers[id].expire();
+    };
+  })();
+
+  /* ---------- Slide 22: worked example ---------- */
+
+  (function () {
+    var id = 's-worked', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var list = s.querySelector('.steps');
+    var whyText = s.querySelector('.why-text');
+    var btn = s.querySelector('[data-action="next-step"]');
+    var shown = 0;
+    var steps = A.steps.map(function (st, i) {
+      var d = el('div', 'step');
+      d.style.setProperty('--step-color', st.color);
+      if (st.on) d.style.setProperty('--step-on', st.on);
+      d.innerHTML = '<span class="num">' + (i + 1) + '</span><div><p><strong>' + esc(st.level) + ':</strong> ' + esc(st.text) + '</p><p class="step-why">' + esc(st.why) + '</p></div>';
+      list.appendChild(d);
+      return d;
+    });
+    function next() {
+      if (shown >= steps.length) return;
+      steps.forEach(function (d) { d.classList.remove('current'); });
+      steps[shown].classList.add('visible', 'current');
+      whyText.textContent = A.steps[shown].why;
+      shown++;
+      if (shown === steps.length) btn.disabled = true;
+    }
+    btn.addEventListener('click', next);
+    revealFns[id] = next;
+    worstFns[id] = function () {
+      for (var j = 0; j < steps.length; j++) next();
+      var best = 0;
+      A.steps.forEach(function (st, k) { if (st.why.length > A.steps[best].why.length) best = k; });
+      whyText.textContent = A.steps[best].why;
+    };
+  })();
+
+  /* ---------- Slide 23: think, pair, share ---------- */
+
+  (function () {
+    var id = 's-apply', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var band = s.querySelector('.tps-band');
+    var tpl = s.querySelector('.tps-template');
+    var colours = [['var(--accent-1)', '#fff'], ['var(--accent-6)', '#fff'], ['var(--accent-5)', '#fff']];
+    band.style.gridTemplateColumns = A.phases.map(function (p) { return Math.max(p.minutes, 3) + 'fr'; }).join(' ');
+    var phase = 0;
+    var blocks = A.phases.map(function (p, i) {
+      var b = el('button', 'tps-phase');
+      b.type = 'button';
+      b.style.setProperty('--phase-color', colours[i % 3][0]);
+      b.style.setProperty('--phase-on', colours[i % 3][1]);
+      b.innerHTML = '<span class="ph-name">' + esc(p.name.toUpperCase()) + ' &middot; ' + p.minutes + ' MIN</span><span class="ph-text">' + esc(p.text) + '</span>';
+      b.addEventListener('click', function () { setPhase(i); });
+      band.appendChild(b);
+      return b;
+    });
+    A.template.forEach(function (t) {
+      tpl.appendChild(el('div', 'tpl-line', '<span class="chip ' + t.kind + '">' + esc(t.label) + '</span><span class="tpl-q">' + esc(t.q) + '</span><span class="tpl-rule"></span>'));
+    });
+    function setPhase(i) {
+      phase = i;
+      blocks.forEach(function (b, j) { b.classList.toggle('current', j === i); b.setAttribute('aria-pressed', String(j === i)); });
+      if (timers[id]) timers[id].setMinutes(A.phases[i].minutes);
+    }
+    setPhase(0);
+    // When a phase's time runs out, the highlight moves on (the slide does not)
+    if (timers[id]) timers[id].onExpire = function () { if (phase < A.phases.length - 1) setPhase(phase + 1); };
+    revealFns[id] = function () { setPhase((phase + 1) % A.phases.length); };
+    worstFns[id] = function () { setPhase(A.phases.length - 1); if (timers[id]) timers[id].expire(); };
+  })();
+
+  /* ---------- Slide 24: live board ---------- */
+
+  (function () {
+    var id = 's-board', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var store = act(id);
+    if (!store.entries) store.entries = [];
+    var board = s.querySelector('.board');
+    var input = s.querySelector('#board-text');
+    var tagSel = s.querySelector('#board-tag');
+    var countEl = s.querySelector('.board-count');
+    var delBtn = s.querySelector('[data-action="delete"]');
+    var pager = s.querySelector('.board-pager');
+    input.maxLength = A.maxLength;
+    A.tags.forEach(function (t) { var o = el('option'); o.value = t; o.textContent = t; tagSel.appendChild(o); });
+    var selected = -1, page = 0, clustered = false;
+    function colourOf(tag) { var k = A.tags.indexOf(tag); return k >= 0 ? A.tagColours[k] : 'var(--accent-1)'; }
+    function ordered() {
+      var list = store.entries.map(function (e, i) { return { e: e, i: i }; });
+      if (clustered) list.sort(function (a, b) { return A.tags.indexOf(a.e.tag) - A.tags.indexOf(b.e.tag) || a.i - b.i; });
+      return list;
+    }
+    function draw() {
+      var list = ordered();
+      var pages = Math.max(1, Math.ceil(list.length / A.pageSize));
+      if (page >= pages) page = pages - 1;
+      board.innerHTML = '';
+      board.classList.toggle('dense', list.length > A.capacity);
+      if (!list.length) board.appendChild(el('div', 'board-empty', 'Contributions appear here.'));
+      list.slice(page * A.pageSize, (page + 1) * A.pageSize).forEach(function (item) {
+        var colour = colourOf(item.e.tag);
+        var c = el('button', 'board-card' + (item.i === selected ? ' selected' : ''));
+        c.type = 'button';
+        c.style.setProperty('--card-color', colour);
+        c.innerHTML = '<span class="chip" style="--chip: ' + colour + '; --chip-on: ' + onFor(colour) + '">' + esc(item.e.tag) + '</span><span>' + esc(item.e.text) + '</span>';
+        c.setAttribute('aria-pressed', String(item.i === selected));
+        c.addEventListener('click', function () { selected = (selected === item.i) ? -1 : item.i; draw(); });
+        board.appendChild(c);
+      });
+      countEl.textContent = list.length + (list.length === 1 ? ' contribution' : ' contributions') + (storageOK ? '' : ' (not saved in this browser)');
+      delBtn.disabled = selected < 0;
+      pager.innerHTML = '';
+      if (pages > 1) {
+        var prev = el('button', 'btn ghost', 'Prev page'); prev.type = 'button'; prev.disabled = page === 0;
+        prev.addEventListener('click', function () { page--; draw(); });
+        var info = el('span', 'nav-info', 'Page ' + (page + 1) + ' / ' + pages);
+        var nxt = el('button', 'btn ghost', 'Next page'); nxt.type = 'button'; nxt.disabled = page >= pages - 1;
+        nxt.addEventListener('click', function () { page++; draw(); });
+        pager.appendChild(prev); pager.appendChild(info); pager.appendChild(nxt);
+      }
+    }
+    function add() {
+      var text = input.value.trim().slice(0, A.maxLength);
+      if (!text) return;
+      store.entries.push({ text: text, tag: tagSel.value });
+      input.value = '';
+      page = Math.floor((store.entries.length - 1) / A.pageSize);
+      save(); draw();
+    }
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); add(); } });
+    s.querySelector('[data-action="add"]').addEventListener('click', add);
+    s.querySelector('[data-action="cluster"]').addEventListener('click', function (e) {
+      clustered = !clustered;
+      e.currentTarget.textContent = clustered ? 'Order added' : 'Cluster by source';
+      draw();
+    });
+    delBtn.addEventListener('click', function () {
+      if (selected < 0) return;
+      if (!window.confirm('Delete this contribution?')) return;
+      store.entries.splice(selected, 1);
+      selected = -1; save(); draw();
+    });
+    renderFns.push(draw);
+    s._fill = function (n) {
+      store.entries = [];
+      var long = 'Gym before lectures: automatic motivation fails. Kit packed the night before, alarm across room';
+      for (var i = 0; i < n; i++) store.entries.push({ text: long.slice(0, A.maxLength), tag: A.tags[i % A.tags.length] });
+      page = 0; draw();
+    };
+    draw();
+  })();
+
+  /* ---------- Slide 26: exit ticket and print sheets ---------- */
+
+  (function () {
+    var id = 's-exit', A = ACTIVITIES[id];
+    var s = document.getElementById(id);
+    var grid = s.querySelector('.exit-grid');
+    var colours = ['var(--accent-2)', 'var(--accent-4)', 'var(--accent-6)'];
+    var names = ['Diagnose', 'Match', 'Rate'];
+    A.prompts.forEach(function (p, i) {
+      var c = el('div', 'exit-card');
+      c.style.setProperty('--card-color', colours[i % 3]);
+      c.innerHTML = '<span class="card-name">' + (i + 1) + ' &middot; ' + names[i % 3] + '</span><p>' + esc(p) + '</p><div class="lines"></div>';
+      grid.appendChild(c);
+    });
+    var sheets = document.querySelector('.exit-sheets');
+    var pageEl = el('div', 'exit-page');
+    for (var k = 0; k < 4; k++) {
+      var card = el('div', 'a6');
+      var html = '<div class="a6-title">Exit ticket &middot; Behaviour change</div>';
+      A.prompts.forEach(function (p) { html += '<div class="a6-q">' + esc(p) + '</div><div class="a6-lines"></div>'; });
+      card.innerHTML = html;
+      pageEl.appendChild(card);
+    }
+    sheets.appendChild(pageEl);
+    worstFns[id] = function () { if (timers[id]) timers[id].expire(); };
+  })();
+
+  /* ---------- Navigation ---------- */
+
+  function show(n, fromHash) {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides.forEach(function (s) { s.classList.remove('active'); });
+    slides[n].classList.add('active');
+    current = n;
+    var accent = slides[n].getAttribute('data-accent') || 'var(--accent-1)';
+    document.documentElement.style.setProperty('--slide-accent', accent);
+    var prog = document.getElementById('progress');
+    prog.style.width = ((n + 1) / total * 100) + '%';
+    prog.style.background = accent;
+    document.getElementById('nav-info').textContent = String(n + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.getElementById('prev-btn').disabled = n === 0;
+    document.getElementById('next-btn').disabled = n === total - 1;
+    Object.keys(timers).forEach(function (k) { timers[k].draw(); });
+    if (!fromHash) {
+      try { history.replaceState(null, '', '#' + (n + 1)); } catch (err) { location.hash = String(n + 1); }
+    }
+    window.scrollTo(0, 0);
+  }
+  function go(d) { show(current + d); }
+  function fromHash() {
+    var m = /^#(\d+)$/.exec(location.hash);
+    return m ? parseInt(m[1], 10) - 1 : 0;
+  }
+  window.addEventListener('hashchange', function () { var n = fromHash(); if (n !== current) show(n, true); });
+  document.getElementById('prev-btn').addEventListener('click', function () { go(-1); });
+  document.getElementById('next-btn').addEventListener('click', function () { go(1); });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+    else if (document.exitFullscreen) document.exitFullscreen();
+  }
+
+  /* ---------- Responses menu ---------- */
+
+  var respBtn = document.getElementById('resp-btn');
+  var respMenu = document.getElementById('resp-menu');
+  function updateRespNote() {
+    var note = document.getElementById('resp-note');
+    if (storageOK) { note.textContent = 'Responses save automatically in this browser.'; note.classList.remove('warn'); }
+    else { note.textContent = 'Storage is unavailable: responses will not persist after this page closes. Export before closing.'; note.classList.add('warn'); }
+  }
+  updateRespNote();
+  function closeMenu() { respMenu.classList.remove('open'); respBtn.setAttribute('aria-expanded', 'false'); }
+  respBtn.addEventListener('click', function () {
+    var open = !respMenu.classList.contains('open');
+    respMenu.classList.toggle('open', open);
+    respBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.getElementById('export-btn').addEventListener('click', function () {
+    state.savedAt = new Date().toISOString();
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'standalone-' + DECK_ID + '-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  var fileInput = document.getElementById('import-file');
+  document.getElementById('import-btn').addEventListener('click', function () { fileInput.click(); });
+  fileInput.addEventListener('change', function () {
+    var f = fileInput.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var data = JSON.parse(reader.result);
+        if (!data || !data.activities) throw new Error('No activities');
+        if (!window.confirm('Replace the current responses with the imported file?')) return;
+        state = data; save(); location.reload();
+      } catch (err) { window.alert('That file could not be read as responses for this deck.'); }
+    };
+    reader.readAsText(f);
+    fileInput.value = '';
+  });
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    if (!window.confirm('Clear all recorded responses for this deck? This cannot be undone.')) return;
+    state = { version: 1, deck: DECK_ID, savedAt: null, activities: {} };
+    try { window.localStorage.removeItem(STORE_KEY); } catch (err) { /* storage unavailable */ }
+    location.reload();
+  });
+
+  /* ---------- Keyboard ---------- */
+
+  var blackout = document.getElementById('blackout');
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    var typing = t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+    if (typing && e.key !== 'Escape') return;                                  // the field keeps its keys
+    if (t.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return; // activate, do not advance
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    if (blackout.classList.contains('on')) { e.preventDefault(); blackout.classList.remove('on'); return; }
+
+    var id = slides[current].id;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === ' ' || k === 'PageDown') { e.preventDefault(); go(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(total - 1); }
+    else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+    else if (k === 'b' || k === 'B' || k === '.') { e.preventDefault(); blackout.classList.add('on'); }
+    else if (k === 'Escape') { closeMenu(); if (typing) t.blur(); }
+    else if (k === 'r' || k === 'R') { if (revealFns[id]) { e.preventDefault(); revealFns[id](); } }
+    else if (k === 't' || k === 'T') { if (timers[id]) { e.preventDefault(); if (e.shiftKey) timers[id].reset(); else timers[id].toggle(); } }
+    else if (/^Digit[1-9]$/.test(e.code)) {
+      var n = parseInt(e.code.slice(5), 10) - 1;
+      if (numberFns[id]) { e.preventDefault(); numberFns[id](n, e.shiftKey); }
+    }
+    else if (letterFns[id] && /^[a-z]$/i.test(k)) { if (letterFns[id](k)) e.preventDefault(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#resp-menu') && e.target !== respBtn) closeMenu();
+  });
+
+  /* ---------- Idle-hiding chrome ---------- */
+
+  (function () {
+    var chrome = document.getElementById('chrome');
+    var h;
+    function wake() {
+      chrome.classList.remove('idle');
+      clearTimeout(h);
+      h = setTimeout(function () { if (!respMenu.classList.contains('open')) chrome.classList.add('idle'); }, 2500);
+    }
+    ['mousemove', 'keydown', 'touchstart', 'click'].forEach(function (evt) { document.addEventListener(evt, wake); });
+    wake();
+  })();
+
+  /* ---------- Test hooks for tests/verify-deck.mjs ---------- */
+
+  window.DECK = {
+    show: show,
+    current: function () { return current; },
+    reveal: function (id) { if (revealFns[id]) revealFns[id](); },
+    storageOK: function () { return storageOK; },
+    state: function () { return state; },
+    worst: function (id) { if (worstFns[id]) worstFns[id](); },
+    selectPart: function (id, n) { if (numberFns[id]) numberFns[id](n); },
+    fillBoard: function (n) { document.getElementById('s-board')._fill(n); }
+  };
+
+  show(fromHash(), true);
+})();
+</script>
+</body>
+</html>
