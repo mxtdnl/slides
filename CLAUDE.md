@@ -23,6 +23,7 @@ courses/
     w06a-<topic>.html         Suffix a, b for two sessions in one week
 reference/
   theory-of-change.html       Reference deck from a previous repository (see SLIDES.md, Reference implementations)
+  archetype-specimens.html    Specimen slides for archetypes 26 to 45, built in this repository
 standalone/
   <YYYY-MM>-<slug>.html       A deck that belongs to no course (talk, workshop, guest lecture)
   <YYYY-MM>-<slug>.brief.md   Its context: read before writing content for it
@@ -42,6 +43,7 @@ tools/
 - `CLAUDE.md` — Repository rules, visual system and workflow
 - `SLIDES.md` — Deck blueprint: stage model, type scale, slide archetypes, activity patterns, contrast rules, verification and build order
 - `reference/theory-of-change.html` — Reference implementation of the stage, navigation and the eight proven archetypes, carried over from a previous repository. Read-only: never edit it, link it from `index.html`, or copy its content
+- `reference/archetype-specimens.html` — Reference implementation of archetypes 26 to 45 (constructed illustrations: typographic poster, specimen plate, triptych, isotype array, proportional field, scale comparison, orbit, overlap, iceberg, strata, funnel, zoom, balance, tipping point, route map, constellation, branching tree, exploded view, lens, before and after), one specimen slide each with sample content, plus a title slide and a register. Built in this repository to the current conventions and maintained: update a specimen in the same commit as any change to its archetype's specification in `SLIDES.md`. Lint applies; it is not a teaching deck, is not linked from `index.html`, and its sample text is never copied into a deck
 - `tools/prompt-builder.html` — Deck prompt builder: a form that writes the deck's `COURSE.md` or `.brief.md` from the templates above and a Claude Code prompt that creates it and asks for the deck plan. Follows the visual system and the technical conventions; not a deck, so it is not listed in `index.html` deck grids
 - `tools/deck-editor.html` — Deck text editor: opens a deck file, edits its text only (slide text, speaker notes, `placeholder` values, `<title>` and the string values in the constants at the top of the script), previews each slide with a fit check, and saves in place through the File System Access API (Chrome and Edge) or as a download elsewhere. Source-preserving: only edited text changes in the file. Follows the visual system and the technical conventions; not a deck, so it is not listed in `index.html` deck grids
 - `EDITOR.md` — What Claude Code does when the user supplies an edited deck: find and match the file, confirm only text changed, check it, replace the old version, verify, commit and report
@@ -155,7 +157,7 @@ These are non-negotiable.
 8. **Scoring.** Only questions with a single defensible answer may resolve as correct or incorrect. Judgement, opinion and position prompts never display a right answer; they display the room's distribution.
 9. **Privacy.** No deck stores or displays individual names of students or other participants. Group labels only.
 10. **UK English** throughout, in prose, labels and code comments.
-11. **Favicon on every page.** Every `.html` file outside `reference/` carries the repository favicon: a pull-down projection screen with a play triangle, as 16px and 32px PNGs embedded as `data:image/png;base64` URIs in two `<link rel="icon">` tags placed directly after `<title>`. Copy both tags verbatim from `index.html` into every new deck, tool or page; never redraw the icon or link a separate image file.
+11. **Favicon on every page.** Every `.html` file except `reference/theory-of-change.html` carries the repository favicon: a pull-down projection screen with a play triangle, as 16px and 32px PNGs embedded as `data:image/png;base64` URIs in two `<link rel="icon">` tags placed directly after `<title>`. Copy both tags verbatim from `index.html` into every new deck, tool or page; never redraw the icon or link a separate image file.
 
 ---
 
@@ -312,11 +314,11 @@ If an instruction in a request conflicts with this file, `SLIDES.md` or the deck
 - No `http:` or `https:` URLs in `src`, `href` (other than plain outbound reading links the instructor supplied), `url()`, `@import`, `fetch` or `XMLHttpRequest`
 - No curly quotes inside `<script>` blocks
 - No `border-radius` values other than `0` and `50%`
-- Files under `reference/` are excluded from every check below
+- `reference/theory-of-change.html` is excluded from every check; other files under `reference/` take every check that is not specific to decks under `courses/` or `standalone/`
 - Every deck under `courses/` or `standalone/` is linked from `index.html` and listed in the Files section of this file
 - The two favicon `<link rel="icon">` tags are present and identical to those in `index.html`
 - Every course folder has a `COURSE.md`, and every standalone deck has a matching `.brief.md`
-- A count of `PLACEHOLDER:` strings per deck, printed as a warning
+- A count of `PLACEHOLDER:` strings per deck and per reference deck, printed as a warning
 
 Run it with `node tests/lint.mjs`. Run `node tests/verify-deck.mjs <path-to-deck>` for the per-deck harnesses. Both use Node built-ins plus Playwright; if Playwright is not already available, install it as a dev dependency rather than adding it to any deck.
 

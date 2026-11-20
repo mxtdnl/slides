@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(fileURLToPath(import.meta.url), '..', '..');
 const SKIP_DIRS = new Set(['node_modules', '.git']);
+const LEGACY = new Set(['reference/theory-of-change.html']);
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -30,8 +31,9 @@ const claudeMd = existsSync(join(ROOT, 'CLAUDE.md')) ? readFileSync(join(ROOT, '
 const filesSection = (claudeMd.split(/^## Files\s*$/m)[1] || '').split(/^---\s*$/m)[0];
 
 for (const file of files) {
-  // Files under reference/ are excluded from every check.
-  if (file.startsWith('reference/')) continue;
+  // The legacy reference deck from a previous repository is excluded from every check.
+  // Other files under reference/ were built here and take the same checks as any page.
+  if (LEGACY.has(file)) continue;
   const src = readFileSync(join(ROOT, file), 'utf8');
 
   // 1. <meta charset="utf-8"> present and first in <head>
@@ -86,6 +88,8 @@ for (const file of files) {
       const brief = file.replace(/\.html$/, '.brief.md');
       if (!existsSync(join(ROOT, brief))) fail(file, `missing brief ${brief}`);
     }
+  }
+  if (isDeck || file.startsWith('reference/')) {
     const ph = (src.match(/PLACEHOLDER:/g) || []).length;
     if (ph) warnings.push(`${file}: ${ph} PLACEHOLDER: string(s)`);
   }
@@ -100,7 +104,8 @@ if (existsSync(coursesDir)) {
   }
 }
 
-console.log(`Linted ${files.filter((f) => !f.startsWith('reference/')).length} file(s): ${files.filter((f) => !f.startsWith('reference/')).map((f) => basename(f)).join(', ')}`);
+const linted = files.filter((f) => !LEGACY.has(f));
+console.log(`Linted ${linted.length} file(s): ${linted.map((f) => basename(f)).join(', ')}`);
 warnings.forEach((w) => console.log('WARN  ' + w));
 failures.forEach((f) => console.log('FAIL  ' + f));
 if (failures.length) {

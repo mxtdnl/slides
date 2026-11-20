@@ -14,7 +14,9 @@ It differs from this repository's conventions, and **where it differs, this docu
 
 Any other difference should be checked against this document rather than assumed to be deliberate.
 
-Archetypes marked *specified* have no reference yet. The first deck in this repository that builds one becomes its reference: record the file and slide number in the Reference column of the register in section 6. When a pattern is unclear, read the reference slide before improvising.
+`reference/archetype-specimens.html` was built in this repository to the current blueprint. It holds one specimen slide for each of archetypes 26 to 45, with sample content, and passes every harness. Copy its structure, CSS and code patterns; never copy its text into a teaching deck. Unlike the legacy deck it is maintained: when the specification of archetype 26 to 45 changes, update its specimen slide in the same commit.
+
+Archetypes marked *specified* have no teaching deck as reference yet; archetypes 26 to 45 have their specimen slide meanwhile. The first teaching deck in this repository that builds one becomes its reference: record the file and slide number in the Reference column of the register in section 6. When a pattern is unclear, read the reference slide before improvising.
 
 ---
 
@@ -165,7 +167,7 @@ Rules of thumb for a wide frame:
 
 ## 6. Slide archetypes
 
-Twenty-five patterns in four families. Choose the archetype from the idea the slide carries, not from variety for its own sake.
+Forty-five patterns in four families. Archetypes 26 to 45 are constructed illustrations: pictures built from the house geometry that carry the slide's meaning (section 12.3). Choose the archetype from the idea the slide carries, not from variety for its own sake.
 
 ### Register
 
@@ -196,6 +198,26 @@ Twenty-five patterns in four families. Choose the archetype from the idea the sl
 | 23 | Worked example | Evidence | A solution shown step by step | specified | `standalone/2026-09-lagging-and-leading-indicators.html` slide 19 |
 | 24 | Claim and correction | Evidence | A common misconception set against the evidence | specified | |
 | 25 | Annotated image | Evidence | A screenshot or supplied illustration whose parts need naming | specified | `standalone/2026-10-feed-briefing.html` slides 7, 13, 14 (portrait), 12 (landscape), 15 (strip) |
+| 26 | Typographic poster | Framing | Launching the one term a section turns on | specified | `reference/archetype-specimens.html` slide 2 |
+| 27 | Specimen plate | Exposition | One artefact (a metric, a policy, a model) inspected closely | specified | `reference/archetype-specimens.html` slide 3 |
+| 28 | Triptych | Exposition | A narrative in three beats | specified | `reference/archetype-specimens.html` slide 4 |
+| 29 | Isotype array | Evidence | A proportion made countable | specified | `reference/archetype-specimens.html` slide 5 |
+| 30 | Proportional field | Evidence | Part to whole with three to seven parts | specified | `reference/archetype-specimens.html` slide 6 |
+| 31 | Scale comparison | Evidence | Magnitudes too far apart to grasp as numbers | specified | `reference/archetype-specimens.html` slide 7 |
+| 32 | Orbit | Relations | Centrality, or closeness to a core concept | specified | `reference/archetype-specimens.html` slide 8 |
+| 33 | Overlap | Relations | Two or three concepts sharing ground | specified | `reference/archetype-specimens.html` slide 9 |
+| 34 | Iceberg | Relations | Surface behaviour set against underlying causes | specified | `reference/archetype-specimens.html` slide 10 |
+| 35 | Strata | Relations | Layers that rest on one another | specified | `reference/archetype-specimens.html` slide 11 |
+| 36 | Funnel | Evidence | Attrition or selection across stages | specified | `reference/archetype-specimens.html` slide 12 |
+| 37 | Zoom | Relations | Levels of analysis, nested | specified | `reference/archetype-specimens.html` slide 13 |
+| 38 | Balance | Relations | A trade-off between considerations | specified | `reference/archetype-specimens.html` slide 14 |
+| 39 | Tipping point | Relations | Thresholds, path dependence, lock-in | specified | `reference/archetype-specimens.html` slide 15 |
+| 40 | Route map | Relations | A course or field as connected themes | specified | `reference/archetype-specimens.html` slide 16 |
+| 41 | Constellation | Relations | Undirected ties among five to nine actors | specified | `reference/archetype-specimens.html` slide 17 |
+| 42 | Branching tree | Relations | Conditional logic, choices and consequences | specified | `reference/archetype-specimens.html` slide 18 |
+| 43 | Exploded view | Relations | A whole decomposed into components | specified | `reference/archetype-specimens.html` slide 19 |
+| 44 | Lens | Evidence | One case read through several theories | specified | `reference/archetype-specimens.html` slide 20 |
+| 45 | Before and after | Evidence | An intervention changing a system | specified | `reference/archetype-specimens.html` slide 21 |
 
 ### Framing
 
@@ -208,6 +230,8 @@ Twenty-five patterns in four families. Choose the archetype from the idea the sl
 **4. Section divider.** A full-bleed solid accent fill across the stage; the rail takes the same colour so the frame reads as one field. Top left: `PART 2` as an eyebrow. Centre left: the section title at `h1` size. Beneath: one line at `h3` size stating the question the section answers. A very large numeral (around `30rem`) sits bottom right in `--bg` at `0.15` opacity, bleeding off the frame; it duplicates the eyebrow and is decorative. Background shapes on a solid fill use `--bg` at `0.10` to `0.15`. Choose a fill whose text pairing passes at `h3` size (section 10). No body copy.
 
 **5. Close and bridge.** `g-7-5`. Left: `h2` ("What we can now do"), then the session outcomes restated, each with a solid accent pip. Right, stacked: a bordered card headed `BEFORE NEXT SESSION` listing reading or tasks exactly as the instructor supplied them, and a solid-fill block headed `NEXT` with the next session's title. If the deck captured responses, the close slide is the reminder to export them (the export itself lives in the response menu, section 8.3). Standalone variant: the card is headed `TO GO FURTHER` and lists only what the brief supplies; the `NEXT` block carries a next step or contact from the brief, or is omitted and the left column widens.
+
+**26. Typographic poster.** The heading is one word, set in lower case after Herbert Bayer, as a row of solid letter blocks across the content width: each block `9rem` by `13.6rem` with the glyph at `12rem`, weight 800, and alternate blocks dropped `2.4rem`. Every block takes a different accent, with no two adjacent hues alike, and its text pairing from section 10. The head has an eyebrow but no `h2`: the word is the heading, and the row carries `role="img"` with the word as its `aria-label`. Beneath, `50rem 1fr`: a solid block with the word divided into syllables, its part of speech, and a one-line working definition at `2.1rem`, beside a card with `SEE ALSO` and `OPPOSITE`. Nine letters fill the width at this size; for a longer word, narrow the blocks so the row stays inside the content box rather than cropping a letter. Maximum one per section. When the term's boundary needs fixing, follow it with a definition slide.
 
 ### Exposition
 
@@ -224,6 +248,10 @@ Twenty-five patterns in four families. Choose the archetype from the idea the sl
 **11. Card grid.** `repeat(3, 1fr)` over two rows for six items. Each card gets a `0.9rem` accent left border, a name in the accent (or its ink tone), and muted body text. Cycle colours so no two adjacent cards share a hue, including vertically.
 
 **12. Takeaway grid.** `1fr 1fr` over three rows. Each item is a large accent numeral beside the text, with a `0.4rem` accent rule across the top. The rules align per row and read as a set of colour bars.
+
+**27. Specimen plate.** `g-7-5`. Left: the concept drawn in geometry on a plate: `--bg-card` with a `0.3rem` `--text` outer rule, a `0.8rem` margin and an inner `--border` rule, catalogue and plate numbers in muted uppercase in the top corners, and a measuring rule with ticks and unit labels along the bottom that gives the drawing a true scale. Up to three numbered markers (`2.8rem` `--text` squares with `--bg-card` numerals) sit on its parts. Right: a catalogue card with a top border in the slide accent, holding four to six label and value rows (`CLASS`, `ACTS ON`, `FAILS WHEN`, `SEE ALSO`) and the key to the numbered parts. It differs from the annotated model in being static and catalogued: one artefact inspected, not a model whose parts are selected in turn.
+
+**28. Triptych.** `g-3` of tall panels showing the same scene in three states, with a solid caption bar at the foot of each (a numbered `h3` and one line; reserve `min-height` so the bars align) in three contrasting accents. Panels beyond the current step sit at `0.35` opacity with the scene emptied, so the room can predict the next beat; `r` reveals the next panel. The scene comes from `ACTIVITIES` and must be the same composition in all three panels, or the slide is three cards.
 
 ### Relations
 
@@ -249,6 +277,28 @@ The inset is `W/8 + g/8`. With a `1.6rem` gap that is `12.5% + 0.2rem`, which pu
 
 **19. Annotated model.** `g-7-5`. Left: the model or diagram, built from positioned divs or inline SVG, with numbered hotspots (solid accent squares with white numerals). Right: a list of the parts in the same numbering, and a detail panel. Selecting a hotspot or a list item highlights both and fills the panel. A presenter can also step through parts in order with `r` (section 8.2). Text inside an SVG must render at `1.25rem` or larger at the SVG's displayed size; size the `viewBox` accordingly.
 
+**32. Orbit.** `34rem 1fr`. Left: a `34rem` square holding up to three concentric rings (`0.6rem`, each in its own accent) around a solid `9rem` core circle in the slide accent carrying its name. Satellites are buttons (`--bg-card`, `--text` border, a top border in their ring's colour), placed by JS from the ring radius and an angle in `ACTIVITIES` (0 is right, -90 is top). Choose angles so no satellite overlaps the core or leaves the square. Right: a ring legend stating what distance means, a detail panel that fills on selection (click or number key), and a `.micro` line on what distance does not mean. Five to eight satellites. Distinct from the cycle (no loop) and the constellation (distance, not ties).
+
+**33. Overlap.** `50rem 1fr`. Left: inline SVG of two or three rings (12-unit strokes) in contrasting accents. Pairwise regions are tinted (an accent at `0.14`) and numbered; the region all of them share is a solid fill in the slide accent, cut with nested `clipPath` elements. Never use `mix-blend-mode`, which produces colours outside the palette. A `C` chip, an HTML element with `--bg-card` fill and a `--text` border, sits over the centre so its contrast can be measured. Ring names sit outside the rings in uppercase. Right: the regions listed with matching number chips; the centre item and its fill reveal together on `r`. Prefix `clipPath` ids with the slide name so they stay unique in the deck.
+
+**34. Iceberg.** A tip triangle above a waterline, labelled beside it (`WHAT WE SEE`, then an `h3` at `2.4rem`). Beneath, two to four trapezoid bands (`clip-path` polygons) widen downward, each a solid accent with a white label at `2rem` weight 800, under a `WHAT LIES BENEATH` eyebrow in the accent. The water (a slide-accent tint at `0.10`) and the `0.6rem` waterline sit at slide level, outside `.slide-inner`, so they bleed to the frame without failing the fit check; place them at the body top plus the waterline offset (the body top is `14.43rem` after a one-line `h2`). Bands reveal from the top on `r`. Each label must fit its band's top width.
+
+**35. Strata.** `52rem 1fr`. Left: bands stacked from the bottom up (`column-reverse`), each narrower than the one below (`100%`, `82%`, `64%`, `46%`) and left-aligned so the stack is asymmetric, with heights set by `flex` and a label and layer tag on each solid fill. Right: one note per band, sharing its band's `flex` value so they align, with a left border in the band's colour. The stack builds from the foundation on `r`. Three to five layers. Distinct from the sequence band: this is dependency, not order in time.
+
+**37. Zoom.** `34rem 1fr`. Left: a `34rem` square viewport (`overflow: hidden`, `0.4rem` `--text` border) holding one nested square per level, each given in `ACTIVITIES` as `x`, `y` and `s`, fractions of the outermost; the innermost holds a solid circle. Each step pulls back one level by setting `transform: scale(1/s) translate(-x, -y)` with `transform-origin: 0 0` over `0.7s`. Labels sit in each square's top-left corner and are resized at each step so they stay `1.5rem` on screen; a label hides when its square is under `9rem` on screen. Leave at least `2.5rem` between the top edges of nested squares so labels do not collide at the widest view. Right: one row per level with a pip and one question; the current row inverts to a `--text` fill. Three to five levels.
+
+**38. Balance.** Full width: a `--text` base bar, a gold fulcrum triangle, and a `76rem` `--text` beam that rotates about its centre on the apex. Considerations are solid blocks with white labels at `1.7rem` weight 800, taller when weightier; they stack on each end as children of the beam, so they tilt with it. Side names sit under the beam ends on a `--bg` chip. Each `r` adds the next block in `ACTIVITIES` order, alternating sides; the angle is the right weight minus the left, times `degPerWeight`, clamped to 8 degrees either way. Unless the weights come from supplied data, a source line says the tilt is the presenter's argued judgement. Two or three blocks a side.
+
+**39. Tipping point.** A full-width SVG (`87.5rem` by `24rem`) of a landscape with two basins: the ground is a filled path sampled in JS from a double-well function whose deeper basin is the new state, with a dashed `--bg-card` line down from the crest. A red ball sits on the curve, offset along its normal. Four steps (at rest, a push, at the crest, the new state) move the ball along the curve with `requestAnimationFrame`, jumping straight there under reduced motion. A `g-4` strip of step cards sits beneath, the current one filled. Basin and crest labels go above the curve on the background, never on the ground fill.
+
+**40. Route map.** A full-width SVG of two to four lines (14-unit strokes; horizontal, vertical and 45-degree segments only) in contrasting accents. Stations are `--bg-card` squares with `--text` borders; interchanges, where lines share a concept, are rings. Each station's label goes above, below, left or right as set in `ACTIVITIES`, never across a line. A legend row beneath names the lines, the interchange mark and the lit station (`This session: ...`). The lit station fills burnt orange and its label takes `--accent-7-ink`. `r` steps the light through the `ACTIVITIES` order; in a course, reprise the map each session with the step set to that session. Eight to fourteen stations.
+
+**41. Constellation.** `49.5rem 1fr`. Left: SVG nodes as solid accent circles sized by importance, with a `--bg` stroke, and ties as lines beneath them. Labels sit beside each node at a position set in `ACTIVITIES`, with a `--bg` halo (`paint-order: stroke`) so crossing ties do not cut them. Right: a two-column button list (pip, number, name) and a detail panel. Selecting a node (its circle, its button or its number key) thickens its ties in `--text`, dims the other ties to `0.18` and unlinked nodes to `0.3`, and lists its ties. Five to nine nodes. Ties are undirected; a directed relation is a chain.
+
+**42. Branching tree.** An `87.5rem` by `34rem` container: SVG edges beneath, HTML node cards on top (`24rem` by `7.6rem`, with an eyebrow such as `QUESTION` or `METHOD`) positioned by centre and top in rem, and branch labels (`YES`, `NO`) as chips at the edge midpoints. All nodes start solid. From the first step the path taken lights: its edges in the slide accent at 10 units, its nodes with solid borders, and the end node a solid accent fill, while untaken nodes turn dashed with muted text. Maximum three levels and five leaves per slide.
+
+**43. Exploded view.** `49.5rem 1fr`. Left: a solid composite square made of three to five abutting rectangles with `--text` outline seams, each a solid accent with its name in uppercase at `1.4rem` weight 800 and a number square in its bottom-left corner. On `r` each part moves outward by its own `--dx` and `--dy` over `0.7s`, its number appears, and the part list on the right (number chip, name, one line) reveals; `r` again reassembles it, as a synthesis. Each part is at least `7rem` high so its name and number do not collide, and the moves stay inside the left column.
+
 ### Evidence
 
 **20. Data exhibit.** The heading is a full-sentence claim that the chart supports ("Attendance fell in every region after 2015"), not a topic label ("Attendance data"). One chart per slide, built as inline SVG or positioned divs (section 12.2). The series or bar the claim is about is in the slide accent; everything else is `--bg-deep` or `--text-muted`. Labels sit directly on the data; no legend unless unavoidable. A `.micro` source line beneath is mandatory. Predict variant: the bars are hidden and the room commits to an ordering or a direction before the reveal (section 9.3).
@@ -262,6 +312,18 @@ The inset is `W/8 + g/8`. With a `1.6rem` gap that is `12.5% + 0.2rem`, which pu
 **24. Claim and correction.** `g-2`. Left: a card headed `A COMMON CLAIM` with the claim at `2.1rem`, and a tally of whether the room agrees (section 9.2). Right, revealed after the tally: a card headed `WHAT THE EVIDENCE SHOWS` with the correction, a line on why the claim is attractive, and a source line. Explaining why a misconception is plausible is what distinguishes this from simply stating the correct view. The correction needs a supplied source; without one the slide is not built.
 
 **25. Annotated image.** A screenshot or supplied illustration with numbered parts, for teaching a real interface or picture rather than a model built in markup (that is the annotated model). The image follows section 12.1: supplied by the instructor or captured at their request, embedded as base64 at its display size, alt text on every image. Each part is a box on the image (`x`, `y`, `w`, `h` as fractions of the image) with a name and one line of text, all in `ACTIVITIES`; the legend shows every part's text at all times, so nothing is hidden from the room. Selecting a part (marker, legend entry, its number key, or `r` to step) outlines its box on the image in the part's accent with a `--text` outline, so the box reads on dark screenshots. Three variants. **Portrait** (a phone screen): `auto 1fr`, the image filling the body height with its markers in a gutter to its right, each beside a bracket showing the part's vertical extent, so no marker covers the screenshot; legend in one or two columns. **Landscape** (a projector or desktop screen): the image in a fixed `56rem` column, markers placed on the image at a point given in `ACTIVITIES` (`mx`, `my`) over empty areas, and a one-column legend with the name inline; keep each line to about eight words. **Strip**: two to four screens in sequence, each with one always-visible box and a numbered caption beneath. Crop screenshots to the part that carries the content before encoding; a tall phone screen with empty space shrinks everything on it. Maximum seven parts per image. Marker and legend numerals are large text (at least `1.5rem` bold) so the burnt orange fill passes at 1280x720.
+
+**29. Isotype array.** After Otto Neurath's Isotype, with squares in place of pictograms. `34rem 1fr`. Left: a 10 by 10 grid of hollow squares (`2.7rem`, `0.3rem` muted border); on reveal the counted share fills in the slide accent row by row from the top left, staggered 40ms per square. Right: the count at `17rem` in the accent (shown as `?` until the reveal), an `h3` naming the unit, a key, and a mandatory source line stating what one square stands for. For a total other than 100, choose a column count that divides it. Data only from supplied sources.
+
+**30. Proportional field.** A De Stijl frame: one rectangle cut into areas proportional to the parts, built from nested grids whose `fr` values are the data, with `0.9rem` `--text` gutters (a `gap` over a `--text` background). Each cell is a solid accent holding its name as an `h3` and its value at `4.4rem` (`3.2rem` in small cells); the part the heading's claim is about takes the slide accent. Text on each fill follows section 10; the `h3` at `2rem` bold is large text, so burnt orange passes. Three to seven parts: if the smallest cell cannot hold its `h3`, fold it into an `Other` cell. Source line mandatory.
+
+**31. Scale comparison.** Two or three squares whose sides are proportional to the square root of their values, so their areas are true, standing on one `0.4rem` `--text` baseline, the largest about `30rem` on a side. The smaller squares are labelled above (a muted uppercase name, then the value at `2.6rem` weight 800); the largest is labelled inside, on its fill. A note card states the relation between area and side. Never crop the largest square: cropping breaks the ratio the slide exists to show. Source line mandatory.
+
+**36. Funnel.** Rows of `15rem 1fr 11rem`: the stage name right-aligned in uppercase, a centred bar whose width is that stage's count over the first stage's, and the loss since the previous stage in the gutter, in `--accent-2` over a `LOST` label. Bars are `--bg-deep` with `--text` counts; only the stage the claim is about takes the slide accent, with white text. The losses stay hidden until `r`, so the room can predict where the largest drop is. Three to six stages. Source line mandatory.
+
+**44. Lens.** `49.5rem 1fr`. Left: a fixed scene in a card, its parts as positioned HTML elements with SVG flow lines beneath. Right: one button per lens (number key, name, left border in the lens accent) and a detail panel. Selecting a lens (its button, its number key, or `r` to cycle) fills the parts it highlights in its accent, dims the rest to `--bg-card` with `--border`, recolours the flows it attends to, and relabels parts from `ACTIVITIES`. The default state has no lens and neutral labels. Two to four lenses. Only colour and labels change between lenses; if the scene itself changes, the slide is a comparison.
+
+**45. Before and after.** A scene in two layers inside an `85rem` frame with a `0.3rem` `--text` border. The after layer is clipped with `clip-path: inset(0 0 0 var(--p))`, and a divider bar with a gold diamond handle sits at `--p`. A labelled range input under the frame moves the divider, and `r` steps it through the positions in `ACTIVITIES` (100, 50, 0). `BEFORE` and `AFTER` tags sit in opposite top corners. Up to three differences are marked with numbered red squares on the after layer and explained beside the range. The frame leaves `2.5rem` spare on the right so the handle at 100% stays inside the content box.
 
 ---
 
@@ -610,6 +672,19 @@ If no image tooling is installed, Chromium via Playwright can resize and re-enco
 - **Source line** in `.micro` beneath every chart, exactly as supplied.
 - **Data only from supplied sources.** Placeholder data is labelled `PLACEHOLDER:` in the source line and in the report.
 
+### 12.3 Constructed illustration
+
+Archetypes 26 to 45 draw pictures from the house shapes. The picture is content: it carries the slide's idea, so it follows these rules rather than those for decoration in section 11.
+
+- **Geometry only.** Squares, rectangles, circles, rings, triangles, bars and lines in the palette at full opacity. No figurative drawing, no icons, no gradients; a person is a square or a circle, never a figure.
+- **SVG at ten units per rem.** Give an SVG a rem width and height and a `viewBox` of ten units per rem, so a 14-unit font renders at `1.4rem`. SVG text uses `fill: currentColor` with its colour set through `color`, so the contrast harness reads it.
+- **Text on a fill is HTML.** The contrast harness resolves backgrounds through HTML ancestors only, so text that sits on an SVG shape reads as text on the stage. Put such text in an HTML element with its own `background-color` (a chip, a band, a block), or keep SVG text on the stage background.
+- **Bleeds live at slide level.** A shape meant to run off the frame (water, a long rule) is a sibling of `.slide-inner`, positioned in stage units, not a child of `.s-body`; anything inside `.s-body` that passes the content box fails the fit check. Hide slide-level bleeds in the narrow layout.
+- **Clipped viewports are allowed.** Content inside an ancestor with `overflow: hidden` (a zoom viewport, a plate) is measured only where it is visible.
+- **Positions from data.** Compute positions from `ACTIVITIES` in JS (angles, fractions, function samples), never by hand, so content can change without redrawing.
+- **True to scale or labelled as argued.** Areas, widths and fractions that encode numbers are exact; a picture whose proportions are judgement (a balance tilt) says so in a source line.
+- **Narrow layout.** Figures keep their stage size and scroll sideways inside `.s-body`; grids collapse to one column.
+
 ---
 
 ## 13. Prose
@@ -707,6 +782,8 @@ const r = await page.evaluate(() => {
   return Math.round(m - limit);
 });
 ```
+
+The harness clips each box to any ancestor inside the slide that hides its overflow, so a zoom viewport or a cropped plate is measured only where it is visible.
 
 Run at 1920x1080, 1440x900 and 1280x720. Because everything is in stage units the three should agree proportionally; if they do not, something is not in rem. Also check that nothing overlaps the timer plate.
 
