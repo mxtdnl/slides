@@ -436,9 +436,10 @@ p { font-size: 1.85rem; }
 
 .six-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto 1fr 1fr; gap: 1.2rem 2rem; height: 100%; }
 .six-col-head { padding: 0.7rem 1.2rem; background: var(--card-color); color: var(--card-on, #fff); font-size: 1.5rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
-.six-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--card-color); padding: 1.4rem 1.8rem; display: flex; flex-direction: column; gap: 0.6rem; }
-.six-card .card-name { margin-bottom: 0; font-size: 1.45rem; }
+.six-card { background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.9rem solid var(--card-color); padding: 1.2rem 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.six-card .card-name { margin-bottom: 0; font-size: 1.35rem; letter-spacing: 0.1em; }
 .six-card p { font-size: 1.5rem; line-height: 1.42; }
+.six-card p.eg { font-size: 1.35rem; color: var(--text-muted); margin-top: auto; }
 
 /* ---------- Sort ---------- */
 
@@ -566,7 +567,7 @@ p { font-size: 1.85rem; }
 
 /* ---------- Worked example ---------- */
 
-.steps { display: flex; flex-direction: column; gap: 0.7rem; }
+.steps { display: flex; flex-direction: column; gap: 0.55rem; }
 .step {
   display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.2rem; align-items: center;
   background: var(--bg-card); border: 0.2rem solid var(--border); border-left: 0.7rem solid var(--step-color); padding: 0.6rem 1.2rem;
@@ -575,7 +576,7 @@ p { font-size: 1.85rem; }
 .step.visible { opacity: 1; transform: none; }
 .step.current { border-color: var(--step-color); background: var(--bg-elevated); }
 .step .num { width: 3.4rem; height: 3.4rem; background: var(--step-color); color: var(--step-on, #fff); font-weight: 800; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; }
-.step p { font-size: 1.42rem; line-height: 1.3; }
+.step p { font-size: 1.38rem; line-height: 1.28; }
 .step p strong { font-weight: 800; color: var(--label); }
 .step-why { display: none; }
 .worked-case { font-size: 1.4rem; line-height: 1.4; margin-bottom: 1rem; color: var(--text-muted); }
@@ -836,7 +837,7 @@ p { font-size: 1.85rem; }
         </div>
       </div>
     </div>
-    <aside class="notes">Welcome. Workshop 2 gave everyone goals and indicators; today asks why the planned behaviour happens or fails to happen. Introduce B&nbsp;=&nbsp;COM as our shorthand for the COM-B model of Michie, van Stralen and West (2011): behaviour on one side, capability, opportunity and motivation on the other. Say the pun once: B&nbsp;=&nbsp;COM, become. Promise that by the end everyone will have diagnosed one of their own behaviours and chosen where to intervene. About 1 minute.</aside>
+    <aside class="notes">Welcome. Workshop 2 gave everyone goals and indicators; today asks why the planned behaviour happens or fails to happen. Introduce B&nbsp;=&nbsp;COM as our shorthand for the COM-B model of Michie, van Stralen and West (2011): behaviour on one side, capability, opportunity and motivation on the other. Say the pun once: B&nbsp;=&nbsp;COM, become. Frame the session around their own lives: by the end, everyone will have been coached by a partner through one of their own behaviours, and will have coached their partner in turn. About 1 minute.</aside>
     <div class="deco circle" style="width: 34rem; height: 34rem; background: var(--accent-8); opacity: 0.1; bottom: -16rem; left: -10rem"></div>
     <div class="deco" style="width: 80rem; height: 1rem; background: var(--accent-4); opacity: 0.12; bottom: 8rem; left: 4rem; transform: rotate(-2deg)"></div>
   </section>
@@ -852,17 +853,17 @@ p { font-size: 1.85rem; }
             <span class="eyebrow">Outcomes</span>
             <h2>By the end of this session</h2>
           </header>
-          <p class="small quiet">An activity checks each outcome. The fourth you start today on a behaviour of your own.</p>
+          <p class="small quiet">An activity checks each outcome. The fourth you practise today, in pairs, on behaviours of your own.</p>
         </div>
         <div class="outcome-list">
           <div class="outcome-row" style="--row-color: var(--accent-1)"><div class="outcome-num">1</div><p><strong>Explain</strong> how capability, opportunity and motivation interact to produce a behaviour.</p></div>
           <div class="outcome-row" style="--row-color: var(--accent-6)"><div class="outcome-num">2</div><p><strong>Classify</strong> a barrier to a behaviour as capability, opportunity or motivation.</p></div>
           <div class="outcome-row" style="--row-color: var(--accent-4); --row-on: var(--dark-ink)"><div class="outcome-num">3</div><p><strong>Match</strong> an intervention to the source of behaviour it can change.</p></div>
-          <div class="outcome-row" style="--row-color: var(--accent-5)"><div class="outcome-num">4</div><p><strong>Diagnose</strong> one of your own behaviours and choose where to intervene.</p></div>
+          <div class="outcome-row" style="--row-color: var(--accent-5)"><div class="outcome-num">4</div><p><strong>Coach</strong> a partner to diagnose a behaviour of their own and choose where to intervene.</p></div>
         </div>
       </div>
     </div>
-    <aside class="notes">Read the four verbs aloud: explain, classify, match, diagnose. Tell the room where each is checked: the feedback check in Part 1, the sort and the peer instruction question in Part 2, the case, the flawed plan and the matching check in Part 3, and their own diagnosis in Part 4. About 1 minute.</aside>
+    <aside class="notes">Read the four verbs aloud: explain, classify, match, coach. Tell the room where each is checked: the feedback check in Part 1, the sort and the peer instruction question in Part 2, the case, the flawed plan and the matching check in Part 3, and the paired coaching in Part 4. About 1 minute.</aside>
     <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-4); opacity: 0.09; top: -12rem; left: 20rem; transform: rotate(18deg)"></div>
     <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-6); opacity: 0.1; bottom: -9rem; left: 4rem"></div>
   </section>
@@ -926,7 +927,7 @@ p { font-size: 1.85rem; }
       <h3>Why does a behaviour happen, or fail to happen?</h3>
     </div>
     <div class="divider-num" aria-hidden="true">1</div>
-    <aside class="notes">Part 1 introduces B&nbsp;=&nbsp;COM as a system: what goes in, what comes out, and how the output feeds back. About 13 minutes, ending with a check.</aside>
+    <aside class="notes">Part 1 introduces B&nbsp;=&nbsp;COM as a system: what goes in, what comes out, and how the output feeds back. About 10 minutes, ending with a check.</aside>
     <div class="deco circle" style="width: 30rem; height: 30rem; background: var(--bg); opacity: 0.12; top: -12rem; left: 48rem"></div>
     <div class="deco" style="width: 60rem; height: 1.2rem; background: var(--bg); opacity: 0.12; bottom: 10rem; left: 0; transform: rotate(-4deg)"></div>
   </section>
@@ -988,36 +989,6 @@ p { font-size: 1.85rem; }
     <aside class="notes">Step through with r. The layout follows Figure 1 of Michie et al. (2011): single-headed arrows from capability and opportunity into motivation, double-headed arrows between each source and behaviour. Stress part 4, the double heads: doing a behaviour changes the sources. Part 5 is what B&nbsp;=&nbsp;COM must not hide: the "=" is shorthand rather than arithmetic, and changing one source can amplify or cancel a change elsewhere. Ask: "Which arrow do people usually forget?" Usually the return arrows. About 5 minutes.</aside>
     <div class="deco" style="width: 30rem; height: 30rem; background: var(--accent-6); opacity: 0.08; bottom: -14rem; right: -8rem; transform: rotate(40deg)"></div>
     <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.1; top: -7rem; right: 30rem"></div>
-  </section>
-
-  <!-- ============ 8. COMPARISON MATRIX: ORIGINS ============ -->
-  <section class="slide" id="s-origins" data-accent="var(--accent-5)" data-archetype="comparison-matrix">
-    <div class="rail"></div>
-    <div class="slide-no"></div>
-    <div class="slide-inner">
-      <header class="s-head">
-        <span class="eyebrow">Where it comes from</span>
-        <h2>Two traditions, the same three conditions</h2>
-      </header>
-      <div class="s-body" data-activity="reveal">
-        <table class="cmp-table">
-          <thead><tr>
-            <th class="cmp-crit" scope="col">B&nbsp;=&nbsp;COM</th>
-            <th scope="col" style="--head-color: var(--accent-8)">Theorists, 1991</th>
-            <th scope="col" style="--head-color: var(--accent-2)">US criminal law</th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
-        <div class="cmp-banner reveal-anim"><span class="label">What Michie et al. added</span><span data-field="added"></span></div>
-        <div class="cmp-foot">
-          <p class="micro">Predict each row before it is revealed. Source: Michie, van Stralen and West (2011), drawing on Fishbein et al. (2001).</p>
-          <button class="btn" type="button" data-action="reveal-row">Reveal next row</button>
-        </div>
-      </div>
-    </div>
-    <aside class="notes">Before each row, ask: "What would a prosecutor have to prove?" The room often finds means, opportunity and motive unprompted. The 1991 consensus meeting of behavioural theorists named skills, a strong intention, and no environmental constraints as necessary and sufficient for a volitional behaviour. Michie et al. took the agreement between two very different traditions as support for the three conditions. The fourth reveal shows what they added: automatic processes such as habits, and causal links between the sources. About 3 minutes.</aside>
-    <div class="deco" style="width: 20rem; height: 20rem; background: var(--accent-8); opacity: 0.1; top: -9rem; right: 14rem; transform: rotate(16deg)"></div>
-    <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-3); opacity: 0.1; bottom: -8rem; left: 24rem"></div>
   </section>
 
   <!-- ============ 9. CHECK WITH CONFIDENCE: FEEDBACK ============ -->
@@ -1121,14 +1092,14 @@ p { font-size: 1.85rem; }
         <div class="six-col-head" style="--card-color: var(--cap)">Capability</div>
         <div class="six-col-head" style="--card-color: var(--opp); --card-on: var(--dark-ink)">Opportunity</div>
         <div class="six-col-head" style="--card-color: var(--mot)">Motivation</div>
-        <div class="six-card" style="--card-color: var(--cap)"><span class="card-name">Physical capability</span><p>Physical capacity and skill: the body can carry out the behaviour.</p></div>
-        <div class="six-card" style="--card-color: var(--opp)"><span class="card-name">Physical opportunity</span><p>Opportunity afforded by the environment: the time, place and things the behaviour needs.</p></div>
-        <div class="six-card" style="--card-color: var(--mot)"><span class="card-name">Reflective motivation</span><p>Processes involving evaluations and plans: what you judge worth doing and intend to do.</p></div>
-        <div class="six-card" style="--card-color: var(--cap-2)"><span class="card-name">Psychological capability</span><p>The capacity to engage in the necessary thought processes: comprehension and reasoning.</p></div>
-        <div class="six-card" style="--card-color: var(--opp-2)"><span class="card-name">Social opportunity</span><p>Opportunity afforded by the cultural milieu, which shapes the way we think about things.</p></div>
-        <div class="six-card" style="--card-color: var(--mot-2)"><span class="card-name">Automatic motivation</span><p>Emotions and impulses that arise from associative learning and innate dispositions, including habits.</p></div>
+        <div class="six-card" style="--card-color: var(--cap)"><span class="card-name">Physical capability</span><p>Physical capacity and skill to carry out the behaviour.</p><p class="eg">e.g. the stamina for a 5 km run.</p></div>
+        <div class="six-card" style="--card-color: var(--opp)"><span class="card-name">Physical opportunity</span><p>What the environment affords: time, place and things.</p><p class="eg">e.g. a gym within walking distance.</p></div>
+        <div class="six-card" style="--card-color: var(--mot)"><span class="card-name">Reflective motivation</span><p>Evaluations and plans: what you judge worth doing.</p><p class="eg">e.g. valuing sleep over another episode.</p></div>
+        <div class="six-card" style="--card-color: var(--cap-2)"><span class="card-name">Psychological capability</span><p>Capacity for the thought processes needed, such as reasoning.</p><p class="eg">e.g. knowing a referencing style.</p></div>
+        <div class="six-card" style="--card-color: var(--opp-2)"><span class="card-name">Social opportunity</span><p>What the cultural milieu affords: how people around you think.</p><p class="eg">e.g. a flatmate who gets up early.</p></div>
+        <div class="six-card" style="--card-color: var(--mot-2)"><span class="card-name">Automatic motivation</span><p>Emotions, impulses and habits from associative learning.</p><p class="eg">e.g. the pull of the snooze button.</p></div>
       </div>
-      <p class="micro" style="margin-top: 1.2rem">Source: Michie, van Stralen and West (2011). The examples of time, place and things are this session's gloss.</p>
+      <p class="micro" style="margin-top: 1.2rem">Source: Michie, van Stralen and West (2011). The glosses and the student examples are this session's illustrations.</p>
     </div>
     <aside class="notes">Work down each column. The distinction that matters most for coaching is in the motivation column: reflective motivation is what you decide; automatic motivation is what pulls you before you decide. Many failed plans have a sound reflective side and a losing automatic side. Ask for one example of social opportunity from student life: who you live with, what your course treats as normal. About 4 minutes.</aside>
     <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.1; bottom: -11rem; left: 30rem; transform: rotate(18deg)"></div>
@@ -1232,7 +1203,7 @@ p { font-size: 1.85rem; }
           <p class="micro fn-src" data-field="policy"></p>
         </div>
         <div class="fn-side">
-          <div class="detail-panel fn-detail" aria-live="polite"><p class="placeholder-line">Select a function, or press its number.</p></div>
+          <div class="detail-panel fn-detail" aria-live="polite"><p class="placeholder-line">Select a function, or press its number, to see its definition and how it might look in your own life.</p></div>
         </div>
       </div>
     </div>
@@ -1342,7 +1313,7 @@ p { font-size: 1.85rem; }
         </div>
       </div>
     </div>
-    <aside class="notes">Pairs, three minutes: DISCUSS WITH YOUR NEIGHBOUR. Each observation in the plan is sound; the question is whether each remedy reaches the source the observation points to. Take calls, click each part named, then Check (or r) and click numbered parts for the reasoning. Three flaws: persuasion for an opportunity problem, education for motivation that is already there, and training for a habit. The library room is the one well-matched lever. About 6 minutes.</aside>
+    <aside class="notes">Pairs, three minutes: DISCUSS WITH YOUR NEIGHBOUR. Each observation is sound; ask whether each remedy reaches the source it points to. Take calls, click each part named, then Check (or r). Three flaws: persuasion for an opportunity problem, education for motivation that is already there, and training for a habit. The library room is the one well-matched lever. Then ask: what would a coach do differently? Ask the questions and let the student choose the fix, rather than prescribing four. About 6 minutes.</aside>
     <div class="deco" style="width: 24rem; height: 24rem; background: var(--accent-3); opacity: 0.08; bottom: -12rem; right: 22rem; transform: rotate(34deg)"></div>
     <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-1); opacity: 0.12; top: -8rem; left: 40rem"></div>
   </section>
@@ -1387,11 +1358,11 @@ p { font-size: 1.85rem; }
         <h2>Your behaviour</h2>
       </header>
       <div class="s-body">
-        <div class="map-next" style="margin: 0 0 3.4rem"><span class="label">Now</span><p>A worked diagnosis, then you diagnose a behaviour of your own and choose where to intervene.</p></div>
+        <div class="map-next" style="margin: 0 0 3.4rem"><span class="label">Now</span><p>A worked coaching conversation, then you coach a partner through a behaviour of their own, and swap.</p></div>
         <div class="map-band"></div>
       </div>
     </div>
-    <aside class="notes">Part 4 is where the room produces its own work. Ask everyone to have in mind one behaviour they want to do more often, or less often, before the worked example starts. About 20 minutes.</aside>
+    <aside class="notes">Part 4 is where the room produces its own work. Ask everyone to have in mind one behaviour of their own they want to do more often, or less often, before the worked example starts. The worked example models the coaching conversation they will then have in pairs. About 23 minutes.</aside>
     <div class="deco" style="width: 26rem; height: 26rem; background: var(--accent-6); opacity: 0.09; bottom: -12rem; left: 30rem; transform: rotate(14deg)"></div>
     <div class="deco circle" style="width: 20rem; height: 20rem; background: var(--accent-4); opacity: 0.08; top: -9rem; right: 4rem"></div>
   </section>
@@ -1402,8 +1373,8 @@ p { font-size: 1.85rem; }
     <div class="slide-no"></div>
     <div class="slide-inner">
       <header class="s-head">
-        <span class="eyebrow">Worked example &middot; Fictional case</span>
-        <h2>Diagnosing one behaviour in six steps</h2>
+        <span class="eyebrow">Worked example &middot; Fictional coaching conversation</span>
+        <h2>Coaching one behaviour in six steps</h2>
       </header>
       <div class="s-body grid g-7-5" data-activity="worked">
         <div>
@@ -1430,7 +1401,7 @@ p { font-size: 1.85rem; }
     <div class="slide-inner">
       <header class="s-head is-activity">
         <div>
-          <span class="act-tag">Think, pair, share &middot; 10 min</span>
+          <span class="act-tag">Think, pair, share &middot; 13 min</span>
           <h2>Your turn</h2>
         </div>
         <button class="timer" type="button" data-timer="s-apply" aria-label="Timer: start or pause"><span class="timer-digits">0:00</span><span class="timer-label">Timer</span></button>
@@ -1441,7 +1412,7 @@ p { font-size: 1.85rem; }
         <div class="tps-template"></div>
       </div>
     </div>
-    <aside class="notes">THINK is individual and silent: they write their behaviour and answer the three core questions on paper, using the six headings. PAIR: swap sheets and check the match: does the chosen function reach the component that is failing? Use the table from Part 3. The timer runs per phase; when it expires the next phase lights, so press t to start it again. SHARE happens on the next slide. Circulate during PAIR and listen for interventions that target motivation by default.</aside>
+    <aside class="notes">THINK is individual and silent: each person names a behaviour of their own and jots first answers. PAIR is peer coaching, about three minutes each way: the coach asks the three core questions and listens, then the coachee chooses a function; the coach checks it reaches the failing source (the table from Part 3). Coaches ask rather than advise. The timer runs per phase; when it expires the next phase lights, so press t to start it again. SHARE happens on the next slide. Circulate during PAIR and listen for interventions that target motivation by default.</aside>
     <div class="deco circle" style="width: 22rem; height: 22rem; background: var(--accent-4); opacity: 0.1; bottom: -11rem; right: -4rem"></div>
     <div class="deco" style="width: 16rem; height: 16rem; background: var(--accent-8); opacity: 0.1; bottom: -6rem; left: 26rem; transform: rotate(36deg)"></div>
   </section>
@@ -1496,7 +1467,7 @@ p { font-size: 1.85rem; }
             <li><span class="pip" style="--pip: var(--accent-1)"></span>Explain how capability, opportunity and motivation interact to produce a behaviour.</li>
             <li><span class="pip" style="--pip: var(--accent-6)"></span>Classify a barrier to a behaviour as capability, opportunity or motivation.</li>
             <li><span class="pip" style="--pip: var(--accent-4)"></span>Match an intervention to the source of behaviour it can change.</li>
-            <li><span class="pip" style="--pip: var(--accent-5)"></span>Diagnose one of your own behaviours and choose where to intervene.</li>
+            <li><span class="pip" style="--pip: var(--accent-5)"></span>Coach a partner to diagnose a behaviour of their own and choose where to intervene.</li>
           </ul>
           <p class="small close-hook"><strong>Back to the opening claim:</strong> when a plan fails, is wanting it more the fix?</p>
         </div>
@@ -1534,7 +1505,7 @@ p { font-size: 1.85rem; }
         <div class="exit-foot"><span class="micro">On paper. Hand it in on your way out.</span></div>
       </div>
     </div>
-    <aside class="notes">Hand out the printed A6 cards (they print after the slides, four to a page). Individual and silent. Collect them at the door. The first two prompts show whether students can diagnose and match unaided; the confidence ratings tell you which outcome to revisit in 1:1 coaching meetings.</aside>
+    <aside class="notes">Hand out the printed A6 cards (they print after the slides, four to a page). Individual and silent. Collect them at the door. The first two prompts show whether students can diagnose and match unaided; the confidence ratings tell you which outcome to revisit.</aside>
     <div class="deco" style="width: 22rem; height: 22rem; background: var(--accent-1); opacity: 0.1; bottom: -10rem; right: 10rem; transform: rotate(28deg)"></div>
     <div class="deco circle" style="width: 16rem; height: 16rem; background: var(--accent-4); opacity: 0.08; top: -7rem; left: 38rem"></div>
   </section>
@@ -1604,18 +1575,7 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 8. Comparison rows revealed one at a time; the fourth reveal shows the banner.
-  's-origins': {
-    pattern: 'reveal',
-    rows: [
-      { criterion: 'Capability', color: 'var(--cap)', a: 'The skills necessary to perform the behaviour', b: 'Means or capability' },
-      { criterion: 'Opportunity', color: 'var(--opp)', a: 'No environmental constraints that make it impossible', b: 'Opportunity' },
-      { criterion: 'Motivation', color: 'var(--mot)', a: 'A strong intention to perform the behaviour', b: 'Motive' }
-    ],
-    added: "Automatic processes, such as habits, inside motivation, and causal links between the sources, so they work as one interacting system."
-  },
-
-  // Slide 9. Single-select check with a confidence step. Keep exactly one option correct.
+  // Slide 8. Single-select check with a confidence step. Keep exactly one option correct.
   's-check-feedback': {
     pattern: 'single-select',
     minutes: 3,
@@ -1639,7 +1599,7 @@ const ACTIVITIES = {
     confidenceBanner: "Confident and wrong: why did that answer feel right?"
   },
 
-  // Slide 13. Sort. bin is 0 for capability, 1 for opportunity, 2 for motivation.
+  // Slide 12. Sort. bin is 0 for capability, 1 for opportunity, 2 for motivation.
   // FICTIONAL barriers. Keep each item short enough for two lines.
   's-sort': {
     pattern: 'sort',
@@ -1671,7 +1631,7 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 14. Peer instruction. Round 1 is read by eye and shown in grey so it does not herd the room.
+  // Slide 13. Peer instruction. Round 1 is read by eye and shown in grey so it does not herd the room.
   // discussBand: if the correct option's share of the read is inside this band, the deck says discuss.
   's-pi': {
     pattern: 'peer-instruction',
@@ -1696,25 +1656,26 @@ const ACTIVITIES = {
     actions: { low: 'Reteach first', mid: 'Convince your neighbour', high: 'Reveal' }
   },
 
-  // Slide 16. The nine intervention functions (Table 1) and the components each reaches (Table 2).
+  // Slide 15. The nine intervention functions: definitions from Table 1, the components each reaches from Table 2.
+  // "personal" is an illustration of the function applied to your own behaviour (not from the paper).
   // reaches uses: CPh, CPs (capability), OPh, OSo (opportunity), MRe, MAu (motivation).
   's-functions': {
     pattern: 'select-detail',
     functions: [
-      { name: 'Education', def: "Increasing knowledge or understanding.", example: "Providing information to promote healthy eating.", reaches: ['CPs', 'MRe'] },
-      { name: 'Persuasion', def: "Using communication to induce positive or negative feelings or stimulate action.", example: "Using imagery to motivate increases in physical activity.", reaches: ['MRe', 'MAu'] },
-      { name: 'Incentivisation', def: "Creating expectation of reward.", example: "Using prize draws to induce attempts to stop smoking.", reaches: ['MRe', 'MAu'] },
-      { name: 'Coercion', def: "Creating expectation of punishment or cost.", example: "Raising the financial cost to reduce excessive alcohol consumption.", reaches: ['MRe', 'MAu'] },
-      { name: 'Training', def: "Imparting skills.", example: "Advanced driver training to increase safe driving.", reaches: ['CPh', 'CPs'] },
-      { name: 'Restriction', def: "Using rules to reduce the opportunity to engage in the target behaviour, or to increase it by reducing the opportunity for competing behaviours.", example: "Prohibiting sales of solvents to people under 18 to reduce use for intoxication.", reaches: ['OPh', 'OSo'] },
-      { name: 'Environmental restructuring', def: "Changing the physical or social context.", example: "Providing on-screen prompts for GPs to ask about smoking behaviour.", reaches: ['MAu', 'OPh', 'OSo'] },
-      { name: 'Modelling', def: "Providing an example for people to aspire to or imitate.", example: "Using TV drama scenes involving safe-sex practices to increase condom use.", reaches: ['MAu'] },
-      { name: 'Enablement', def: "Increasing means or reducing barriers to increase capability (beyond education and training) or opportunity (beyond environmental restructuring).", example: "Behavioural support for smoking cessation.", reaches: ['CPh', 'CPs', 'MAu', 'OPh', 'OSo'] }
+      { name: 'Education', def: "Increasing knowledge or understanding.", personal: "Reading the marking criteria so you know what the essay is judged on.", reaches: ['CPs', 'MRe'] },
+      { name: 'Persuasion', def: "Using communication to induce positive or negative feelings or stimulate action.", personal: "Writing down how you will feel on results day if you start now.", reaches: ['MRe', 'MAu'] },
+      { name: 'Incentivisation', def: "Creating expectation of reward.", personal: "A film night once the week's three gym sessions are done.", reaches: ['MRe', 'MAu'] },
+      { name: 'Coercion', def: "Creating expectation of punishment or cost.", personal: "Agreeing to pay a friend for every session you miss.", reaches: ['MRe', 'MAu'] },
+      { name: 'Training', def: "Imparting skills.", personal: "Practising timed essay plans until one takes ten minutes.", reaches: ['CPh', 'CPs'] },
+      { name: 'Restriction', def: "Using rules to reduce the opportunity to engage in the target behaviour, or to increase it by reducing the opportunity for competing behaviours.", personal: "A rule of no phone in the library before lunch.", reaches: ['OPh', 'OSo'] },
+      { name: 'Environmental restructuring', def: "Changing the physical or social context.", personal: "Phone in another room, kit packed by the door.", reaches: ['MAu', 'OPh', 'OSo'] },
+      { name: 'Modelling', def: "Providing an example for people to aspire to or imitate.", personal: "Working alongside a classmate who already starts early.", reaches: ['MAu'] },
+      { name: 'Enablement', def: "Increasing means or reducing barriers to increase capability (beyond education and training) or opportunity (beyond environmental restructuring).", personal: "Booking a regular slot with study support to remove a barrier.", reaches: ['CPh', 'CPs', 'MAu', 'OPh', 'OSo'] }
     ],
-    policy: "Around them the wheel adds seven policy categories, such as guidelines and legislation. Source: Michie, van Stralen and West (2011), Tables 1 and 2."
+    policy: "Definitions and reach: Michie, van Stralen and West (2011), Tables 1 and 2. Personal examples are this session's illustrations. The wheel also adds seven policy categories for organisations and governments."
   },
 
-  // Slide 17. Rows revealed one at a time. "functions" follows Table 2; "misses" is this session's reading.
+  // Slide 16. Rows revealed one at a time. "functions" follows Table 2; "misses" is this session's reading.
   's-levers': {
     pattern: 'reveal',
     rows: [
@@ -1725,7 +1686,7 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 18. Predict and reveal. A real case discussed in Michie et al. (2011), page 9.
+  // Slide 17. Predict and reveal. A real case discussed in Michie et al. (2011), page 9.
   's-predict-gp': {
     pattern: 'predict',
     minutes: 1,
@@ -1739,10 +1700,10 @@ const ACTIVITIES = {
     ],
     outcome: "C. Capability is not at issue and reflective motivation is broadly positive. Automatic motivation works against the behaviour: no emotional reward for giving advice or punishment for not giving it, and few cues to action. Physical opportunity is limited by lack of time; social opportunity somewhat limited.",
     source: "Michie, van Stralen and West (2011), p. 9, discussing McEwen, West and Preston (2006).",
-    followUp: "These GPs broadly wanted to give the advice. Was wanting it more the fix?"
+    followUp: "They broadly wanted to. As their coach, what would you ask first?"
   },
 
-  // Slide 19. Spot the flaw. The passage is built from these pieces in order.
+  // Slide 18. Spot the flaw. The passage is built from these pieces in order.
   // Plain strings are ordinary text; objects are selectable segments.
   's-flaw': {
     pattern: 'spot-the-flaw',
@@ -1775,7 +1736,7 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 20. Single-select check with a confidence step. Keep exactly one option correct.
+  // Slide 19. Single-select check with a confidence step. Keep exactly one option correct.
   's-check-match': {
     pattern: 'single-select',
     minutes: 3,
@@ -1799,32 +1760,32 @@ const ACTIVITIES = {
     confidenceBanner: "Confident and wrong: why did that answer feel right?"
   },
 
-  // Slide 22. Worked example steps, revealed one at a time. FICTIONAL CASE.
+  // Slide 21. Worked example steps, revealed one at a time. FICTIONAL CASE.
   's-worked': {
     pattern: 'reveal',
     steps: [
-      { level: 'Behaviour', text: "Gym before lectures on Monday, Wednesday and Friday. Managed once in three weeks.", color: 'var(--accent-1)',
-        why: "Name the behaviour precisely: what, when, how often. B\u00a0=\u00a0COM works on a behaviour rather than a wish." },
-      { level: 'Capability', text: "Knows the routine and is fit enough. Ruled out.", color: 'var(--cap)',
+      { level: 'Behaviour', text: "\"Gym before lectures on Monday, Wednesday and Friday. I've managed once in three weeks.\"", color: 'var(--accent-1)',
+        why: "The coach asks for the behaviour precisely: what, when, how often. B\u00a0=\u00a0COM works on a behaviour rather than a wish." },
+      { level: 'Capability', text: "\"I know the routine and I'm fit enough.\" Ruled out.", color: 'var(--cap)',
         why: "Core question: what would they need to know or be able to do? Rule a source in or out with evidence." },
-      { level: 'Opportunity', text: "Gym opens at 7, lectures start at 9. No friend goes.", color: 'var(--opp)', on: 'var(--dark-ink)',
+      { level: 'Opportunity', text: "\"It opens at 7 and lectures start at 9. None of my friends go.\"", color: 'var(--opp)', on: 'var(--dark-ink)',
         why: "Core question: how could the environment be modified? Physical opportunity is there; social opportunity is thin." },
-      { level: 'Motivation', text: "Wants to go. Switches off the alarm without thinking.", color: 'var(--mot)',
+      { level: 'Motivation', text: "\"I want to go, but I switch the alarm off without thinking.\"", color: 'var(--mot)',
         why: "Separate reflective from automatic: the plan is sound, the morning habit is not." },
       { level: 'Target', text: "Automatic motivation, with some social opportunity.", color: 'var(--accent-5)',
-        why: "Intervene where the system is failing, rather than where it is easiest to talk." },
-      { level: 'Intervention', text: "Environmental restructuring: alarm across the room, kit packed the night before, a gym partner on Mondays.", color: 'var(--accent-8)',
-        why: "Table 2: environmental restructuring reaches automatic motivation and both kinds of opportunity. Education would add little: they already know and want to go." }
+        why: "The coach summarises the diagnosis back: intervene where the system is failing, rather than where it is easiest to talk." },
+      { level: 'Intervention', text: "The student chooses environmental restructuring: alarm across the room, kit packed the night before, a gym partner.", color: 'var(--accent-8)',
+        why: "The student chooses, so they own the plan; the coach checks it against Table 2. Environmental restructuring reaches automatic motivation and both kinds of opportunity." }
     ]
   },
 
-  // Slide 23. Think, pair, share. Phase minutes set the band widths and the timer.
+  // Slide 22. Think, pair, share. Phase minutes set the band widths and the timer.
   's-apply': {
     pattern: 'think-pair-share',
-    prompt: "Pick a behaviour you want to do more, or less. Diagnose it with B\u00a0=\u00a0COM and choose one intervention function.",
+    prompt: "Pick a behaviour of your own you want to do more, or less. In pairs, coach each other through B\u00a0=\u00a0COM to one intervention function.",
     phases: [
-      { name: 'Think', minutes: 4, text: "On your own: answer the three core questions under the headings below." },
-      { name: 'Pair', minutes: 4, text: "Swap sheets. Does the function reach the source that is failing?" },
+      { name: 'Think', minutes: 4, text: "On your own: name the behaviour and jot first answers under the headings." },
+      { name: 'Pair', minutes: 7, text: "Take turns as coach: ask the three core questions, then let your partner choose a function that reaches the failing source." },
       { name: 'Share', minutes: 2, text: "Next slide: offer one diagnosis to the board." }
     ],
     template: [
@@ -1837,7 +1798,7 @@ const ACTIVITIES = {
     ]
   },
 
-  // Slide 24. Live board. The presenter types contributions; no names.
+  // Slide 23. Live board. The presenter types contributions; no names.
   // At more than "capacity" cards the text gets smaller; beyond "pageSize" the board pages.
   's-board': {
     pattern: 'live-board',
@@ -1848,14 +1809,14 @@ const ACTIVITIES = {
     maxLength: 90
   },
 
-  // Slide 26. Exit ticket prompts. The same prompts print on the A6 cards.
+  // Slide 25. Exit ticket prompts. The same prompts print on the A6 cards.
   's-exit': {
     pattern: 'exit-ticket',
     minutes: 3,
     prompts: [
       "One behaviour of yours, and the component that is failing it.",
       "One intervention function you will try, and why it reaches that component.",
-      "Your confidence on each outcome, 1 to 5: explain, classify, match, diagnose."
+      "Your confidence on each outcome, 1 to 5: explain, classify, match, coach."
     ]
   }
 };
@@ -2060,10 +2021,10 @@ const ACTIVITIES = {
 
   var MAP = [
     { name: 'Opening and hook', min: 6, act: true },
-    { name: 'Part 1: Behaviour is an output', min: 13, act: true },
+    { name: 'Part 1: Behaviour is an output', min: 10, act: true },
     { name: 'Part 2: Three sources', min: 22, act: true },
     { name: 'Part 3: Intervening at the right point', min: 24, act: true },
-    { name: 'Part 4: Your behaviour', min: 20, act: true },
+    { name: 'Part 4: Your behaviour', min: 23, act: true },
     { name: 'Close', min: 5, act: true }
   ];
   document.querySelectorAll('.slide[data-archetype="session-map"]').forEach(function (s) {
@@ -2181,7 +2142,6 @@ const ACTIVITIES = {
     revealFns[id] = next;
     worstFns[id] = function () { for (var k = 0; k < rows.length + 2; k++) next(); };
   }
-  rowReveal('s-origins', ['a', 'b'], true);
   rowReveal('s-levers', ['missing', 'functions', 'misses'], false);
 
   /* ---------- Single-select checks with confidence ---------- */
@@ -2473,7 +2433,7 @@ const ACTIVITIES = {
       panel.style.setProperty('--detail-color', 'var(--accent-4)');
       panel.innerHTML = '<div class="card-name">' + (i + 1) + ' &middot; ' + esc(f.name) + '</div>' +
         '<p>' + esc(f.def) + '</p>' +
-        '<p><span class="label" style="color: var(--text-muted)">Example</span> ' + esc(f.example) + '</p>' +
+        '<p><span class="label" style="color: var(--text-muted)">In your own life</span> ' + esc(f.personal) + '</p>' +
         '<p class="label" style="margin-top: 0.8rem; color: var(--text-muted)">Reaches</p>' +
         '<div class="reach">' + f.reaches.map(function (r) { return '<span class="chip ' + NAMES[r][0] + '">' + esc(NAMES[r][1]) + '</span>'; }).join('') + '</div>';
     }
@@ -2481,7 +2441,7 @@ const ACTIVITIES = {
     numberFns[id] = function (n) { if (A.functions[n]) select(n); };
     worstFns[id] = function () {
       var best = 0;
-      A.functions.forEach(function (f, k) { var b = A.functions[best]; if ((f.def + f.example).length + f.reaches.length * 30 > (b.def + b.example).length + b.reaches.length * 30) best = k; });
+      A.functions.forEach(function (f, k) { var b = A.functions[best]; if ((f.def + f.personal).length + f.reaches.length * 30 > (b.def + b.personal).length + b.reaches.length * 30) best = k; });
       select(best);
     };
   })();
